@@ -28,7 +28,7 @@ body {
 	height: 100vh;
 	height: 100dvh;
 	color: #dedede;
-	font: clamp(.625em, 3vmin, 1.5em)/ 1.25 saira, sans-serif;
+	font: clamp(.625em, 3vmin, 1.3em)/ 1.25 saira, sans-serif;
 	animation: k 1s linear;
 	animation-timeline: scroll();
 	
@@ -105,14 +105,11 @@ article {
 	
 	header { rotate: y calc(var(--hov)*.5turn) }
 	
-	&:hover, &:focus-within { --hov: round(var(--sel)) }
-	
-	&[data-selected="true"] { --sel: 1 }
-	
 	@supports not (scale: abs(-1)) {
 		--abs-lin: max(var(--dif-lin), -1*var(--dif-lin));
 		--abs-mid: max(var(--dif-mid), -1*var(--dif-mid))
 	}
+	cursor: pointer;
 }
 
 article header, figure {
@@ -123,31 +120,63 @@ article header, figure {
 	border-radius: .5em;
 	backface-visibility: hidden;
 	box-shadow: 5px 5px 13px #000;
-	background: 
-		var(--url) 50%/ cover padding-box, 
-		linear-gradient(#333 0 0) padding-box, 
-		repeating-conic-gradient(from var(--ang), 
-				#0000 0% 15%, 
-				color-mix(in srgb, 
-					#f48c06 calc(var(--sel)*300%), #333) 20% 30%,
-				#0000 35% 50%) 
-			border-box #121212;
-	background-blend-mode: multiply, normal, normal;
-	isolation: isolate;
-	/* prevent edge glitching on article hover */
-	pointer-events: none;
+	background: #2a2359;
+	pointer-events: auto;  /* Enable click events */
 	transition: .35s ease-out;
 	transition-property: rotate, --ang;
-	
-	&::after {
-		position: absolute;
-		inset: 0;
-		opacity: var(--out);
-		background: #03071e;
-		mix-blend-mode: color;
-		pointer-events: none;
-		content: ''
-	}
+}
+
+/* Back side */
+article header {
+	font-size: 0.9em;     /* Reduced font size */
+	line-height: 1.6;
+	padding: 2em;
+	text-align: left;
+	display: flex;
+	align-items: center;
+}
+
+/* Front side */
+figure {
+	rotate: y calc((1 + var(--hov))*.5turn);  /* Maintain flip effect */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+figure div {
+	font-size: 2.2em;
+	font-weight: bold;
+	text-align: center;
+	line-height: 1.2;
+	text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Add specific styles for the front/back content */
+.front {
+	color: #fff;
+	background: #000;  /* Solid black */
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.4em;
+	padding: 0.5em;
+	text-align: left;
+}
+
+.back {
+	color: #fff;
+	padding: 1em;
+	font-size: 0.2em;
+	text-align: center;
+}
+
+/* Remove any existing background-blend-mode or opacity effects */
+article header, figure::after {
+	opacity: 1;  /* Ensure full opacity */
+	background: #000;
 }
 
 /* reverse from parent */
@@ -157,8 +186,6 @@ h2, em { opacity: round(up, var(--sel)) }
 
 h2 { font-size: 1.125em }
 
-figure { rotate: y calc((1 + var(--hov))*.5turn) }
-
 img {
 	width: 100%;
 	height: 100%;
@@ -167,7 +194,7 @@ img {
 	object-position: var(--pos)
 }
 
-figcaption {
+/*figcaption {
 	align-self: end;
 	padding: .5em;
 	background: #fff3;
@@ -203,4 +230,34 @@ kbd {
 	padding: 2px;
 	background: hsla(0, 0%, 0%, .35);
 	font: 1.1em/ 1.2 ubuntu mono, consolas, monaco, monospace
+}
+
+.front-content {
+	color: #fff;
+	background: #2a2359;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	font-size: 2.5em;
+	font-weight: bold;
+	padding: 1.5em;
+	text-align: left;
+	text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+	line-height: 1.2;
+	margin-left: 0.5em;
+}
+
+.back-content {
+	color: #fff;
+	background: #2a2359; /* Same dark purple */
+	padding: 2em;
+	font-size: 1.1em;
+	line-height: 1.5;
+	text-align: left; /* Matches template */
+	height: 100%;
+	display: flex;
+	align-items: center;
 }

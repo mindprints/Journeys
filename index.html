@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="--n: 18">
+<html lang="en" >
 <head>
   <meta charset="UTF-8">
   <title>Artificial Intelligence</title>
@@ -9,172 +9,233 @@
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <svg width="0" height="0" aria-hidden="true">
-    <filter id="grain">
-      <feTurbulence type="fractalNoise" baseFrequency="7.13"></feTurbulence>
-      <feColorMatrix type="saturate" values="0"></feColorMatrix>
-      <feComponentTransfer>
-        <feFuncA type="linear" slope=".02"></feFuncA>
-      </feComponentTransfer>
-      <feBlend in2="SourceGraphic"></feBlend>
-    </filter>
-  </svg>
-  <header>
-    <h1>Artificial Intelligence</h1>
-  </header>
-  <main class="scene">
-    <section class="assembly">
-      <article style="--i: 0; --url: url(https://images.unsplash.com/photo-1583499871880-de841d1ace2a?h=900); --pos: 47% 35%">
-        <header>
-          <h2>Lion</h2><em>Panthera leo</em>
-        </header>
-        <figure><img src="https://images.unsplash.com/photo-1583499871880-de841d1ace2a?h=900" alt="lion couple kissing on a brown rock"/>
-          <figcaption>by <a href="https://unsplash.com/photos/lion-lying-on-brown-rock-MUeeyzsjiY8" target="_blank">Clément Roy</a></figcaption>
-        </figure>
-      </article>
-      <article style="--i: 1; --url: url(https://images.unsplash.com/photo-1571406761758-9a3eed5338ef?h=900); --pos: 75% 65%">
-        <header>
-          <h2>Asiatic elephant</h2><em>Elephas maximus</em>
-        </header>
-        <figure><img src="https://images.unsplash.com/photo-1571406761758-9a3eed5338ef?h=900" alt="herd of Sri Lankan elephants walking away from a river"/>
-          <figcaption>by <a href="https://unsplash.com/photos/shallow-focus-photo-of-black-elephants-hZhhVLLKJQ4" target="_blank">Alex Azabache</a></figcaption>
-        </figure>
-      </article>
-      <article style="--i: 2; --url: url(https://images.unsplash.com/photo-1619664208054-41eefeab29e9?h=900); --pos: 53% 43%">
-        <header>
-          <h2>Red-tailed black cockatoo</h2><em>Calyptorhynchus banksii</em>
-        </header>
-        <figure><img src="https://images.unsplash.com/photo-1619664208054-41eefeab29e9?h=900" alt="close-up of a black cockatoo"/>
-          <figcaption>by <a href="https://unsplash.com/photos/black-and-brown-bird-in-close-up-photography-LkrOEupiVt8" target="_blank">David Clode</a></figcaption>
-        </figure>
-      </article>
-      <article style="--i: 3; --url: url(https://images.unsplash.com/photo-1662841238473-f4b137e123cb?h=900); --pos: 65% 65%">
-        <header>
-          <h2>Dromedary</h2><em>Camelus dromedarius</em>
-        </header>
-        <figure><img src="https://images.unsplash.com/photo-1662841238473-f4b137e123cb?h=900" alt="camel and her new born calf walking in the Sahara desert"/>
-          <figcaption>by <a href="https://unsplash.com/photos/a-group-of-camels-in-a-desert-uIzCnO-gOrw" target="_blank">Moaz Tobok</a></figcaption>
-        </figure>
-      </article>
-      <article style="--i: 4; --url: url(https://images.unsplash.com/photo-1589648751789-c8ecb7a88bd5?h=900); --pos: 50% 25%">
-        <header>
-          <h2>Polar bear</h2><em>Ursus maritimus</em>
-        </header>
-        <figure><img src="https://images.unsplash.com/photo-1589648751789-c8ecb7a88bd5?h=900" alt="polar bear on the snow, by the water, raised on the hind legs, front paws together"/>
-          <figcaption>by <a href="https://unsplash.com/photos/polar-bear-on-snow-covered-ground-during-daytime-AZ31hv9kdzE" target="_blank">Hans-Jurgen Mager</a></figcaption>
-        </figure>
-      </article>
-      <article style="--i: 5; --url: url(https://images.unsplash.com/photo-1662187554571-f54ea9657d88?h=900); --pos: 47%">
-        <header>
-          <h2>Waterbuck</h2><em>Kobus ellipsiprymnus</em>
-        </header>
-        <figure><img src="https://images.unsplash.com/photo-1662187554571-f54ea9657d88?h=900" alt="waterbuck in a field, looking at the camera"/>
-          <figcaption>by <a href="https://unsplash.com/photos/a-deer-with-antlers-in-a-field-jVvl_2cQO5s" target="_blank">Jonathan Gensicke</a></figcaption>
-        </figure>
-      </article>
-      <article style="--i: 6; --url: url(https://images.unsplash.com/photo-1659540181281-1d89d6112832?h=900); --pos: 47%">
-        <header>
-          <h2>Giant panda</h2><em>Ailuropoda melanoleuca</em>
-        </header>
-        <figure><img src="https://images.unsplash.com/photo-1659540181281-1d89d6112832?h=900" alt="giant panda hanging from a tree branch"/>
-          <figcaption>by <a href="https://unsplash.com/photos/a-panda-bear-in-a-tree-e0mrn3XDatU" target="_blank">Jiachen Lin</a></figcaption>
-        </figure>
-      </article>
-      <article style="--i: 7; --url: url(https://images.unsplash.com/photo-1526095179574-86e545346ae6?h=900); --pos: 65% 35%">
-        <header>
-          <h2>Grévy's zebra</h2><em>Equus grevyi</em>
-        </header>
-        <figure><img src="https://images.unsplash.com/photo-1526095179574-86e545346ae6?h=900" alt="zebra standing on wheat field, looking back towards the camera"/>
-          <figcaption>by <a href="https://unsplash.com/photos/zebra-standing-on-wheat-field-ZqYPM8i60F8" target="_blank">Jeff Griffith</a></figcaption>
-        </figure>
-      </article>
-      <article style="--i: 8; --url: url(https://images.unsplash.com/photo-1541707519942-08fd2f6480ba?h=900)">
-        <header>
-          <h2>Cheetah</h2><em>Acinonyx jubatus</em>
-        </header>
-        <figure><img src="https://images.unsplash.com/photo-1541707519942-08fd2f6480ba?h=900" alt="cheetah sitting in the grass under a blue sky"/>
-          <figcaption>by <a href="https://unsplash.com/photos/leopard-sitting-on-grass-field-3pekyY0-yOw" target="_blank">Mike Bird</a></figcaption>
-        </figure>
-      </article>
-      <article style="--i: 9; --url: url(https://images.unsplash.com/photo-1595792419466-23cec2476fa6?h=900); --pos: 35%">
-        <header>
-          <h2>King penguin</h2><em>Aptenodytes patagonicus</em>
-        </header>
-        <figure><img src="https://images.unsplash.com/photo-1595792419466-23cec2476fa6?h=900" alt="king penguin with a fluffy brown chick on grey rocks"/>
-          <figcaption>by <a href="https://unsplash.com/photos/white-and-black-penguin-on-gray-rock-o4snRPEZRRs" target="_blank">Martin Wettstein</a></figcaption>
-        </figure>
-      </article>
-      <article style="--i: 10; --url: url(https://images.unsplash.com/photo-1689799513565-44d2bc09d75b?h=900)">
-        <header>
-          <h2>Red panda</h2><em>Ailurus fulgens</em>
-        </header>
-        <figure><img src="https://images.unsplash.com/photo-1689799513565-44d2bc09d75b?h=900" alt="a red panda in a tree"/>
-          <figcaption>by <a href="https://unsplash.com/photos/a-red-panda-is-sitting-in-a-tree-oVNDSIUQrdc" target="_blank">Niels Baars</a></figcaption>
-        </figure>
-      </article>
-      <article style="--i: 11; --url: url(https://images.unsplash.com/photo-1651611136918-a8a2f8bba419?h=900); --pos: 43% 47%">
-        <header>
-          <h2>Leopard</h2><em>Panthera pardus</em>
-        </header>
-        <figure><img src="https://images.unsplash.com/photo-1651611136918-a8a2f8bba419?h=900" alt="pensive young leopard on a rock"/>
-          <figcaption>by <a href="https://unsplash.com/photos/a-leopard-lying-on-a-rock-VDESlNV85qE" target="_blank">Andy Silby</a></figcaption>
-        </figure>
-      </article>
-      <article style="--i: 12; --url: url(https://images.unsplash.com/photo-1624210146024-1046a266038e?h=900); --pos: 65% 35%">
-        <header>
-          <h2>Hyacinth macaw</h2><em>Anodorhynchus hyacinthinus</em>
-        </header>
-        <figure><img src="https://images.unsplash.com/photo-1624210146024-1046a266038e?h=900" alt="two hyacinth macaws on a tree branch"/>
-          <figcaption>by <a href="https://unsplash.com/photos/blue-and-yellow-macaw-on-brown-tree-branch-during-daytime-wKFd2EhyRAY" target="_blank">Juliana e Mariana Amorim</a></figcaption>
-        </figure>
-      </article>
-      <article style="--i: 13; --url: url(https://images.unsplash.com/photo-1567600868213-60eb570ae39f?h=900)">
-        <header>
-          <h2>Red kangaroo</h2><em>Osphranter rufus</em>
-        </header>
-        <figure><img src="https://images.unsplash.com/photo-1567600868213-60eb570ae39f?h=900" alt="kangaroo in the grass"/>
-          <figcaption>by <a href="https://unsplash.com/photos/brown-kangaroo-eziyddL2OR4" target="_blank">Jordyn Montague</a></figcaption>
-        </figure>
-      </article>
-      <article style="--i: 14; --url: url(https://images.unsplash.com/photo-1639231554431-ebce02bdeacc?h=900); --pos: 50% 25%">
-        <header>
-          <h2>Snow leopard</h2><em>Panthera uncia</em>
-        </header>
-        <figure><img src="https://images.unsplash.com/photo-1639231554431-ebce02bdeacc?h=900" alt="snow leopard sitting on top of a rock, its big fluffy tail hanging down"/>
-          <figcaption>by <a href="https://unsplash.com/photos/a-snow-leopard-sitting-on-top-of-a-rock-JXECZL83E6M" target="_blank">Simon Schwyter</a></figcaption>
-        </figure>
-      </article>
-      <article style="--i: 15; --url: url(https://images.unsplash.com/photo-1723979757235-73c4767ced1d?h=900)">
-        <header>
-          <h2>Sumatran orangutan</h2><em>Pongo abelii</em>
-        </header>
-        <figure><img src="https://images.unsplash.com/photo-1723979757235-73c4767ced1d?h=900" alt="close-up of a pensive male orangutan"/>
-          <figcaption>by <a href="https://unsplash.com/photos/a-close-up-of-a-monkey-with-a-smile-on-its-face-uLkwLM7Uw48" target="_blank">Fahrul Razi</a></figcaption>
-        </figure>
-      </article>
-      <article style="--i: 16; --url: url(https://images.unsplash.com/photo-1500467525088-aafe28c0a95e?h=900); --pos: 57%">
-        <header>
-          <h2>Tiger</h2><em>Panthera tigris</em>
-        </header>
-        <figure><img src="https://images.unsplash.com/photo-1500467525088-aafe28c0a95e?h=900" alt="close-up of a pensive tiger lying on the ground"/>
-          <figcaption>by <a href="https://unsplash.com/photos/selective-focus-of-tiger-laying-on-ground-LNSIGPuZXIg" target="_blank">Frida Lannerström</a></figcaption>
-        </figure>
-      </article>
-      <article style="--i: 17; --url: url(https://images.unsplash.com/photo-1692373202439-4b13694c8a68?h=900); --pos: 43% 35%">
-        <header>
-          <h2>Brown bear</h2><em>Ursus arctos</em>
-        </header>
-        <figure><img src="https://images.unsplash.com/photo-1692373202439-4b13694c8a68?h=900" alt="brown bear in the forest, sticking tongue out"/>
-          <figcaption>by <a href="https://unsplash.com/photos/a-brown-bear-standing-in-the-middle-of-a-forest-ErfqBlV3AEo" target="_blank">Alexandru-Bogdan Ghita</a></figcaption>
-        </figure>
-      </article>
-    </section>
-  </main>
-  <footer></footer>
-  <!-- just support info-->
-  <aside>
-    <p class="box-info-scrollani">Sorry, your browser does not appear to support scroll-driven animation. As of January 2025, this is supported in Firefox if the <kbd>layout.css.scroll-driven-animations.enabled</kbd> flag is set to true in <kbd>about:config</kbd> and in Chromium browsers. Safari support is coming, but it hasn't arrived yet.</p>
-  </aside>
+<!-- partial:index.partial.html -->
+<html style="--n: 18">
+  <body>
+    <svg width="0" height="0" aria-hidden="true">
+      <filter id="grain">
+        <feTurbulence type="fractalNoise" baseFrequency="7.13"></feTurbulence>
+        <feColorMatrix type="saturate" values="0"></feColorMatrix>
+        <feComponentTransfer>
+          <feFuncA type="linear" slope=".02"></feFuncA>
+        </feComponentTransfer>
+        <feBlend in2="SourceGraphic"></feBlend>
+      </filter>
+    </svg>
+    <header>
+      <h1>Artificial Intelligence</h1>
+    </header>
+    <main class="scene">
+      <section class="assembly">
+        <article style="--i: 0">
+          <header>
+            Dartmouth Summer Research Project on Artificial Intelligence, held in 1956, is widely regarded as the founding event of artificial intelligence as a field. This seminal workshop lasted approximately six weeks and was essentially an extended brainstorming session. Organized by John McCarthy, the project brought together leading mathematicians and scientists, including Marvin Minsky, Nathaniel Rochester, and Claude Shannon, who proposed the workshop.
+          </header>
+          <figure>
+            <div>
+              The<br>
+              Dartmouth<br>
+              Conference
+            </div>
+          </figure>
+        </article>
+        <article style="--i: 1">
+          <header>
+            The Logic Theorist, created in 1956 by Allen Newell, Herbert A. Simon, and Cliff Shaw, was the first program deliberately engineered to mimic human problem-solving skills. It successfully proved 38 of the first 52 theorems in Whitehead and Russell's Principia Mathematica, and in some cases, found new and more elegant proofs than those originally proposed.
+          </header>
+          <figure>
+            <div>
+              The First<br>
+              AI Program
+            </div>
+          </figure>
+        </article>
+        <article style="--i: 2">
+          <header>
+            In 1950, Alan Turing published "Computing Machinery and Intelligence" which proposed a test for machine intelligence. The Turing Test, as it became known, suggests that if a computer can engage in conversation so convincingly that humans cannot distinguish it from a human participant, it has demonstrated intelligence.
+          </header>
+          <figure>
+            <div>
+              The Turing<br>
+              Test
+            </div>
+          </figure>
+        </article>
+        <article style="--i: 3">
+          <header>
+            ELIZA, developed by Joseph Weizenbaum at MIT between 1964 and 1966, was one of the first chatterbots. By simulating a psychotherapist's behavior through pattern matching and response selection, ELIZA demonstrated how machines could engage in apparently meaningful dialogue while having no understanding of the conversation.
+          </header>
+          <figure>
+            <div>
+              ELIZA<br>
+              Speaks
+            </div>
+          </figure>
+        </article>
+        <article style="--i: 4">
+          <header>
+            In 1997, IBM's Deep Blue made history by defeating world chess champion Garry Kasparov in a six-game match. This landmark victory marked the first time a computer beat a reigning world champion under standard chess tournament time controls, demonstrating that machines could outperform humans in specific intellectual tasks.
+          </header>
+          <figure>
+            <div>
+              Deep Blue<br>
+              Checkmate
+            </div>
+          </figure>
+        </article>
+        <article style="--i: 5">
+          <header>
+            The development of Convolutional Neural Networks revolutionized computer vision. In 2012, AlexNet achieved breakthrough performance in the ImageNet competition, reducing error rates from 26% to 15%, marking the beginning of the deep learning revolution in visual recognition tasks.
+          </header>
+          <figure>
+            <div>
+              The Vision<br>
+              Revolution
+            </div>
+          </figure>
+        </article>
+        <article style="--i: 6">
+          <header>
+            In 2016, DeepMind's AlphaGo defeated Lee Sedol, the world champion of Go, in a five-game match. This achievement was particularly significant as Go was considered far more complex than chess, with more possible board configurations than atoms in the universe.
+          </header>
+          <figure>
+            <div>
+              AlphaGo<br>
+              Breakthrough
+            </div>
+          </figure>
+        </article>
+        <article style="--i: 7">
+          <header>
+            GPT-3, released in 2020, marked a turning point in natural language processing. With 175 billion parameters, it demonstrated remarkable abilities in text generation, translation, and even basic coding, showing how scale could lead to qualitatively different capabilities in language models.
+          </header>
+          <figure>
+            <div>
+              Language<br>
+              Unleashed
+            </div>
+          </figure>
+        </article>
+        <article style="--i: 8">
+          <header>
+            DALL-E, introduced in 2021, showcased the ability to create unique images from text descriptions. This breakthrough in text-to-image generation demonstrated how AI could bridge the gap between linguistic description and visual creation, opening new frontiers in creative AI applications.
+          </header>
+          <figure>
+            <div>
+              Imagining<br>
+              With Words
+            </div>
+          </figure>
+        </article>
+        <article style="--i: 9">
+          <header>
+            The development of Transformer architecture in 2017 revolutionized machine learning. Its attention mechanism allowed for better handling of sequential data, leading to breakthrough improvements in translation, text generation, and eventually becoming the foundation for modern language models.
+          </header>
+          <figure>
+            <div>
+              The<br>
+              Transformer
+            </div>
+          </figure>
+        </article>
+        <article style="--i: 10">
+          <header>
+            In 2020, DeepMind's AlphaFold made a historic breakthrough in solving the protein folding problem, a grand challenge in biology that had stumped scientists for 50 years. This advancement promises to revolutionize drug discovery and our understanding of diseases at the molecular level.
+          </header>
+          <figure>
+            <div>
+              Folding<br>
+              Life's Code
+            </div>
+          </figure>
+        </article>
+        <article style="--i: 11">
+          <header>
+            Autonomous vehicles represent a convergence of AI technologies, from computer vision to real-time decision making. Companies like Waymo and Tesla are pioneering self-driving systems that process millions of real-world driving scenarios, working towards a future of safer, more efficient transportation.
+          </header>
+          <figure>
+            <div>
+              Driving<br>
+              The Future
+            </div>
+          </figure>
+        </article>
+        <article style="--i: 12">
+          <header>
+            The emergence of AI ethics as a crucial field addresses the moral implications of artificial intelligence. From bias in algorithms to privacy concerns and autonomous decision-making, researchers and philosophers work to ensure AI development aligns with human values and societal benefits.
+          </header>
+          <figure>
+            <div>
+              Digital<br>
+              Ethics
+            </div>
+          </figure>
+        </article>
+        <article style="--i: 13">
+          <header>
+            Quantum AI represents the intersection of quantum computing and artificial intelligence. This emerging field promises to solve complex problems exponentially faster than classical computers, potentially revolutionizing optimization, machine learning, and cryptography.
+          </header>
+          <figure>
+            <div>
+              Quantum<br>
+              Horizons
+            </div>
+          </figure>
+        </article>
+        <article style="--i: 14">
+          <header>
+            AI's role in climate science has become crucial, analyzing vast datasets of environmental information to model climate change, predict weather patterns, and optimize renewable energy systems. These applications are essential for addressing global environmental challenges.
+          </header>
+          <figure>
+            <div>
+              Climate<br>
+              Intelligence
+            </div>
+          </figure>
+        </article>
+        <article style="--i: 15">
+          <header>
+            Multimodal AI systems can process and understand multiple types of input - text, images, sound, and video - simultaneously. This integration mirrors human-like perception and understanding, leading to more sophisticated and natural human-AI interactions.
+          </header>
+          <figure>
+            <div>
+              Beyond<br>
+              Boundaries
+            </div>
+          </figure>
+        </article>
+        <article style="--i: 16">
+          <header>
+            Human-AI collaboration represents a shift from viewing AI as a replacement for human work to seeing it as a partnership. This symbiotic relationship combines human creativity and intuition with AI's processing power and pattern recognition, creating new possibilities in fields from art to scientific discovery.
+          </header>
+          <figure>
+            <div>
+              The Human<br>
+              Alliance
+            </div>
+          </figure>
+        </article>
+        <article style="--i: 17">
+          <header>
+            Artificial General Intelligence (AGI) remains the field's ultimate goal: systems that can match or exceed human-level intelligence across any task. While still theoretical, research continues into developing AI that can truly understand, learn, and adapt like the human mind, raising profound questions about consciousness and intelligence.
+          </header>
+          <figure>
+            <div>
+              The Path<br>
+              To AGI
+            </div>
+          </figure>
+        </article>
+      </section>
+    </main>
+    <footer></footer>
+    <!-- just support info-->
+    <aside>
+      <p class="box-info-scrollani">Sorry, your browser does not appear to support scroll-driven animation. As of January 2025, this is supported in Firefox if the <kbd>layout.css.scroll-driven-animations.enabled</kbd> flag is set to true in <kbd>about:config</kbd> and in Chromium browsers. Safari support is coming, but it hasn't arrived yet.</p>
+    </aside>
+  </body>
+</html>
+<!-- partial -->
   <script  src="./script.js"></script>
 </body>
 </html>
