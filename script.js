@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	// Load posters from the initialposters directory when the DOM is ready
-	loadPosters('JSON_Posters/initialposters');
+	loadPosters('JSON_Posters/LLMmodels');
 });
 
 function updateCenteredArticle() {
