@@ -130,12 +130,14 @@ article header, figure {
 
 /* Back side */
 article header {
-	font-size: 0.9em;     /* Reduced font size */
-	line-height: 1.6;
-	padding: 2em;
+	font-size: 0.45em;     /* Further reduced font size for better fit without scrolling */
+	line-height: 1.4;
+	padding: 1.8em;
 	text-align: left;
 	display: flex;
 	align-items: center;
+	overflow-y: auto;      /* Add scrolling only if absolutely necessary */
+	max-height: 100%;      /* Ensure it doesn't overflow */
 }
 
 /* Front side */
