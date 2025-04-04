@@ -1,0 +1,14 @@
+{
+  "uid": "poster-699",
+  "header": "Alan Turing is one of the most significant names in AI.",
+  "figure": "Alan_Turing",
+  "chronology": {
+    "epochStart": 1912,
+    "epochEvents": [
+      { "year": 1937, "name": "Turing Machine" },
+      { "year": 1940, "name": "Bombe" },
+      { "year": 1950, "name": "Turing Test" }
+    ],
+    "epochEnd": 1954
+  }
+} 
