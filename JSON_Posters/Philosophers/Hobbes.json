@@ -1,0 +1,16 @@
+{
+  "uid": "poster-805",
+  "header": "Thomas Hobbes (1588-1679) was an English philosopher, best known for his political philosophy, particularly his work \"Leviathan.\" However, his materialist view of nature and mind holds relevance for the foundations of AI. Hobbes argued that everything, including the human mind and thought processes, could be explained in terms of matter in motion.\n\nHe explicitly described reasoning as a form of computation: \"For REASON, in this sense, is nothing but reckoning (that is, adding and subtracting) of the consequences of general names agreed upon for the marking and signifying of our thoughts.\" This computational view of cognition, though based on simple arithmetic operations, proposed that thinking itself was a mechanical process operating on symbols (names), anticipating core ideas in symbolic AI and the possibility of mechanizing thought.",
+  "figure": "Thomas Hobbes",
+  "chronology": {
+    "epochStart": 1588,
+    "epochEvents": [
+      { "year": 1629, "name": "Translation of Thucydides" },
+      { "year": 1640, "name": "The Elements of Law" },
+      { "year": 1642, "name": "De Cive (On the Citizen)" },
+      { "year": 1651, "name": "Leviathan" },
+      { "year": 1655, "name": "De Corpore (On the Body)" }
+    ],
+    "epochEnd": 1679
+  }
+} 

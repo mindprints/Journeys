@@ -1,0 +1,16 @@
+{
+  "uid": "poster-806",
+  "header": "Pierre-Simon Laplace (1749-1827) was a highly influential French scholar whose work was pivotal to the development of mathematics, statistics, physics, and astronomy. His primary contribution relevant to AI lies in his development and systematization of probability theory.\n\nIn his \"Théorie analytique des probabilités\" (Analytic Theory of Probability, 1812), Laplace provided a comprehensive mathematical framework for probabilistic reasoning. He introduced techniques for calculating probabilities and applied them to scientific inference and decision-making under uncertainty. This rigorous treatment of probability is foundational to modern statistics and machine learning, where probabilistic models are essential for handling uncertainty, learning from data, and making predictions. Laplace's Demon, a thought experiment about perfect prediction given complete knowledge, also touches on themes of determinism and computation.",
+  "figure": "Pierre-Simon Laplace",
+  "chronology": {
+    "epochStart": 1749,
+    "epochEvents": [
+      { "year": 1774, "name": "Memoir on the Probability of Causes" },
+      { "year": 1796, "name": "Exposition du système du monde" },
+      { "year": 1799, "name": "Traité de Mécanique Céleste (Vol 1-2)" },
+      { "year": 1812, "name": "Théorie analytique des probabilités" },
+      { "year": 1814, "name": "Essai philosophique sur les probabilités" }
+    ],
+    "epochEnd": 1827
+  }
+} 

@@ -1,0 +1,16 @@
+{
+  "uid": "poster-803",
+  "header": "Bertrand Russell (1872-1970) and Alfred North Whitehead (1861-1947) were influential British philosophers and mathematicians known for their monumental collaboration, \"Principia Mathematica\" (published 1910-1913). Building on Frege's work, they attempted to derive all mathematical truths from a set of axioms and inference rules in symbolic logic. Russell discovered the paradox in Frege's system (Russell's Paradox) and developed type theory as a solution.\n\n\"Principia Mathematica\" represented a landmark effort in formalizing mathematics and logic. Although extremely complex and ultimately shown to be incomplete by Gödel's theorems, its rigorous system provided a powerful demonstration of symbolic logic's capabilities. This work deeply influenced the development of formal systems, logic programming, and the theoretical foundations of computer science, reinforcing the idea that complex reasoning could be mechanized and represented symbolically, a core concept in AI.",
+  "figure": "Russell & Whitehead",
+  "chronology": {
+    "epochStart": 1861,
+    "epochEvents": [
+      { "year": 1901, "name": "Russell discovers paradox in Frege's system" },
+      { "year": 1903, "name": "Russell's \"Principles of Mathematics\"" },
+      { "year": 1910, "name": "Principia Mathematica, Vol. 1" },
+      { "year": 1912, "name": "Principia Mathematica, Vol. 2" },
+      { "year": 1913, "name": "Principia Mathematica, Vol. 3" }
+    ],
+    "epochEnd": 1970
+  }
+} 

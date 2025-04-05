@@ -1,0 +1,16 @@
+{
+  "uid": "poster-807",
+  "header": "Muhammad ibn Musa al-Khwarizmi (c. 780 – c. 850) was a Persian scholar in the House of Wisdom in Baghdad during the Islamic Golden Age. He made foundational contributions to mathematics, astronomy, and geography. His most significant impact comes from his work on algebra and the introduction of Hindu-Arabic numerals to the Western world.\n\nHis book, \"The Compendious Book on Calculation by Completion and Balancing\" (Kitab al-jabr wa al-muqabala), presented the first systematic solution of linear and quadratic equations. The term \"algebra\" derives from \"al-jabr\" in the book's title. Crucially, his work introduced systematic, step-by-step procedures for solving mathematical problems. The term \"algorithm\" is derived from the Latinization of his name, Algoritmi. This concept of the algorithm—a finite sequence of well-defined instructions to perform a task—is the absolute bedrock of computer science and programming, essential for any form of computation or AI.",
+  "figure": "Al-Khwarizmi",
+  "chronology": {
+    "epochStart": 780,
+    "epochEvents": [
+      { "year": 813, "name": "Flourished at House of Wisdom (Baghdad)" },
+      { "year": 820, "name": "On the Calculation with Hindu Numerals" },
+      { "year": 825, "name": "Compendious Book on Calculation (Algebra)" },
+      { "year": 833, "name": "Revised Ptolemy's Geography" },
+      { "year": 840, "name": "Astronomical Tables (Zij al-Sindhind)" }
+    ],
+    "epochEnd": 850
+  }
+} 

@@ -1,0 +1,16 @@
+{
+  "uid": "poster-808",
+  "header": "Ludwig Wittgenstein (1889-1951) was an Austrian-British philosopher whose work transformed philosophy of language, logic, and mind. His early work, the \"Tractatus Logico-Philosophicus\" (1921), attempted to show the limits of language and presented a logical atomism where complex propositions could be broken down into elementary ones. His later work, particularly \"Philosophical Investigations,\" focused on ordinary language and the rule-governed practices that give meaning to language.\n\nWittgenstein's contributions to AI's intellectual foundations are multifaceted. His early work built on Frege and Russell's logical formalism, providing a picture theory of meaning that influenced early computational approaches to semantics. His analysis of rule-following raised deep questions about computation and understanding. In his later work, he challenged the idea that thinking consists of manipulating internal symbols and argued that meaning derives from social practices and \"language games.\" This prefigured debates in AI between symbolic approaches, which treat intelligence as manipulation of symbolic representations, and embodied/situated perspectives, which emphasize the role of social context and practice in genuine intelligence.",
+  "figure": "Ludwig Wittgenstein",
+  "chronology": {
+    "epochStart": 1889,
+    "epochEvents": [
+      { "year": 1911, "name": "Studied with Russell at Cambridge" },
+      { "year": 1914, "name": "Notes on Logic" },
+      { "year": 1921, "name": "Tractatus Logico-Philosophicus" },
+      { "year": 1929, "name": "Returned to philosophy at Cambridge" },
+      { "year": 1953, "name": "Philosophical Investigations (posthumous)" }
+    ],
+    "epochEnd": 1951
+  }
+} 

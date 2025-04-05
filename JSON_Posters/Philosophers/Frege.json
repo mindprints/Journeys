@@ -1,0 +1,16 @@
+{
+  "uid": "poster-802",
+  "header": "Gottlob Frege (1848-1925) was a German philosopher, logician, and mathematician who revolutionized logic and laid the foundations for analytic philosophy and modern computer science. His 1879 work \"Begriffsschrift\" (Concept Script) introduced a formal system of logic, including quantified variables, that allowed for the rigorous analysis of mathematical proofs and propositions. This was a major departure from the Aristotelian logic that had dominated for centuries.\n\nFrege's work aimed to demonstrate that arithmetic could be derived from pure logic (logicism). Although this project faced challenges (notably Russell's paradox), his development of predicate calculus provided the formal language necessary for expressing complex relationships and inferences precisely. This formalization of logic was a crucial prerequisite for the development of programming languages and the theoretical underpinnings of computation and AI, enabling the representation and manipulation of knowledge in symbolic systems.",
+  "figure": "Gottlob Frege",
+  "chronology": {
+    "epochStart": 1848,
+    "epochEvents": [
+      { "year": 1879, "name": "Begriffsschrift (Concept Script)" },
+      { "year": 1884, "name": "The Foundations of Arithmetic" },
+      { "year": 1892, "name": "On Sense and Reference" },
+      { "year": 1893, "name": "Basic Laws of Arithmetic, Vol. 1" },
+      { "year": 1903, "name": "Basic Laws of Arithmetic, Vol. 2 (Russell's Paradox noted)" }
+    ],
+    "epochEnd": 1925
+  }
+} 

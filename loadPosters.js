@@ -126,17 +126,23 @@ async function loadPosters(directory) {
         figure.innerHTML = figureHTML;
 
       } else if (poster.type === 'image') {
-         // Create header (back side) - Image (display filename)
-         const filename = poster.path.split('/').pop(); // Extract filename
-         header.textContent = filename;
-         header.classList.add('image-poster-header'); // Add class for potential styling
+         // Get filename for alt text
+         const filename = poster.path.split('/').pop();
+         
+         // Create header (back side) - Display the image as well
+         header.classList.add('image-poster-header');
+         const headerImg = document.createElement('img');
+         headerImg.src = poster.path;
+         headerImg.alt = filename;
+         headerImg.classList.add('fullsize-image'); // Add class for styling the backside image
+         header.appendChild(headerImg);
 
          // Create figure (front side) - Image
          const img = document.createElement('img');
          img.src = poster.path;
-         img.alt = filename; // Use filename as alt text
+         img.alt = filename;
          figure.appendChild(img);
-         figure.classList.add('image-poster-figure'); // Add class for potential styling
+         figure.classList.add('image-poster-figure');
       }
 
       article.appendChild(header);

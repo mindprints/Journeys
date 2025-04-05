@@ -1,0 +1,16 @@
+{
+  "uid": "poster-800",
+  "header": "Gottfried Wilhelm Leibniz (1646-1716) was a German polymath whose work spanned philosophy, mathematics, logic, and technology. He developed binary code, the foundation of virtually all modern computers, and envisioned a universal symbolic language (characteristica universalis) and a logical calculus (calculus ratiocinator) to mechanize reasoning. Leibniz believed that human thought could be reduced to calculations.\n\nHe designed and built mechanical calculators, including the Step Reckoner, which could perform multiplication and division. His dream of a universal calculus, where arguments could be settled by computation (\"Calculemus!\" – Let us calculate!), prefigured the ambitions of symbolic AI. His work on binary arithmetic and formal logic laid crucial groundwork for the digital revolution and computational theories of mind.",
+  "figure": "Gottfried Wilhelm Leibniz",
+  "chronology": {
+    "epochStart": 1646,
+    "epochEvents": [
+      { "year": 1666, "name": "On the Art of Combinations" },
+      { "year": 1673, "name": "Presents calculating machine in London" },
+      { "year": 1679, "name": "Perfected Binary System" },
+      { "year": 1684, "name": "Published Calculus" },
+      { "year": 1686, "name": "Discourse on Metaphysics" }
+    ],
+    "epochEnd": 1716
+  }
+} 

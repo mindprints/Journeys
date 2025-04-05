@@ -1,0 +1,16 @@
+{
+  "uid": "poster-801",
+  "header": "René Descartes (1596-1650) was a French philosopher, mathematician, and scientist, often called the 'Father of Modern Philosophy.' His work established a framework for understanding the mind and its relation to the physical world that profoundly influenced later thought, including early ideas relevant to AI. Descartes famously argued for mind-body dualism, the idea that the mind (a non-physical, thinking substance) is distinct from the body (a physical, non-thinking substance).\n\nWhile emphasizing the uniqueness of the human mind (linked to language and reason), his mechanistic view of the physical world, including animal bodies, suggested that complex behaviors could arise from physical mechanisms alone. This opened the door to considering biological and, eventually, artificial systems as potential mechanisms for complex actions. His emphasis on rigorous, mathematical methods and deductive reasoning also influenced the development of formal logic and computation.",
+  "figure": "René Descartes",
+  "chronology": {
+    "epochStart": 1596,
+    "epochEvents": [
+      { "year": 1619, "name": "Vision of a new mathematical science" },
+      { "year": 1637, "name": "Discourse on the Method" },
+      { "year": 1641, "name": "Meditations on First Philosophy" },
+      { "year": 1644, "name": "Principles of Philosophy" },
+      { "year": 1649, "name": "Passions of the Soul" }
+    ],
+    "epochEnd": 1650
+  }
+} 

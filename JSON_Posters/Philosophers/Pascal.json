@@ -1,0 +1,16 @@
+{
+  "uid": "poster-804",
+  "header": "Blaise Pascal (1623-1662) was a French mathematician, physicist, inventor, philosopher, and writer. A child prodigy, he made significant contributions to projective geometry and probability theory (often alongside Pierre de Fermat). His work laid groundwork for future developments in economics and social sciences.\n\nMost relevant to the prehistory of AI, Pascal invented one of the earliest mechanical calculators, the Pascaline, around 1642. Designed to help his father with tax calculations, it could perform addition and subtraction directly and multiplication/division through repeated operations. Though limited in scope compared to later machines like Leibniz's, the Pascaline was a tangible demonstration that arithmetic processes—a form of reasoning—could be automated through mechanical means, reinforcing the idea that mental tasks could potentially be mechanized.",
+  "figure": "Blaise Pascal",
+  "chronology": {
+    "epochStart": 1623,
+    "epochEvents": [
+      { "year": 1640, "name": "Essay on Conic Sections" },
+      { "year": 1642, "name": "Invented the Pascaline calculator" },
+      { "year": 1654, "name": "Correspondence with Fermat (Probability)" },
+      { "year": 1657, "name": "Provincial Letters" },
+      { "year": 1670, "name": "Pensées (published posthumously)" }
+    ],
+    "epochEnd": 1662
+  }
+} 

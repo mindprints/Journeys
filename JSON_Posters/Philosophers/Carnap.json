@@ -1,0 +1,16 @@
+{
+  "uid": "poster-809",
+  "header": "Rudolf Carnap (1891-1970) was a German-American philosopher who played a central role in the logical positivist movement and the development of formal logic. Through works like \"The Logical Structure of the World\" (1928) and \"The Logical Syntax of Language\" (1934), Carnap championed a strongly formalized approach to philosophy that sought to reconstruct philosophical questions and scientific theories in precise logical terms.\n\nCarnap's work on language frameworks, logic, and probability laid crucial groundwork for areas of AI research. His focus on formal analysis of language and thought via syntactic and semantic rules influenced early AI approaches that formalized reasoning. His work on inductive logic and probability—developed in \"Logical Foundations of Probability\" (1950)—anticipated methods in probabilistic reasoning and automated induction. Perhaps most significant was Carnap's insistence that philosophical problems could be resolved through the construction of formal languages with explicit rules, a view that resonated with AI's aspiration to formalize intelligence in computational systems. His methodological principle of tolerance toward different logical systems also foreshadowed discussions about multiple approaches to knowledge representation in AI.",
+  "figure": "Rudolf Carnap",
+  "chronology": {
+    "epochStart": 1891,
+    "epochEvents": [
+      { "year": 1922, "name": "Joined the Vienna Circle" },
+      { "year": 1928, "name": "The Logical Structure of the World" },
+      { "year": 1934, "name": "The Logical Syntax of Language" },
+      { "year": 1936, "name": "Testability and Meaning" },
+      { "year": 1950, "name": "Logical Foundations of Probability" }
+    ],
+    "epochEnd": 1970
+  }
+} 
