@@ -12,6 +12,7 @@ const MIME_TYPES = {
     '.jpg': 'image/jpeg',
     '.jpeg': 'image/jpeg',
     '.gif': 'image/gif',
+    '.webp': 'image/webp',
     '.json': 'application/json'
 };
 
@@ -59,15 +60,22 @@ const server = http.createServer((req, res) => {
                 return;
             }
 
-            // Read the directory and filter JSON files
+            // Define allowed extensions
+            const allowedExtensions = ['.json', '.png', '.jpg', '.jpeg', '.gif', '.webp'];
+
+            // Read the directory and filter allowed files
             fs.readdir(dirPath, (err, files) => {
                 if (err) {
                     res.writeHead(500, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ error: 'Unable to read directory' }));
                 } else {
-                    const jsonFiles = files.filter(file => file.endsWith('.json'));
+                    // Filter files based on the allowed extensions
+                    const relevantFiles = files.filter(file => {
+                        const ext = path.extname(file).toLowerCase();
+                        return allowedExtensions.includes(ext);
+                    });
                     res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify(jsonFiles));
+                    res.end(JSON.stringify(relevantFiles)); // Send the filtered list
                 }
             });
         });

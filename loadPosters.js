@@ -14,120 +14,141 @@ async function loadPosters(directory) {
 
     const fileList = await response.json();
     let postersData = [];
+    const imageExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.webp'];
 
-    // Load all JSON data first
+    // Load data for all potential posters
     for (let i = 0; i < fileList.length; i++) {
-      const filePath = `${directory}/${fileList[i]}`;
-      const posterResponse = await fetch(filePath);
-      if (!posterResponse.ok) {
-        throw new Error(`Failed to load poster: ${filePath}`);
+      const fileName = fileList[i];
+      const filePath = `${directory}/${fileName}`;
+      const fileExt = fileName.slice(fileName.lastIndexOf('.')).toLowerCase();
+
+      if (fileExt === '.json') {
+        try {
+          const posterResponse = await fetch(filePath);
+          if (!posterResponse.ok) {
+            console.warn(`Failed to load JSON poster: ${filePath}, Status: ${posterResponse.status}`);
+            continue; // Skip this file if fetch fails
+          }
+          const posterData = await posterResponse.json();
+          postersData.push({ type: 'json', data: posterData, path: filePath }); 
+        } catch (jsonError) {
+            console.warn(`Failed to parse JSON poster: ${filePath}`, jsonError);
+            continue; // Skip if JSON parsing fails
+        }
+      } else if (imageExtensions.includes(fileExt)) {
+        postersData.push({ type: 'image', path: filePath });
+      } else {
+        console.warn(`Skipping unsupported file type: ${fileName}`);
       }
-      const posterData = await posterResponse.json();
-      postersData.push(posterData);
     }
 
-    // Sort posters by chronology
+    // Sort posters
     postersData.sort((a, b) => {
-      // Primary sort by epochStart if available
-      if (a.chronology?.epochStart !== undefined && b.chronology?.epochStart !== undefined) {
-        return a.chronology.epochStart - b.chronology.epochStart;
+      const aIsJson = a.type === 'json';
+      const bIsJson = b.type === 'json';
+      const aHasChrono = aIsJson && a.data.chronology?.epochStart !== undefined;
+      const bHasChrono = bIsJson && b.data.chronology?.epochStart !== undefined;
+
+      // Both have epochStart, sort by it
+      if (aHasChrono && bHasChrono) {
+        return a.data.chronology.epochStart - b.data.chronology.epochStart;
       }
       
-      // If one has epochStart and other doesn't, prioritize the one with epochStart
-      if (a.chronology?.epochStart !== undefined) return -1;
-      if (b.chronology?.epochStart !== undefined) return 1;
-      
-      // If neither has epochStart, try sorting by earliest epochEvent
-      const aEarliestEvent = a.chronology?.epochEvents?.[0]?.year;
-      const bEarliestEvent = b.chronology?.epochEvents?.[0]?.year;
-      
-      if (aEarliestEvent !== undefined && bEarliestEvent !== undefined) {
-        return aEarliestEvent - bEarliestEvent;
+      // Only A has epochStart, A comes first
+      if (aHasChrono) return -1;
+      // Only B has epochStart, B comes first
+      if (bHasChrono) return 1;
+
+      // Try sorting by earliest epochEvent year if both are JSON and lack epochStart
+      if (aIsJson && bIsJson) {
+        const aEarliestEvent = a.data.chronology?.epochEvents?.[0]?.year;
+        const bEarliestEvent = b.data.chronology?.epochEvents?.[0]?.year;
+        if (aEarliestEvent !== undefined && bEarliestEvent !== undefined) {
+          return aEarliestEvent - bEarliestEvent;
+        }
+        // If only one has events, prioritize it (optional, could also sort by path)
+         if (aEarliestEvent !== undefined) return -1;
+         if (bEarliestEvent !== undefined) return 1;
       }
       
-      // If all else fails, maintain original order
-      return 0;
+      // Fallback: Sort everything else (images, JSONs without chrono) by path alphabetically
+      return a.path.localeCompare(b.path);
     });
 
     // Create DOM elements for each poster in sorted order
     for (let i = 0; i < postersData.length; i++) {
-      const posterData = postersData[i];
+      const poster = postersData[i];
       
       const article = document.createElement('article');
       article.style.setProperty('--i', i); // Set --i based on the sorted index
 
-      // Create header (back side)
       const header = document.createElement('header');
-      // Handle text formatting with paragraphs
-      if (posterData.header) {
-        // First handle literal "\n\n" strings (as seen in the JSON file)
-        let formattedText = posterData.header;
-        
-        // Check if we have literal \n\n in the string
-        if (formattedText.includes('\\n\\n')) {
-          formattedText = formattedText.replace(/\\n\\n/g, '</p><p>');
-          header.innerHTML = `<p>${formattedText}</p>`;
-        } 
-        // Fallback to handling actual newlines if present
-        else if (formattedText.includes('\n\n')) {
-          const paragraphs = formattedText.split('\n\n');
-          header.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join('');
-        }
-        // If no paragraph breaks detected, just set as a single paragraph
-        else {
-          header.innerHTML = `<p>${formattedText}</p>`;
-        }
-      }
-
-      // Create figure (front side)
       const figure = document.createElement('figure');
-      
-      // Create the center-aligned front side with the title first
-      let figureHTML = `<div class="title">${posterData.figure}</div>`;
-      
-      // Add chronology information if available
-      if (posterData.chronology) {
-        figureHTML += `<div class="chronology-display">`;
-        
-        // Show start and end dates with em dash if both exist
-        const hasStart = posterData.chronology.epochStart !== null && posterData.chronology.epochStart !== undefined;
-        const hasEnd = posterData.chronology.epochEnd !== null && posterData.chronology.epochEnd !== undefined;
-        
-        if (hasStart && hasEnd) {
-          figureHTML += `<div class="timeline-dates">`;
-          figureHTML += `<span class="timeline-span">${posterData.chronology.epochStart} — ${posterData.chronology.epochEnd}</span>`;
-          figureHTML += `</div>`;
-        } else if (hasStart) {
-          figureHTML += `<div class="timeline-start">${posterData.chronology.epochStart}</div>`;
-        } else if (hasEnd) {
-          figureHTML += `<div class="timeline-end">${posterData.chronology.epochEnd}</div>`;
+
+      if (poster.type === 'json') {
+        const posterData = poster.data;
+        // Create header (back side) - JSON
+        if (posterData.header) {
+          let formattedText = posterData.header;
+          if (formattedText.includes('\\n\\n')) {
+            formattedText = formattedText.replace(/\\n\\n/g, '</p><p>');
+            header.innerHTML = `<p>${formattedText}</p>`;
+          } else if (formattedText.includes('\n\n')) {
+            const paragraphs = formattedText.split('\n\n');
+            header.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join('');
+          } else {
+            header.innerHTML = `<p>${formattedText}</p>`;
+          }
         }
-        
-        // Add events if any
-        if (posterData.chronology.epochEvents && posterData.chronology.epochEvents.length > 0) {
-          figureHTML += `<div class="timeline-events">`;
-          for (const event of posterData.chronology.epochEvents) {
-            figureHTML += `<div class="event"><span class="year">${event.year}</span>: ${event.name}</div>`;
+
+        // Create figure (front side) - JSON
+        let figureHTML = `<div class="title">${posterData.figure}</div>`;
+        if (posterData.chronology) {
+          figureHTML += `<div class="chronology-display">`;
+          const hasStart = posterData.chronology.epochStart !== null && posterData.chronology.epochStart !== undefined;
+          const hasEnd = posterData.chronology.epochEnd !== null && posterData.chronology.epochEnd !== undefined;
+          if (hasStart && hasEnd) {
+            figureHTML += `<div class="timeline-dates"><span class="timeline-span">${posterData.chronology.epochStart} — ${posterData.chronology.epochEnd}</span></div>`;
+          } else if (hasStart) {
+            figureHTML += `<div class="timeline-start">${posterData.chronology.epochStart}</div>`;
+          } else if (hasEnd) {
+            figureHTML += `<div class="timeline-end">${posterData.chronology.epochEnd}</div>`;
+          }
+          if (posterData.chronology.epochEvents && posterData.chronology.epochEvents.length > 0) {
+            figureHTML += `<div class="timeline-events">`;
+            posterData.chronology.epochEvents.forEach(event => {
+              figureHTML += `<div class="event"><span class="year">${event.year}</span>: ${event.name}</div>`;
+            });
+            figureHTML += `</div>`;
           }
           figureHTML += `</div>`;
         }
-        
-        figureHTML += `</div>`;
+        figure.innerHTML = figureHTML;
+
+      } else if (poster.type === 'image') {
+         // Create header (back side) - Image (display filename)
+         const filename = poster.path.split('/').pop(); // Extract filename
+         header.textContent = filename;
+         header.classList.add('image-poster-header'); // Add class for potential styling
+
+         // Create figure (front side) - Image
+         const img = document.createElement('img');
+         img.src = poster.path;
+         img.alt = filename; // Use filename as alt text
+         figure.appendChild(img);
+         figure.classList.add('image-poster-figure'); // Add class for potential styling
       }
-      
-      figure.innerHTML = figureHTML;
 
       article.appendChild(header);
       article.appendChild(figure);
       postersContainer.appendChild(article);
     }
 
-    // Update the --n property to match the number of posters
+    // Update the --n property to match the total number of posters
     document.documentElement.style.setProperty('--n', postersData.length);
   } catch (error) {
     console.error('Error loading posters:', error);
-    // Optionally, display an error message to the user
-    postersContainer.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+    postersContainer.innerHTML = `<p style="color: red;">Error loading posters: ${error.message}</p>`;
   }
 }
 

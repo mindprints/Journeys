@@ -404,3 +404,20 @@ figure {
   align-items: center;
   padding: 1em;
 }
+/* style.css (or your main stylesheet) */
+
+/* Style for the images within image-type posters */
+figure.image-poster-figure img {
+	display: block; /* Removes potential extra space below the image */
+	width: 100%;    /* Make the image fill the width of the figure */
+	height: 100%;   /* Make the image fill the height of the figure */
+	object-fit: contain; /* Scale the image while preserving aspect ratio, fitting it inside the container */
+	object-position: center; /* Center the image within the figure */
+  }
+  
+  /* Optional: Add some padding if the image touches the edges */
+  /* figure.image-poster-figure {
+	padding: 10px; 
+	box-sizing: border-box; /* Ensure padding is included in the element's total width and height */
+  /* } */
+  
