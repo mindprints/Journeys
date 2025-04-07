@@ -256,6 +256,30 @@
               </div>
             </div>
             
+            <div class="form-group">
+              <div style="display: flex; align-items: center; margin-bottom: 1em;">
+                <input type="checkbox" id="useJsonWrapper" style="margin-right: 0.5em;">
+                <label for="useJsonWrapper">Create JSON wrapper (recommended)</label>
+                <div style="margin-left: auto; font-size: 0.8em; color: #f48c06;">Follows image poster schema</div>
+              </div>
+              
+              <div id="imageMetadataPanel" style="display: none; background: #201c46; padding: 1em; border-radius: 8px; margin-bottom: 1em;">
+                <h4 style="margin-top: 0;">Image Metadata</h4>
+                <div style="margin-bottom: 1em;">
+                  <label for="imageTitle">Title</label>
+                  <input type="text" id="imageTitle" placeholder="Optional title for the image">
+                </div>
+                <div style="margin-bottom: 1em;">
+                  <label for="imageDescription">Description</label>
+                  <textarea id="imageDescription" rows="3" placeholder="Optional description displayed on the back side"></textarea>
+                </div>
+                <div style="margin-bottom: 1em;">
+                  <label for="imageAltText">Alt Text</label>
+                  <input type="text" id="imageAltText" placeholder="Alternative text for accessibility">
+                </div>
+              </div>
+            </div>
+            
             <div class="form-actions">
               <button type="button" id="processAllBtn" class="editor-btn primary">Process All Images</button>
               <button type="button" id="cropSelectedBtn" class="editor-btn">Crop Selected</button>

@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["figure", "header"],
+  "properties": {
+    "uid": {
+      "type": "string",
+      "description": "Unique identifier for the poster"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["json"],
+      "default": "json",
+      "description": "Type identifier for standard posters"
+    },
+    "header": {
+      "type": "string",
+      "description": "Main text content for the poster's back side"
+    },
+    "figure": {
+      "type": "string",
+      "description": "Title text displayed on the poster's front side"
+    },
+    "chronology": {
+      "type": "object",
+      "properties": {
+        "epochStart": {
+          "type": ["integer", "null"],
+          "description": "Starting year of the timeline"
+        },
+        "epochEvents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["year", "name"],
+            "properties": {
+              "year": {
+                "type": "integer",
+                "description": "Year when the event occurred"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name/description of the event"
+              }
+            }
+          }
+        },
+        "epochEnd": {
+          "type": ["integer", "null"],
+          "description": "Ending year of the timeline"
+        }
+      }
+    }
+  }
+}

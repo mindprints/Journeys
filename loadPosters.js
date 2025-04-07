@@ -15,8 +15,12 @@ async function loadPosters(directory) {
     const fileList = await response.json();
     let postersData = [];
     const imageExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.webp'];
-
-    // Load data for all potential posters
+    
+    // Map to keep track of images we've already included
+    // This will help us avoid duplicate images (direct image and JSON wrapped)
+    const includedImages = new Set();
+    
+    // First prioritize loading JSON files to get all JSON-wrapped posters
     for (let i = 0; i < fileList.length; i++) {
       const fileName = fileList[i];
       const filePath = `${directory}/${fileName}`;
@@ -32,15 +36,73 @@ async function loadPosters(directory) {
           const posterData = await posterResponse.json();
           // If the JSON has a specific type field, use it; otherwise, default to 'json'
           const type = posterData.type || 'json';
-          postersData.push({ type, data: posterData, path: filePath }); 
+          
+          // If this is an image JSON wrapper, remember the image path
+          if (type === 'image' && posterData.imagePath) {
+            // Extract the image filename and add to tracked images
+            const imagePath = posterData.imagePath;
+            includedImages.add(imagePath);
+          }
+          
+          postersData.push({ type, data: posterData, path: filePath });
         } catch (jsonError) {
             console.warn(`Failed to parse JSON poster: ${filePath}`, jsonError);
             continue; // Skip if JSON parsing fails
         }
-      } else if (imageExtensions.includes(fileExt)) {
-        postersData.push({ type: 'image', path: filePath });
-      } else {
-        console.warn(`Skipping unsupported file type: ${fileName}`);
+      }
+    }
+    
+    // Check if there's an images subdirectory
+    const imagesDir = `${directory}/images`;
+    const imagesDirectoryResponse = await fetch(`/api/check-directory`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ path: imagesDir })
+    });
+    
+    if (imagesDirectoryResponse.ok) {
+      const dirCheckResult = await imagesDirectoryResponse.json();
+      
+      // If images directory exists, fetch its contents
+      if (dirCheckResult.exists) {
+        const imagesResponse = await fetch(`/api/posters?directory=${imagesDir}`);
+        if (imagesResponse.ok) {
+          const imagesFileList = await imagesResponse.json();
+          
+          // Process images from images subdirectory
+          for (let i = 0; i < imagesFileList.length; i++) {
+            const fileName = imagesFileList[i];
+            const filePath = `${imagesDir}/${fileName}`;
+            const fileExt = fileName.slice(fileName.lastIndexOf('.')).toLowerCase();
+            
+            // Check if this image is already included via a JSON wrapper
+            if (includedImages.has(filePath)) {
+              continue; // Skip - this image is already included via JSON
+            }
+            
+            if (imageExtensions.includes(fileExt)) {
+              postersData.push({ type: 'direct-image', path: filePath });
+            }
+          }
+        }
+      }
+    }
+    
+    // Now handle direct images in the main directory as a fallback
+    for (let i = 0; i < fileList.length; i++) {
+      const fileName = fileList[i];
+      const filePath = `${directory}/${fileName}`;
+      const fileExt = fileName.slice(fileName.lastIndexOf('.')).toLowerCase();
+      
+      // Check if this image is already included via a JSON wrapper
+      if (includedImages.has(filePath)) {
+        continue; // Skip - this image is already included via JSON
+      }
+
+      if (imageExtensions.includes(fileExt)) {
+        postersData.push({ type: 'direct-image', path: filePath });
       }
     }
 
@@ -128,23 +190,94 @@ async function loadPosters(directory) {
         figure.innerHTML = figureHTML;
 
       } else if (poster.type === 'image') {
-         // Get filename for alt text
-         const filename = poster.path.split('/').pop();
-         
-         // Create header (back side) - Display the image as well
-         header.classList.add('image-poster-header');
-         const headerImg = document.createElement('img');
-         headerImg.src = poster.path;
-         headerImg.alt = filename;
-         headerImg.classList.add('fullsize-image'); // Add class for styling the backside image
-         header.appendChild(headerImg);
+        // Get the image data from the JSON wrapper
+        const imageData = poster.data;
+        const imagePath = imageData.imagePath;
+        const title = imageData.title || '';
+        const description = imageData.description || '';
+        const altText = imageData.alt || imagePath.split('/').pop();
+        
+        // Create header (back side) - Display the image and description
+        header.classList.add('image-poster-header');
+        
+        // Create a container for the image and description
+        const imageContainer = document.createElement('div');
+        imageContainer.classList.add('image-container');
+        
+        // Add the image
+        const headerImg = document.createElement('img');
+        headerImg.src = imagePath;
+        headerImg.alt = altText;
+        headerImg.classList.add('fullsize-image');
+        imageContainer.appendChild(headerImg);
+        
+        // Add description if available
+        if (description) {
+          const descriptionElem = document.createElement('div');
+          descriptionElem.classList.add('image-description');
+          descriptionElem.innerHTML = `<p>${description}</p>`;
+          imageContainer.appendChild(descriptionElem);
+        }
+        
+        header.appendChild(imageContainer);
 
-         // Create figure (front side) - Image
-         const img = document.createElement('img');
-         img.src = poster.path;
-         img.alt = filename;
-         figure.appendChild(img);
-         figure.classList.add('image-poster-figure');
+        // Create figure (front side) - Image with optional title
+        figure.classList.add('image-poster-figure');
+        
+        // Add the image
+        const img = document.createElement('img');
+        img.src = imagePath;
+        img.alt = altText;
+        figure.appendChild(img);
+        
+        // Add title if available
+        if (title) {
+          const titleElem = document.createElement('div');
+          titleElem.classList.add('title');
+          titleElem.textContent = title;
+          figure.appendChild(titleElem);
+        }
+        
+        // Add annotations if available
+        if (imageData.annotations && imageData.annotations.length > 0) {
+          const annotationsContainer = document.createElement('div');
+          annotationsContainer.classList.add('annotations-container');
+          
+          imageData.annotations.forEach(annotation => {
+            const annotationElem = document.createElement('div');
+            annotationElem.classList.add('annotation');
+            annotationElem.textContent = annotation.text;
+            
+            // Position the annotation if position data is available
+            if (annotation.position) {
+              annotationElem.style.position = 'absolute';
+              annotationElem.style.left = `${annotation.position.x}%`;
+              annotationElem.style.top = `${annotation.position.y}%`;
+            }
+            
+            annotationsContainer.appendChild(annotationElem);
+          });
+          
+          figure.appendChild(annotationsContainer);
+        }
+      } else if (poster.type === 'direct-image') {
+        // Get filename for alt text
+        const filename = poster.path.split('/').pop();
+        
+        // Create header (back side) - Display the image as well
+        header.classList.add('image-poster-header');
+        const headerImg = document.createElement('img');
+        headerImg.src = poster.path;
+        headerImg.alt = filename;
+        headerImg.classList.add('fullsize-image'); // Add class for styling the backside image
+        header.appendChild(headerImg);
+
+        // Create figure (front side) - Image
+        const img = document.createElement('img');
+        img.src = poster.path;
+        img.alt = filename;
+        figure.appendChild(img);
+        figure.classList.add('image-poster-figure');
       } else if (poster.type === 'website') {
         const websiteData = poster.data;
         

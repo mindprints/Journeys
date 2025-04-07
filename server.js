@@ -165,6 +165,49 @@ app.post('/api/delete-poster', (req, res) => {
   }
 });
 
+// Save a file (primarily for JSON wrappers)
+app.post('/api/save-file', upload.single('file'), (req, res) => {
+  try {
+    console.log("API /save-file called");
+    
+    if (!req.file) {
+      console.error("No file provided in request");
+      return res.status(400).json({ error: 'No file provided' });
+    }
+    
+    const filePath = req.body.path;
+    console.log("Saving file to path:", filePath);
+    
+    if (!filePath) {
+      console.error("No path provided in request");
+      return res.status(400).json({ error: 'Path is required' });
+    }
+    
+    const fullPath = path.join(__dirname, filePath);
+    
+    // Make sure the directory exists
+    const dirPath = path.dirname(fullPath);
+    if (!fs.existsSync(dirPath)) {
+      console.error("Directory not found:", dirPath);
+      return res.status(404).json({ error: 'Directory not found' });
+    }
+    
+    // Log file content for debugging (for text files only)
+    if (req.file.mimetype.includes('text') || req.file.mimetype.includes('json')) {
+      console.log("File content:", req.file.buffer.toString('utf8').substring(0, 500));
+    }
+    
+    // Write the file
+    fs.writeFileSync(fullPath, req.file.buffer);
+    console.log("File saved successfully to:", fullPath);
+    
+    res.json({ success: true, message: 'File saved successfully' });
+  } catch (error) {
+    console.error('Error saving file:', error);
+    res.status(500).json({ error: 'Failed to save file' });
+  }
+});
+
 // Create a new directory in JSON_Posters
 app.post('/api/create-directory', (req, res) => {
   try {
@@ -207,6 +250,50 @@ app.post('/api/create-directory', (req, res) => {
   } catch (error) {
     console.error('Error creating directory:', error);
     res.status(500).json({ error: 'Failed to create directory: ' + error.message });
+  }
+});
+
+// Check if a directory exists
+app.post('/api/check-directory', (req, res) => {
+  try {
+    const { path: dirPath } = req.body;
+    
+    if (!dirPath) {
+      return res.status(400).json({ error: 'Path is required' });
+    }
+    
+    const fullPath = path.join(__dirname, dirPath);
+    const exists = fs.existsSync(fullPath) && fs.statSync(fullPath).isDirectory();
+    
+    res.json({ exists });
+  } catch (error) {
+    console.error('Error checking directory:', error);
+    res.status(500).json({ error: 'Failed to check directory: ' + error.message });
+  }
+});
+
+// Create an images directory within a specified path
+app.post('/api/create-images-directory', (req, res) => {
+  try {
+    const { path: dirPath } = req.body;
+    
+    if (!dirPath) {
+      return res.status(400).json({ error: 'Path is required' });
+    }
+    
+    const fullPath = path.join(__dirname, dirPath);
+    
+    // Create the directory
+    fs.mkdirSync(fullPath, { recursive: true });
+    
+    res.json({ 
+      success: true, 
+      message: 'Images directory created successfully',
+      path: dirPath
+    });
+  } catch (error) {
+    console.error('Error creating images directory:', error);
+    res.status(500).json({ error: 'Failed to create images directory: ' + error.message });
   }
 });
 

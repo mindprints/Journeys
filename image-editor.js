@@ -32,6 +32,11 @@ const qualityValue = document.getElementById('qualityValue');
 const resizeWidth = document.getElementById('resizeWidth');
 const resizeHeight = document.getElementById('resizeHeight');
 const maintainAspect = document.getElementById('maintainAspect');
+const useJsonWrapper = document.getElementById('useJsonWrapper');
+const imageMetadataPanel = document.getElementById('imageMetadataPanel');
+const imageTitle = document.getElementById('imageTitle');
+const imageDescription = document.getElementById('imageDescription');
+const imageAltText = document.getElementById('imageAltText');
 
 // Crop Modal Elements
 const cropModal = document.getElementById('cropModal');
@@ -103,6 +108,19 @@ function initializeImageUploader() {
   // Crop modal events
   cancelCropBtn.addEventListener('click', closeCropperModal);
   applyCropBtn.addEventListener('click', applyCrop);
+  
+  // JSON wrapper options
+  useJsonWrapper.addEventListener('change', function() {
+    console.log("JSON wrapper checkbox changed:", this.checked);
+    if (this.checked) {
+      imageMetadataPanel.style.display = 'block';
+    } else {
+      imageMetadataPanel.style.display = 'none';
+    }
+  });
+  
+  // Initialize metadata panel visibility based on checkbox
+  imageMetadataPanel.style.display = useJsonWrapper.checked ? 'block' : 'none';
 }
 
 // Populate directory chooser with JSON_Posters subdirectories
@@ -161,14 +179,42 @@ async function loadImagesFromDirectory() {
     
     const fileList = await response.json();
     
+    // Check if the images subdirectory exists
+    const imagesDir = `${currentDirectory}/images`;
+    const checkDirResponse = await fetch('/api/check-directory', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ path: imagesDir })
+    });
+    
+    const dirCheckResult = await checkDirResponse.json();
+    
+    // If images directory exists, fetch its contents as well
+    let imagesFileList = [];
+    if (dirCheckResult.exists) {
+      const imagesResponse = await fetch(`/api/posters?directory=${imagesDir}`);
+      if (imagesResponse.ok) {
+        imagesFileList = await imagesResponse.json();
+      }
+    }
+    
     // Filter for image files (non-JSON files)
+    // First from main directory
     const imageFiles = fileList.filter(file => {
       const ext = file.split('.').pop().toLowerCase();
       return ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].includes(ext);
     });
     
+    // Then from images subdirectory
+    const imagesSubdirFiles = imagesFileList.map(file => `images/${file}`);
+    
+    // Combine both sets of images
+    const allImageFiles = [...imageFiles, ...imagesSubdirFiles];
+    
     // Create list items for each image
-    for (const fileName of imageFiles) {
+    for (const fileName of allImageFiles) {
       try {
         const filePath = `${currentDirectory}/${fileName}`;
         existingImages.push({
@@ -181,8 +227,13 @@ async function loadImagesFromDirectory() {
         imageItem.className = 'poster-item';
         imageItem.dataset.fileName = fileName;
         
+        // Display a nicer name without the images/ prefix if present
+        const displayName = fileName.startsWith('images/') 
+          ? fileName.substring(7) // Remove 'images/' prefix
+          : fileName;
+        
         imageItem.innerHTML = `
-          <div class="poster-item-title">${fileName}</div>
+          <div class="poster-item-title">${displayName}</div>
           <div class="poster-item-info">Image</div>
         `;
         
@@ -202,6 +253,15 @@ async function loadImagesFromDirectory() {
 
 // Show an image preview (could expand to allow deletion, etc.)
 function showImagePreview(imagePath) {
+  // Extract filename from path for display
+  let fileName = imagePath.split('/').pop();
+  
+  // If it's in the images subdirectory, also extract that information
+  const isInImagesDir = imagePath.includes('/images/');
+  if (isInImagesDir) {
+    fileName = imagePath.split('/images/')[1];
+  }
+  
   // Create a temporary overlay to show the image
   const overlay = document.createElement('div');
   overlay.style.position = 'fixed';
@@ -239,10 +299,26 @@ function showImagePreview(imagePath) {
   deleteBtn.textContent = 'Delete';
   deleteBtn.className = 'editor-btn danger';
   deleteBtn.style.marginTop = '10px';
+
+  // Add location info for the image
+  const locationInfo = document.createElement('div');
+  locationInfo.style.padding = '10px';
+  locationInfo.style.marginTop = '10px';
+  locationInfo.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+  locationInfo.style.borderRadius = '4px';
+  locationInfo.style.color = '#aaa';
+  locationInfo.style.fontSize = '12px';
+  
+  if (isInImagesDir) {
+    locationInfo.textContent = `Location: images/${fileName} (In images subdirectory)`;
+  } else {
+    locationInfo.textContent = `Location: ${fileName} (In main directory)`;
+  }
   
   imgContainer.appendChild(img);
   imgContainer.appendChild(closeBtn);
   imgContainer.appendChild(deleteBtn);
+  imgContainer.appendChild(locationInfo);
   overlay.appendChild(imgContainer);
   document.body.appendChild(overlay);
   
@@ -504,6 +580,38 @@ function renderImagePreview(imageData) {
   const previewActions = document.createElement('div');
   previewActions.className = 'preview-actions';
   
+  // Add filename edit field
+  const filenameContainer = document.createElement('div');
+  filenameContainer.className = 'filename-container';
+  filenameContainer.style.position = 'absolute';
+  filenameContainer.style.bottom = '0';
+  filenameContainer.style.left = '0';
+  filenameContainer.style.right = '0';
+  filenameContainer.style.backgroundColor = 'rgba(0,0,0,0.7)';
+  filenameContainer.style.padding = '5px';
+  filenameContainer.style.display = 'none';
+  
+  // Get the base filename without extension
+  const baseName = imageData.name.split('.')[0];
+  
+  const filenameInput = document.createElement('input');
+  filenameInput.type = 'text';
+  filenameInput.value = baseName;
+  filenameInput.className = 'filename-input';
+  filenameInput.style.width = '100%';
+  filenameInput.style.backgroundColor = '#201c46';
+  filenameInput.style.border = '1px solid #3a355e';
+  filenameInput.style.borderRadius = '4px';
+  filenameInput.style.padding = '4px';
+  filenameInput.style.color = 'white';
+  filenameInput.placeholder = 'Enter filename';
+  filenameInput.addEventListener('change', function() {
+    // Store the custom filename in the imageData
+    imageData.customFilename = this.value.trim();
+  });
+  
+  filenameContainer.appendChild(filenameInput);
+  
   const cropBtn = document.createElement('button');
   cropBtn.className = 'text-white hover:text-blue-300';
   cropBtn.innerHTML = '<i class="fas fa-crop-alt"></i>';
@@ -511,6 +619,20 @@ function renderImagePreview(imageData) {
   cropBtn.addEventListener('click', function(e) {
     e.stopPropagation();
     openCropModal(imageData.id);
+  });
+  
+  const editNameBtn = document.createElement('button');
+  editNameBtn.className = 'text-white hover:text-blue-300';
+  editNameBtn.innerHTML = '<i class="fas fa-edit"></i>';
+  editNameBtn.title = 'Edit Filename';
+  editNameBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    // Toggle filename edit field
+    if (filenameContainer.style.display === 'none') {
+      filenameContainer.style.display = 'block';
+    } else {
+      filenameContainer.style.display = 'none';
+    }
   });
   
   const deleteBtn = document.createElement('button');
@@ -523,11 +645,13 @@ function renderImagePreview(imageData) {
   });
   
   previewActions.appendChild(cropBtn);
+  previewActions.appendChild(editNameBtn);
   previewActions.appendChild(deleteBtn);
   
   previewItem.appendChild(img);
   previewItem.appendChild(checkbox);
   previewItem.appendChild(previewActions);
+  previewItem.appendChild(filenameContainer);
   
   imagePreviews.appendChild(previewItem);
 }
@@ -771,6 +895,22 @@ async function saveAllImagesToGallery() {
   const width = resizeWidth.value ? parseInt(resizeWidth.value) : null;
   const height = resizeHeight.value ? parseInt(resizeHeight.value) : null;
   const keepAspect = maintainAspect.checked;
+  const createJsonWrapper = useJsonWrapper.checked;
+  
+  console.log("Save options:", {
+    format,
+    quality,
+    width,
+    height,
+    keepAspect,
+    createJsonWrapper
+  });
+  
+  console.log("Metadata values:", {
+    title: imageTitle.value,
+    description: imageDescription.value,
+    alt: imageAltText.value
+  });
   
   // First process all images
   await Promise.all(
@@ -794,6 +934,40 @@ async function saveAllImagesToGallery() {
     return new Blob([uInt8Array], { type: contentType });
   }
   
+  // Make sure the images directory exists for this category
+  try {
+    // First check if the images directory exists
+    const imagesDir = `${currentDirectory}/images`;
+    const checkDirResponse = await fetch('/api/check-directory', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ path: imagesDir })
+    });
+    
+    const dirCheckResult = await checkDirResponse.json();
+    
+    // If directory doesn't exist, create it
+    if (!dirCheckResult.exists) {
+      const createDirResponse = await fetch('/api/create-images-directory', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ path: imagesDir })
+      });
+      
+      if (!createDirResponse.ok) {
+        throw new Error(`Failed to create images directory: ${await createDirResponse.text()}`);
+      }
+    }
+  } catch (error) {
+    console.error('Error preparing images directory:', error);
+    alert('Failed to prepare images directory. Check console for details.');
+    return;
+  }
+  
   // Now save each image
   let savedCount = 0;
   let errorCount = 0;
@@ -802,9 +976,6 @@ async function saveAllImagesToGallery() {
     try {
       const imageUrl = imageData.processedDataUrl || imageData.originalDataUrl;
       const blob = dataURLToBlob(imageUrl);
-      
-      // Create FormData with the image
-      const formData = new FormData();
       
       // Get file extension based on format
       let ext;
@@ -815,7 +986,9 @@ async function saveAllImagesToGallery() {
       }
       
       // Create a sanitized filename
-      let baseName = imageData.name.split('.')[0]
+      // Use custom filename if available, otherwise use original name
+      let baseName = imageData.customFilename || imageData.name.split('.')[0];
+      baseName = baseName
         .replace(/[^a-zA-Z0-9_]/g, '_') // Replace invalid chars with underscore
         .replace(/_{2,}/g, '_')        // Replace multiple underscores with single
         .replace(/^_|_$/g, '');        // Remove leading/trailing underscores
@@ -823,15 +996,16 @@ async function saveAllImagesToGallery() {
       if (!baseName) baseName = `image_${Date.now()}`;
       
       const fileName = `${baseName}.${ext}`;
-      const filePath = `${currentDirectory}/${fileName}`;
+      const filePath = `${currentDirectory}/images/${fileName}`;
       
       // Convert blob to File
       const file = new File([blob], fileName, { type: blob.type });
+      const formData = new FormData();
       formData.append('image', file);
       formData.append('path', filePath);
       
       // Check if file exists and confirm overwrite if needed
-      const fileExists = existingImages.some(img => img.fileName === fileName);
+      const fileExists = existingImages.some(img => img.fileName === `images/${fileName}`);
       
       if (fileExists) {
         if (!confirm(`File "${fileName}" already exists. Overwrite?`)) {
@@ -839,7 +1013,7 @@ async function saveAllImagesToGallery() {
         }
       }
       
-      // Save the file using fetch
+      // Save the image file
       const response = await fetch('/api/save-image', {
         method: 'POST',
         body: formData
@@ -847,6 +1021,71 @@ async function saveAllImagesToGallery() {
       
       if (!response.ok) {
         throw new Error(`Server returned ${response.status}: ${response.statusText}`);
+      }
+      
+      // If JSON wrapper is requested, create and save the JSON file
+      if (createJsonWrapper) {
+        console.log("Creating JSON wrapper...");
+        
+        // Get metadata values (either from user input or defaults)
+        const title = imageTitle.value.trim() || baseName;
+        const description = imageDescription.value.trim() || '';
+        const alt = imageAltText.value.trim() || fileName;
+        
+        console.log("Using metadata:", { title, description, alt });
+        
+        // Create JSON wrapper object - point to the image in the images subfolder
+        const jsonWrapper = {
+          type: "image",
+          imagePath: filePath,
+          title: title,
+          description: description,
+          alt: alt,
+          annotations: []
+        };
+        
+        // Convert to JSON string
+        const jsonContent = JSON.stringify(jsonWrapper, null, 2);
+        console.log("JSON content:", jsonContent);
+        
+        // Create JSON file
+        const jsonFileName = `${baseName}.json`;
+        const jsonFilePath = `${currentDirectory}/${jsonFileName}`;
+        
+        // Check if JSON file exists
+        const jsonExists = existingImages.some(img => img.fileName === jsonFileName);
+        
+        if (jsonExists) {
+          if (!confirm(`JSON file "${jsonFileName}" already exists. Overwrite?`)) {
+            // Skip JSON creation but count the image as saved
+            savedCount++;
+            continue;
+          }
+        }
+        
+        // Create FormData for the JSON file
+        const jsonFormData = new FormData();
+        const jsonBlob = new Blob([jsonContent], { type: 'application/json' });
+        const jsonFile = new File([jsonBlob], jsonFileName, { type: 'application/json' });
+        
+        jsonFormData.append('file', jsonFile);
+        jsonFormData.append('path', jsonFilePath);
+        
+        console.log("Sending JSON file:", jsonFileName, "to path:", jsonFilePath);
+        
+        // Save the JSON file
+        const jsonResponse = await fetch('/api/save-file', {
+          method: 'POST',
+          body: jsonFormData
+        });
+        
+        if (!jsonResponse.ok) {
+          const errorText = await jsonResponse.text();
+          console.error("Error response from server:", errorText);
+          throw new Error(`Server returned ${jsonResponse.status}: ${jsonResponse.statusText}`);
+        }
+        
+        console.log("JSON wrapper saved successfully");
       }
       
       savedCount++;
@@ -862,6 +1101,11 @@ async function saveAllImagesToGallery() {
   } else {
     alert(`All ${savedCount} images saved successfully!`);
   }
+  
+  // Reset metadata fields
+  imageTitle.value = '';
+  imageDescription.value = '';
+  imageAltText.value = '';
   
   // Reload images from directory
   await loadImagesFromDirectory();
