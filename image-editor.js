@@ -37,6 +37,7 @@ const imageMetadataPanel = document.getElementById('imageMetadataPanel');
 const imageTitle = document.getElementById('imageTitle');
 const imageDescription = document.getElementById('imageDescription');
 const imageAltText = document.getElementById('imageAltText');
+const imageFilename = document.getElementById('imageFilename');
 
 // Crop Modal Elements
 const cropModal = document.getElementById('cropModal');
@@ -791,6 +792,9 @@ function renderImagePreview(imageData) {
     
     // Fill in metadata from current image
     imageTitle.value = imageData.customFilename || baseName;
+    imageDescription.value = '';
+    imageAltText.value = '';
+    imageFilename.value = '';
     
     // Focus on the title field
     imageTitle.focus();
@@ -1081,10 +1085,32 @@ async function saveAllImagesToGallery() {
     createJsonWrapper
   });
   
+  // Get the title value if it exists, to be used as the common filename
+  let commonFilename = '';
+  if (createJsonWrapper) {
+    if (imageFilename.value.trim()) {
+      // If explicit filename is provided, use that
+      commonFilename = imageFilename.value.trim();
+    } else if (imageTitle.value.trim()) {
+      // Otherwise, fall back to title if available
+      commonFilename = imageTitle.value.trim();
+    }
+    
+    // Sanitize the filename
+    if (commonFilename) {
+      commonFilename = commonFilename
+        .replace(/[^a-zA-Z0-9_]/g, '_') // Replace invalid chars with underscore
+        .replace(/_{2,}/g, '_')        // Replace multiple underscores with single
+        .replace(/^_|_$/g, '');        // Remove leading/trailing underscores
+    }
+  }
+  
   console.log("Metadata values:", {
     title: imageTitle.value,
     description: imageDescription.value,
-    alt: imageAltText.value
+    alt: imageAltText.value,
+    filename: imageFilename.value,
+    commonFilename: commonFilename
   });
   
   // First process all images
@@ -1161,12 +1187,23 @@ async function saveAllImagesToGallery() {
       }
       
       // Create a sanitized filename
-      // Use custom filename if available, otherwise use original name
-      let baseName = imageData.customFilename || imageData.name.split('.')[0];
-      baseName = baseName
-        .replace(/[^a-zA-Z0-9_]/g, '_') // Replace invalid chars with underscore
-        .replace(/_{2,}/g, '_')        // Replace multiple underscores with single
-        .replace(/^_|_$/g, '');        // Remove leading/trailing underscores
+      // If there's a common filename, use that, otherwise use the image's custom filename or original name
+      let baseName = '';
+      
+      if (commonFilename && images.length === 1) {
+        // If there's only one image and a common filename, use it directly
+        baseName = commonFilename;
+      } else if (commonFilename && images.length > 1) {
+        // If there are multiple images and a common filename, add an index
+        baseName = `${commonFilename}_${savedCount + 1}`;
+      } else {
+        // Use custom filename if available, otherwise use original name
+        baseName = imageData.customFilename || imageData.name.split('.')[0];
+        baseName = baseName
+          .replace(/[^a-zA-Z0-9_]/g, '_') // Replace invalid chars with underscore
+          .replace(/_{2,}/g, '_')        // Replace multiple underscores with single
+          .replace(/^_|_$/g, '');        // Remove leading/trailing underscores
+      }
       
       if (!baseName) baseName = `image_${Date.now()}`;
       
@@ -1281,6 +1318,7 @@ async function saveAllImagesToGallery() {
   imageTitle.value = '';
   imageDescription.value = '';
   imageAltText.value = '';
+  imageFilename.value = '';
   
   // Reload images from directory
   await loadImagesFromDirectory();
@@ -1310,4 +1348,17 @@ function closeNewDirectoryDialog() {
 // Show error message
 function showErrorMessage(message) {
   alert(message);
+}
+
+.cropper-container {
+  max-width: 100%;
+  max-height: 70vh;
+  margin: 0 auto;
+}
+/* Override Cropper.js styles to match our theme */
+.cropper-view-box {
+  outline: 1px solid #f48c06;
+}
+.cropper-point {
+  background-color: #f48c06;
 } 

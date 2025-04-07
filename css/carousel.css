@@ -105,6 +105,16 @@ figure div {
 	text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
+/* Make image poster titles smaller than standard poster titles */
+figure.image-poster-figure div.title {
+	font-size: 0.8em; /* Smaller font size for image poster titles */
+	max-width: 90%; /* Prevent text from overflowing */
+	padding: 0.3em; /* Add some padding */
+	background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background for better readability */
+	border-radius: 4px;
+	margin-top: 0.5em; /* Space between image and title */
+}
+
 /* Remove any existing background-blend-mode or opacity effects */
 article header, figure::after {
 	opacity: 1;  /* Ensure full opacity */
