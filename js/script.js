@@ -264,6 +264,8 @@ async function loadJourney(journeyFilename) {
 		} else {
 			const postersContainer = document.getElementById('posters-container');
 			postersContainer.innerHTML = '<div class="empty-journey">This journey does not contain any posters.</div>';
+			// Set --n to 0 for empty journeys to ensure CSS works properly
+			document.documentElement.style.setProperty('--n', 0);
 		}
 	} catch (error) {
 		console.error('Error loading journey:', error);
@@ -308,6 +310,10 @@ async function loadJourneyPosters(postersList) {
 				console.warn(`Failed to process poster: ${filePath}`, error);
 			}
 		}
+		
+		// Important: Set the --n CSS variable to the number of posters
+		// This is critical for the circular carousel to work properly
+		document.documentElement.style.setProperty('--n', postersData.length);
 		
 		// Create DOM elements for each poster in the journey's order
 		for (let i = 0; i < postersData.length; i++) {

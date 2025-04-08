@@ -3,6 +3,18 @@
   "description": "",
   "posters": [
     {
+      "path": "JSON_Posters/Competitors/pasted_image_sad.json",
+      "type": "image",
+      "title": "sdfg",
+      "thumbnail": "JSON_Posters/Competitors/images/pasted_image_sad.webp"
+    },
+    {
+      "path": "JSON_Posters/externalWeb/elevenLabs.json",
+      "type": "website",
+      "title": "ElevenLabs",
+      "thumbnail": "path/to/optional/thumbnail.png"
+    },
+    {
       "path": "JSON_Posters/Competitors/Alibaba.json",
       "type": "json",
       "title": "Alibaba",
@@ -37,8 +49,14 @@
       "type": "website",
       "title": "Kling",
       "thumbnail": ""
+    },
+    {
+      "path": "JSON_Posters/externalWeb/Sora.json",
+      "type": "website",
+      "title": "Sora",
+      "thumbnail": "path/to/optional/thumbnail.png"
     }
   ],
-  "dateCreated": "2025-04-08T10:01:44.590Z",
-  "dateModified": "2025-04-08T10:01:44.590Z"
+  "dateCreated": "2025-04-08T11:06:37.252Z",
+  "dateModified": "2025-04-08T11:06:37.252Z"
 }
