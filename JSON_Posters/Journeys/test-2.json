@@ -1,0 +1,86 @@
+{
+  "name": "test 2",
+  "description": "",
+  "posters": [
+    {
+      "path": "JSON_Posters/LLMmodels/bert.json",
+      "type": "json",
+      "title": "BERT",
+      "thumbnail": ""
+    },
+    {
+      "path": "JSON_Posters/LLMmodels/cnn.json",
+      "type": "json",
+      "title": "CNN",
+      "thumbnail": ""
+    },
+    {
+      "path": "JSON_Posters/LLMmodels/diffusion.json",
+      "type": "json",
+      "title": "Diffusion",
+      "thumbnail": ""
+    },
+    {
+      "path": "JSON_Posters/LLMmodels/rnn.json",
+      "type": "json",
+      "title": "RNN",
+      "thumbnail": ""
+    },
+    {
+      "path": "JSON_Posters/LLMmodels/state_space.json",
+      "type": "json",
+      "title": "State Space Model",
+      "thumbnail": ""
+    },
+    {
+      "path": "JSON_Posters/Philosophers/Hobbes.json",
+      "type": "json",
+      "title": "Thomas Hobbes",
+      "thumbnail": ""
+    },
+    {
+      "path": "JSON_Posters/Philosophers/Leibniz.json",
+      "type": "json",
+      "title": "Gottfried Wilhelm Leibniz",
+      "thumbnail": ""
+    },
+    {
+      "path": "JSON_Posters/Pioneers/Allen_Newell.json",
+      "type": "json",
+      "title": "Allen Newell",
+      "thumbnail": ""
+    },
+    {
+      "path": "JSON_Posters/Pioneers/Marvin_Minsky.json",
+      "type": "json",
+      "title": "Marvin Minsky",
+      "thumbnail": ""
+    },
+    {
+      "path": "JSON_Posters/Pioneers/Walter_Pitts.json",
+      "type": "json",
+      "title": "Walter Pitts",
+      "thumbnail": ""
+    },
+    {
+      "path": "JSON_Posters/Testing_linkPosters/Kling.json",
+      "type": "website",
+      "title": "Kling",
+      "thumbnail": ""
+    },
+    {
+      "path": "JSON_Posters/Topics/futurism.json",
+      "type": "json",
+      "title": "Futurism",
+      "thumbnail": ""
+    },
+    {
+      "path": "JSON_Posters/Topics/modalities.json",
+      "type": "json",
+      "title": "Modalities",
+      "thumbnail": ""
+    }
+  ],
+  "dateCreated": "2025-04-08T10:55:08.492Z",
+  "dateModified": "2025-04-08T10:55:08.492Z"
+}

@@ -280,6 +280,8 @@ async function loadJourneyPosters(postersList) {
 		postersContainer.innerHTML = '';
 		
 		let postersData = [];
+		const imageExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.webp'];
+		const includedImages = new Set();
 		
 		// Load each poster from the journey
 		for (let i = 0; i < postersList.length; i++) {
@@ -294,8 +296,12 @@ async function loadJourneyPosters(postersList) {
 				}
 				
 				const posterData = await posterResponse.json();
-				// Determine the poster type
 				const type = posterData.type || 'json';
+				
+				// If this is an image JSON wrapper, remember the image path
+				if (type === 'image' && posterData.imagePath) {
+					includedImages.add(posterData.imagePath);
+				}
 				
 				postersData.push({ type, data: posterData, path: filePath });
 			} catch (error) {
@@ -313,28 +319,235 @@ async function loadJourneyPosters(postersList) {
 			const header = document.createElement('header');
 			const figure = document.createElement('figure');
 			
-			// Process the poster based on its type
-			// This is similar to the code in loadPosters function but simplified for brevity
+			// Process the poster based on its type - use the same rendering as in loadPosters
 			if (poster.type === 'json') {
 				const posterData = poster.data;
-				// Create header (back side)
+				// Create header (back side) - JSON
 				if (posterData.header) {
-					header.innerHTML = `<p>${posterData.header}</p>`;
+					let formattedText = posterData.header;
+					if (formattedText.includes('\\n\\n')) {
+						formattedText = formattedText.replace(/\\n\\n/g, '</p><p>');
+						header.innerHTML = `<p>${formattedText}</p>`;
+					} else if (formattedText.includes('\n\n')) {
+						const paragraphs = formattedText.split('\n\n');
+						header.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join('');
+					} else {
+						header.innerHTML = `<p>${formattedText}</p>`;
+					}
 				}
-				
-				// Create figure (front side)
-				figure.innerHTML = `<div class="title">${posterData.figure}</div>`;
-				
+
+				// Create figure (front side) - JSON
+				let figureHTML = `<div class="title">${posterData.figure}</div>`;
 				if (posterData.chronology) {
-					// Add chronology display if present
-					// ... (same code as in loadPosters)
+					figureHTML += `<div class="chronology-display">`;
+					const hasStart = posterData.chronology.epochStart !== null && posterData.chronology.epochStart !== undefined;
+					const hasEnd = posterData.chronology.epochEnd !== null && posterData.chronology.epochEnd !== undefined;
+					if (hasStart && hasEnd) {
+						figureHTML += `<div class="timeline-dates"><span class="timeline-span">${posterData.chronology.epochStart} — ${posterData.chronology.epochEnd}</span></div>`;
+					} else if (hasStart) {
+						figureHTML += `<div class="timeline-dates"><span class="timeline-start">${posterData.chronology.epochStart}</span></div>`;
+					} else if (hasEnd) {
+						figureHTML += `<div class="timeline-dates"><span class="timeline-end">${posterData.chronology.epochEnd}</span></div>`;
+					}
+					if (posterData.chronology.epochEvents && posterData.chronology.epochEvents.length > 0) {
+						figureHTML += `<div class="timeline-events">`;
+						posterData.chronology.epochEvents.forEach(event => {
+							figureHTML += `<div class="event"><span class="year">${event.year}</span>: ${event.name}</div>`;
+						});
+						figureHTML += `</div>`;
+					}
+					figureHTML += `</div>`;
 				}
+				figure.innerHTML = figureHTML;
 			} else if (poster.type === 'image') {
-				// Handle image type posters
-				// ... (same code as in loadPosters)
+				// Get the image data from the JSON wrapper
+				const imageData = poster.data;
+				const imagePath = imageData.imagePath;
+				const title = imageData.title || '';
+				const description = imageData.description || '';
+				const altText = imageData.alt || imagePath.split('/').pop();
+				
+				// Create header (back side) - Display the image and description
+				header.classList.add('image-poster-header');
+				
+				// Create a container for the image and description
+				const imageContainer = document.createElement('div');
+				imageContainer.classList.add('image-container');
+				
+				// Add the image
+				const headerImg = document.createElement('img');
+				headerImg.src = imagePath;
+				headerImg.alt = altText;
+				headerImg.classList.add('fullsize-image');
+				imageContainer.appendChild(headerImg);
+				
+				// Add description if available
+				if (description) {
+					const descriptionElem = document.createElement('div');
+					descriptionElem.classList.add('image-description');
+					descriptionElem.innerHTML = `<p>${description}</p>`;
+					imageContainer.appendChild(descriptionElem);
+				}
+				
+				header.appendChild(imageContainer);
+
+				// Create figure (front side) - Image with optional title
+				figure.classList.add('image-poster-figure');
+				
+				// Add the image
+				const img = document.createElement('img');
+				img.src = imagePath;
+				img.alt = altText;
+				figure.appendChild(img);
+				
+				// Add title if available
+				if (title) {
+					const titleElem = document.createElement('div');
+					titleElem.classList.add('title');
+					titleElem.textContent = title;
+					figure.appendChild(titleElem);
+				}
+				
+				// Add annotations if available
+				if (imageData.annotations && imageData.annotations.length > 0) {
+					const annotationsContainer = document.createElement('div');
+					annotationsContainer.classList.add('annotations-container');
+					
+					imageData.annotations.forEach(annotation => {
+						const annotationElem = document.createElement('div');
+						annotationElem.classList.add('annotation');
+						annotationElem.textContent = annotation.text;
+						
+						// Set position if available
+						if (annotation.position) {
+							annotationElem.style.left = `${annotation.position.x}%`;
+							annotationElem.style.top = `${annotation.position.y}%`;
+						}
+						
+						annotationsContainer.appendChild(annotationElem);
+					});
+					
+					figure.appendChild(annotationsContainer);
+				}
 			} else if (poster.type === 'website') {
-				// Handle website type posters
-				// ... (same code as in loadPosters)
+				// Get the website data
+				const websiteData = poster.data;
+				const url = websiteData.url;
+				const title = websiteData.title || url;
+				const description = websiteData.description || '';
+				const thumbnail = websiteData.thumbnail;
+				
+				// Create header (back side) - Website preview
+				header.classList.add('website-poster-header');
+				
+				// Create website preview container
+				const previewContainer = document.createElement('div');
+				previewContainer.classList.add('website-preview-container');
+				
+				// Create website info section
+				const websiteInfo = document.createElement('div');
+				websiteInfo.classList.add('website-info');
+				
+				// Add website icon if available
+				if (thumbnail) {
+					const iconContainer = document.createElement('div');
+					iconContainer.classList.add('website-icon');
+					
+					const iconImg = document.createElement('img');
+					iconImg.src = thumbnail;
+					iconImg.alt = `${title} icon`;
+					
+					iconContainer.appendChild(iconImg);
+					websiteInfo.appendChild(iconContainer);
+				}
+				
+				// Add title
+				const titleElem = document.createElement('h2');
+				titleElem.textContent = title;
+				websiteInfo.appendChild(titleElem);
+				
+				// Add URL
+				const urlElem = document.createElement('div');
+				urlElem.classList.add('website-url');
+				urlElem.textContent = url;
+				websiteInfo.appendChild(urlElem);
+				
+				// Add description if available
+				if (description) {
+					const descriptionElem = document.createElement('div');
+					descriptionElem.classList.add('website-description');
+					descriptionElem.textContent = description;
+					websiteInfo.appendChild(descriptionElem);
+				}
+				
+				// Add "Open Website" button
+				const buttonsContainer = document.createElement('div');
+				buttonsContainer.classList.add('website-buttons');
+				
+				const openButton = document.createElement('a');
+				openButton.href = url;
+				openButton.target = '_blank';
+				openButton.rel = 'noopener noreferrer';
+				openButton.classList.add('website-open-button');
+				openButton.textContent = 'Visit Website';
+				
+				buttonsContainer.appendChild(openButton);
+				websiteInfo.appendChild(buttonsContainer);
+				
+				// Add thumbnail container if available
+				if (thumbnail) {
+					const thumbnailContainer = document.createElement('div');
+					thumbnailContainer.classList.add('thumbnail-container');
+					
+					const thumbnailImg = document.createElement('img');
+					thumbnailImg.src = thumbnail;
+					thumbnailImg.alt = `${title} preview`;
+					thumbnailImg.classList.add('website-thumbnail');
+					
+					thumbnailContainer.appendChild(thumbnailImg);
+					previewContainer.appendChild(thumbnailContainer);
+				}
+				
+				// Add website info to preview container
+				previewContainer.appendChild(websiteInfo);
+				
+				// Add preview container to header
+				header.appendChild(previewContainer);
+				
+				// Create figure (front side) - Website preview
+				figure.classList.add('website-poster-figure');
+				
+				// Create website frontside container
+				const websiteFrontsideContainer = document.createElement('div');
+				websiteFrontsideContainer.classList.add('website-frontside-container');
+				
+				// Add website icon
+				const frontIconContainer = document.createElement('div');
+				frontIconContainer.classList.add('website-frontside-icon');
+				
+				const frontIconImg = document.createElement('img');
+				frontIconImg.src = thumbnail || './logos/globe-icon.png'; // Fallback to a default icon
+				frontIconImg.alt = `${title} icon`;
+				
+				frontIconContainer.appendChild(frontIconImg);
+				websiteFrontsideContainer.appendChild(frontIconContainer);
+				
+				// Add title
+				const frontTitleElem = document.createElement('div');
+				frontTitleElem.classList.add('title');
+				frontTitleElem.textContent = title;
+				websiteFrontsideContainer.appendChild(frontTitleElem);
+				
+				// Add brief description if available
+				if (description) {
+					const briefDesc = document.createElement('div');
+					briefDesc.classList.add('website-brief-description');
+					briefDesc.textContent = description.length > 100 ? description.substring(0, 97) + '...' : description;
+					websiteFrontsideContainer.appendChild(briefDesc);
+				}
+				
+				// Add frontside container to figure
+				figure.appendChild(websiteFrontsideContainer);
 			}
 			
 			// Add the header and figure to the article
