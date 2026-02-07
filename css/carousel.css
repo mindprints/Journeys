@@ -44,7 +44,7 @@ article {
 	width: var(--w);
 	aspect-ratio: var(--r);
 	transform:
-		rotate3d(var(--dir), calc(1 - var(--dir)), 0, calc(var(--j)*1turn)) translatez(var(--z)) rotate(calc(var(--dir)*.5turn)) scale(calc(1 + var(--hov)));
+		rotate3d(var(--dir), calc(1 - var(--dir)), 0, calc(var(--j)*1turn)) translatez(var(--z)) rotate(calc(var(--dir)*.5turn)) scale(calc(1 + var(--hov)*2));
 	transition: transform 0.35s ease-out;
 
 	header {
@@ -73,34 +73,54 @@ figure {
 	background: #2a2359;
 	pointer-events: auto;
 	/* Enable click events */
-	transition: .35s ease-out;
+	transition: .5s ease-out;
 	transition-property: rotate, transform, --ang;
 }
 
-/* Back side */
+/* Back side - container for rotated content */
 article header {
-	font-size: 0.45em;
-	/* Further reduced font size for better fit without scrolling */
-	line-height: 1.4;
-	padding: 1.8em;
+	font-size: var(--v2-live-header-scale, 0.5em);
+	line-height: 1.2;
+	padding: 0;
+	/* Remove padding - it goes on the content wrapper */
 	text-align: left;
 	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	overflow-y: auto;
-	/* Add scrolling only if absolutely necessary */
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	/* Changed from overflow-y: auto */
 	max-height: 100%;
-	/* Ensure it doesn't overflow */
-	transform: rotateZ(calc(var(--hov) * 90deg));
+	/* Apply both Y-axis flip and X-axis tilt */
+	rotate: y calc(var(--hov)*.5turn);
+	transform: rotateX(calc(var(--hov) * -2deg))rotateZ(calc(var(--hov) * 90deg));
 	transform-origin: center;
 }
 
+/* Legacy content (for old json/image posters without v2-back-content wrapper) */
 article header p {
 	margin: 0 0 1em 0;
 }
 
 article header p:last-child {
 	margin-bottom: 0;
+}
+
+/* V2 Poster content wrapper - 16:9 frame rotated to landscape orientation */
+article header .v2-back-frame {
+	aspect-ratio: 16 / 9;
+	width: var(--v2-back-frame-width, 100%);
+	height: var(--v2-back-frame-height, auto);
+	max-height: var(--v2-back-frame-max-height, 100%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transform: rotate(-90deg) scale(var(--v2-back-scale, 1));
+	transform-origin: center center;
+}
+
+article header .v2-back-frame .v2-back-content {
+	width: 100%;
+	height: 100%;
 }
 
 /* Front side */

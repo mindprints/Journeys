@@ -1,0 +1,52 @@
+{
+  "version": 2,
+  "uid": "poster-mlcvpqgaewj1ifg9r",
+  "front": {
+    "title": "Andrej Karpathy",
+    "subtitle": "AI researcher and educator"
+  },
+  "back": {
+    "layout": "auto",
+    "text": "**Andrej Karpathy** is an AI researcher and educator known for making deep learning approachable through clear explanations and practical tooling. He was a founding member of OpenAI and later led AI at Tesla, helping advance computer vision and autonomy systems. More recently he has focused on large language models, developer experience, and teaching how to build with modern AI systems.\n\n**Focus areas**\n- Neural networks and representation learning\n- Computer vision and multimodal systems\n- LLM training, evaluation, and deployment\n- AI education and developer tooling\n\n**Notes**\nThis profile includes a small amount of placeholder detail where specific dates are not listed.",
+    "image": {
+      "src": "images/originals/Frege.webp",
+      "alt": "",
+      "position": "top"
+    },
+    "links": [
+      {
+        "type": "external",
+        "label": "Personal site",
+        "url": "https://karpathy.ai",
+        "primary": true
+      },
+      {
+        "type": "external",
+        "label": "GitHub",
+        "url": "https://github.com/karpathy"
+      },
+      {
+        "type": "external",
+        "label": "YouTube",
+        "url": "https://www.youtube.com/@AndrejKarpathy"
+      },
+      {
+        "type": "external",
+        "label": "X (Twitter)",
+        "url": "https://x.com/karpathy"
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-07T12:00:00.000Z",
+    "modified": "2026-02-07T22:21:42.058Z",
+    "tags": [
+      "VIPs",
+      "AI",
+      "deep learning",
+      "education",
+      "LLMs",
+      "computer vision"
+    ]
+  }
+}

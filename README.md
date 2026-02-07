@@ -7,6 +7,7 @@ An interactive, scroll-driven 3D poster gallery for exploring AI timelines, imag
 - Poster types: timeline JSON posters, image posters (JSON-wrapped or direct images), and website posters.
 - Built-in editors for posters, images, websites, and journeys.
 - Express API that serves static assets and persists JSON/image content to `JSON_Posters`.
+- Unified v2 poster backs render in a 16:9 layout with tunable CSS variables.
 
 ## How the Scroll-Driven Carousel Works
 The core animation is CSS-only, driven by a scroll-timeline:
@@ -46,6 +47,29 @@ This creates a scroll-driven 3D carousel without manual frame-by-frame JS animat
 - `journey-editor.html`: Journey builder (ordered poster lists).
 
 ## Poster Data Formats
+### Unified v2 poster
+```json
+{
+  "version": 2,
+  "uid": "poster-123",
+  "front": {
+    "title": "Poster Title",
+    "subtitle": "Optional subtitle"
+  },
+  "back": {
+    "layout": "auto",
+    "text": "Markdown-supported back content",
+    "links": [
+      { "type": "external", "label": "Primary", "primary": true, "url": "https://example.com" }
+    ]
+  },
+  "meta": {
+    "categories": ["VIPs"],
+    "tags": ["AI", "research"]
+  }
+}
+```
+
 ### Timeline JSON poster
 ```json
 {
@@ -94,6 +118,15 @@ Direct images placed in category folders (or `images/` subfolders) are also disp
 - Image Editor: Drag/drop or paste images, crop/resize, and optionally generate JSON wrappers.
 - Website Editor: Build URL posters with optional thumbnails.
 - Journey Editor: Curate ordered poster lists saved in `JSON_Posters/Journeys`.
+
+## V2 Back Tuning
+Use the live tuner to match the v2 back layout between the carousel and the editor preview.
+
+1. Start the server: `npm run dev`
+2. Open `http://localhost:3000/v2-back-tuner.html?directory=JSON_Posters/VIPs&poster=Andrej_Karpathy.json`
+3. Adjust sliders and copy the CSS variables into `css/poster-v2.css`
+
+The tuner also broadcasts changes to the live carousel via `BroadcastChannel`.
 
 ## API Overview
 The Express server serves static files and exposes endpoints for editors:

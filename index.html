@@ -82,6 +82,41 @@
   <script src="js/lib/snarkdown.min.js"></script>
   <script src="js/loadPosters.js"></script>
   <script src="js/script.js"></script>
+  <script>
+    (function () {
+      const channel = 'v2-back-tuner';
+      const storageKey = 'v2-back-tuner';
+
+      const applyVars = (payload) => {
+        if (!payload || !payload.vars) return;
+        Object.entries(payload.vars).forEach(([key, value]) => {
+          document.documentElement.style.setProperty(key, value);
+        });
+      };
+
+      try {
+        const stored = localStorage.getItem(storageKey);
+        if (stored) applyVars(JSON.parse(stored));
+      } catch (err) {
+        console.warn('Failed to load tuner vars', err);
+      }
+
+      window.addEventListener('storage', (event) => {
+        if (event.key === storageKey && event.newValue) {
+          try {
+            applyVars(JSON.parse(event.newValue));
+          } catch (err) {
+            console.warn('Failed to parse tuner vars', err);
+          }
+        }
+      });
+
+      if ('BroadcastChannel' in window) {
+        const channelInstance = new BroadcastChannel(channel);
+        channelInstance.addEventListener('message', (event) => applyVars(event.data));
+      }
+    })();
+  </script>
 </body>
 
 </html>

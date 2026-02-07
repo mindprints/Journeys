@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>V2 Back Tuner</title>
+  <link rel="stylesheet" href="css/carousel.css" />
+  <link rel="stylesheet" href="css/poster-v2.css" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #0d0a1f;
+      color: #e6e6f0;
+      font-family: "Saira", sans-serif;
+      display: grid;
+      grid-template-columns: minmax(260px, 320px) 1fr;
+      min-height: 100vh;
+      gap: 1em;
+      padding: 1em;
+    }
+    .panel {
+      background: #1a153d;
+      border-radius: 10px;
+      padding: 1em;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9em;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    }
+    .panel h1 {
+      font-size: 1.1em;
+      margin: 0;
+    }
+    .control {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.6em;
+      align-items: center;
+    }
+    .control label {
+      font-size: 0.85em;
+      color: #c8c8e8;
+    }
+    .control input[type="range"] {
+      width: 100%;
+    }
+    .control output {
+      font-size: 0.8em;
+      color: #f4c267;
+      min-width: 4ch;
+      text-align: right;
+    }
+    .buttons {
+      display: flex;
+      gap: 0.5em;
+      margin-top: 0.5em;
+    }
+    button {
+      padding: 0.45em 0.8em;
+      border: none;
+      border-radius: 6px;
+      background: #3a355e;
+      color: #fff;
+      cursor: pointer;
+    }
+    button.primary { background: #4a95ee; }
+    .stage {
+      background: #1a153d;
+      border-radius: 10px;
+      padding: 1em;
+      display: grid;
+      place-items: center;
+      min-height: 90vh;
+      overflow: hidden;
+    }
+    .stage section {
+      display: grid;
+      place-items: center;
+      transform: none !important;
+      translate: none !important;
+      rotate: none !important;
+    }
+    .stage article {
+      --hov: 0;
+      --n: 1;
+      --i: 0;
+      width: min(520px, 90vw);
+      aspect-ratio: 2 / 3;
+      display: grid;
+      place-items: center;
+      transform: none !important;
+      transition: none !important;
+    }
+    .stage article header {
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .stage article figure {
+      display: none !important;
+    }
+    .stage .tuner-note {
+      margin-top: 0.75em;
+      font-size: 0.8em;
+      color: #a9a2d0;
+    }
+  </style>
+</head>
+<body>
+  <aside class="panel">
+    <h1>V2 Back Tuner</h1>
+    <div class="control">
+      <label for="live-header-scale">Live header scale</label>
+      <input id="live-header-scale" type="range" min="0.4" max="1" step="0.01" value="0.5" data-var="--v2-live-header-scale" data-unit="em" />
+      <output id="live-header-scale-value">0.5em</output>
+    </div>
+    <div class="control">
+      <label for="back-scale">Back frame scale</label>
+      <input id="back-scale" type="range" min="0.6" max="1.6" step="0.01" value="1" data-var="--v2-back-scale" data-unit="" />
+      <output id="back-scale-value">1</output>
+    </div>
+    <div class="control">
+      <label for="frame-width">Frame width %</label>
+      <input id="frame-width" type="range" min="50" max="260" step="1" value="100" data-var="--v2-back-frame-width" data-unit="%" />
+      <output id="frame-width-value">100%</output>
+    </div>
+    <div class="control">
+      <label for="frame-height">Frame height %</label>
+      <input id="frame-height" type="range" min="50" max="200" step="1" value="100" data-var="--v2-back-frame-height" data-unit="%" />
+      <output id="frame-height-value">100%</output>
+    </div>
+    <div class="control">
+      <label for="frame-max-height">Frame max height %</label>
+      <input id="frame-max-height" type="range" min="50" max="200" step="1" value="100" data-var="--v2-back-frame-max-height" data-unit="%" />
+      <output id="frame-max-height-value">100%</output>
+    </div>
+    <div class="control">
+      <label for="header-font">Header font size</label>
+      <input id="header-font" type="range" min="0.7" max="1.5" step="0.01" value="1" data-var="--v2-back-header-font-size" data-unit="rem" />
+      <output id="header-font-value">1rem</output>
+    </div>
+    <div class="control">
+      <label for="title-size">Title size</label>
+      <input id="title-size" type="range" min="1.0" max="1.8" step="0.01" value="1.35" data-var="--v2-back-title-size" data-unit="em" />
+      <output id="title-size-value">1.35em</output>
+    </div>
+    <div class="control">
+      <label for="text-size">Body font size</label>
+      <input id="text-size" type="range" min="0.6" max="1.1" step="0.01" value="0.8" data-var="--v2-back-text-size" data-unit="em" />
+      <output id="text-size-value">0.8em</output>
+    </div>
+    <div class="control">
+      <label for="line-height">Line height</label>
+      <input id="line-height" type="range" min="1.2" max="2.0" step="0.01" value="1.55" data-var="--v2-back-text-line-height" data-unit="" />
+      <output id="line-height-value">1.55</output>
+    </div>
+    <div class="control">
+      <label for="content-padding">Content padding</label>
+      <input id="content-padding" type="range" min="0.6" max="1.6" step="0.01" value="1.1" data-var="--v2-back-padding" data-unit="em" />
+      <output id="content-padding-value">1.1em</output>
+    </div>
+    <div class="control">
+      <label for="grid-gap">Grid gap</label>
+      <input id="grid-gap" type="range" min="0.4" max="1.2" step="0.01" value="0.8" data-var="--v2-back-grid-gap" data-unit="em" />
+      <output id="grid-gap-value">0.8em</output>
+    </div>
+    <div class="control">
+      <label for="panel-title-size">Panel title size</label>
+      <input id="panel-title-size" type="range" min="0.45" max="0.8" step="0.01" value="0.6" data-var="--v2-back-panel-title-size" data-unit="em" />
+      <output id="panel-title-size-value">0.6em</output>
+    </div>
+    <div class="control">
+      <label for="badge-size">Badge size</label>
+      <input id="badge-size" type="range" min="0.45" max="0.8" step="0.01" value="0.55" data-var="--v2-back-badge-size" data-unit="em" />
+      <output id="badge-size-value">0.55em</output>
+    </div>
+    <div class="control">
+      <label for="link-size">Link size</label>
+      <input id="link-size" type="range" min="0.6" max="1.0" step="0.01" value="0.8" data-var="--v2-back-link-size" data-unit="em" />
+      <output id="link-size-value">0.8em</output>
+    </div>
+    <div class="buttons">
+      <button class="primary" id="reset-btn">Reset</button>
+      <button id="copy-btn">Copy CSS vars</button>
+    </div>
+    <textarea id="vars-output" rows="6" readonly style="width: 100%; background: #11102b; color: #d9d9ff; border: 1px solid #3a355e; border-radius: 6px; padding: 0.6em;"></textarea>
+  </aside>
+
+  <main class="stage">
+    <section class="assembly" id="posters-container"></section>
+    <div class="tuner-note" id="tuner-status">Loading poster...</div>
+  </main>
+
+  <script src="js/lib/snarkdown.min.js"></script>
+  <script src="js/loadPosters.js"></script>
+  <script>
+    const controls = Array.from(document.querySelectorAll('input[type="range"][data-var]'));
+    const output = document.getElementById('vars-output');
+    const channel = 'v2-back-tuner';
+    const storageKey = 'v2-back-tuner';
+    const broadcaster = 'BroadcastChannel' in window ? new BroadcastChannel(channel) : null;
+    const status = document.getElementById('tuner-status');
+
+    const collectVars = () => {
+      const vars = {};
+      controls.forEach((input) => {
+        const variable = input.dataset.var;
+        const unit = input.dataset.unit || '';
+        vars[variable] = input.value + unit;
+      });
+      return vars;
+    };
+
+    const emitVars = () => {
+      const vars = collectVars();
+      const payload = { vars, updatedAt: Date.now() };
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(payload));
+      } catch (err) {
+        console.warn('localStorage update failed', err);
+      }
+      if (broadcaster) {
+        broadcaster.postMessage(payload);
+      }
+    };
+
+    const updateVar = (input) => {
+      const variable = input.dataset.var;
+      const unit = input.dataset.unit || '';
+      const value = input.value + unit;
+      document.documentElement.style.setProperty(variable, value);
+      const out = document.getElementById(`${input.id}-value`);
+      if (out) out.textContent = value;
+      updateOutput();
+      emitVars();
+    };
+
+    const updateOutput = () => {
+      const lines = controls.map((input) => {
+        const variable = input.dataset.var;
+        const unit = input.dataset.unit || '';
+        return `${variable}: ${input.value}${unit};`;
+      });
+      output.value = lines.join('\n');
+    };
+
+    controls.forEach((input) => {
+      input.addEventListener('input', () => updateVar(input));
+      updateVar(input);
+    });
+
+    document.getElementById('reset-btn').addEventListener('click', () => {
+      controls.forEach((input) => {
+        input.value = input.defaultValue;
+        updateVar(input);
+      });
+    });
+
+    document.getElementById('copy-btn').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(output.value);
+      } catch (err) {
+        console.warn('Copy failed', err);
+      }
+    });
+
+    const loadPosterForTuning = async () => {
+      const params = new URLSearchParams(window.location.search);
+      const directory = params.get('directory') || 'JSON_Posters/VIPs';
+      const filename = params.get('poster') || 'Andrej_Karpathy.json';
+      const baseParam = params.get('base');
+      const isHttp = window.location.protocol === 'http:' || window.location.protocol === 'https:';
+      const baseUrl = baseParam || (isHttp ? '' : 'http://localhost:3000');
+
+      if (!isHttp && !baseParam) {
+        const suggested = `${baseUrl}/v2-back-tuner.html?directory=${encodeURIComponent(directory)}&poster=${encodeURIComponent(filename)}`;
+        status.innerHTML = `Open via server to avoid CORS: <a href="${suggested}" style="color:#4a95ee;">${suggested}</a>`;
+        return;
+      }
+
+      try {
+        const response = await fetch(`${baseUrl}/api/posters-in-directory?directory=${encodeURIComponent(directory)}`);
+        if (!response.ok) {
+          throw new Error(`Failed to load posters (${response.status})`);
+        }
+        const posters = await response.json();
+        const match = posters.find(p => p.filename === filename || p.path?.endsWith(`/${filename}`));
+        const poster = match || posters.find(p => p.type === 'poster-v2') || posters[0];
+
+        if (!poster) {
+          status.textContent = 'No poster data found for tuning.';
+          return;
+        }
+
+        await window.loadPosters([poster]);
+        status.textContent = `Tuning: ${poster.front?.title || poster.data?.figure || poster.filename || filename}`;
+      } catch (err) {
+        console.error(err);
+        status.textContent = 'Failed to load poster data.';
+      }
+    };
+
+    loadPosterForTuning();
+  </script>
+</body>
+</html>

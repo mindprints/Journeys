@@ -766,7 +766,7 @@ class UnifiedEditor {
         const hasImage = Boolean(this.backImageSrc.value);
         const gridClass = hasImage ? 'v2-back-grid' : 'v2-back-grid v2-back-grid--single';
 
-        let backHtml = '<div class="v2-back-content">';
+        let backHtml = `<div class="poster-v2-header" data-layout="${this.backLayout.value || 'auto'}"><div class="v2-back-frame"><div class="v2-back-content">`;
         backHtml += `<div class="v2-back-header">
           <div class="v2-back-title">${this.escapeHtml(this.frontTitle.value || 'Poster Title')}</div>
           ${this.frontSubtitle.value ? `<div class="v2-back-subtitle"><span>Subtitle:</span> ${this.escapeHtml(this.frontSubtitle.value)}</div>` : ''}
@@ -786,7 +786,7 @@ class UnifiedEditor {
             </div>`;
         }
 
-        backHtml += '</div></div>';
+        backHtml += '</div></div></div></div>';
         this.previewBackContent.innerHTML = backHtml;
     }
 

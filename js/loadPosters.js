@@ -386,7 +386,7 @@ async function loadPosters(postersDataArray) {
           const hasImage = back.image && back.image.src;
           const gridClass = hasImage ? 'v2-back-grid' : 'v2-back-grid v2-back-grid--single';
 
-          let headerHTML = '<div class="v2-back-content">';
+          let headerHTML = '<div class="v2-back-frame"><div class="v2-back-content">';
           headerHTML += `<div class="v2-back-header">
             <div class="v2-back-title">${front.title || 'Untitled'}</div>
             ${front.subtitle ? `<div class="v2-back-subtitle"><span>Subtitle:</span> ${front.subtitle}</div>` : ''}
@@ -406,7 +406,7 @@ async function loadPosters(postersDataArray) {
             </div>`;
           }
 
-          headerHTML += '</div></div>';
+          headerHTML += '</div></div></div>';
           header.innerHTML = headerHTML;
 
         } else {
