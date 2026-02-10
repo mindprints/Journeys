@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "b2b49b67-c6b1-4d81-bd80-4172eb7f0e63",
+  "front": {
+    "title": "Transfer learning",
+    "subtitle": "Machine learning technique"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Transfer learning (TL) is a technique in machine learning (ML) in which knowledge learned from a task is re-used in order to boost performance on a related task. For example, for image classification, knowledge gained while learning to recognize cars could be applied when trying to recognize trucks. This topic is related to the psychological literature on transfer of learning, although practical ties between the two fields are limited. Reusing or transferring information from previously learned tasks to new tasks has the potential to significantly improve learning efficiency.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Transfer_learning",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Transfer_learning.svg/330px-Transfer_learning.svg.png",
+      "alt": "Transfer learning",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:26.256222",
+    "modified": "2026-02-10T13:20:26.256227",
+    "categories": [
+      "AI Concepts",
+      "Theory"
+    ],
+    "tags": [
+      "Transfer learning"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Transfer_learning"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "a8edff10-6289-40cf-a222-017edaef480b",
+  "front": {
+    "title": "Peter Norvig",
+    "subtitle": "American computer scientist (born 1956)"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Peter Norvig is an American computer scientist and Distinguished Education Fellow at the Stanford Institute for Human-Centered AI. He previously served as a director of research and search quality at Google. Norvig is the co-author with Stuart J. Russell of the most popular textbook in the field of AI: Artificial Intelligence: A Modern Approach used in more than 1,500 universities in 135 countries.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Peter_Norvig",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Peter_Norvig_in_2019_%28cropped%29.jpg/330px-Peter_Norvig_in_2019_%28cropped%29.jpg",
+      "alt": "Peter Norvig",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-10T13:19:45.865856",
+    "modified": "2026-02-10T13:19:45.865860",
+    "categories": [
+      "AI Pioneers",
+      "People"
+    ],
+    "tags": [
+      "Peter Norvig"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Peter_Norvig"
+  }
+}

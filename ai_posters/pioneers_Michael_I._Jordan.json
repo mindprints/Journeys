@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "bb77e32c-c20a-44c8-88e7-f4b3a32fe98a",
+  "front": {
+    "title": "Michael I. Jordan",
+    "subtitle": "American scientist (born 1956)"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Michael Irwin Jordan is an American scientist, professor at the University of California, Berkeley, research scientist at the Inria Paris, and researcher in machine learning, statistics, and artificial intelligence.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Michael_I._Jordan",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-10T13:19:48.076022",
+    "modified": "2026-02-10T13:19:48.076026",
+    "categories": [
+      "AI Pioneers",
+      "People"
+    ],
+    "tags": [
+      "Michael I. Jordan"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Michael_I._Jordan"
+  }
+}

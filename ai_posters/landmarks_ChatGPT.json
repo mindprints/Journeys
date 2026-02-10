@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "a4378b9d-bd38-4a5a-a5cf-17eb9632fff1",
+  "front": {
+    "title": "ChatGPT",
+    "subtitle": "Generative AI chatbot by OpenAI"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "ChatGPT is a generative artificial intelligence chatbot developed by OpenAI. It was released in November 2022. It uses generative pre-trained transformers (GPTs), such as GPT-5, to generate text, speech, and images in response to user prompts. It is credited with accelerating the AI boom, an ongoing period marked by rapid investment and public attention toward the field of artificial intelligence (AI). OpenAI operates the service on a freemium model. Users can interact with ChatGPT through text, audio, and image prompts.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/ChatGPT",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/OpenAI_logo_2025_%28symbol%29.svg/330px-OpenAI_logo_2025_%28symbol%29.svg.png",
+      "alt": "ChatGPT",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:54.679254",
+    "modified": "2026-02-10T13:20:54.679258",
+    "categories": [
+      "AI History",
+      "Milestones"
+    ],
+    "tags": [
+      "ChatGPT"
+    ],
+    "source": "https://en.wikipedia.org/wiki/ChatGPT"
+  }
+}

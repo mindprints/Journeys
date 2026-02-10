@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "6637469b-f1bd-4e1c-a6ca-75095ba3a52d",
+  "front": {
+    "title": "Shakey the robot",
+    "subtitle": "General-purpose mobile robot"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Shakey the Robot was the first general-purpose mobile robot able to reason about its own actions. While other robots would have to be instructed on each individual step of completing a larger task, Shakey could analyze commands and break them down into basic chunks by itself.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Shakey_the_robot",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/SRI_Shakey_robot%2C_1969%2C_Computer_History_Museum.jpg/330px-SRI_Shakey_robot%2C_1969%2C_Computer_History_Museum.jpg",
+      "alt": "Shakey the robot",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-10T10:18:02.513233",
+    "modified": "2026-02-10T10:18:02.513238",
+    "categories": [
+      "Classical Robots"
+    ],
+    "tags": [
+      "Shakey the robot"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Shakey_the_robot"
+  }
+}

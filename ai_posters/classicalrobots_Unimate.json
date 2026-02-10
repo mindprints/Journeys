@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "bb82a5e9-7b3c-4b29-a376-9773cfedd0f6",
+  "front": {
+    "title": "Unimate",
+    "subtitle": "World's first industrial robot, first produced in 1961"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Unimate was the first industrial robot,\nwhich worked on a General Motors assembly line at the Inland Fisher Guide Plant in Ewing Township, New Jersey, in 1961. There were in fact a family of robots.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Unimate",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Robot_polar.svg/330px-Robot_polar.svg.png",
+      "alt": "Unimate",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-10T10:18:01.421235",
+    "modified": "2026-02-10T10:18:01.421240",
+    "categories": [
+      "Classical Robots"
+    ],
+    "tags": [
+      "Unimate"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Unimate"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "548d2659-ee7f-44e4-ac97-78607942e5bb",
+  "front": {
+    "title": "Allen Institute for AI",
+    "subtitle": "U.S. research institute for computer science"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "The Allen Institute for AI is a 501(c)(3) non-profit scientific research institute founded by late Microsoft co-founder and philanthropist Paul Allen in 2014. The institute seeks to conduct high-impact AI research and engineering in service of the common good. Ai2 is based in Seattle, and also has an active office\u00a0in Tel Aviv, Israel.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Allen_Institute_for_AI",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:46.071583",
+    "modified": "2026-02-10T13:20:46.071587",
+    "categories": [
+      "AI Companies",
+      "Organizations"
+    ],
+    "tags": [
+      "Allen Institute for AI"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Allen_Institute_for_AI"
+  }
+}

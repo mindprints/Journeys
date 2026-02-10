@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "93cf2a3d-7f3f-467c-a654-a8c16152374e",
+  "front": {
+    "title": "Ilya Sutskever",
+    "subtitle": "Computer scientist (born 1986)"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Ilya Sutskever is an Israeli-Canadian computer scientist who specializes in machine learning. He has made several major contributions to the field of deep learning. With Alex Krizhevsky and Geoffrey Hinton, he co-invented AlexNet, a convolutional neural network.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Ilya_Sutskever",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/d/d4/Ilya_Sutskever_and_Sam_Altman_in_TAU_%28cropped%29.jpg",
+      "alt": "Ilya Sutskever",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-10T13:19:42.561128",
+    "modified": "2026-02-10T13:19:42.561132",
+    "categories": [
+      "AI Pioneers",
+      "People"
+    ],
+    "tags": [
+      "Ilya Sutskever"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Ilya_Sutskever"
+  }
+}

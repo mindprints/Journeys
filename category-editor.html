@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Category Editor - Museum of Artificial Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Saira:ital@0;1&family=Sour+Gummy:wdth,wght@125,300&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./css/editor.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="logos/favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="logos/favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="logos/favicon_io/favicon-16x16.png">
+  <link rel="manifest" href="logos/favicon_io/site.webmanifest">
+  <style>
+    * {
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'Saira', sans-serif;
+      background: #0d0a1f;
+      color: #dedede;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #1a153d;
+      padding: 0.75em 1.5em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5em;
+      flex-shrink: 0;
+    }
+
+    header h1 {
+      font-size: 1.3em;
+      font-weight: 600;
+    }
+
+    main.editor-container {
+      flex: 1;
+      min-height: 0;
+      padding: 1em;
+      max-width: 100%;
+      height: auto !important;
+    }
+
+    .editor-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 1em;
+      height: 100%;
+    }
+
+    .sidebar {
+      background: #1a153d;
+      border-radius: 8px;
+      padding: 1em;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1em;
+      gap: 0.5em;
+    }
+
+    .category-list {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 0.25em;
+    }
+
+    .category-item {
+      padding: 0.6em 0.7em;
+      margin-bottom: 0.5em;
+      background: #2a2359;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5em;
+    }
+
+    .category-item.active {
+      border-color: #f48c06;
+    }
+
+    .category-item .label {
+      font-weight: 600;
+      font-size: 0.95em;
+    }
+
+    .category-item .pill {
+      padding: 0.15em 0.5em;
+      border-radius: 999px;
+      font-size: 0.7em;
+      background: rgba(255, 255, 255, 0.08);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .editor-main {
+      background: #1a153d;
+      border-radius: 8px;
+      padding: 1.5em;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-section {
+      margin-bottom: 1.5em;
+      padding: 1em;
+      background: rgba(42, 35, 89, 0.5);
+      border-radius: 8px;
+    }
+
+    .form-section h3 {
+      margin: 0 0 1em 0;
+      font-size: 1em;
+      color: #f48c06;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1em;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4em;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      padding: 0.55em 0.7em;
+      border-radius: 6px;
+      border: 1px solid #3a355e;
+      background: #2a2359;
+      color: #fff;
+      font-family: inherit;
+    }
+
+    .form-group small {
+      color: #9aa0b5;
+      font-size: 0.8em;
+    }
+
+    .action-bar {
+      display: flex;
+      gap: 0.5em;
+      padding-top: 1em;
+      border-top: 1px solid #3a355e;
+      margin-top: auto;
+    }
+
+    .action-bar .spacer {
+      flex: 1;
+    }
+
+    .color-preview {
+      display: flex;
+      align-items: center;
+      gap: 0.75em;
+    }
+
+    .color-chip {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 2px solid #3a355e;
+      background: #444;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #2a2359;
+      border-radius: 12px;
+      padding: 2em;
+      max-width: 860px;
+      width: 92vw;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1em;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: #888;
+      font-size: 1.5em;
+      cursor: pointer;
+    }
+
+    .modal-close:hover {
+      color: #fff;
+    }
+
+    .log-panel {
+      background: #120f28;
+      border-radius: 10px;
+      padding: 1em;
+      border: 1px solid #3a355e;
+      white-space: pre-wrap;
+      font-family: Consolas, 'Courier New', monospace;
+      color: #cdd6f4;
+      min-height: 180px;
+    }
+
+    .log-actions {
+      display: flex;
+      gap: 0.5em;
+      margin-bottom: 0.75em;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 900px) {
+      .editor-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Category Editor</h1>
+    <nav>
+      <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Gallery</a>
+      <a href="unified-editor.html" class="nav-link">Unified Editor</a>
+      <a href="image-editor.html" class="nav-link">Image Editor</a>
+      <a href="journey-editor.html" class="nav-link">Journey Editor</a>
+    </nav>
+  </header>
+
+  <main class="editor-container">
+    <div class="editor-layout">
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h2><i class="fas fa-layer-group"></i> Categories</h2>
+          <button class="editor-btn small primary" id="new-category-btn">
+            <i class="fas fa-plus"></i> New
+          </button>
+        </div>
+        <div class="category-list" id="category-list"></div>
+        <div class="action-bar" style="border-top: none; padding-top: 0.75em;">
+          <button class="editor-btn small" id="refresh-config-btn">
+            <i class="fas fa-sync-alt"></i> Refresh
+          </button>
+        </div>
+      </aside>
+
+      <section class="editor-main">
+        <div class="form-section">
+          <h3><i class="fas fa-pen"></i> Category Details</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="category-name">Name</label>
+              <input type="text" id="category-name" placeholder="Classical Robots">
+            </div>
+            <div class="form-group">
+              <label for="category-slug">Slug</label>
+              <input type="text" id="category-slug" placeholder="classical-robots">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="category-description">Description</label>
+            <textarea id="category-description" rows="3" placeholder="Short description for internal use."></textarea>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3><i class="fas fa-swatchbook"></i> Visual Settings</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="category-color">Category Color</label>
+              <input type="color" id="category-color" value="#f48c06">
+              <small>Used for category styling in the future.</small>
+            </div>
+            <div class="form-group">
+              <label>Preview</label>
+              <div class="color-preview">
+                <span class="color-chip" id="color-chip"></span>
+                <span id="color-label">#f48c06</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3><i class="fas fa-database"></i> Population</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="category-count">Target Poster Count</label>
+              <input type="number" id="category-count" min="1" placeholder="12">
+            </div>
+            <div class="form-group">
+              <label for="category-source">Source</label>
+              <select id="category-source">
+                <option value="wikipedia">Wikipedia</option>
+              </select>
+              <small>Select the content source for generation.</small>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="category-topics">Wikipedia Topics (one per line)</label>
+            <div class="log-actions" style="margin-top: 0.5em;">
+              <button class="editor-btn small" id="refresh-topics-btn" type="button">
+                <i class="fas fa-sync-alt"></i> Refresh Topics
+              </button>
+              <button class="editor-btn small" id="suggest-topics-btn" type="button">
+                <i class="fas fa-lightbulb"></i> Suggest Topics
+              </button>
+            </div>
+            <textarea id="category-topics" rows="6" placeholder="Unimate\nShakey_the_robot\nASIMO"></textarea>
+            <small>Use the exact Wikipedia page titles. Count will cap how many are used.</small>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button type="button" class="editor-btn danger" id="delete-category-btn" disabled>
+            <i class="fas fa-trash"></i> Delete
+          </button>
+          <button type="button" class="editor-btn" id="generate-category-btn">
+            <i class="fas fa-robot"></i> Generate Posters
+          </button>
+          <span class="spacer"></span>
+          <button type="button" class="editor-btn" id="reset-category-btn">
+            <i class="fas fa-times"></i> Reset
+          </button>
+          <button type="button" class="editor-btn primary" id="save-category-btn">
+            <i class="fas fa-save"></i> Save Category
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="modal-overlay" id="generator-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-robot"></i> Wikipedia Generator</h3>
+        <button class="modal-close" id="close-generator">&times;</button>
+      </div>
+
+      <div class="form-section">
+        <h3><i class="fas fa-sliders-h"></i> Options</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="generator-count">Poster Count</label>
+            <input type="number" id="generator-count" min="1" placeholder="12">
+          </div>
+          <div class="form-group">
+            <label>Merge Behavior</label>
+            <div style="display: flex; gap: 0.75em; align-items: center;">
+              <label style="display: flex; align-items: center; gap: 0.4em;">
+                <input type="checkbox" id="generator-merge" checked> Merge Enrich
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.4em;">
+                <input type="checkbox" id="generator-merge-only"> Merge Only
+              </label>
+            </div>
+            <small>Merge enrich updates existing posters with missing fields.</small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="generator-topics">Topics Override (one per line)</label>
+          <textarea id="generator-topics" rows="6"></textarea>
+          <small>Leave blank to use the category topics list.</small>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3><i class="fas fa-terminal"></i> Logs</h3>
+        <div class="log-actions">
+          <button class="editor-btn small" id="load-run-log">Load Last Run Log</button>
+          <button class="editor-btn small" id="load-merge-log">Load Merge Log</button>
+          <button class="editor-btn small" id="clear-log">Clear Log View</button>
+        </div>
+        <div class="log-panel" id="generator-log"></div>
+      </div>
+
+      <div class="action-bar">
+        <button class="editor-btn" id="cancel-generator">Cancel</button>
+        <span class="spacer"></span>
+        <button class="editor-btn primary" id="run-generator">Run Wikipedia Grab</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/category-editor.js"></script>
+</body>
+
+</html>

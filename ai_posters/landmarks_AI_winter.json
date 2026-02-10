@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "7c01c880-9f22-4bf0-9a43-64725ca31aaf",
+  "front": {
+    "title": "AI winter",
+    "subtitle": "Period of reduced funding and interest in AI research"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "\nIn the history of artificial intelligence (AI), an AI winter is a period of reduced funding and interest in AI research. The field has experienced several hype cycles, followed by disappointment and criticism, followed by funding cuts, followed by renewed interest years or even decades later.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/AI_winter",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:56.048157",
+    "modified": "2026-02-10T13:20:56.048162",
+    "categories": [
+      "AI History",
+      "Milestones"
+    ],
+    "tags": [
+      "AI winter"
+    ],
+    "source": "https://en.wikipedia.org/wiki/AI_winter"
+  }
+}

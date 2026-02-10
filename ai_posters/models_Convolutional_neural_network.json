@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "ab32f151-193b-49c8-a7db-80a5d61fa710",
+  "front": {
+    "title": "Convolutional neural network",
+    "subtitle": "Type of artificial neural network"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "A convolutional neural network (CNN) is a type of feedforward neural network that learns features via filter optimization. This type of deep learning network has been applied to process and make predictions from many different types of data including text, images and audio. CNNs are the de-facto standard in deep learning-based approaches to computer vision and image processing, and have only recently been replaced\u2014in some cases\u2014by newer deep learning architectures such as the transformer.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Convolutional_neural_network",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-10T13:19:56.026261",
+    "modified": "2026-02-10T13:19:56.026265",
+    "categories": [
+      "AI Models",
+      "Machine Learning"
+    ],
+    "tags": [
+      "Convolutional neural network"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Convolutional_neural_network"
+  }
+}

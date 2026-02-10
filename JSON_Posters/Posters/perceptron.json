@@ -28,23 +28,36 @@
           "name": "Multi-layer Extensions (Backpropagation)"
         }
       ]
-    }
+    },
+    "subtitle": "Algorithm for supervised learning of binary classifiers"
   },
   "back": {
     "layout": "auto",
-    "text": "The Perceptron, introduced by Frank Rosenblatt in 1957, is the foundational building block of modern neural networks. This simple binary classifier represents the earliest successful attempt at creating a machine capable of learning from data. The algorithm operates by iteratively adjusting weights on input features until it correctly classifies training examples, explicitly modeling the process of a biological neuron.\n\nDespite its simplicity—consisting of just a single artificial neuron with a threshold activation function—the Perceptron's significance to machine learning cannot be overstated. It demonstrated for the first time that machines could be trained rather than explicitly programmed to perform tasks. However, the Perceptron's limitations were formally identified in the 1969 book \"Perceptrons\" by Minsky and Papert, who proved that single-layer perceptrons cannot learn non-linearly separable functions, such as the XOR problem. This critique led to the first AI winter, though later developments in multi-layer networks ultimately overcame these limitations. The Perceptron remains historically significant as the conceptual precursor to all modern neural networks, embodying the core principle that underpins deep learning: learning through gradient-based weight adjustment.",
+    "text": "The Perceptron, introduced by Frank Rosenblatt in 1957, is the foundational building block of modern neural networks. This simple binary classifier represents the earliest successful attempt at creating a machine capable of learning from data. The algorithm operates by iteratively adjusting weights on input features until it correctly classifies training examples, explicitly modeling the process of a biological neuron.\n\nDespite its simplicity\u2014consisting of just a single artificial neuron with a threshold activation function\u2014the Perceptron's significance to machine learning cannot be overstated. It demonstrated for the first time that machines could be trained rather than explicitly programmed to perform tasks. However, the Perceptron's limitations were formally identified in the 1969 book \"Perceptrons\" by Minsky and Papert, who proved that single-layer perceptrons cannot learn non-linearly separable functions, such as the XOR problem. This critique led to the first AI winter, though later developments in multi-layer networks ultimately overcame these limitations. The Perceptron remains historically significant as the conceptual precursor to all modern neural networks, embodying the core principle that underpins deep learning: learning through gradient-based weight adjustment.",
     "image": {
       "src": "images/originals/Perceptron.webp",
       "alt": "Perceptron",
       "position": "top"
-    }
+    },
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Perceptron",
+        "primary": true
+      }
+    ]
   },
   "meta": {
-    "modified": "2026-02-08T21:22:07.525Z",
+    "modified": "2026-02-09T15:28:09.383190",
     "categories": [
       "LLMmodels"
     ],
-    "created": "2026-02-08T17:56:24.623Z"
+    "created": "2026-02-08T17:56:24.623Z",
+    "source": "https://en.wikipedia.org/wiki/Perceptron",
+    "tags": [
+      "Perceptron"
+    ]
   },
   "type": "poster-v2"
 }

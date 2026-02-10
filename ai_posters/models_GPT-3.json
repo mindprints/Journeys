@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "131427e4-e4da-4445-89c5-eb55a007edf2",
+  "front": {
+    "title": "GPT-3",
+    "subtitle": "2020 text-generating language model"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Generative Pre-trained Transformer 3 (GPT-3) is a large language model released by OpenAI in 2020.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/GPT-3",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/OpenAI_logo_2025_%28symbol%29.svg/330px-OpenAI_logo_2025_%28symbol%29.svg.png",
+      "alt": "GPT-3",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:02.995425",
+    "modified": "2026-02-10T13:20:02.995434",
+    "categories": [
+      "AI Models",
+      "Machine Learning"
+    ],
+    "tags": [
+      "GPT-3"
+    ],
+    "source": "https://en.wikipedia.org/wiki/GPT-3"
+  }
+}

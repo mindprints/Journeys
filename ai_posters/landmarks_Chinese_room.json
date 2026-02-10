@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "382af114-cce7-433f-84d0-2303aaac79c6",
+  "front": {
+    "title": "Chinese room",
+    "subtitle": "Thought experiment on artificial intelligence"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "The Chinese room argument holds that a computer executing a program cannot have a mind, understanding, or consciousness, regardless of how intelligently or human-like the program may make the computer behave. The argument was presented in a 1980 paper by the philosopher John Searle entitled \"Minds, Brains, and Programs\" and published in the journal Behavioral and Brain Sciences. Similar arguments had been made by Gottfried Wilhelm Leibniz (1714), Ned Block (1978) and others. Searle's version has been widely discussed in the years since. The centerpiece of Searle's argument is a thought experiment known as the Chinese room.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Chinese_room",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:58.676920",
+    "modified": "2026-02-10T13:20:58.676925",
+    "categories": [
+      "AI History",
+      "Milestones"
+    ],
+    "tags": [
+      "Chinese room"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Chinese_room"
+  }
+}

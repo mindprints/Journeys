@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "ff7e8013-46a7-4cbd-b2d5-8b32ed674589",
+  "front": {
+    "title": "Recurrent neural network",
+    "subtitle": "Class of artificial neural network"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "In artificial neural networks, recurrent neural networks (RNNs) are designed for processing sequential data, such as text, speech, and time series, where the order of elements is important. Unlike feedforward neural networks, which process inputs independently, RNNs utilize recurrent connections, where the output of a neuron at one time step is fed back as input to the network at the next time step. This enables RNNs to capture temporal dependencies and patterns within sequences.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Recurrent_neural_network",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-10T13:19:57.252496",
+    "modified": "2026-02-10T13:19:57.252501",
+    "categories": [
+      "AI Models",
+      "Machine Learning"
+    ],
+    "tags": [
+      "Recurrent neural network"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Recurrent_neural_network"
+  }
+}

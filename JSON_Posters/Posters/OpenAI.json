@@ -17,7 +17,7 @@
         },
         {
           "year": 2021,
-          "name": "DALL·E Image Generation"
+          "name": "DALL\u00b7E Image Generation"
         },
         {
           "year": 2022,
@@ -32,11 +32,12 @@
           "name": "o3-mini Released"
         }
       ]
-    }
+    },
+    "subtitle": "American artificial intelligence research organization"
   },
   "back": {
     "layout": "auto",
-    "text": "OpenAI has established itself as the defining company of the generative AI era, driving unprecedented advances in large language models while making these capabilities accessible to millions through intuitive interfaces. Founded as a non-profit research lab in 2015 before transitioning to a capped-profit structure, OpenAI has consistently pushed the boundaries of what AI systems can accomplish across language, image generation, and multimodal understanding.\n\nOpenAI's model portfolio spans multiple domains and capabilities. Key offerings include:\n\n• GPT-4: The company's flagship multimodal foundation model with exceptional reasoning capabilities\n• GPT-4 Turbo: Enhanced version with improved performance, longer context, and reduced latency\n• GPT-4o: Optimized multimodal model with real-time audio and visual processing\n• GPT-3.5: More accessible model balancing capability with efficiency\n• DALL·E 3: Advanced text-to-image generation system\n• Whisper: Open-source speech recognition model with multilingual capabilities\n• Codex: Specialized model for code generation and programming assistance\n\nBeyond its technical innovations, OpenAI has transformed how AI technologies reach users through products like ChatGPT, which achieved the fastest user growth of any consumer application in history. The company's API services have enabled thousands of businesses to integrate advanced AI capabilities into their products. OpenAI's influence extends beyond its products to its role in shaping AI safety practices, governance approaches, and public discourse about the transformative potential and risks of increasingly capable AI systems.",
+    "text": "OpenAI has established itself as the defining company of the generative AI era, driving unprecedented advances in large language models while making these capabilities accessible to millions through intuitive interfaces. Founded as a non-profit research lab in 2015 before transitioning to a capped-profit structure, OpenAI has consistently pushed the boundaries of what AI systems can accomplish across language, image generation, and multimodal understanding.\n\nOpenAI's model portfolio spans multiple domains and capabilities. Key offerings include:\n\n\u2022 GPT-4: The company's flagship multimodal foundation model with exceptional reasoning capabilities\n\u2022 GPT-4 Turbo: Enhanced version with improved performance, longer context, and reduced latency\n\u2022 GPT-4o: Optimized multimodal model with real-time audio and visual processing\n\u2022 GPT-3.5: More accessible model balancing capability with efficiency\n\u2022 DALL\u00b7E 3: Advanced text-to-image generation system\n\u2022 Whisper: Open-source speech recognition model with multilingual capabilities\n\u2022 Codex: Specialized model for code generation and programming assistance\n\nBeyond its technical innovations, OpenAI has transformed how AI technologies reach users through products like ChatGPT, which achieved the fastest user growth of any consumer application in history. The company's API services have enabled thousands of businesses to integrate advanced AI capabilities into their products. OpenAI's influence extends beyond its products to its role in shaping AI safety practices, governance approaches, and public discourse about the transformative potential and risks of increasingly capable AI systems.",
     "image": {
       "src": "images/originals/Top50.webp",
       "alt": "",
@@ -51,14 +52,23 @@
         "src": "images/originals/WikipediaStats2024.webp",
         "alt": ""
       }
+    ],
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/OpenAI",
+        "primary": true
+      }
     ]
   },
   "meta": {
     "created": "2026-02-08T17:56:24.590Z",
-    "modified": "2026-02-08T22:10:56.675Z",
+    "modified": "2026-02-09T15:28:51.154970",
     "tags": [
       "AI lab",
-      "hyper scaler"
+      "hyper scaler",
+      "OpenAI"
     ],
     "source": "Greg",
     "categories": [

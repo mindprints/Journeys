@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "93e24aac-5bfb-4538-ae23-4580b7e30655",
+  "front": {
+    "title": "Stuart Russell",
+    "subtitle": "Topics referred to by the same term",
+    "chronology": {
+      "epochStart": 1906,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1906,
+          "name": "Birth/Founding of Stuart Russell"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Stuart Russell may refer to:Stuart Russell (footballer) (1906\u20131978), Australian rules footballer\nStuart Russell (politician) (1909\u20131943), British Conservative party politician, MP for Darwen 1935\u20131943\nStuart Russell, Welsh rugby union player\nStuart J. Russell, computer scientist known for his contributions to artificial intelligence\nJ. Stuart Russell (1816\u20131895), pastor and author of The Parousia\nNigel MacArthur, aka Stuart Russell, British DJ\n",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Stuart_Russell",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-10T13:19:44.759680",
+    "modified": "2026-02-10T13:19:44.759685",
+    "categories": [
+      "AI Pioneers",
+      "People"
+    ],
+    "tags": [
+      "Stuart Russell"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Stuart_Russell"
+  }
+}

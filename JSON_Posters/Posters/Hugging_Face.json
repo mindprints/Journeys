@@ -2,7 +2,8 @@
   "version": 2,
   "uid": "poster-1770319435957",
   "front": {
-    "title": "Hugging Face"
+    "title": "Hugging Face",
+    "subtitle": "\"BLOOM\". bigscience.huggingface.co (Blog). Archived from the original on November 14, 2022. Retrieve..."
   },
   "back": {
     "layout": "auto",
@@ -12,16 +13,26 @@
         "label": "Open Website",
         "url": "https://huggingface.co/",
         "primary": true
+      },
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Hugging_Face",
+        "primary": true
       }
     ],
     "text": "Repository of Models"
   },
   "meta": {
-    "modified": "2026-02-08T21:36:58.109Z",
+    "modified": "2026-02-09T15:28:59.906512",
     "categories": [
       "Contemporary_Tools"
     ],
-    "created": "2026-02-08T17:56:24.599Z"
+    "created": "2026-02-08T17:56:24.599Z",
+    "source": "https://en.wikipedia.org/wiki/Hugging_Face",
+    "tags": [
+      "Hugging Face"
+    ]
   },
   "type": "poster-v2"
 }

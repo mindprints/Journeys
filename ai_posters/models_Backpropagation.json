@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "41ff5c1d-cec8-4e1b-9bfb-5675e79f1237",
+  "front": {
+    "title": "Backpropagation",
+    "subtitle": "Optimization algorithm for artificial neural networks"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "In machine learning, backpropagation is a gradient computation method commonly used for training a neural network in computing parameter updates.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Backpropagation",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-10T13:19:54.931934",
+    "modified": "2026-02-10T13:19:54.931939",
+    "categories": [
+      "AI Models",
+      "Machine Learning"
+    ],
+    "tags": [
+      "Backpropagation"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Backpropagation"
+  }
+}

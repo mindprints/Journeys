@@ -1,0 +1,104 @@
+{
+  "updated": "2026-02-10T19:04:04.886Z",
+  "categories": [
+    {
+      "name": "Classical Robots",
+      "slug": "classical-robots",
+      "description": "Foundational robots and early humanoids that defined modern robotics.",
+      "color": "#f48c06",
+      "targetCount": 12,
+      "source": "wikipedia",
+      "topics": [
+        "Unimate",
+        "Shakey_the_robot",
+        "ASIMO",
+        "Gakutensoku",
+        "Electro_(robot)",
+        "WABOT-1",
+        "WABOT-2",
+        "Stanford_arm",
+        "PUMA_(robot)",
+        "Honda_P2",
+        "Pepper_(robot)",
+        "Robonaut"
+      ]
+    },
+    {
+      "name": "Turing Award winners",
+      "slug": "turing-award-winners",
+      "description": "Recipients of the Turing award for achievments related to AI",
+      "color": "#a93794",
+      "targetCount": null,
+      "source": "wikipedia",
+      "topics": [
+        "Yann LeCun"
+      ]
+    },
+    {
+      "name": "L L Ms",
+      "slug": "l-l-ms",
+      "description": "the most relevant llm",
+      "color": "#f48c06",
+      "targetCount": 14,
+      "source": "wikipedia",
+      "topics": []
+    },
+    {
+      "name": "Bell Labs",
+      "slug": "bell-labs",
+      "description": "Where American Science projects were carried out",
+      "color": "#68a66c",
+      "targetCount": null,
+      "source": "wikipedia",
+      "topics": [
+        "_Robot_(film)",
+        "AT&T_Labs",
+        "Bell_Labs",
+        "Bell_Labs_Digital_Synthesizer",
+        "Bell_Labs_Holmdel_Complex",
+        "Bell_Labs_Technical_Journal",
+        "Breakup_of_the_Bell_System",
+        "Concept",
+        "Daisy_Bell",
+        "Essentially_contested_concept",
+        "Ford_Mustang_I",
+        "Fuzzy_concept",
+        "History_of_the_transistor",
+        "I",
+        "List_of_Bell_Labs_alumni",
+        "Marginal_concepts",
+        "Marian_Croak",
+        "Mitsubishi_i",
+        "Nokia",
+        "Plan_9_from_Bell_Labs",
+        "Proof_of_concept",
+        "Thick_concept",
+        "Toyota_concept_vehicles_(2010–2019)",
+        "Two_Concepts_of_Liberty",
+        "Visual_Concepts"
+      ]
+    },
+    {
+      "name": "Bell Labs",
+      "slug": "bell-labs",
+      "description": "",
+      "color": "#f48c06",
+      "targetCount": null,
+      "source": "wikipedia",
+      "topics": [
+        "AT&T_Labs",
+        "Bell_Labs",
+        "Bell_Labs_Holmdel_Complex",
+        "Bell_Labs_Technical_Journal",
+        "Breakup_of_the_Bell_System",
+        "Daisy_Bell",
+        "History_of_the_transistor",
+        "Inferno_(operating_system)",
+        "List_of_Bell_Labs_alumni",
+        "Marian_Croak",
+        "Nokia",
+        "Plan_9_from_Bell_Labs"
+      ]
+    }
+  ]
+}

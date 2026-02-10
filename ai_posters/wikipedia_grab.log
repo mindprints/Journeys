@@ -1,0 +1,25 @@
+============================================================
+AI POSTER GENERATOR
+Fetching data from Wikipedia API
+============================================================
+Starting poster generation...
+Output directory: C:\Users\mindp\Documents\GitHub\galleryElements_Claude\ai_posters
+
+
+============================================================
+Processing TURING AWARD WINNERS (1 topics)
+============================================================
+[1/1] Fetching: Yann LeCun... Created: turingawardwinners_Yann LeCun.json
+
+============================================================
+SUMMARY
+============================================================
+Created: 1 posters
+SKIP duplicates: 0 posters
+MERGE enriched: 0 posters
+Failed: 0 posters
+Output directory: C:\Users\mindp\Documents\GitHub\galleryElements_Claude\ai_posters
+
+Total topics attempted: 1
+
+Done!

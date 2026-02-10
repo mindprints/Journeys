@@ -2,9 +2,10 @@ const express = require('express');
 
 const fs = require('fs');
 const path = require('path');
+const { spawn } = require('child_process');
 const multer = require('multer');
 const app = express();
-const port = 3000;
+const port = Number(process.env.PORT) || 3010;
 
 // Constants
 const JSON_POSTERS_DIR = path.join(__dirname, 'JSON_Posters');
@@ -12,6 +13,11 @@ const POSTERS_DIR_NAME = 'Posters';
 const POSTERS_DIR = path.join(JSON_POSTERS_DIR, POSTERS_DIR_NAME);
 const JOURNEYS_DIR = path.join(JSON_POSTERS_DIR, 'Journeys');
 const IMAGE_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.gif', '.webp'];
+const CATEGORY_CONFIG_PATH = path.join(JSON_POSTERS_DIR, 'category-config.json');
+const WIKI_OUTPUT_DIR = path.join(__dirname, 'ai_posters');
+const WIKI_LOG_PATH = path.join(WIKI_OUTPUT_DIR, 'wikipedia_grab.log');
+const GRAB_LOG_PATH = path.join(WIKI_OUTPUT_DIR, 'grab.log');
+const MERGE_LOG_PATH = path.join(WIKI_OUTPUT_DIR, 'merge_enrichment.log');
 
 // Set up multer for file uploads
 const upload = multer({
@@ -89,6 +95,11 @@ async function resolvePosterData(absolutePath, relativePath) {
     thumbnail: null,
     categories: []
   };
+
+  if (ext === '.log') {
+    poster.type = 'skip-log';
+    return poster;
+  }
 
   if (ext === '.json') {
     try {
@@ -233,6 +244,14 @@ function getPosterRootDirectories() {
       name: POSTERS_DIR_NAME,
       path: POSTERS_DIR,
       relative: `JSON_Posters/${POSTERS_DIR_NAME}`
+    });
+  }
+
+  if (fs.existsSync(WIKI_OUTPUT_DIR)) {
+    roots.push({
+      name: 'ai_posters',
+      path: WIKI_OUTPUT_DIR,
+      relative: 'ai_posters'
     });
   }
 
@@ -800,6 +819,244 @@ app.get('/api/all-posters', async (req, res) => {
   } catch (error) {
     console.error('Error getting all posters for editor:', error);
     res.status(500).json({ error: 'Failed to get all posters: ' + error.message });
+  }
+});
+
+// Category config
+app.get('/api/category-config', (req, res) => {
+  try {
+    if (!fs.existsSync(CATEGORY_CONFIG_PATH)) {
+      return res.json({ updated: null, categories: [] });
+    }
+    const raw = fs.readFileSync(CATEGORY_CONFIG_PATH, 'utf8');
+    const config = JSON.parse(raw);
+    res.json(config);
+  } catch (error) {
+    console.error('Error reading category config:', error);
+    res.status(500).json({ error: 'Failed to read category config: ' + error.message });
+  }
+});
+
+app.post('/api/category-config', (req, res) => {
+  try {
+    const config = req.body || {};
+    const payload = {
+      updated: new Date().toISOString(),
+      categories: Array.isArray(config.categories) ? config.categories : []
+    };
+    if (!fs.existsSync(JSON_POSTERS_DIR)) {
+      fs.mkdirSync(JSON_POSTERS_DIR, { recursive: true });
+    }
+    fs.writeFileSync(CATEGORY_CONFIG_PATH, JSON.stringify(payload, null, 2));
+    res.json({ success: true, config: payload });
+  } catch (error) {
+    console.error('Error saving category config:', error);
+    res.status(500).json({ error: 'Failed to save category config: ' + error.message });
+  }
+});
+
+// Unified grab runner
+app.post('/api/run-grab', (req, res) => {
+  try {
+    const {
+      source,
+      category,
+      topics,
+      count,
+      mergeEnrich,
+      mergeOnly,
+      search,
+      filter,
+      useCurated,
+      curatedSet
+    } = req.body || {};
+
+    if (!source) {
+      return res.status(400).json({ error: 'Source is required' });
+    }
+
+    const args = ['scripts/python/grab.py', '--source', String(source)];
+
+    if (category) {
+      args.push('--category', String(category));
+    }
+
+    if (Array.isArray(topics) && topics.length) {
+      args.push('--topics', topics.join(','));
+    }
+
+    if (Number.isInteger(count)) {
+      args.push('--count', String(count));
+    }
+
+    if (mergeEnrich !== undefined) {
+      args.push('--merge-enrich', mergeEnrich ? 'true' : 'false');
+    }
+
+    if (mergeOnly !== undefined) {
+      args.push('--merge-only', mergeOnly ? 'true' : 'false');
+    }
+
+    if (search) {
+      args.push('--search', String(search));
+    }
+
+    if (filter) {
+      args.push('--filter', String(filter));
+    }
+
+    if (useCurated) {
+      args.push('--use-curated');
+    }
+
+    if (curatedSet) {
+      args.push('--curated-set', String(curatedSet));
+    }
+
+    if (!fs.existsSync(WIKI_OUTPUT_DIR)) {
+      fs.mkdirSync(WIKI_OUTPUT_DIR, { recursive: true });
+    }
+
+    const child = spawn('python', args, { cwd: __dirname });
+    let output = '';
+    let responded = false;
+
+    const finalize = (payload, status = 200) => {
+      if (responded) return;
+      responded = true;
+      res.status(status).json(payload);
+    };
+
+    child.stdout.on('data', data => {
+      output += data.toString();
+    });
+
+    child.stderr.on('data', data => {
+      output += data.toString();
+    });
+
+    child.on('error', error => {
+      console.error('Failed to start unified grab:', error);
+      finalize({ error: 'Failed to start unified grab: ' + error.message }, 500);
+    });
+
+    child.on('close', code => {
+      try {
+        fs.writeFileSync(GRAB_LOG_PATH, output, 'utf8');
+      } catch (error) {
+        console.error('Failed to write grab log:', error);
+      }
+      finalize({ success: code === 0, code, output });
+    });
+  } catch (error) {
+    console.error('Error running unified grab:', error);
+    res.status(500).json({ error: 'Failed to run unified grab: ' + error.message });
+  }
+});
+
+app.get('/api/grab-log', (req, res) => {
+  try {
+    if (!fs.existsSync(GRAB_LOG_PATH)) {
+      return res.json({ log: '' });
+    }
+    const log = fs.readFileSync(GRAB_LOG_PATH, 'utf8');
+    res.json({ log });
+  } catch (error) {
+    console.error('Error reading grab log:', error);
+    res.status(500).json({ error: 'Failed to read grab log: ' + error.message });
+  }
+});
+
+// Wikipedia grab runner
+app.post('/api/run-wikipedia-grab', (req, res) => {
+  try {
+    const { category, topics, count, mergeEnrich, mergeOnly } = req.body || {};
+    const args = ['scripts/python/wikipedia_grab'];
+
+    if (category) {
+      args.push('--category', String(category));
+    }
+
+    if (Array.isArray(topics) && topics.length) {
+      args.push('--topics', topics.join(','));
+    }
+
+    if (Number.isInteger(count)) {
+      args.push('--count', String(count));
+    }
+
+    if (mergeEnrich !== undefined) {
+      args.push('--merge-enrich', mergeEnrich ? 'true' : 'false');
+    }
+
+    if (mergeOnly !== undefined) {
+      args.push('--merge-only', mergeOnly ? 'true' : 'false');
+    }
+
+    if (!fs.existsSync(WIKI_OUTPUT_DIR)) {
+      fs.mkdirSync(WIKI_OUTPUT_DIR, { recursive: true });
+    }
+
+    const child = spawn('python', args, { cwd: __dirname });
+    let output = '';
+    let responded = false;
+
+    const finalize = (payload, status = 200) => {
+      if (responded) return;
+      responded = true;
+      res.status(status).json(payload);
+    };
+
+    child.stdout.on('data', data => {
+      output += data.toString();
+    });
+
+    child.stderr.on('data', data => {
+      output += data.toString();
+    });
+
+    child.on('error', error => {
+      console.error('Failed to start wikipedia grab:', error);
+      finalize({ error: 'Failed to start wikipedia grab: ' + error.message }, 500);
+    });
+
+    child.on('close', code => {
+      try {
+        fs.writeFileSync(WIKI_LOG_PATH, output, 'utf8');
+      } catch (error) {
+        console.error('Failed to write wiki log:', error);
+      }
+      finalize({ success: code === 0, code, output });
+    });
+  } catch (error) {
+    console.error('Error running wikipedia grab:', error);
+    res.status(500).json({ error: 'Failed to run wikipedia grab: ' + error.message });
+  }
+});
+
+app.get('/api/wikipedia-grab-log', (req, res) => {
+  try {
+    if (!fs.existsSync(WIKI_LOG_PATH)) {
+      return res.json({ log: '' });
+    }
+    const log = fs.readFileSync(WIKI_LOG_PATH, 'utf8');
+    res.json({ log });
+  } catch (error) {
+    console.error('Error reading wikipedia log:', error);
+    res.status(500).json({ error: 'Failed to read wikipedia log: ' + error.message });
+  }
+});
+
+app.get('/api/merge-enrichment-log', (req, res) => {
+  try {
+    if (!fs.existsSync(MERGE_LOG_PATH)) {
+      return res.json({ log: '' });
+    }
+    const log = fs.readFileSync(MERGE_LOG_PATH, 'utf8');
+    res.json({ log });
+  } catch (error) {
+    console.error('Error reading merge log:', error);
+    res.status(500).json({ error: 'Failed to read merge log: ' + error.message });
   }
 });
 

@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "54ccbd7b-5abc-46be-874d-7399bbe666d6",
+  "front": {
+    "title": "ImageNet",
+    "subtitle": "Image dataset"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "\nThe ImageNet project is a large visual database designed for use in visual object recognition software research. More than 14 million images have been hand-annotated by the project to indicate what objects are pictured and in at least one million of the images, bounding boxes are also provided. ImageNet contains more than 20,000 categories, with a typical category, such as \"balloon\" or \"strawberry\", consisting of several hundred images. The database of annotations of third-party image URLs is freely available directly from ImageNet, though the actual images are not owned by ImageNet. Since 2010, the ImageNet project runs an annual software contest, the ImageNet Large Scale Visual Recognition Challenge, where software programs compete to correctly classify and detect objects and scenes. The challenge uses a \"trimmed\" list of one thousand non-overlapping classes.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/ImageNet",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:49.797394",
+    "modified": "2026-02-10T13:20:49.797398",
+    "categories": [
+      "AI History",
+      "Milestones"
+    ],
+    "tags": [
+      "ImageNet"
+    ],
+    "source": "https://en.wikipedia.org/wiki/ImageNet"
+  }
+}

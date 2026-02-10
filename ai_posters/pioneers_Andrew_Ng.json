@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "9772eb20-5d56-453b-98d2-8276f65c3d2c",
+  "front": {
+    "title": "Andrew Ng",
+    "subtitle": "American artificial intelligence researcher"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Andrew Yan-Tak Ng is a British-American computer scientist and technology entrepreneur focusing on machine learning and artificial intelligence (AI). Ng was a cofounder and head of Google Brain and was the former Chief Scientist at Baidu, building the company's Artificial Intelligence Group into a team of several thousand people.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Andrew_Ng",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Andrew_Ng_at_TechCrunch_Disrupt_SF_2017.jpg/330px-Andrew_Ng_at_TechCrunch_Disrupt_SF_2017.jpg",
+      "alt": "Andrew Ng",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-10T13:19:39.263598",
+    "modified": "2026-02-10T13:19:39.263603",
+    "categories": [
+      "AI Pioneers",
+      "People"
+    ],
+    "tags": [
+      "Andrew Ng"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Andrew_Ng"
+  }
+}

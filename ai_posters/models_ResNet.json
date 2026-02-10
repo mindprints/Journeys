@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "11e97d83-44c6-43f0-9963-7f4028b595c0",
+  "front": {
+    "title": "Residual neural network",
+    "subtitle": "Type of artificial neural network"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "A residual neural network is a deep learning architecture in which the layers learn residual functions with reference to the layer inputs. It was developed in 2015 for image recognition, and won the ImageNet Large Scale Visual Recognition Challenge of that year.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Residual_neural_network",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/ResBlock.png/330px-ResBlock.png",
+      "alt": "Residual neural network",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:07.514119",
+    "modified": "2026-02-10T13:20:07.514123",
+    "categories": [
+      "AI Models",
+      "Machine Learning"
+    ],
+    "tags": [
+      "ResNet"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Residual_neural_network"
+  }
+}

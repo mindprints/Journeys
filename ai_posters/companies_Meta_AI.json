@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "4130b42f-10ad-49b8-b39f-ccbae79dafd5",
+  "front": {
+    "title": "Meta AI",
+    "subtitle": "Artificial intelligence division of Meta Platforms"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Meta AI is a research division of Meta that develops artificial intelligence and augmented reality technologies.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Meta_AI",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/3/3b/Meta_AI_Logo_%28Ring_Only%29.png",
+      "alt": "Meta AI",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:42.275126",
+    "modified": "2026-02-10T13:20:42.275131",
+    "categories": [
+      "AI Companies",
+      "Organizations"
+    ],
+    "tags": [
+      "Meta AI"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Meta_AI"
+  }
+}

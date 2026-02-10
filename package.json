@@ -4,8 +4,10 @@
   "description": "Museum of Artificial Intelligence with Poster Editor",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "prestart": "kill-port 3010",
+    "predev": "kill-port 3010",
+    "start": "set PORT=3010 && node server.js",
+    "dev": "set PORT=3010 && nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +17,7 @@
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
+    "kill-port": "^2.0.1",
     "nodemon": "^3.0.1"
   }
 }

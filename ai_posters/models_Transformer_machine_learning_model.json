@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "18b1346b-e7a9-4e5d-bf69-db5984789a73",
+  "front": {
+    "title": "Transformer (deep learning)",
+    "subtitle": "Algorithm for modelling sequential data"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "In deep learning, the transformer is an artificial neural network architecture based on the multi-head attention mechanism, in which text is converted to numerical representations called tokens, and each token is converted into a vector via lookup from a word embedding table. At each layer, each token is then contextualized within the scope of the context window with other (unmasked) tokens via a parallel multi-head attention mechanism, allowing the signal for key tokens to be amplified and less important tokens to be diminished.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Transformer_(deep_learning)",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Transformer%2C_full_architecture.png/330px-Transformer%2C_full_architecture.png",
+      "alt": "Transformer (deep learning)",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:00.649155",
+    "modified": "2026-02-10T13:20:00.649159",
+    "categories": [
+      "AI Models",
+      "Machine Learning"
+    ],
+    "tags": [
+      "Transformer (machine learning model)"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Transformer_(deep_learning)"
+  }
+}

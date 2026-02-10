@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "c7c245fd-3336-4f30-8ec2-d1f2fd22e9c4",
+  "front": {
+    "title": "Unsupervised learning",
+    "subtitle": "Paradigm in machine learning that uses no classification labels"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Unsupervised learning is a framework in machine learning where, in contrast to supervised learning, algorithms learn patterns exclusively from unlabeled data. Other frameworks in the spectrum of supervisions include weak- or semi-supervision, where a small portion of the data is tagged, and self-supervision. Some researchers consider self-supervised learning a form of unsupervised learning.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Unsupervised_learning",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:22.569038",
+    "modified": "2026-02-10T13:20:22.569042",
+    "categories": [
+      "AI Concepts",
+      "Theory"
+    ],
+    "tags": [
+      "Unsupervised learning"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Unsupervised_learning"
+  }
+}

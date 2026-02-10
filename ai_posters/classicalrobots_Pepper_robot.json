@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "296bb7cd-0356-495c-84fc-a87080601ab7",
+  "front": {
+    "title": "Pepper (robot)",
+    "subtitle": "Model of humanoid robot"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Pepper is a semi-humanoid robot manufactured by Aldebaran Robotics, designed with the ability to read emotions. It was introduced in Japan in June 2014 and manufactured until 2020.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Pepper_(robot)",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/SoftBank_pepper.JPG/330px-SoftBank_pepper.JPG",
+      "alt": "Pepper (robot)",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-10T10:18:12.412898",
+    "modified": "2026-02-10T10:18:12.412902",
+    "categories": [
+      "Classical Robots"
+    ],
+    "tags": [
+      "Pepper (robot)"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Pepper_(robot)"
+  }
+}

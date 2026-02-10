@@ -1,0 +1,48 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "9f9ca934-5fbe-4ce3-9679-7ce81371cb53",
+  "front": {
+    "title": "Ian Goodfellow",
+    "subtitle": "American computer scientist (born 1987)",
+    "chronology": {
+      "epochStart": 2016,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 2016,
+          "name": "Birth/Founding of Ian Goodfellow"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Ian J. Goodfellow is an American computer scientist, engineer, and executive, most noted for his work on artificial neural networks and deep learning. He is a research scientist at Google DeepMind, was previously employed as a research scientist at Google Brain and director of machine learning at Apple as well as one of the first employees at OpenAI, and has made several important contributions to the field of deep learning, including the invention of the generative adversarial network (GANs). Goodfellow co-wrote, as the first author, the textbook Deep Learning (2016) and wrote the chapter on deep learning in the authoritative textbook of the field of artificial intelligence, Artificial Intelligence: A Modern Approach.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Ian_Goodfellow",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Ian_Goodfellow.jpg/330px-Ian_Goodfellow.jpg",
+      "alt": "Ian Goodfellow",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-10T13:19:49.192757",
+    "modified": "2026-02-10T13:19:49.192762",
+    "categories": [
+      "AI Pioneers",
+      "People"
+    ],
+    "tags": [
+      "Ian Goodfellow"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Ian_Goodfellow"
+  }
+}

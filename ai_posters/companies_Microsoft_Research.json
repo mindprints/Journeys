@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "f9eaa6ff-4e22-4a01-acee-248b83d8e995",
+  "front": {
+    "title": "Microsoft Research",
+    "subtitle": "Research division of Microsoft"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Microsoft Research (MSR) is the research subsidiary of Microsoft. It was created in 1991 by Richard Rashid, Bill Gates and Nathan Myhrvold with the intent to advance state-of-the-art computing and solve difficult world problems through technological innovation in collaboration with academic, government, and industry researchers. Microsoft Research employs more than 1,000 computer scientists, physicists, engineers, and mathematicians, including Turing Award winners, Fields Medal winners, MacArthur Fellows, and Dijkstra Prize winners.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Microsoft_Research",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:44.854724",
+    "modified": "2026-02-10T13:20:44.854729",
+    "categories": [
+      "AI Companies",
+      "Organizations"
+    ],
+    "tags": [
+      "Microsoft Research"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Microsoft_Research"
+  }
+}

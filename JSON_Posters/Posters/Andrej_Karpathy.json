@@ -34,23 +34,43 @@
         "type": "external",
         "label": "X (Twitter)",
         "url": "https://x.com/karpathy"
+      },
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Andrej_Karpathy",
+        "primary": true
+      },
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Deep_learning",
+        "primary": true
+      },
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Computer_vision",
+        "primary": true
       }
     ]
   },
   "meta": {
     "created": "2026-02-07T12:00:00.000Z",
-    "modified": "2026-02-08T21:36:58.093Z",
+    "modified": "2026-02-09T15:28:39.028038",
     "tags": [
       "VIPs",
       "AI",
       "deep learning",
       "education",
       "LLMs",
-      "computer vision"
+      "computer vision",
+      "Andrej Karpathy"
     ],
     "categories": [
       "VIPs"
-    ]
+    ],
+    "source": "https://en.wikipedia.org/wiki/Andrej_Karpathy"
   },
   "type": "poster-v2"
 }

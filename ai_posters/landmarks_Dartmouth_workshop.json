@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "2e4bb724-1b85-4265-a13e-cb49ba3f236d",
+  "front": {
+    "title": "Dartmouth workshop",
+    "subtitle": "1956 scientific conference on artificial intelligence"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "The Dartmouth Summer Research Project on Artificial Intelligence was a 1956 summer workshop widely considered to be the founding event of artificial intelligence as a field. The workshop has been referred to as \"the Constitutional Convention of AI\". The project's four organizers, those being Claude Shannon, John McCarthy, Nathaniel Rochester and Marvin Minsky, are considered some of the founding fathers of AI.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Dartmouth_workshop",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:48.695397",
+    "modified": "2026-02-10T13:20:48.695402",
+    "categories": [
+      "AI History",
+      "Milestones"
+    ],
+    "tags": [
+      "Dartmouth workshop"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Dartmouth_workshop"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "9d6490e4-bfda-416c-bc79-0feedb95bd0c",
+  "front": {
+    "title": "Jürgen Schmidhuber",
+    "subtitle": "German computer scientist"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Jürgen Schmidhuber is a German computer scientist noted for his work in the field of artificial intelligence, specifically artificial neural networks. He has been described by media outlets as a leading pioneer of modern artificial intelligence. He is a scientific director of the Dalle Molle Institute for Artificial Intelligence Research in Switzerland. He is also director of the Artificial Intelligence Initiative and professor of the Computer Science program in the Computer, Electrical, and Mathematical Sciences and Engineering (CEMSE) division at the King Abdullah University of Science and Technology (KAUST) in Saudi Arabia.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/J%C3%BCrgen_Schmidhuber",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/J%C3%BCrgen_Schmidhuber%2C_2017_%28cropped%29.jpg/330px-J%C3%BCrgen_Schmidhuber%2C_2017_%28cropped%29.jpg",
+      "alt": "Jürgen Schmidhuber",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-09T15:17:05.065597",
+    "modified": "2026-02-09T15:17:05.065604",
+    "categories": [
+      "AI Pioneers",
+      "People"
+    ],
+    "tags": [
+      "Jürgen Schmidhuber"
+    ],
+    "source": "https://en.wikipedia.org/wiki/J%C3%BCrgen_Schmidhuber"
+  }
+}

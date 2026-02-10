@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "7268e94b-dae5-42ae-b9fc-c216165c33fc",
+  "front": {
+    "title": "Neural network (machine learning)",
+    "subtitle": "Computational model used in machine learning, based on connected, hierarchical functions"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "In machine learning, a neural network (NN) or neural net, also called an artificial neural network (ANN), is a computational model inspired by the structure and functions of biological neural networks.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Neural_network_(machine_learning)",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Colored_neural_network.svg/330px-Colored_neural_network.svg.png",
+      "alt": "Neural network (machine learning)",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:28.453553",
+    "modified": "2026-02-10T13:20:28.453557",
+    "categories": [
+      "AI Concepts",
+      "Theory"
+    ],
+    "tags": [
+      "Artificial neural network"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Neural_network_(machine_learning)"
+  }
+}

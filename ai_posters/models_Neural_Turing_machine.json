@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "5a6fc77a-95a8-4dfb-887a-673ad8a5f06e",
+  "front": {
+    "title": "Neural Turing machine",
+    "subtitle": "Type of recurrent neural network"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "A neural Turing machine (NTM) is a recurrent neural network model of a Turing machine. The approach was published by Alex Graves et al. in 2014. NTMs combine the fuzzy pattern matching capabilities of neural networks with the algorithmic power of programmable computers.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Neural_Turing_machine",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:13.212677",
+    "modified": "2026-02-10T13:20:13.212682",
+    "categories": [
+      "AI Models",
+      "Machine Learning"
+    ],
+    "tags": [
+      "Neural Turing machine"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Neural_Turing_machine"
+  }
+}

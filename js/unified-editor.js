@@ -223,6 +223,11 @@ class UnifiedEditor {
         const isNew = !this.posterPath.value;
 
         try {
+            const ingestResult = await this.ingestExternalImages(posterData);
+            if (ingestResult.errors.length) {
+                alert(`Some external images could not be ingested and will remain linked:\n- ${ingestResult.errors.join('\n- ')}`);
+            }
+
             const category = this.postersDirectory;
             let filename = this.posterFilename.value.trim();
 
@@ -256,6 +261,7 @@ class UnifiedEditor {
             this.isDirty = false;
             this.posterPath.value = savePath;
 
+            await this.loadImages();
             await this.loadPosters();
 
             // Select the saved poster
@@ -723,6 +729,125 @@ class UnifiedEditor {
             }
             this.hideImagePicker();
         }
+    }
+
+    async ingestExternalImages(posterData) {
+        const result = { updated: false, errors: [] };
+        const imageTargets = [];
+
+        if (posterData?.back?.image?.src) {
+            imageTargets.push(posterData.back.image);
+        }
+        if (Array.isArray(posterData?.back?.images)) {
+            posterData.back.images.forEach(img => {
+                if (img && img.src) imageTargets.push(img);
+            });
+        }
+
+        if (!imageTargets.length) return result;
+
+        const externalMap = new Map();
+        for (const target of imageTargets) {
+            const src = target?.src || '';
+            if (!src || !this.isExternalUrl(src)) continue;
+            if (externalMap.has(src)) continue;
+            try {
+                const localPath = await this.downloadToWebp(src, posterData.front?.title || 'poster');
+                externalMap.set(src, localPath);
+            } catch (error) {
+                result.errors.push(`${src} (${error.message})`);
+            }
+        }
+
+        if (externalMap.size === 0) return result;
+
+        imageTargets.forEach(target => {
+            const replacement = externalMap.get(target.src);
+            if (replacement) {
+                target.src = replacement;
+                result.updated = true;
+            }
+        });
+
+        if (result.updated && Array.isArray(posterData?.back?.images)) {
+            posterData.back.images = posterData.back.images.filter(img => img && img.src);
+        }
+
+        return result;
+    }
+
+    isExternalUrl(value) {
+        return /^https?:\/\//i.test(value || '');
+    }
+
+    sanitizeFilename(value) {
+        return (value || 'image')
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '_')
+            .replace(/_{2,}/g, '_')
+            .replace(/^_|_$/g, '')
+            .substring(0, 40) || 'image';
+    }
+
+    async downloadToWebp(url, titleBase) {
+        const response = await fetch(url, { mode: 'cors' });
+        if (!response.ok) {
+            throw new Error(`Download failed (${response.status})`);
+        }
+
+        const blob = await response.blob();
+        const image = await this.loadImageFromBlob(blob);
+        const canvas = document.createElement('canvas');
+        canvas.width = image.naturalWidth || image.width;
+        canvas.height = image.naturalHeight || image.height;
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+        const webpBlob = await new Promise(resolve => {
+            canvas.toBlob(resolve, 'image/webp', 0.92);
+        });
+
+        if (!webpBlob) {
+            throw new Error('WebP conversion failed');
+        }
+
+        const filenameBase = this.sanitizeFilename(titleBase);
+        const uniqueSuffix = Date.now().toString(36);
+        const filename = `${filenameBase}_${uniqueSuffix}.webp`;
+        const savePath = `images/originals/${filename}`;
+
+        const formData = new FormData();
+        formData.append('image', webpBlob, filename);
+        formData.append('path', savePath);
+
+        const saveResponse = await fetch('/api/save-image', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!saveResponse.ok) {
+            const error = await saveResponse.json().catch(() => ({}));
+            throw new Error(error.error || 'Failed to save image');
+        }
+
+        return savePath;
+    }
+
+    loadImageFromBlob(blob) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            const objectUrl = URL.createObjectURL(blob);
+            img.onload = () => {
+                URL.revokeObjectURL(objectUrl);
+                resolve(img);
+            };
+            img.onerror = () => {
+                URL.revokeObjectURL(objectUrl);
+                reject(new Error('Image decode failed'));
+            };
+            img.src = objectUrl;
+        });
     }
 
     useImageUrl() {

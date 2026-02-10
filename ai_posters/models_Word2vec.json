@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "6819c1ce-90ea-4b8c-b6dc-2dcb4d272964",
+  "front": {
+    "title": "Word2vec",
+    "subtitle": "Models used to produce word embeddings"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Word2vec is a technique in natural language processing for obtaining vector representations of words. These vectors capture information about the meaning of the word based on the surrounding words. The word2vec algorithm estimates these representations by modeling text in a large corpus. Once trained, such a model can detect synonymous words or suggest additional words for a partial sentence. Word2vec was developed by Tom\u00e1\u0161 Mikolov, Kai Chen, Greg Corrado, Ilya Sutskever and Jeff Dean at Google, and published in 2013.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Word2vec",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:15.419659",
+    "modified": "2026-02-10T13:20:15.419664",
+    "categories": [
+      "AI Models",
+      "Machine Learning"
+    ],
+    "tags": [
+      "Word2vec"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Word2vec"
+  }
+}

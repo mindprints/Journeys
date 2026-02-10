@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "094b49f7-1301-4bc2-a338-f9fd71df82a1",
+  "front": {
+    "title": "Activation function",
+    "subtitle": "Artificial neural network node function"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "In artificial neural networks, the activation function of a node is a function that calculates the output of the node based on its individual inputs and their weights. Nontrivial problems can be solved using only a few nodes if the activation function is nonlinear.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Activation_function",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Logistic-curve.svg/330px-Logistic-curve.svg.png",
+      "alt": "Activation function",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:35.076478",
+    "modified": "2026-02-10T13:20:35.076482",
+    "categories": [
+      "AI Concepts",
+      "Theory"
+    ],
+    "tags": [
+      "Activation function"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Activation_function"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "4f680847-2c09-4a92-aea8-10f72f359a57",
+  "front": {
+    "title": "IBM Watson",
+    "subtitle": "Artificial intelligence computer system made by IBM"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "IBM Watson is a computer system capable of answering questions posed in natural language. It was developed as a part of IBM's DeepQA project by a research team, led by principal investigator David Ferrucci. Watson was named after IBM's founder and first CEO, industrialist Thomas J. Watson.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/IBM_Watson",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/IBM_Watson.PNG/330px-IBM_Watson.PNG",
+      "alt": "IBM Watson",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:43.552366",
+    "modified": "2026-02-10T13:20:43.552370",
+    "categories": [
+      "AI Companies",
+      "Organizations"
+    ],
+    "tags": [
+      "IBM Watson"
+    ],
+    "source": "https://en.wikipedia.org/wiki/IBM_Watson"
+  }
+}

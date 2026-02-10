@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "14b9a7a3-8912-4e6e-9821-b0ee66cfdd04",
+  "front": {
+    "title": "Deep Blue (chess computer)",
+    "subtitle": "Chess-playing computer made by IBM"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Deep Blue was a customized IBM RS/6000 SP supercomputer for chess-playing designed by computer scientist Feng-hsiung Hsu. It was the first computer to win a game, and the first to win a match, against a reigning world champion under regular time controls. Development began in 1985 at Carnegie Mellon University under the name ChipTest. It then moved to IBM, where it was first renamed Deep Thought, then again in 1989 to Deep Blue. In 1996, it was used to compete against world champion Garry Kasparov in a six-game match, where it won one, drew two, and lost three games. In 1997, it underwent an upgrade, and in a six-game rematch it defeated Kasparov by winning two games and drawing three. Deep Blue's victory is considered a milestone in the history of artificial intelligence and has been the subject of several books and films.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Deep_Blue_(chess_computer)",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Deep_Blue.jpg/330px-Deep_Blue.jpg",
+      "alt": "Deep Blue (chess computer)",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:52.244777",
+    "modified": "2026-02-10T13:20:52.244781",
+    "categories": [
+      "AI History",
+      "Milestones"
+    ],
+    "tags": [
+      "Deep Blue (chess computer)"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Deep_Blue_(chess_computer)"
+  }
+}

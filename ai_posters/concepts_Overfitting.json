@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "4c400195-05a4-482a-93e3-1115050d5131",
+  "front": {
+    "title": "Overfitting",
+    "subtitle": "Flaw in mathematical modelling"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "In mathematical modeling, overfitting is the production of an analysis that corresponds too closely or exactly to a particular set of data, and may therefore fail to fit to additional data or predict future observations reliably. An overfitted model is a mathematical model that contains more parameters than can be justified by the data. In the special case of a model that consists of a polynomial function, these parameters represent the degree of a polynomial. The essence of overfitting is to unknowingly extract some of the residual variation as if that variation represents the underlying model structure.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Overfitting",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Overfitting.svg/330px-Overfitting.svg.png",
+      "alt": "Overfitting",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-10T13:20:30.656222",
+    "modified": "2026-02-10T13:20:30.656226",
+    "categories": [
+      "AI Concepts",
+      "Theory"
+    ],
+    "tags": [
+      "Overfitting"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Overfitting"
+  }
+}

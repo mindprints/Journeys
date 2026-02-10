@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "81abf52b-003f-4b2b-ad90-5f3f30759976",
+  "front": {
+    "title": "ASIMO",
+    "subtitle": "Humanoid robot created by Honda"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "ASIMO is a humanoid robot created by Honda in 2000.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/ASIMO",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Honda_ASIMO_%28ver._2011%29_2011_Tokyo_Motor_Show.jpg/330px-Honda_ASIMO_%28ver._2011%29_2011_Tokyo_Motor_Show.jpg",
+      "alt": "ASIMO",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-10T10:18:03.619196",
+    "modified": "2026-02-10T10:18:03.619200",
+    "categories": [
+      "Classical Robots"
+    ],
+    "tags": [
+      "ASIMO"
+    ],
+    "source": "https://en.wikipedia.org/wiki/ASIMO"
+  }
+}
