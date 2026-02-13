@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "86503aee-6338-4b17-ac74-edc4963de423",
+  "front": {
+    "title": "Potato cyst nematode",
+    "subtitle": "Genus of roundworms that live on potato roots"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Potato root nematodes or potato cyst nematodes (PCN) are 1-mm long roundworms belonging to the genus Globodera, which comprises around 12 species. They live on the roots of plants of the family Solanaceae, such as potatoes and tomatoes. PCN cause growth retardation and, at very high population densities, damage to the roots and early senescence of plants. The nematode is not indigenous to Europe but originates from the Andes. Fields are free from PCN until an introduction occurs, after which the typical patches, or hotspots, occur on the farmland. These patches can become full field infestations when unchecked. Yield reductions can average up to 60% at high population densities.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Potato_cyst_nematode",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/PotatoNematodeCysts.jpg/330px-PotatoNematodeCysts.jpg",
+      "alt": "Potato cyst nematode",
+      "position": "top",
+      "fit": "contain",
+      "maxWidth": 86,
+      "maxHeight": 92
+    }
+  },
+  "meta": {
+    "created": "2026-02-13T19:41:50.195009",
+    "modified": "2026-02-13T19:41:50.195012",
+    "categories": [
+      "Nematodes"
+    ],
+    "tags": [
+      "Potato cyst nematode"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Potato_cyst_nematode"
+  }
+}

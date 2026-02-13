@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "ab8b4aad-f452-46a7-97f9-55ad47872d7a",
+  "front": {
+    "title": "Toyota concept vehicles (2010\u20132019)",
+    "subtitle": "Toyota Concept Vehicles produced between 2010 and 2019 include:"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Toyota Concept Vehicles produced between 2010 and 2019 include:",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Toyota_concept_vehicles_(2010%E2%80%932019)",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-13T22:30:30.936620",
+    "modified": "2026-02-13T22:30:30.936625",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "Toyota concept vehicles (2010\u20132019)"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Toyota_concept_vehicles_(2010%E2%80%932019)"
+  }
+}

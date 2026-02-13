@@ -1,5 +1,5 @@
 {
-  "updated": "2026-02-10T19:04:04.886Z",
+  "updated": "2026-02-13T21:33:14.938Z",
   "categories": [
     {
       "name": "Classical Robots",
@@ -92,12 +92,80 @@
         "Bell_Labs_Technical_Journal",
         "Breakup_of_the_Bell_System",
         "Daisy_Bell",
+        "Enthiran",
         "History_of_the_transistor",
         "Inferno_(operating_system)",
         "List_of_Bell_Labs_alumni",
         "Marian_Croak",
         "Nokia",
-        "Plan_9_from_Bell_Labs"
+        "Plan_9_from_Bell_Labs",
+        "Robot_(film)"
+      ]
+    },
+    {
+      "name": "sewing machine",
+      "slug": "sewing-machine",
+      "description": "",
+      "color": "#f48c06",
+      "targetCount": null,
+      "source": "wikipedia",
+      "topics": [
+        "Elias_Howe",
+        "Girl_at_Sewing_Machine",
+        "Jones_Sewing_Machine_Company",
+        "Leader_Sewing_Machine",
+        "List_of_sewing_machine_brands",
+        "Sewing",
+        "Sewing_machine",
+        "Sewing_Machine_Combination",
+        "Sewing_machine_needle",
+        "Sewing_needle",
+        "Singer_Corporation",
+        "White_Sewing_Machine_Company"
+      ]
+    },
+    {
+      "name": "The Dartmouth conference on AI",
+      "slug": "the-dartmouth-conference-on-ai",
+      "description": "",
+      "color": "#f48c06",
+      "targetCount": null,
+      "source": "wikipedia",
+      "topics": [
+        "AI_alignment",
+        "AI_boom",
+        "AI@50",
+        "Allie_K._Miller",
+        "Artificial_intelligence",
+        "Artificial_intelligence_visual_art",
+        "Dartmouth_workshop",
+        "History_of_artificial_intelligence",
+        "John_McCarthy_(computer_scientist)",
+        "Marvin_Minsky",
+        "Nathaniel_Rochester_(computer_scientist)",
+        "Timeline_of_artificial_intelligence"
+      ]
+    },
+    {
+      "name": "Nematodes",
+      "slug": "nematodes",
+      "description": "",
+      "color": "#f48c06",
+      "targetCount": null,
+      "source": "wikipedia",
+      "topics": [
+        "Alae_(nematode_anatomy)",
+        "Cyst_nematode",
+        "Entomopathogenic_nematode",
+        "Foliar_nematode",
+        "Nematode",
+        "Nematode.net",
+        "Neocalyptis_nematodes",
+        "Potato_cyst_nematode",
+        "Root-knot_nematode",
+        "Sarconema_(nematode)",
+        "Spicule_(nematode_anatomy)",
+        "Strawberry_foliar_nematode"
       ]
     }
   ]

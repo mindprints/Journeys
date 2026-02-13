@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "096f3d4a-dc96-480e-8676-fa771de01b04",
+  "front": {
+    "title": "Nematode.net",
+    "subtitle": "Nematode.net is a publicly available resource dedicated to the study of parasitic nematodes. It stem..."
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Nematode.net is a publicly available resource dedicated to the study of parasitic nematodes. It stemmed from an Expressed Sequence Tag (EST) project that began at The Genome Institute at Washington University School of Medicine. The site was launched in 2000 to accompany the project \u201cA Genomic Approach to Parasites from the Phylum Nematoda,\u201d funded by the National Institute of Allergy and Infectious Diseases (NIAID). It was created to provide access to the data from this project and as a broader resource for the scientific community studying parasitic nematodes.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Nematode.net",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-13T19:41:46.825915",
+    "modified": "2026-02-13T19:41:46.825919",
+    "categories": [
+      "Nematodes"
+    ],
+    "tags": [
+      "Nematode.net"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Nematode.net"
+  }
+}

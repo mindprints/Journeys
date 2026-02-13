@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "96b50fe4-c13a-46ae-bfac-dcf48fff4cfc",
+  "front": {
+    "title": "Breakup of the Bell System",
+    "subtitle": "1982 US government action ending telephone monopoly"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "The Bell System held a virtual monopoly over telephony infrastructure in the United States from around the early 20th century until January 8, 1982. It consisted of the parent American Telephone & Telegraph Company (AT&T), which directly provided long-distance service, while local service was provided by 24 local Bell Operating Companies, which were owned whole or in part by AT&T, while its manufacturing subsidiary Western Electric produced almost all of its equipment, which was largely designed at the research and development subsidiary Bell Labs. As a result, AT&T had substantial control over the United States' communications infrastructure.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Breakup_of_the_Bell_System",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Baby_Bells.svg/330px-Baby_Bells.svg.png",
+      "alt": "Breakup of the Bell System",
+      "position": "top",
+      "fit": "contain",
+      "maxWidth": 86,
+      "maxHeight": 92
+    }
+  },
+  "meta": {
+    "created": "2026-02-13T22:30:11.887301",
+    "modified": "2026-02-13T22:30:11.887306",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "Breakup of the Bell System"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Breakup_of_the_Bell_System"
+  }
+}

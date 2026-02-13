@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "381d8ce6-1a1c-4b0d-b554-9f72b0027954",
+  "front": {
+    "title": "Strawberry foliar nematode",
+    "subtitle": "Species of worm"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Strawberry foliar nematode, or strawberry crimp nematode, is a disease caused by Aphelenchoides fragariae, a plant pathogenic nematode. It is common in strawberries and ornamental plants and can greatly affect plant yield and appearance, resulting in a loss of millions of dollars of revenue. Symptoms used to diagnose the disease are angular, water soaked lesions and necrotic blotches. Aphelenchoides fragariae is the nematode pathogen that causes the disease. Its biological cycle includes four life stages, three of which are juvenile. The nematode can undergo multiple life cycles in one growing season when favorable conditions are present. The crowns, runners, foliage, and new buds of the plant via stylet penetration or through the stomata can be infected. The best management practices for this disease are sanitation, prevention of induction of the pathogen to the environment, and planting clean seed or starter plants.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Strawberry_foliar_nematode",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-13T19:41:55.898862",
+    "modified": "2026-02-13T19:41:55.898866",
+    "categories": [
+      "Nematodes"
+    ],
+    "tags": [
+      "Strawberry foliar nematode"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Strawberry_foliar_nematode"
+  }
+}

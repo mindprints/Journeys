@@ -51,6 +51,14 @@
     <pre id="postersResult">Results will appear here...</pre>
   </div>
 
+  <div>
+    <h2>Test Model Intel Endpoints</h2>
+    <button id="testNormalizeModel">Normalize OpenRouter Model</button>
+    <button id="testCapabilities">Check Capabilities</button>
+    <button id="testBenchmarkMatch">Parse + Match Benchmark</button>
+    <pre id="modelIntelResult">Results will appear here...</pre>
+  </div>
+
   <script>
     document.getElementById('testDirectories').addEventListener('click', async () => {
       const resultArea = document.getElementById('directoriesResult');
@@ -93,6 +101,79 @@
         }
         
         const data = await response.json();
+        resultArea.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        resultArea.textContent = `Error: ${error.message}`;
+      }
+    });
+
+    async function postJson(url, body) {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (!response.ok) {
+        throw new Error(`Server returned ${response.status}: ${response.statusText}`);
+      }
+      return response.json();
+    }
+
+    document.getElementById('testNormalizeModel').addEventListener('click', async () => {
+      const resultArea = document.getElementById('modelIntelResult');
+      resultArea.textContent = 'Normalizing OpenRouter model payload...';
+      try {
+        const data = await postJson('/api/model-intel/normalize-openrouter', {
+          model: {
+            id: 'anthropic/claude-haiku-4.5',
+            name: 'Claude Haiku 4.5',
+            context_length: 200000,
+            pricing: { prompt: '0.000001', completion: '0.000005' },
+            architecture: { modality: 'Text->Text' },
+            supported_parameters: ['tools'],
+            capabilities: ['search'],
+          },
+        });
+        resultArea.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        resultArea.textContent = `Error: ${error.message}`;
+      }
+    });
+
+    document.getElementById('testCapabilities').addEventListener('click', async () => {
+      const resultArea = document.getElementById('modelIntelResult');
+      resultArea.textContent = 'Evaluating model capabilities...';
+      try {
+        const data = await postJson('/api/model-intel/capabilities', {
+          modelId: 'perplexity/sonar-pro',
+          modelName: 'Sonar Pro',
+          modality: 'text->text',
+          supportedParams: ['tools'],
+          capabilities: ['search'],
+        });
+        resultArea.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        resultArea.textContent = `Error: ${error.message}`;
+      }
+    });
+
+    document.getElementById('testBenchmarkMatch').addEventListener('click', async () => {
+      const resultArea = document.getElementById('modelIntelResult');
+      resultArea.textContent = 'Parsing benchmarks and matching model...';
+      try {
+        const data = await postJson('/api/model-intel/benchmarks/parse-match', {
+          modelId: 'anthropic/claude-haiku-4.5',
+          modelName: 'Claude Haiku 4.5',
+          rawBenchmarks: {
+            data: [
+              {
+                model_name: 'Claude Haiku 4.5',
+                model_creator: { name: 'Anthropic' },
+                evaluations: { artificial_analysis_intelligence_index: 52.1 },
+              },
+            ],
+          },
+        });
         resultArea.textContent = JSON.stringify(data, null, 2);
       } catch (error) {
         resultArea.textContent = `Error: ${error.message}`;

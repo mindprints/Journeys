@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "05872457-2673-4f63-9b57-fb3a69b7ea56",
+  "front": {
+    "title": "Essentially contested concept",
+    "subtitle": "Problem in philosophy"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "An essentially contested concept is an abstract term or phrase that provides value judgements which can be contested. The term essentially contested concept was proposed to facilitate an understanding of the different interpretations of abstractions that have qualitative and evaluative notions\u2014such as \"art\", \"time\", \"philanthropy\", \"power\",\nand \"social justice\". The notion of an essentially contested concept was proposed in 1956 by Walter Bryce Gallie.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Essentially_contested_concept",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-13T22:30:15.532333",
+    "modified": "2026-02-13T22:30:15.532337",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "Essentially contested concept"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Essentially_contested_concept"
+  }
+}

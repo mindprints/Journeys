@@ -145,6 +145,39 @@ def fetch_wikipedia_summary(topic):
         return None
 
 
+def build_image_fit_config(thumbnail):
+    """Return fit/size hints so imported images reduce to frame without cropping."""
+    default = {
+        "fit": "contain",
+        "maxWidth": 92,
+        "maxHeight": 92,
+    }
+    if not isinstance(thumbnail, dict):
+        return default
+
+    width = thumbnail.get("width")
+    height = thumbnail.get("height")
+    if not isinstance(width, (int, float)) or not isinstance(height, (int, float)) or width <= 0 or height <= 0:
+        return default
+
+    ratio = width / height
+
+    # Near 16:9 frame ratio: keep almost full size, just reduce enough to fit.
+    if 1.65 <= ratio <= 1.90:
+        return {"fit": "contain", "maxWidth": 96, "maxHeight": 96}
+
+    # Wide landscape images: constrain height more.
+    if ratio > 1.90:
+        return {"fit": "contain", "maxWidth": 96, "maxHeight": 82}
+
+    # Portrait images: constrain width more.
+    if ratio < 0.95:
+        return {"fit": "contain", "maxWidth": 72, "maxHeight": 96}
+
+    # Mildly landscape/square: balanced reduction.
+    return {"fit": "contain", "maxWidth": 86, "maxHeight": 92}
+
+
 def extract_year_from_text(text):
     """Extract a year from text (for chronology)"""
     # Look for 4-digit years
@@ -367,10 +400,14 @@ def create_poster_from_wikipedia(topic, category_type, existing_index, category_
     
     # Add image if available
     if data.get('thumbnail'):
+        image_cfg = build_image_fit_config(data.get('thumbnail'))
         poster['back']['image'] = {
             "src": data['thumbnail'].get('source', ''),
             "alt": title,
-            "position": "top"
+            "position": "top",
+            "fit": image_cfg["fit"],
+            "maxWidth": image_cfg["maxWidth"],
+            "maxHeight": image_cfg["maxHeight"]
         }
     
     # Add chronology for pioneers (people)

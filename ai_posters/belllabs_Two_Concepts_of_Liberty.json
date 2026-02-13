@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "78e87961-5f5f-4f04-9658-e396074d6344",
+  "front": {
+    "title": "Two Concepts of Liberty",
+    "subtitle": "1958 ethics lecture by Isaiah Berlin"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "\"Two Concepts of Liberty\" was the inaugural lecture delivered by the liberal philosopher Isaiah Berlin before the University of Oxford on 31 October 1958. It was subsequently published as a 57-page pamphlet by Oxford at the Clarendon Press. It also appears in the collection of Berlin's papers entitled Four Essays on Liberty (1969) and was reissued in a collection entitled Liberty: Incorporating Four Essays on Liberty (2002).",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Two_Concepts_of_Liberty",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-13T22:30:32.027424",
+    "modified": "2026-02-13T22:30:32.027428",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "Two Concepts of Liberty"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Two_Concepts_of_Liberty"
+  }
+}

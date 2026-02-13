@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "867f0380-4713-4731-8e09-3918b2d2c471",
+  "front": {
+    "title": "Nematode",
+    "subtitle": "Phylum of worms"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "The nematodes, roundworms or eelworms constitute the phylum Nematoda. Species in the phylum inhabit a broad range of environments. Most species are free-living, feeding on microorganisms, but many are parasitic. Parasitic worms (helminths) are the cause of soil-transmitted helminthiases.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Nematode",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/CelegansGoldsteinLabUNC.jpg/330px-CelegansGoldsteinLabUNC.jpg",
+      "alt": "Nematode",
+      "position": "top",
+      "fit": "contain",
+      "maxWidth": 86,
+      "maxHeight": 92
+    }
+  },
+  "meta": {
+    "created": "2026-02-13T19:41:45.620447",
+    "modified": "2026-02-13T19:41:45.620451",
+    "categories": [
+      "Nematodes"
+    ],
+    "tags": [
+      "Nematode"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Nematode"
+  }
+}

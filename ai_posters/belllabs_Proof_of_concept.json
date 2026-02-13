@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "6c831af6-f233-4166-9e03-2857897f15e8",
+  "front": {
+    "title": "Proof of concept",
+    "subtitle": "Realization of a certain method or idea in order to demonstrate its feasibility"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "A proof of concept, also known as proof of principle, is an inchoate realization of a certain idea or method in order to demonstrate its feasibility or viability. A proof of concept is usually small and may or may not be complete, but aims to demonstrate in principle that the concept has practical potential without needing to fully develop it.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Proof_of_concept",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/VolkDaddyLongLegsModel.jpg/330px-VolkDaddyLongLegsModel.jpg",
+      "alt": "Proof of concept",
+      "position": "top",
+      "fit": "contain",
+      "maxWidth": 86,
+      "maxHeight": 92
+    }
+  },
+  "meta": {
+    "created": "2026-02-13T22:30:28.516409",
+    "modified": "2026-02-13T22:30:28.516414",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "Proof of concept"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Proof_of_concept"
+  }
+}

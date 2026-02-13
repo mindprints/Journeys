@@ -1,0 +1,37 @@
+============================================================
+AI POSTER GENERATOR
+Fetching data from Wikipedia API
+============================================================
+Starting poster generation...
+Output directory: C:\Users\mindp\Documents\GitHub\galleryElements_Claude\ai_posters
+
+
+============================================================
+Processing BELL LABS (12 topics)
+============================================================
+[1/12] Fetching: AT&T_Labs... Created: belllabs_AT&T_Labs.json
+[2/12] Fetching: Bell_Labs... Created: belllabs_Bell_Labs.json
+[3/12] Fetching: Bell_Labs_Holmdel_Complex... Created: belllabs_Bell_Labs_Holmdel_Complex.json
+[4/12] Fetching: Bell_Labs_Technical_Journal... Created: belllabs_Bell_Labs_Technical_Journal.json
+[5/12] Fetching: Breakup_of_the_Belll system... Error fetching Breakup_of_the_Belll system: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Breakup_of_the_Belll%20system
+Failed
+[6/12] Fetching: Enthiran... Created: belllabs_Enthiran.json
+[7/12] Fetching: History_of_the_transistor... Created: belllabs_History_of_the_transistor.json
+[8/12] Fetching: Inferno_(operating_system)... Created: belllabs_Inferno_operating_system.json
+[9/12] Fetching: List_of_Bell_Labs_alumni... Created: belllabs_List_of_Bell_Labs_alumni.json
+[10/12] Fetching: Marian_Croak... Created: belllabs_Marian_Croak.json
+[11/12] Fetching: Plan_9_from_Bell_Labs... Created: belllabs_Plan_9_from_Bell_Labs.json
+[12/12] Fetching: Robot_(film)... SKIP duplicate (source)
+
+============================================================
+SUMMARY
+============================================================
+Created: 10 posters
+SKIP duplicates: 1 posters
+MERGE enriched: 0 posters
+Failed: 1 posters
+Output directory: C:\Users\mindp\Documents\GitHub\galleryElements_Claude\ai_posters
+
+Total topics attempted: 12
+
+Done!

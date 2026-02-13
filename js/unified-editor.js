@@ -5,6 +5,7 @@
 
 class UnifiedEditor {
     constructor() {
+        this.fallbackCategory = 'No-Category';
         this.currentPoster = null;
         this.isDirty = false;
         this.categories = [];
@@ -15,6 +16,8 @@ class UnifiedEditor {
         this.maxImages = 5;
         this.postersDirectory = 'JSON_Posters/Posters';
         this.categoryValues = [];
+        this.selectedPosterPaths = new Set();
+        this.lastSelectedIndex = null;
 
         this.init();
     }
@@ -33,6 +36,14 @@ class UnifiedEditor {
         this.posterList = document.getElementById('poster-list');
         this.searchInput = document.getElementById('poster-search');
         this.categoryFilter = document.getElementById('category-filter');
+        this.bulkSelectionCount = document.getElementById('bulk-selection-count');
+        this.selectAllPostersBtn = document.getElementById('select-all-posters-btn');
+        this.clearSelectionBtn = document.getElementById('clear-selection-btn');
+        this.bulkDeleteSelectedBtn = document.getElementById('bulk-delete-selected-btn');
+        this.bulkCategorySelect = document.getElementById('bulk-category-select');
+        this.bulkCategoryInput = document.getElementById('bulk-category-input');
+        this.bulkAddCategoryBtn = document.getElementById('bulk-add-category-btn');
+        this.bulkRemoveCategoryBtn = document.getElementById('bulk-remove-category-btn');
 
         // Tabs
         this.tabs = document.querySelectorAll('.editor-tab');
@@ -125,6 +136,37 @@ class UnifiedEditor {
         document.getElementById('delete-btn').addEventListener('click', () => this.confirmDelete());
         document.getElementById('cancel-btn').addEventListener('click', () => this.cancelEdit());
         document.getElementById('refresh-list-btn').addEventListener('click', () => this.loadPosters());
+        if (this.selectAllPostersBtn) {
+            this.selectAllPostersBtn.addEventListener('click', () => this.selectAllFilteredPosters());
+        }
+        if (this.clearSelectionBtn) {
+            this.clearSelectionBtn.addEventListener('click', () => this.clearSelection());
+        }
+        if (this.bulkDeleteSelectedBtn) {
+            this.bulkDeleteSelectedBtn.addEventListener('click', () => this.bulkDeleteSelected());
+        }
+        if (this.bulkAddCategoryBtn) {
+            this.bulkAddCategoryBtn.addEventListener('click', () => this.bulkApplyCategory('add'));
+        }
+        if (this.bulkRemoveCategoryBtn) {
+            this.bulkRemoveCategoryBtn.addEventListener('click', () => this.bulkApplyCategory('remove'));
+        }
+        if (this.bulkCategoryInput) {
+            this.bulkCategoryInput.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    this.bulkApplyCategory('add');
+                }
+            });
+        }
+        if (this.bulkCategorySelect) {
+            this.bulkCategorySelect.addEventListener('change', () => {
+                const selected = this.bulkCategorySelect.value || '';
+                if (selected && this.bulkCategoryInput) {
+                    this.bulkCategoryInput.value = selected;
+                }
+            });
+        }
 
         // Preview flip
         document.getElementById('toggle-preview-btn').addEventListener('click', () => this.togglePreview());
@@ -163,17 +205,31 @@ class UnifiedEditor {
             if (!response.ok) throw new Error('Failed to load categories');
             const categories = await response.json();
 
-            this.categories = categories.map(c => ({
+            const loaded = categories.map(c => ({
                 value: c.value || c.name,
                 label: c.name || c.value
             }));
+            const hasFallback = loaded.some(c => String(c.value).toLowerCase() === this.fallbackCategory.toLowerCase());
+            this.categories = hasFallback
+                ? loaded
+                : [...loaded, { value: this.fallbackCategory, label: this.fallbackCategory }];
+            this.categories.sort((a, b) => String(a.label).localeCompare(String(b.label)));
 
             this.categoryFilter.innerHTML = '<option value="">All Categories</option>';
+            if (this.bulkCategorySelect) {
+                this.bulkCategorySelect.innerHTML = '<option value="">Pick existing category...</option>';
+            }
             this.categories.forEach(cat => {
                 const option = document.createElement('option');
                 option.value = cat.value;
                 option.textContent = cat.label;
                 this.categoryFilter.appendChild(option);
+                if (this.bulkCategorySelect) {
+                    const bulkOption = document.createElement('option');
+                    bulkOption.value = cat.value;
+                    bulkOption.textContent = cat.label;
+                    this.bulkCategorySelect.appendChild(bulkOption);
+                }
             });
 
             if (this.categorySuggestions) {
@@ -193,8 +249,21 @@ class UnifiedEditor {
         try {
             const response = await fetch('/api/posters-all');
             if (!response.ok) throw new Error('Failed to load posters');
-            this.posters = await response.json();
+            const posters = await response.json();
+            this.posters = (Array.isArray(posters) ? posters : []).filter(poster => {
+                if (!poster || typeof poster !== 'object') return false;
+                if (poster.type === 'skip-log') return false;
+                const pathValue = String(poster.path || '');
+                const filenameValue = String(poster.filename || '');
+                if (pathValue.toLowerCase().endsWith('.log') || filenameValue.toLowerCase().endsWith('.log')) {
+                    return false;
+                }
+                return true;
+            });
+            const validPaths = new Set(this.posters.map(p => p.path).filter(Boolean));
+            this.selectedPosterPaths = new Set([...this.selectedPosterPaths].filter(path => validPaths.has(path)));
             this.renderPosterList();
+            this.updateSelectionUI();
         } catch (error) {
             console.error('Error loading posters:', error);
         }
@@ -265,10 +334,7 @@ class UnifiedEditor {
             await this.loadPosters();
 
             // Select the saved poster
-            const savedItem = this.posterList.querySelector(`[data-path="${savePath}"]`);
-            if (savedItem) {
-                savedItem.classList.add('selected');
-            }
+            this.selectPoster(savePath);
 
             console.log('Poster saved successfully');
         } catch (error) {
@@ -286,13 +352,22 @@ class UnifiedEditor {
                 method: 'DELETE'
             });
 
-            if (!response.ok) throw new Error('Failed to delete poster');
+            if (!response.ok) {
+                let message = `Delete failed (${response.status})`;
+                try {
+                    const errorData = await response.json();
+                    message = errorData?.error || errorData?.message || message;
+                } catch (_) {
+                    // Ignore JSON parse failures and keep status message
+                }
+                throw new Error(message);
+            }
 
             this.clearForm();
             await this.loadPosters();
         } catch (error) {
             console.error('Error deleting poster:', error);
-            alert(`Failed to delete poster: ${error.message}`);
+            alert(error.message || 'Failed to delete poster');
         }
     }
 
@@ -304,15 +379,12 @@ class UnifiedEditor {
         this.posterList.innerHTML = filtered.map(poster => {
             const icon = this.getPosterIcon(poster);
             const title = poster.front?.title || poster.data?.figure || poster.title || poster.filename;
-            const categories = Array.isArray(poster.meta?.categories)
-                ? poster.meta.categories
-                : Array.isArray(poster.categories)
-                    ? poster.categories
-                    : [];
-            const categoryLabel = categories.length ? categories.join(', ') : 'Uncategorized';
+            const categories = this.getPosterCategories(poster);
+            const categoryLabel = categories.length ? categories.join(', ') : this.fallbackCategory;
+            const selectedClass = this.selectedPosterPaths.has(poster.path) ? ' selected' : '';
 
             return `
-        <div class="poster-list-item" data-path="${poster.path}" onclick="editor.selectPoster('${poster.path}')">
+        <div class="poster-list-item${selectedClass}" data-path="${poster.path}">
           <div class="icon ${icon.class}"><i class="fas ${icon.icon}"></i></div>
           <div class="info">
             <div class="title">${this.escapeHtml(title)}</div>
@@ -321,27 +393,237 @@ class UnifiedEditor {
         </div>
       `;
         }).join('');
+
+        this.posterList.querySelectorAll('.poster-list-item').forEach(item => {
+            item.addEventListener('click', (event) => {
+                const path = item.dataset.path;
+                if (path) this.handlePosterItemClick(path, event);
+            });
+        });
     }
 
     getFilteredPosters() {
         const search = this.searchInput.value.toLowerCase();
         const category = this.categoryFilter.value;
+        const fallbackNeedle = this.fallbackCategory.toLowerCase();
 
         return this.posters.filter(poster => {
             const title = (poster.front?.title || poster.data?.figure || poster.title || poster.filename || '').toLowerCase();
             const matchesSearch = !search || title.includes(search);
-            const categories = Array.isArray(poster.meta?.categories)
-                ? poster.meta.categories
-                : Array.isArray(poster.categories)
-                    ? poster.categories
-                    : [];
-            const matchesCategory = !category || categories.some(c => String(c).toLowerCase() === category.toLowerCase());
+            const categories = this.getPosterCategories(poster);
+            const normalized = categories
+                .filter(c => typeof c === 'string')
+                .map(c => c.trim().toLowerCase())
+                .filter(Boolean);
+            const matchesCategory = !category
+                || normalized.some(c => c === category.toLowerCase())
+                || (category.toLowerCase() === fallbackNeedle
+                    && (normalized.length === 0 || normalized.includes('uncategorized')));
             return matchesSearch && matchesCategory;
         });
     }
 
+    getPosterCategories(poster) {
+        if (Array.isArray(poster?.meta?.categories)) return poster.meta.categories;
+        if (Array.isArray(poster?.categories)) return poster.categories;
+        return [];
+    }
+
     filterPosters() {
         this.renderPosterList();
+        this.updateSelectionUI();
+    }
+
+    updateSelectionUI() {
+        const count = this.selectedPosterPaths.size;
+        if (this.bulkSelectionCount) {
+            this.bulkSelectionCount.textContent = `${count} selected`;
+        }
+        if (this.bulkDeleteSelectedBtn) {
+            this.bulkDeleteSelectedBtn.disabled = count === 0;
+        }
+        if (this.bulkAddCategoryBtn) {
+            this.bulkAddCategoryBtn.disabled = count === 0;
+        }
+        if (this.bulkRemoveCategoryBtn) {
+            this.bulkRemoveCategoryBtn.disabled = count === 0;
+        }
+        const singleDeleteBtn = document.getElementById('delete-btn');
+        if (singleDeleteBtn && count !== 1) {
+            singleDeleteBtn.disabled = true;
+        }
+    }
+
+    selectAllFilteredPosters() {
+        const filtered = this.getFilteredPosters();
+        this.selectedPosterPaths = new Set(filtered.map(p => p.path).filter(Boolean));
+        this.lastSelectedIndex = filtered.length ? filtered.length - 1 : null;
+        this.renderPosterList();
+        this.updateSelectionUI();
+    }
+
+    clearSelection() {
+        this.selectedPosterPaths.clear();
+        this.lastSelectedIndex = null;
+        this.renderPosterList();
+        this.updateSelectionUI();
+    }
+
+    clonePosterDataForSave(poster) {
+        if (poster?.data && typeof poster.data === 'object') {
+            return JSON.parse(JSON.stringify(poster.data));
+        }
+        if (poster?.version === 2 || poster?.type === 'poster-v2' || poster?.front || poster?.back || poster?.meta) {
+            return JSON.parse(JSON.stringify({
+                version: poster.version || 2,
+                type: poster.type || 'poster-v2',
+                uid: poster.uid || `poster-${Date.now()}`,
+                front: poster.front || {},
+                back: poster.back || { layout: 'auto', text: '' },
+                meta: poster.meta || {}
+            }));
+        }
+        return null;
+    }
+
+    normalizeCategoryList(values) {
+        const isFallbackCategory = (value) => {
+            const normalized = String(value || '').trim().toLowerCase();
+            return normalized === this.fallbackCategory.toLowerCase() || normalized === 'uncategorized';
+        };
+        const seen = new Set();
+        const normalized = (Array.isArray(values) ? values : [])
+            .filter(v => typeof v === 'string')
+            .map(v => this.normalizeCategory(v))
+            .filter(Boolean)
+            .filter(v => {
+                const key = v.toLowerCase();
+                if (seen.has(key)) return false;
+                seen.add(key);
+                return true;
+            });
+        const realCategories = normalized.filter(v => !isFallbackCategory(v));
+        return realCategories.length ? realCategories : normalized;
+    }
+
+    async savePosterPayload(path, data) {
+        const response = await fetch('/api/save-poster', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ path, data })
+        });
+        if (!response.ok) {
+            let message = `Failed to save poster (${response.status})`;
+            try {
+                const payload = await response.json();
+                message = payload?.error || payload?.message || message;
+            } catch (_) {
+                // Ignore parsing error.
+            }
+            throw new Error(message);
+        }
+    }
+
+    async bulkApplyCategory(mode) {
+        const selectedPaths = Array.from(this.selectedPosterPaths);
+        if (!selectedPaths.length) return;
+        const rawCategory = (this.bulkCategoryInput?.value || this.bulkCategorySelect?.value || '').trim();
+        const category = this.normalizeCategory(rawCategory);
+        if (!category) {
+            alert('Enter a category value for bulk action.');
+            return;
+        }
+
+        const failures = [];
+        let updated = 0;
+        for (const path of selectedPaths) {
+            const poster = this.posters.find(p => p.path === path);
+            if (!poster) continue;
+            const payload = this.clonePosterDataForSave(poster);
+            if (!payload) {
+                failures.push(`${path} (unsupported poster format)`);
+                continue;
+            }
+            if (!payload.meta || typeof payload.meta !== 'object') {
+                payload.meta = {};
+            }
+            let categories = this.normalizeCategoryList(payload.meta.categories || payload.categories || []);
+
+            if (mode === 'add') {
+                categories = categories.filter(c => {
+                    const key = c.toLowerCase();
+                    return key !== this.fallbackCategory.toLowerCase() && key !== 'uncategorized';
+                });
+                if (!categories.some(c => c.toLowerCase() === category.toLowerCase())) {
+                    categories.push(category);
+                }
+            } else if (mode === 'remove') {
+                categories = categories.filter(c => c.toLowerCase() !== category.toLowerCase());
+                if (!categories.length) categories = [this.fallbackCategory];
+            }
+
+            payload.meta.categories = categories;
+            if (Array.isArray(payload.categories)) delete payload.categories;
+            payload.meta.modified = new Date().toISOString();
+
+            try {
+                await this.savePosterPayload(path, payload);
+                updated += 1;
+            } catch (error) {
+                failures.push(`${path} (${error.message})`);
+            }
+        }
+
+        await this.loadCategories();
+        await this.loadPosters();
+        this.renderPosterList();
+        this.updateSelectionUI();
+        if (this.bulkCategoryInput) this.bulkCategoryInput.value = '';
+        if (this.bulkCategorySelect) this.bulkCategorySelect.value = '';
+        if (failures.length) {
+            alert(`Updated ${updated} poster(s), ${failures.length} failed:\n- ${failures.join('\n- ')}`);
+        }
+    }
+
+    async bulkDeleteSelected() {
+        const selectedPaths = Array.from(this.selectedPosterPaths);
+        if (!selectedPaths.length) return;
+        const ok = confirm(`Delete ${selectedPaths.length} selected poster(s)? This cannot be undone.`);
+        if (!ok) return;
+
+        const failures = [];
+        let deleted = 0;
+        for (const path of selectedPaths) {
+            try {
+                const response = await fetch(`/api/delete-poster?path=${encodeURIComponent(path)}`, {
+                    method: 'DELETE'
+                });
+                if (!response.ok) {
+                    let message = `Delete failed (${response.status})`;
+                    try {
+                        const payload = await response.json();
+                        message = payload?.error || payload?.message || message;
+                    } catch (_) {
+                        // Ignore JSON parse errors.
+                    }
+                    throw new Error(message);
+                }
+                deleted += 1;
+            } catch (error) {
+                failures.push(`${path} (${error.message})`);
+            }
+        }
+
+        this.selectedPosterPaths.clear();
+        this.lastSelectedIndex = null;
+        this.clearForm();
+        await this.loadPosters();
+        await this.loadCategories();
+        this.updateSelectionUI();
+
+        if (failures.length) {
+            alert(`Deleted ${deleted} poster(s), ${failures.length} failed:\n- ${failures.join('\n- ')}`);
+        }
     }
 
     getPosterIcon(poster) {
@@ -358,6 +640,42 @@ class UnifiedEditor {
         return { icon: 'fa-align-left', class: 'text' };
     }
 
+    handlePosterItemClick(path, event) {
+        const filtered = this.getFilteredPosters();
+        const index = filtered.findIndex(p => p.path === path);
+        const withRange = Boolean(event?.shiftKey) && this.lastSelectedIndex !== null && index !== -1;
+        const isToggle = Boolean(event?.ctrlKey || event?.metaKey);
+
+        if (withRange) {
+            const start = Math.min(this.lastSelectedIndex, index);
+            const end = Math.max(this.lastSelectedIndex, index);
+            for (let i = start; i <= end; i += 1) {
+                if (filtered[i]?.path) this.selectedPosterPaths.add(filtered[i].path);
+            }
+        } else if (isToggle) {
+            if (this.selectedPosterPaths.has(path)) {
+                this.selectedPosterPaths.delete(path);
+            } else {
+                this.selectedPosterPaths.add(path);
+            }
+            this.lastSelectedIndex = index;
+        } else {
+            this.selectedPosterPaths = new Set([path]);
+            this.lastSelectedIndex = index;
+        }
+
+        const selectedCount = this.selectedPosterPaths.size;
+        if (selectedCount === 1) {
+            const [onlyPath] = Array.from(this.selectedPosterPaths);
+            this.selectPoster(onlyPath);
+        } else {
+            document.getElementById('delete-btn').disabled = true;
+        }
+
+        this.renderPosterList();
+        this.updateSelectionUI();
+    }
+
     selectPoster(path) {
         if (this.isDirty && !confirm('You have unsaved changes. Discard them?')) {
             return;
@@ -367,17 +685,16 @@ class UnifiedEditor {
         const poster = this.posters.find(p => p.path === path);
         if (!poster) return;
 
-        // Update selection UI
-        document.querySelectorAll('.poster-list-item').forEach(el => el.classList.remove('selected'));
-        document.querySelector(`[data-path="${path}"]`)?.classList.add('selected');
-
         // Load into form
         this.loadPosterIntoForm(poster);
         this.currentPoster = poster;
         this.isDirty = false;
+        this.selectedPosterPaths = new Set([path]);
+        this.lastSelectedIndex = this.getFilteredPosters().findIndex(p => p.path === path);
 
         // Enable delete button
         document.getElementById('delete-btn').disabled = false;
+        this.updateSelectionUI();
     }
 
     loadPosterIntoForm(poster) {
@@ -601,7 +918,7 @@ class UnifiedEditor {
         }
 
         const categories = this.getCategories();
-        poster.meta.categories = categories.length ? categories : ['Uncategorized'];
+        poster.meta.categories = categories.length ? categories : [this.fallbackCategory];
 
         return poster;
     }
@@ -1033,10 +1350,18 @@ class UnifiedEditor {
 
         const additionalImages = this.additionalImages.filter(img => img && img.src);
         let imageList = [];
+        const fitValue = this.imageFit?.value || 'contain';
+        const maxWidth = Number.parseInt(this.imageMaxWidth?.value, 10);
+        const maxHeight = Number.parseInt(this.imageMaxHeight?.value, 10);
+        const maxWidthValue = Number.isFinite(maxWidth) ? Math.min(Math.max(maxWidth, 10), 100) : null;
+        const maxHeightValue = Number.isFinite(maxHeight) ? Math.min(Math.max(maxHeight, 10), 100) : null;
         if (this.backImageSrc.value) {
             imageList = [{
                 src: this.backImageSrc.value,
-                alt: this.imageAltText.value || ''
+                alt: this.imageAltText.value || '',
+                fit: fitValue,
+                maxWidth: maxWidthValue,
+                maxHeight: maxHeightValue
             }, ...additionalImages];
         } else if (additionalImages.length > 0) {
             imageList = additionalImages;
@@ -1064,9 +1389,14 @@ class UnifiedEditor {
 
         if (hasImage) {
             const firstImage = imageList[0];
+            const styleParts = [];
+            if (firstImage.fit) styleParts.push(`object-fit:${firstImage.fit}`);
+            if (Number.isFinite(firstImage.maxWidth)) styleParts.push(`max-width:${firstImage.maxWidth}%`);
+            if (Number.isFinite(firstImage.maxHeight)) styleParts.push(`max-height:${firstImage.maxHeight}%`);
+            const imageStyle = styleParts.length ? ` style="${styleParts.join(';')}"` : '';
             backHtml += `<div class="v2-back-panel v2-back-image-panel" data-image-count="${imageList.length}">
               <div class="v2-back-panel-title">Image</div>
-              <div class="v2-back-image"><img src="${firstImage.src}" alt="${this.escapeHtml(firstImage.alt || '')}"></div>
+              <div class="v2-back-image"><img src="${firstImage.src}" alt="${this.escapeHtml(firstImage.alt || '')}"${imageStyle}></div>
             </div>`;
         }
 
@@ -1166,6 +1496,15 @@ class UnifiedEditor {
         const normalized = this.normalizeCategory(value);
         if (!normalized) return;
         if (!Array.isArray(this.categoryValues)) this.categoryValues = [];
+        if (
+            normalized.toLowerCase() !== this.fallbackCategory.toLowerCase()
+            && normalized.toLowerCase() !== 'uncategorized'
+        ) {
+            this.categoryValues = this.categoryValues.filter(item => {
+                const key = String(item || '').toLowerCase();
+                return key !== this.fallbackCategory.toLowerCase() && key !== 'uncategorized';
+            });
+        }
         const exists = this.categoryValues.some(item => item.toLowerCase() === normalized.toLowerCase());
         if (!exists) {
             this.categoryValues.push(normalized);
@@ -1234,8 +1573,10 @@ class UnifiedEditor {
         this.posterUid.value = '';
         this.posterPath.value = '';
         this.posterFilename.value = '';
-
-        document.querySelectorAll('.poster-list-item').forEach(el => el.classList.remove('selected'));
+        this.selectedPosterPaths.clear();
+        this.lastSelectedIndex = null;
+        this.updateSelectionUI();
+        this.renderPosterList();
 
         this.updatePreview();
     }

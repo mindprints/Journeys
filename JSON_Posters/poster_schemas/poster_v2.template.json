@@ -23,18 +23,24 @@
       "src": "images/originals/example.webp",
       "alt": "Image description",
       "position": "top",
-      "maxWidth": 720,
-      "maxHeight": 480,
+      "maxWidth": 92,
+      "maxHeight": 92,
       "fit": "contain"
     },
     "images": [
       {
         "src": "images/originals/example.webp",
-        "alt": "Image description"
+        "alt": "Image description",
+        "fit": "contain",
+        "maxWidth": 92,
+        "maxHeight": 92
       },
       {
         "src": "images/originals/example-2.webp",
-        "alt": "Optional secondary image"
+        "alt": "Optional secondary image",
+        "fit": "contain",
+        "maxWidth": 92,
+        "maxHeight": 92
       }
     ],
     "links": [

@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "1c9a7c63-9a15-4c62-baca-cdb285a02f04",
+  "front": {
+    "title": "Root-knot nematode",
+    "subtitle": "Genus of parasitic worms"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Root-knot nematodes are plant-parasitic nematodes from the genus Meloidogyne. They exist in soil in areas with hot climates or short winters. About 2000 species of plants worldwide are susceptible to infection by root-knot nematodes and they cause approximately 5% of global crop loss. Root-knot nematode larvae infect plant roots, causing the development of root-knot galls that drain the plant's photosynthate and nutrients. Infection of young plants may be lethal, while infection of mature plants causes decreased yield.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Root-knot_nematode",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/A_juvenile_root-knot_nematode_%28Meloidogyne_incognita%29_penetrates_a_tomato_root_-_USDA-ARS.jpg/330px-A_juvenile_root-knot_nematode_%28Meloidogyne_incognita%29_penetrates_a_tomato_root_-_USDA-ARS.jpg",
+      "alt": "Root-knot nematode",
+      "position": "top",
+      "fit": "contain",
+      "maxWidth": 72,
+      "maxHeight": 96
+    }
+  },
+  "meta": {
+    "created": "2026-02-13T19:41:51.407891",
+    "modified": "2026-02-13T19:41:51.407895",
+    "categories": [
+      "Nematodes"
+    ],
+    "tags": [
+      "Root-knot nematode"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Root-knot_nematode"
+  }
+}

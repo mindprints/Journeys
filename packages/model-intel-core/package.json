@@ -1,0 +1,25 @@
+{
+  "name": "@diffcommit/model-intel-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./openrouter": {
+      "types": "./dist/openRouterModels.d.ts",
+      "import": "./dist/openRouterModels.js"
+    },
+    "./artificial-analysis": {
+      "types": "./dist/artificialAnalysis.d.ts",
+      "import": "./dist/artificialAnalysis.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  }
+}

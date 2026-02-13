@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "47fe7b6e-c099-4018-b9c7-fe4c901b6509",
+  "front": {
+    "title": "Neocalyptis nematodes",
+    "subtitle": "Species of moth"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Neocalyptis nematodes is a species of moth of the family Tortricidae. It is found on Luzon in the Philippines and on Sebesi and Java in Indonesia.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Neocalyptis_nematodes",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-13T19:41:48.967259",
+    "modified": "2026-02-13T19:41:48.967264",
+    "categories": [
+      "Nematodes"
+    ],
+    "tags": [
+      "Neocalyptis nematodes"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Neocalyptis_nematodes"
+  }
+}

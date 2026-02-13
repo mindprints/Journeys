@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "44040597-5370-4c83-9ab8-9d0eaa1c62fc",
+  "front": {
+    "title": "Entomopathogenic nematode",
+    "subtitle": "Group of thread worms that attack insects"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Entomopathogenic nematodes (EPN) are a group of nematodes, that cause death to insects. The term entomopathogenic has a Greek origin, with entomon, meaning insect, and pathogenic, which means causing disease. They are animals that occupy a biological control middle ground between microbial pathogens and predator/parasitoids. Although many other parasitic thread worms cause diseases in living organisms, entomopathogenic nematodes are specific in only infecting insects. Entomopathogenic nematodes (EPNs) live parasitically inside the infected insect host, and so they are termed as endoparasitic. They infect many different types of insects living in the soil like the larval forms of moths, butterflies, flies and beetles as well as adult forms of beetles, grasshoppers and crickets. EPNs have been found all over the world in a range of ecologically diverse habitats. They are highly diverse, complex and specialized. The most commonly studied entomopathogenic nematodes are those that can be used in the biological control of harmful insects, the members of Steinernematidae and Heterorhabditidae. They are the only insect-parasitic nematodes possessing an optimal balance of biological control attributes.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Entomopathogenic_nematode",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Entomopathogenic_nematode_%28Heterorhabditis_bacteriophora_%29_Poinar%2C_1975.jpg/330px-Entomopathogenic_nematode_%28Heterorhabditis_bacteriophora_%29_Poinar%2C_1975.jpg",
+      "alt": "Entomopathogenic nematode",
+      "position": "top",
+      "fit": "contain",
+      "maxWidth": 86,
+      "maxHeight": 92
+    }
+  },
+  "meta": {
+    "created": "2026-02-13T19:41:43.189195",
+    "modified": "2026-02-13T19:41:43.189199",
+    "categories": [
+      "Nematodes"
+    ],
+    "tags": [
+      "Entomopathogenic nematode"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Entomopathogenic_nematode"
+  }
+}

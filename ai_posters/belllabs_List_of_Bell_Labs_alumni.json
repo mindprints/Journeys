@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "6b056cd4-9431-4daf-9e5f-64d3ff8867a0",
+  "front": {
+    "title": "List of Bell Labs alumni",
+    "subtitle": "\nThe American research and development (R&D) company Bell Labs is known for its many alumni who have..."
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "\nThe American research and development (R&D) company Bell Labs is known for its many alumni who have won various awards, including the Nobel Prize and the ACM Turing Award.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/List_of_Bell_Labs_alumni",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-13T22:30:21.480296",
+    "modified": "2026-02-13T22:30:21.480300",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "List of Bell Labs alumni"
+    ],
+    "source": "https://en.wikipedia.org/wiki/List_of_Bell_Labs_alumni"
+  }
+}

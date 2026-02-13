@@ -194,6 +194,39 @@
             color: #888;
         }
 
+        .bulk-toolbar {
+            display: grid;
+            gap: 0.4em;
+            margin-bottom: 0.75em;
+            padding: 0.55em;
+            background: rgba(42, 35, 89, 0.6);
+            border: 1px solid #3a355e;
+            border-radius: 6px;
+        }
+
+        .bulk-toolbar .bulk-row {
+            display: flex;
+            gap: 0.35em;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .bulk-selection-count {
+            font-size: 0.8em;
+            color: #b7c0de;
+        }
+
+        .bulk-category-input {
+            flex: 1;
+            min-width: 120px;
+            padding: 0.35em 0.45em;
+            background: #2a2359;
+            border: 1px solid #3a355e;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 0.82em;
+        }
+
         /* Main Editor Form */
         .editor-main {
             background: #1a153d;
@@ -611,6 +644,28 @@
                 </div>
 
                 <div class="sidebar-footer">
+                    <div class="bulk-toolbar">
+                        <div class="bulk-row">
+                            <span class="bulk-selection-count" id="bulk-selection-count">0 selected</span>
+                        </div>
+                        <div class="bulk-row">
+                            <button id="select-all-posters-btn" class="editor-btn small">Select All</button>
+                            <button id="clear-selection-btn" class="editor-btn small">Clear</button>
+                        </div>
+                        <div class="bulk-row">
+                            <select id="bulk-category-select" class="bulk-category-input">
+                                <option value="">Pick existing category...</option>
+                            </select>
+                        </div>
+                        <div class="bulk-row">
+                            <input type="text" id="bulk-category-input" class="bulk-category-input" placeholder="Category">
+                            <button id="bulk-add-category-btn" class="editor-btn small">+ Cat</button>
+                            <button id="bulk-remove-category-btn" class="editor-btn small">- Cat</button>
+                        </div>
+                        <div class="bulk-row">
+                            <button id="bulk-delete-selected-btn" class="editor-btn small danger">Delete Selected</button>
+                        </div>
+                    </div>
                     <button id="refresh-list-btn" class="editor-btn small">
                         <i class="fas fa-sync-alt"></i> Refresh
                     </button>

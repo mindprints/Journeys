@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "167dbb34-8a92-4cc8-86d7-7ad418e2e76c",
+  "front": {
+    "title": "AT&T Labs",
+    "subtitle": "Research and development division of AT&T"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "AT&T Labs, Inc. is the research & development division of AT&T, the telecommunications company. It employs some 1,800 people in various locations, including Bedminster, New Jersey; Middletown, New Jersey; Manhattan, New York; Warrenville, Illinois; Austin, Texas; Dallas, Texas; Atlanta, Georgia; San Francisco, California; San Ramon, California; and Redmond, Washington. The main research division, made up of around 450 people, is based across the Bedminster, Middletown, San Francisco, and Manhattan locations.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/AT%26T_Labs",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/AT%26T_logo_2016.svg/330px-AT%26T_logo_2016.svg.png",
+      "alt": "AT&T Labs",
+      "position": "top",
+      "fit": "contain",
+      "maxWidth": 96,
+      "maxHeight": 82
+    }
+  },
+  "meta": {
+    "created": "2026-02-13T22:30:06.070724",
+    "modified": "2026-02-13T22:30:06.070728",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "AT&T Labs"
+    ],
+    "source": "https://en.wikipedia.org/wiki/AT%26T_Labs"
+  }
+}

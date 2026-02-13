@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "4c0549d6-982d-4d41-8ea3-a2db38f49f6b",
+  "front": {
+    "title": "Bell Labs Digital Synthesizer",
+    "subtitle": "1970s experimental musical synthesizer"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "The Bell Labs Digital Synthesizer, better known as the Alles Machine or Alice, was an experimental additive synthesizer designed by Hal Alles at Bell Labs during the 1970s. The Alles Machine used computer-controlled 16-bit digital synthesizer operating at 30k samples/sec with 32 sine-wave oscillators. The Alles Machine has been called the first true digital additive synthesizer, following on earlier Bell experiments that were partially or wholly implemented as software on large computers. Only one full-length composition was recorded for the machine, before it was disassembled and donated to Oberlin Conservatory's TIMARA department in 1981. Several commercial synthesizers based on the Alles design were released during the 1980s, including the Atari AMY sound chip.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Bell_Labs_Digital_Synthesizer",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-13T22:30:08.374933",
+    "modified": "2026-02-13T22:30:08.374938",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "Bell Labs Digital Synthesizer"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Bell_Labs_Digital_Synthesizer"
+  }
+}

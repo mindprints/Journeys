@@ -6,6 +6,22 @@ const { spawn } = require('child_process');
 const multer = require('multer');
 const app = express();
 const port = Number(process.env.PORT) || 3010;
+let modelIntelOpenRouterPromise = null;
+let modelIntelArtificialAnalysisPromise = null;
+
+function getModelIntelOpenRouterModule() {
+  if (!modelIntelOpenRouterPromise) {
+    modelIntelOpenRouterPromise = import('@diffcommit/model-intel-core/openrouter');
+  }
+  return modelIntelOpenRouterPromise;
+}
+
+function getModelIntelArtificialAnalysisModule() {
+  if (!modelIntelArtificialAnalysisPromise) {
+    modelIntelArtificialAnalysisPromise = import('@diffcommit/model-intel-core/artificial-analysis');
+  }
+  return modelIntelArtificialAnalysisPromise;
+}
 
 // Constants
 const JSON_POSTERS_DIR = path.join(__dirname, 'JSON_Posters');
@@ -14,6 +30,7 @@ const POSTERS_DIR = path.join(JSON_POSTERS_DIR, POSTERS_DIR_NAME);
 const JOURNEYS_DIR = path.join(JSON_POSTERS_DIR, 'Journeys');
 const IMAGE_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.gif', '.webp'];
 const CATEGORY_CONFIG_PATH = path.join(JSON_POSTERS_DIR, 'category-config.json');
+const FALLBACK_CATEGORY = 'No-Category';
 const WIKI_OUTPUT_DIR = path.join(__dirname, 'ai_posters');
 const WIKI_LOG_PATH = path.join(WIKI_OUTPUT_DIR, 'wikipedia_grab.log');
 const GRAB_LOG_PATH = path.join(WIKI_OUTPUT_DIR, 'grab.log');
@@ -406,7 +423,14 @@ app.get('/api/posters-in-directory', async (req, res) => {
       }
     }
 
-    res.json(postersData.filter(p => p.type !== 'error' && p.type !== 'unknown' && p.type !== 'skip-raw-image')); // Filter out errors/unknown/raw-images
+    res.json(
+      postersData.filter(
+        p => p.type !== 'error'
+          && p.type !== 'unknown'
+          && p.type !== 'skip-raw-image'
+          && p.type !== 'skip-log'
+      )
+    ); // Filter out errors/unknown/raw-images/log placeholders
   } catch (error) {
     console.error('Error getting posters from directory:', error);
     res.status(500).json({ error: 'Failed to get posters: ' + error.message });
@@ -443,7 +467,14 @@ app.get('/api/posters-in-category', async (req, res) => {
       return normalized.includes(needle);
     });
 
-    res.json(filtered.filter(p => p.type !== 'error' && p.type !== 'unknown' && p.type !== 'skip-raw-image'));
+    res.json(
+      filtered.filter(
+        p => p.type !== 'error'
+          && p.type !== 'unknown'
+          && p.type !== 'skip-raw-image'
+          && p.type !== 'skip-log'
+      )
+    );
   } catch (error) {
     console.error('Error getting posters by category:', error);
     res.status(500).json({ error: 'Failed to get posters by category: ' + error.message });
@@ -503,7 +534,14 @@ app.get('/api/directories', (req, res) => {
 app.get('/api/posters-all', async (req, res) => {
   try {
     const posters = await collectAllPosters();
-    res.json(posters.filter(p => p.type !== 'error' && p.type !== 'unknown' && p.type !== 'skip-raw-image'));
+    res.json(
+      posters.filter(
+        p => p.type !== 'error'
+          && p.type !== 'unknown'
+          && p.type !== 'skip-raw-image'
+          && p.type !== 'skip-log'
+      )
+    );
   } catch (error) {
     console.error('Error getting all posters:', error);
     res.status(500).json({ error: 'Failed to get posters: ' + error.message });
@@ -637,6 +675,25 @@ app.post('/api/delete-poster', (req, res) => {
   } catch (error) {
     console.error('Error deleting file:', error);
     res.status(500).json({ error: 'Failed to delete file' });
+  }
+});
+
+// Delete a poster or image file (DELETE compatibility for editor clients)
+app.delete('/api/delete-poster', (req, res) => {
+  try {
+    const posterPath = req.query.path || req.body?.path;
+    if (!posterPath) {
+      return res.status(400).json({ error: 'Path is required' });
+    }
+    const filePath = path.join(__dirname, posterPath);
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ error: 'File not found' });
+    }
+    fs.unlinkSync(filePath);
+    res.json({ success: true, message: 'File deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting file:', error);
+    res.status(500).json({ error: 'Failed to delete file: ' + error.message });
   }
 });
 
@@ -852,6 +909,170 @@ app.post('/api/category-config', (req, res) => {
   } catch (error) {
     console.error('Error saving category config:', error);
     res.status(500).json({ error: 'Failed to save category config: ' + error.message });
+  }
+});
+
+app.post('/api/delete-category', (req, res) => {
+  try {
+    const categoryRaw = req.body?.category;
+    if (!categoryRaw || typeof categoryRaw !== 'string') {
+      return res.status(400).json({ error: 'Category is required' });
+    }
+    const needle = categoryRaw.trim().toLowerCase();
+    if (!needle) {
+      return res.status(400).json({ error: 'Category is required' });
+    }
+
+    // Remove from managed category config
+    const config = fs.existsSync(CATEGORY_CONFIG_PATH)
+      ? JSON.parse(fs.readFileSync(CATEGORY_CONFIG_PATH, 'utf8'))
+      : { categories: [] };
+    const configCategories = Array.isArray(config.categories) ? config.categories : [];
+    const filteredConfig = configCategories.filter(item => {
+      const value = String(item?.name || item?.slug || '').trim().toLowerCase();
+      return value !== needle;
+    });
+    const removedFromConfig = configCategories.length - filteredConfig.length;
+    fs.writeFileSync(CATEGORY_CONFIG_PATH, JSON.stringify({ categories: filteredConfig }, null, 2), 'utf8');
+
+    // Remove the category from all poster files that use it
+    const roots = getPosterRootDirectories();
+    let postersUpdated = 0;
+    let categoryRefsRemoved = 0;
+
+    const removeCategory = (arr) => {
+      if (!Array.isArray(arr)) return { next: arr, removed: 0 };
+      let removed = 0;
+      const next = arr.filter(item => {
+        if (typeof item !== 'string') return true;
+        const keep = item.trim().toLowerCase() !== needle;
+        if (!keep) removed += 1;
+        return keep;
+      });
+      return { next, removed };
+    };
+
+    roots.forEach(root => {
+      const files = fs.readdirSync(root.path).filter(file => file.endsWith('.json'));
+      files.forEach(file => {
+        const filePath = path.join(root.path, file);
+        let data;
+        try {
+          data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+        } catch (error) {
+          return;
+        }
+
+        let changed = false;
+        let removedForPoster = 0;
+
+        if (Array.isArray(data?.meta?.categories)) {
+          const result = removeCategory(data.meta.categories);
+          if (result.removed > 0) {
+            data.meta.categories = result.next.length ? result.next : [FALLBACK_CATEGORY];
+            removedForPoster += result.removed;
+            changed = true;
+          }
+        } else if (Array.isArray(data?.categories)) {
+          const result = removeCategory(data.categories);
+          if (result.removed > 0) {
+            data.categories = result.next.length ? result.next : [FALLBACK_CATEGORY];
+            removedForPoster += result.removed;
+            changed = true;
+          }
+        }
+
+        if (changed) {
+          if (data.meta && typeof data.meta === 'object') {
+            data.meta.modified = new Date().toISOString();
+          }
+          fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+          postersUpdated += 1;
+          categoryRefsRemoved += removedForPoster;
+        }
+      });
+    });
+
+    res.json({
+      success: true,
+      removedFromConfig,
+      postersUpdated,
+      categoryRefsRemoved
+    });
+  } catch (error) {
+    console.error('Error deleting category:', error);
+    res.status(500).json({ error: 'Failed to delete category: ' + error.message });
+  }
+});
+
+// --- Model Intel Core Integration ---
+app.post('/api/model-intel/normalize-openrouter', async (req, res) => {
+  try {
+    const { normalizeOpenRouterModel } = await getModelIntelOpenRouterModule();
+    const model = req.body?.model;
+    if (!model || typeof model !== 'object') {
+      return res.status(400).json({ error: 'Expected request body with model object' });
+    }
+    const normalized = normalizeOpenRouterModel(model);
+    return res.json({ normalized });
+  } catch (error) {
+    console.error('Error normalizing OpenRouter model:', error);
+    return res.status(500).json({ error: 'Failed to normalize OpenRouter model' });
+  }
+});
+
+app.post('/api/model-intel/capabilities', async (req, res) => {
+  try {
+    const {
+      supportsVision,
+      supportsAudio,
+      supportsTools,
+      supportsImageGeneration,
+      supportsFileInput,
+      supportsSearchCapability,
+    } = await getModelIntelOpenRouterModule();
+
+    const {
+      modelId,
+      modelName,
+      modality,
+      supportedParams,
+      capabilities,
+    } = req.body || {};
+
+    return res.json({
+      supportsVision: supportsVision(modality),
+      supportsAudio: supportsAudio(modality),
+      supportsTools: supportsTools(supportedParams),
+      supportsImageGeneration: supportsImageGeneration(modality, modelId, modelName, capabilities),
+      supportsFileInput: supportsFileInput(modality, supportedParams),
+      supportsSearchCapability: supportsSearchCapability(modelId, modelName, capabilities, supportedParams),
+    });
+  } catch (error) {
+    console.error('Error evaluating model capabilities:', error);
+    return res.status(500).json({ error: 'Failed to evaluate model capabilities' });
+  }
+});
+
+app.post('/api/model-intel/benchmarks/parse-match', async (req, res) => {
+  try {
+    const { parseBenchmarks, matchBenchmark } = await getModelIntelArtificialAnalysisModule();
+    const { rawBenchmarks, modelId, modelName } = req.body || {};
+
+    if (!modelId || !modelName) {
+      return res.status(400).json({ error: 'modelId and modelName are required' });
+    }
+
+    const parsed = parseBenchmarks(rawBenchmarks);
+    const matched = matchBenchmark(modelId, modelName, parsed);
+
+    return res.json({
+      parsedCount: parsed.length,
+      match: matched || null,
+    });
+  } catch (error) {
+    console.error('Error parsing/matching benchmarks:', error);
+    return res.status(500).json({ error: 'Failed to parse/match benchmarks' });
   }
 });
 

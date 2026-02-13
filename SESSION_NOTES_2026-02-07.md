@@ -37,8 +37,8 @@ These are set in `css/poster-v2.css`:
 ```
 
 ## How to Use the Tuner
-1. Start the server: `npm run dev`
-2. Open the tuner: `http://localhost:3000/v2-back-tuner.html?directory=JSON_Posters/VIPs&poster=Andrej_Karpathy.json`
+1. Start the server: `npm run restart:dev`
+2. Open the tuner: `http://localhost:3010/v2-back-tuner.html?directory=JSON_Posters/VIPs&poster=Andrej_Karpathy.json`
 3. Adjust sliders; the live carousel updates via BroadcastChannel.
 4. Copy the CSS vars into `css/poster-v2.css`.
 
@@ -47,5 +47,45 @@ These are set in `css/poster-v2.css`:
 - Live header scale not applying due to missing unit; fixed slider to emit `em`.
 - Preview mismatch: editor now loads `css/poster-v2.css` and mirrors carousel markup.
 
-## Next Step (Planned)
-- Build migration script to convert all posters to v2 format with dummy content when needed.
+## Next Step (Archived)
+- Migration scripting is now in place (`scripts/python/normalize_image_assets.py`, `scripts/python/repair_missing_image_refs.py`) and has been run on existing poster data.
+
+---
+
+## Addendum (2026-02-13)
+
+### Operational + CRUD Improvements
+- Added robust API URL handling in Category Editor, including `file://` fallback to `http://localhost:3010`.
+- Fixed category CRUD behavior:
+  - reliable update/delete matching by normalized category key
+  - category delete now cascades across all posters
+  - posters left without categories are assigned `No-Category`
+- Added `POST /api/delete-category` endpoint for cascade category removal.
+- Added `DELETE /api/delete-poster?path=...` endpoint (Unified Editor compatibility).
+- Improved Unified Editor delete errors (single, specific message instead of repeated generic text).
+
+### Unified Editor Improvements
+- Added multi-select in poster list:
+  - `Ctrl/Cmd + click` toggle
+  - `Shift + click` range select
+- Added bulk toolbar:
+  - Select all / clear selection
+  - bulk delete selected posters
+  - bulk add/remove category (typed value + existing-category dropdown)
+- Added fallback-category accessibility:
+  - `No-Category` is always filterable in Unified Editor
+  - applying a real category removes fallback labels (`No-Category`, `Uncategorized`)
+- Added client-side filtering to prevent `.log`/`skip-log` entries from showing as posters.
+
+### Image Normalization + Repair
+- Added `scripts/python/normalize_image_assets.py`:
+  - converts referenced local images to `.webp`
+  - normalizes image fit metadata (`fit`, `maxWidth`, `maxHeight`) by aspect ratio
+- Added `scripts/python/repair_missing_image_refs.py`:
+  - repairs missing local image refs where possible
+  - creates placeholder `.webp` assets for unresolved template/missing cases
+
+### Dev Runtime
+- Added `scripts/restart-unified.js` and package scripts:
+  - `npm run restart`
+  - `npm run restart:dev`

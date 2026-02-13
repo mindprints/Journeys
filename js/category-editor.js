@@ -4,7 +4,49 @@ class CategoryEditor {
     this.configCategories = [];
     this.currentIndex = null;
     this.slugDirty = false;
+    this.apiBase = this.resolveApiBase();
     this.init();
+  }
+
+  normalizeCategoryKey(value) {
+    return (value || '').trim().toLowerCase();
+  }
+
+  resolveApiBase() {
+    if (window.location.protocol === 'file:') {
+      return 'http://localhost:3010';
+    }
+    return '';
+  }
+
+  buildApiUrl(endpoint) {
+    if (/^https?:\/\//i.test(endpoint)) {
+      return endpoint;
+    }
+    return `${this.apiBase}${endpoint}`;
+  }
+
+  async requestJson(endpoint, options = {}, fallbackErrorMessage = 'Request failed') {
+    const url = this.buildApiUrl(endpoint);
+    let response;
+    try {
+      response = await fetch(url, options);
+    } catch (error) {
+      throw new Error(`Could not reach API (${url}). Start server.js and try again.`);
+    }
+
+    const contentType = response.headers.get('content-type') || '';
+    const isJson = contentType.includes('application/json');
+    const payload = isJson ? await response.json() : await response.text();
+
+    if (!response.ok) {
+      const message = isJson
+        ? (payload?.error || payload?.message || fallbackErrorMessage)
+        : `${fallbackErrorMessage} (${response.status})`;
+      throw new Error(message);
+    }
+
+    return payload;
   }
 
   async init() {
@@ -84,15 +126,10 @@ class CategoryEditor {
 
   async loadConfig() {
     try {
-      const [configResponse, categoriesResponse] = await Promise.all([
-        fetch('/api/category-config'),
-        fetch('/api/categories')
+      const [config, posterCategories] = await Promise.all([
+        this.requestJson('/api/category-config', {}, 'Failed to load category config'),
+        this.requestJson('/api/categories', {}, 'Failed to load categories')
       ]);
-      if (!configResponse.ok) throw new Error('Failed to load config');
-      if (!categoriesResponse.ok) throw new Error('Failed to load categories');
-
-      const config = await configResponse.json();
-      const posterCategories = await categoriesResponse.json();
 
       this.configCategories = Array.isArray(config.categories) ? config.categories : [];
       this.categories = this.mergeCategories(this.configCategories, posterCategories);
@@ -108,14 +145,19 @@ class CategoryEditor {
   }
 
   mergeCategories(configCategories, posterCategories) {
-    const normalizeKey = (value) => (value || '').trim().toLowerCase();
     const merged = [];
     const indexMap = new Map();
 
     configCategories.forEach((category, index) => {
-      const key = normalizeKey(category.name || category.slug);
+      const key = this.normalizeCategoryKey(category.name || category.slug);
       if (!key) return;
-      const entry = { ...category, managed: true, configIndex: index, value: category.name || category.slug || '' };
+      const entry = {
+        ...category,
+        managed: true,
+        configIndex: index,
+        key,
+        value: category.name || category.slug || ''
+      };
       merged.push(entry);
       indexMap.set(key, entry);
     });
@@ -124,11 +166,12 @@ class CategoryEditor {
       posterCategories.forEach(category => {
         const rawValue = category?.value || category?.name || '';
         const name = rawValue;
-        const key = normalizeKey(rawValue);
+        const key = this.normalizeCategoryKey(rawValue);
         if (!key || indexMap.has(key)) return;
         merged.push({
           name,
           value: rawValue,
+          key,
           slug: this.slugify(rawValue || name),
           description: '',
           color: '#f48c06',
@@ -186,11 +229,11 @@ class CategoryEditor {
     this.countInput.value = category.targetCount || '';
     this.sourceInput.value = category.source || 'wikipedia';
     this.topicsInput.value = (category.topics || []).join('\n');
-    this.deleteBtn.disabled = !category.managed;
+    this.deleteBtn.disabled = false;
     this.updateColorPreview();
     this.renderList();
 
-    if (!hasTopics) {
+    if (!hasTopics && !category.managed) {
       const categoryName = category.value || category.name || category.slug || '';
       this.populateTopicsFromPosters(categoryName, false);
     }
@@ -258,10 +301,34 @@ class CategoryEditor {
   }
 
   parseTopics(raw) {
+    const seen = new Set();
     return raw
       .split(/\n|,/)
       .map(value => value.trim())
-      .filter(Boolean);
+      .filter(Boolean)
+      .filter(topic => {
+        const key = topic.toLowerCase();
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+  }
+
+  findConfigIndexForCategory(category) {
+    if (!category) return -1;
+    if (Number.isInteger(category.configIndex) && this.configCategories[category.configIndex]) {
+      const candidate = this.configCategories[category.configIndex];
+      const categoryKey = this.normalizeCategoryKey(category.name || category.slug);
+      const candidateKey = this.normalizeCategoryKey(candidate.name || candidate.slug);
+      if (candidateKey === categoryKey) {
+        return category.configIndex;
+      }
+    }
+
+    const lookupKey = this.normalizeCategoryKey(category.name || category.slug || category.value);
+    return this.configCategories.findIndex(item =>
+      this.normalizeCategoryKey(item.name || item.slug) === lookupKey
+    );
   }
 
   async populateTopicsFromPosters(categoryName, forceRefresh = false) {
@@ -269,9 +336,11 @@ class CategoryEditor {
     const existingTopics = forceRefresh ? this.parseTopics(this.topicsInput.value) : [];
     if (!forceRefresh && this.topicsInput.value.trim()) return;
     try {
-      const response = await fetch(`/api/posters-in-category?category=${encodeURIComponent(categoryName)}`);
-      if (!response.ok) throw new Error('Failed to load posters for category');
-      const posters = await response.json();
+      const posters = await this.requestJson(
+        `/api/posters-in-category?category=${encodeURIComponent(categoryName)}`,
+        {},
+        'Failed to load posters for category'
+      );
       const topics = new Set();
 
       existingTopics.forEach(topic => topics.add(topic));
@@ -324,9 +393,7 @@ class CategoryEditor {
     const url = `https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srlimit=${limit}&srsearch=${query}`;
 
     try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error('Failed to fetch suggestions');
-      const data = await response.json();
+      const data = await this.requestJson(url, {}, 'Failed to fetch suggestions');
       const results = data?.query?.search || [];
       results.forEach(item => {
         if (item?.title) {
@@ -352,20 +419,20 @@ class CategoryEditor {
       this.configCategories.push(payload);
     } else {
       const current = this.categories[this.currentIndex];
-      if (current && current.configIndex !== null && current.configIndex !== undefined) {
-        this.configCategories[current.configIndex] = payload;
+      const configIndex = this.findConfigIndexForCategory(current);
+      if (configIndex !== -1) {
+        this.configCategories[configIndex] = payload;
       } else {
         this.configCategories.push(payload);
       }
     }
 
     try {
-      const response = await fetch('/api/category-config', {
+      await this.requestJson('/api/category-config', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ categories: this.configCategories })
-      });
-      if (!response.ok) throw new Error('Failed to save config');
+      }, 'Failed to save category config');
       await this.loadConfig();
     } catch (error) {
       console.error('Error saving category config:', error);
@@ -375,27 +442,29 @@ class CategoryEditor {
   async deleteCategory() {
     if (this.currentIndex === null) return;
     const category = this.categories[this.currentIndex];
-    if (!category.managed) {
-      window.alert('This category is coming from poster metadata. Save it first to manage it.');
+    const categoryName = category.value || category.name || category.slug || '';
+    if (!categoryName) {
+      window.alert('Select a category to delete.');
       return;
     }
-    const confirmDelete = window.confirm(`Delete category "${category.name}"?`);
+    const confirmDelete = window.confirm(
+      `Delete category "${categoryName}" from config and remove it from all posters that use it?`
+    );
     if (!confirmDelete) return;
 
-    if (category.configIndex !== null && category.configIndex !== undefined) {
-      this.configCategories.splice(category.configIndex, 1);
-    }
     this.currentIndex = null;
     try {
-      const response = await fetch('/api/category-config', {
+      const result = await this.requestJson('/api/delete-category', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ categories: this.configCategories })
-      });
-      if (!response.ok) throw new Error('Failed to save config');
+        body: JSON.stringify({ category: categoryName })
+      }, 'Failed to delete category');
       await this.loadConfig();
+      const removedCount = Number(result?.categoryRefsRemoved) || 0;
+      window.alert(`Deleted category "${categoryName}". Removed from ${removedCount} poster reference(s).`);
     } catch (error) {
       console.error('Error deleting category:', error);
+      window.alert(`Failed to delete category: ${error.message}`);
     }
   }
 
@@ -429,9 +498,9 @@ class CategoryEditor {
 
     const count = this.generatorCount.value ? parseInt(this.generatorCount.value, 10) : null;
 
-    this.generatorLog.textContent = 'Running wikipedia_grab...\n';
+    this.generatorLog.textContent = 'Running . w...\n';
     try {
-      const response = await fetch('/api/run-wikipedia-grab', {
+      const data = await this.requestJson('/api/run-wikipedia-grab', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -441,10 +510,7 @@ class CategoryEditor {
           mergeEnrich: this.mergeCheckbox.checked,
           mergeOnly: this.mergeOnlyCheckbox.checked
         })
-      });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || 'Failed to run generator');
+      }, 'Failed to run generator');
       this.generatorLog.textContent = data.output || 'No output returned.';
     } catch (error) {
       this.generatorLog.textContent = `Error: ${error.message}`;
@@ -453,9 +519,7 @@ class CategoryEditor {
 
   async loadLog(endpoint) {
     try {
-      const response = await fetch(endpoint);
-      if (!response.ok) throw new Error('Failed to load log');
-      const data = await response.json();
+      const data = await this.requestJson(endpoint, {}, 'Failed to load log');
       this.generatorLog.textContent = data.log || 'No log available.';
     } catch (error) {
       this.generatorLog.textContent = `Error: ${error.message}`;

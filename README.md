@@ -24,14 +24,19 @@ This creates a scroll-driven 3D carousel without manual frame-by-frame JS animat
    ```bash
    npm install
    ```
-2. Start the server
+2. Start the app
    ```bash
-   npm run dev
+   npm run restart:dev
    ```
 3. Open the gallery
    ```
-   http://localhost:3000
+   http://localhost:3010
    ```
+
+Alternative start commands:
+- `npm start` (production-like single process)
+- `npm run dev` (nodemon)
+- `npm run restart` (kills common ports and restarts backend)
 
 ## Project Structure
 - `index.html`: Main gallery view.
@@ -42,9 +47,9 @@ This creates a scroll-driven 3D carousel without manual frame-by-frame JS animat
 - `server.js`: Express API and file persistence.
 - `JSON_Posters/Posters/`: Central poster store.
 - `JSON_Posters/Journeys/`: Curated poster lists.
-- `poster-editor.html`: JSON poster editor.
+- `category-editor.html`: Category + topic management and generator controls.
+- `unified-editor.html`: Unified v2 poster editor with single and bulk actions.
 - `image-editor.html`: Image uploader + JSON wrapper creator.
-- `website-editor.html`: Website poster editor.
 - `journey-editor.html`: Journey builder (ordered poster lists).
 
 ## Poster Data Formats
@@ -118,13 +123,17 @@ This creates a scroll-driven 3D carousel without manual frame-by-frame JS animat
 Direct images are stored in `images/originals` and should be referenced by v2 poster JSON files.
 
 ## Editor Workflows
-- Unified Editor: Create and edit v2 posters, including categories/tags metadata.
+- Unified Editor: Create and edit v2 posters, including categories/tags metadata and multi-select bulk actions.
 - Image Editor: Drag/drop or paste images, crop/resize, and optionally generate v2 poster JSON.
-- Website Editor: Build URL posters with optional thumbnails.
 - Journey Editor: Curate ordered poster lists saved in `JSON_Posters/Journeys`.
+- Category Editor: CRUD for categories/topics, run Wikipedia generator, and cascade category deletion.
 
 ## Category Metadata
-Categories and tags drive carousel organization and filtering. Categories are required for v2 posters and are stored in `meta.categories`.
+Categories and tags drive carousel organization and filtering. Categories are stored in `meta.categories`.
+
+Fallback behavior:
+- When category deletion removes a category from posters, any poster left with zero categories is assigned `No-Category`.
+- In Unified Editor, assigning a real category removes fallback labels (`No-Category` / `Uncategorized`).
 
 Example:
 ```json
@@ -143,11 +152,19 @@ Guidelines:
 ## V2 Back Tuning
 Use the live tuner to match the v2 back layout between the carousel and the editor preview.
 
-1. Start the server: `npm run dev`
-2. Open `http://localhost:3000/v2-back-tuner.html?directory=JSON_Posters/Posters&poster=Andrej_Karpathy.json`
+1. Start the server: `npm run restart:dev`
+2. Open `http://localhost:3010/v2-back-tuner.html?directory=JSON_Posters/Posters&poster=Andrej_Karpathy.json`
 3. Adjust sliders and copy the CSS variables into `css/poster-v2.css`
 
 The tuner also broadcasts changes to the live carousel via `BroadcastChannel`.
+
+## Unified Editor Multi-Select
+- `Ctrl/Cmd + click`: toggle selection
+- `Shift + click`: range select
+- Bulk actions in sidebar:
+  - Delete selected posters
+  - Add category to selected posters
+  - Remove category from selected posters
 
 ## API Overview
 The Express server serves static files and exposes endpoints for editors:
@@ -162,7 +179,37 @@ The Express server serves static files and exposes endpoints for editors:
 - `GET /api/journeys` / `GET /api/journey/:filename`
 - `POST /api/save-poster` / `POST /api/save-image` / `POST /api/save-file`
 - `POST /api/create-images-directory`
-- `POST /api/delete-poster` / `POST /api/delete-journey`
+- `DELETE /api/delete-poster?path=...` (preferred)
+- `POST /api/delete-poster` (compatibility)
+- `POST /api/delete-category` (removes from config and all posters; applies `No-Category` fallback when needed)
+- `POST /api/delete-journey`
+
+### Model Intel Endpoints
+
+These endpoints use `@diffcommit/model-intel-core`:
+
+- `POST /api/model-intel/normalize-openrouter`
+- `POST /api/model-intel/capabilities`
+- `POST /api/model-intel/benchmarks/parse-match`
+
+PowerShell quick tests:
+
+```powershell
+# Normalize an OpenRouter model payload
+curl -Method POST "http://localhost:3010/api/model-intel/normalize-openrouter" `
+  -Headers @{"Content-Type"="application/json"} `
+  -Body '{"model":{"id":"anthropic/claude-haiku-4.5","name":"Claude Haiku 4.5","context_length":200000,"pricing":{"prompt":"0.000001","completion":"0.000005"},"architecture":{"modality":"text->text"},"supported_parameters":["tools"],"capabilities":["search"]}}'
+
+# Evaluate capability flags
+curl -Method POST "http://localhost:3010/api/model-intel/capabilities" `
+  -Headers @{"Content-Type"="application/json"} `
+  -Body '{"modelId":"perplexity/sonar-pro","modelName":"Sonar Pro","modality":"text->text","supportedParams":["tools"],"capabilities":["search"]}'
+
+# Parse benchmarks and attempt a match
+curl -Method POST "http://localhost:3010/api/model-intel/benchmarks/parse-match" `
+  -Headers @{"Content-Type"="application/json"} `
+  -Body '{"modelId":"anthropic/claude-haiku-4.5","modelName":"Claude Haiku 4.5","rawBenchmarks":{"data":[{"model_name":"Claude Haiku 4.5","model_creator":{"name":"Anthropic"},"evaluations":{"artificial_analysis_intelligence_index":52.1}}]}}'
+```
 
 ## Browser Support Notes
 Scroll-driven animations require `animation-timeline: scroll()` support. Chromium-based browsers support this, and Firefox supports it with the `layout.css.scroll-driven-animations.enabled` flag. If unsupported, a notice is shown at the bottom of the page.

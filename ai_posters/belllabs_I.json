@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "4911978d-83bf-4c4e-b3c4-7bf2458e9e2b",
+  "front": {
+    "title": "I",
+    "subtitle": "Ninth letter of the Latin alphabet"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "I, or i, is the ninth letter and the third vowel letter of the Latin alphabet, used in the modern English alphabet, the alphabets of other western European languages and others worldwide. Its name in English is i, plural i's or is.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/I",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Latin_letter_I.svg/330px-Latin_letter_I.svg.png",
+      "alt": "I",
+      "position": "top",
+      "fit": "contain",
+      "maxWidth": 86,
+      "maxHeight": 92
+    }
+  },
+  "meta": {
+    "created": "2026-02-13T22:30:20.381114",
+    "modified": "2026-02-13T22:30:20.381118",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "I"
+    ],
+    "source": "https://en.wikipedia.org/wiki/I"
+  }
+}

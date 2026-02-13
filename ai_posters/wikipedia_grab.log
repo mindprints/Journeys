@@ -7,19 +7,43 @@ Output directory: C:\Users\mindp\Documents\GitHub\galleryElements_Claude\ai_post
 
 
 ============================================================
-Processing TURING AWARD WINNERS (1 topics)
+Processing BELL LABS (25 topics)
 ============================================================
-[1/1] Fetching: Yann LeCun... Created: turingawardwinners_Yann LeCun.json
+[1/25] Fetching: _Robot_(film)... Created: belllabs__Robot_film.json
+[2/25] Fetching: AT&T_Labs... Created: belllabs_AT&T_Labs.json
+[3/25] Fetching: Bell_Labs... Created: belllabs_Bell_Labs.json
+[4/25] Fetching: Bell_Labs_Digital_Synthesizer... Created: belllabs_Bell_Labs_Digital_Synthesizer.json
+[5/25] Fetching: Bell_Labs_Holmdel_Complex... Created: belllabs_Bell_Labs_Holmdel_Complex.json
+[6/25] Fetching: Bell_Labs_Technical_Journal... Created: belllabs_Bell_Labs_Technical_Journal.json
+[7/25] Fetching: Breakup_of_the_Bell_System... Created: belllabs_Breakup_of_the_Bell_System.json
+[8/25] Fetching: Concept... Created: belllabs_Concept.json
+[9/25] Fetching: Daisy_Bell... Created: belllabs_Daisy_Bell.json
+[10/25] Fetching: Essentially_contested_concept... Created: belllabs_Essentially_contested_concept.json
+[11/25] Fetching: Ford_Mustang_I... Created: belllabs_Ford_Mustang_I.json
+[12/25] Fetching: Fuzzy_concept... Created: belllabs_Fuzzy_concept.json
+[13/25] Fetching: History_of_the_transistor... Created: belllabs_History_of_the_transistor.json
+[14/25] Fetching: I... Created: belllabs_I.json
+[15/25] Fetching: List_of_Bell_Labs_alumni... Created: belllabs_List_of_Bell_Labs_alumni.json
+[16/25] Fetching: Marginal_concepts... Created: belllabs_Marginal_concepts.json
+[17/25] Fetching: Marian_Croak... Created: belllabs_Marian_Croak.json
+[18/25] Fetching: Mitsubishi_i... Created: belllabs_Mitsubishi_i.json
+[19/25] Fetching: Nokia... Created: belllabs_Nokia.json
+[20/25] Fetching: Plan_9_from_Bell_Labs... Created: belllabs_Plan_9_from_Bell_Labs.json
+[21/25] Fetching: Proof_of_concept... Created: belllabs_Proof_of_concept.json
+[22/25] Fetching: Thick_concept... Created: belllabs_Thick_concept.json
+[23/25] Fetching: Toyota_concept_vehicles_(2010�2019)... Created: belllabs_Toyota_concept_vehicles_20102019.json
+[24/25] Fetching: Two_Concepts_of_Liberty... Created: belllabs_Two_Concepts_of_Liberty.json
+[25/25] Fetching: Visual_Concepts... Created: belllabs_Visual_Concepts.json
 
 ============================================================
 SUMMARY
 ============================================================
-Created: 1 posters
+Created: 25 posters
 SKIP duplicates: 0 posters
 MERGE enriched: 0 posters
 Failed: 0 posters
 Output directory: C:\Users\mindp\Documents\GitHub\galleryElements_Claude\ai_posters
 
-Total topics attempted: 1
+Total topics attempted: 25
 
 Done!

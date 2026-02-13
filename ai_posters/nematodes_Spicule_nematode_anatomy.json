@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "c74662dd-964e-4818-b7ad-3db60d732882",
+  "front": {
+    "title": "Spicule (nematode anatomy)",
+    "subtitle": "Mating structure in nematodes"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "In nematodes, spicules, also known as copulatory spicules, are needle-like mating structures found only in males.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Spicule_(nematode_anatomy)",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Parasite140013-fig3_Pterygodermatites_%28Paucipectines%29_baiomydis_Photo.tif/lossy-page1-330px-Parasite140013-fig3_Pterygodermatites_%28Paucipectines%29_baiomydis_Photo.tif.jpg",
+      "alt": "Spicule (nematode anatomy)",
+      "position": "top",
+      "fit": "contain",
+      "maxWidth": 86,
+      "maxHeight": 92
+    }
+  },
+  "meta": {
+    "created": "2026-02-13T19:41:54.277571",
+    "modified": "2026-02-13T19:41:54.277575",
+    "categories": [
+      "Nematodes"
+    ],
+    "tags": [
+      "Spicule (nematode anatomy)"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Spicule_(nematode_anatomy)"
+  }
+}

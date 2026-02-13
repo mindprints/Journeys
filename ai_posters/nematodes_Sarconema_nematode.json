@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "b1049ce0-f57d-4a90-a99d-80ab95644d92",
+  "front": {
+    "title": "Sarconema (nematode)",
+    "subtitle": "Genus of roundworms"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Sarconema is a genus of nematodes belonging to the family Onchocercidae.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Sarconema_(nematode)",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-13T19:41:52.631248",
+    "modified": "2026-02-13T19:41:52.631253",
+    "categories": [
+      "Nematodes"
+    ],
+    "tags": [
+      "Sarconema (nematode)"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Sarconema_(nematode)"
+  }
+}

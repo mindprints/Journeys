@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "a5883c20-22b0-4f18-90d3-54603849559f",
+  "front": {
+    "title": "Alae (nematode anatomy)",
+    "subtitle": "The alae is a protruding ridge that forms longitudinally on many nematodes. \nIn the Caenorhabditis e..."
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "The alae is a protruding ridge that forms longitudinally on many nematodes. \nIn the Caenorhabditis elegans nematode they are present in the L1, dauer and adult stages. The alae are most pronounced during the dauer larval stage and not present in the L2, and L3 C. elegans stages.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Alae_(nematode_anatomy)",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Toxocara_cati_1_beentree.jpg/330px-Toxocara_cati_1_beentree.jpg",
+      "alt": "Alae (nematode anatomy)",
+      "position": "top",
+      "fit": "contain",
+      "maxWidth": 86,
+      "maxHeight": 92
+    }
+  },
+  "meta": {
+    "created": "2026-02-13T19:41:40.298890",
+    "modified": "2026-02-13T19:41:40.298893",
+    "categories": [
+      "Nematodes"
+    ],
+    "tags": [
+      "Alae (nematode anatomy)"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Alae_(nematode_anatomy)"
+  }
+}

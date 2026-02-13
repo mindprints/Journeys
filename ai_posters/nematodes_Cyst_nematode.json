@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "0bf8c3a5-f882-4562-b44a-efd12d8c425f",
+  "front": {
+    "title": "Cyst nematode",
+    "subtitle": "Topics referred to by the same term"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Cyst nematodes may refer to:Cactodera, a genus that includes the cactus cyst nematode, Cactodera cacti\nGlobodera, or potato cyst nematode, a genus of roundworms that live on the roots of the plant family Solanaceae\nHeterodera, a genus of nematodes in the family Heteroderidae\n\n",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Cyst_nematode",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-13T19:41:41.976242",
+    "modified": "2026-02-13T19:41:41.976247",
+    "categories": [
+      "Nematodes"
+    ],
+    "tags": [
+      "Cyst nematode"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Cyst_nematode"
+  }
+}

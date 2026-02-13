@@ -20,6 +20,19 @@ document.addEventListener('DOMContentLoaded', () => {
 	let lastAutoRotateTime = 0;
 	let userInputPaused = false;
 	let secondsPerCard = DEFAULT_SECONDS_PER_CARD;
+	const clampPercent = (value) => {
+		const parsed = Number.parseFloat(value);
+		if (!Number.isFinite(parsed)) return null;
+		return Math.min(100, Math.max(10, parsed));
+	};
+	const applyImageSizing = (imgEl, imageConfig) => {
+		if (!imgEl || !imageConfig) return;
+		imgEl.style.objectFit = imageConfig.fit || 'cover';
+		const maxWidth = clampPercent(imageConfig.maxWidth);
+		const maxHeight = clampPercent(imageConfig.maxHeight);
+		imgEl.style.maxWidth = maxWidth === null ? '' : `${maxWidth}%`;
+		imgEl.style.maxHeight = maxHeight === null ? '' : `${maxHeight}%`;
+	};
 
 	function getPosterCount() {
 		return postersContainer.querySelectorAll('article').length || 1;
@@ -159,13 +172,14 @@ document.addEventListener('DOMContentLoaded', () => {
 							const imgEl = imagePanel.querySelector('img');
 							const currentIndex = Number.parseInt(imagePanel.dataset.imageIndex || '0', 10) || 0;
 							const nextIndex = (currentIndex + 1) % images.length;
-							const nextImage = images[nextIndex];
-							if (imgEl && nextImage) {
-								imgEl.src = nextImage.src;
-								imgEl.alt = nextImage.alt || '';
-								imagePanel.dataset.imageIndex = `${nextIndex}`;
+								const nextImage = images[nextIndex];
+								if (imgEl && nextImage) {
+									imgEl.src = nextImage.src;
+									imgEl.alt = nextImage.alt || '';
+									applyImageSizing(imgEl, nextImage);
+									imagePanel.dataset.imageIndex = `${nextIndex}`;
+								}
 							}
-						}
 					}
 				}
 				e.stopPropagation();

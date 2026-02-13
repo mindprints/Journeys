@@ -2,6 +2,28 @@
 // Accepts an array of pre-fetched poster data objects
 async function loadPosters(postersDataArray) {
   const postersContainer = document.getElementById('posters-container');
+  const clampPercent = (value) => {
+    const parsed = Number.parseFloat(value);
+    if (!Number.isFinite(parsed)) return null;
+    return Math.min(100, Math.max(10, parsed));
+  };
+  const imageToClientConfig = (img = {}) => ({
+    src: img.src,
+    alt: img.alt || '',
+    fit: img.fit || '',
+    maxWidth: clampPercent(img.maxWidth),
+    maxHeight: clampPercent(img.maxHeight)
+  });
+  const imageStyleAttr = (img = {}) => {
+    const styles = [];
+    if (img.fit) styles.push(`object-fit:${img.fit}`);
+    const maxWidth = clampPercent(img.maxWidth);
+    if (maxWidth !== null) styles.push(`max-width:${maxWidth}%`);
+    const maxHeight = clampPercent(img.maxHeight);
+    if (maxHeight !== null) styles.push(`max-height:${maxHeight}%`);
+    if (!styles.length) return '';
+    return ` style="${styles.join(';')}"`;
+  };
 
   try {
     // Clear existing posters
@@ -409,14 +431,11 @@ async function loadPosters(postersDataArray) {
           </div>`;
 
           if (hasImage) {
-            const encodedImages = encodeURIComponent(JSON.stringify(limitedImages.map(img => ({
-              src: img.src,
-              alt: img.alt || ''
-            }))));
+            const encodedImages = encodeURIComponent(JSON.stringify(limitedImages.map(imageToClientConfig)));
             const initialImage = limitedImages[0];
             headerHTML += `<div class="v2-back-panel v2-back-image-panel" data-images="${encodedImages}" data-image-index="0" data-image-count="${limitedImages.length}">
               <div class="v2-back-panel-title">Image</div>
-              <div class="v2-back-image"><img src="${initialImage.src}" alt="${initialImage.alt || ''}" /></div>
+              <div class="v2-back-image"><img src="${initialImage.src}" alt="${initialImage.alt || ''}"${imageStyleAttr(initialImage)} /></div>
             </div>`;
           }
 

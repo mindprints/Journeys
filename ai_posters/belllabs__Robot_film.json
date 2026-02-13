@@ -1,7 +1,7 @@
 {
   "version": 2,
   "type": "poster-v2",
-  "uid": "131b22fe-f00d-46ad-8924-001fb640f3c2",
+  "uid": "17f807ba-5a58-4a86-b88e-880679f7a4b6",
   "front": {
     "title": "Enthiran",
     "subtitle": "2010 Indian film directed by Shankar"
@@ -20,12 +20,15 @@
     "image": {
       "src": "https://upload.wikimedia.org/wikipedia/en/0/0f/Enthiran_poster.jpg",
       "alt": "Enthiran",
-      "position": "top"
+      "position": "top",
+      "fit": "contain",
+      "maxWidth": 86,
+      "maxHeight": 92
     }
   },
   "meta": {
-    "created": "2026-02-10T20:06:41.296738",
-    "modified": "2026-02-10T20:06:41.296743",
+    "created": "2026-02-13T22:30:04.978569",
+    "modified": "2026-02-13T22:30:04.978574",
     "categories": [
       "Bell Labs"
     ],

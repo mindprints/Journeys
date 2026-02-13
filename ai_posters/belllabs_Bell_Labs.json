@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "484dae42-ed8f-4fbd-8c64-b322767b58e1",
+  "front": {
+    "title": "Bell Labs",
+    "subtitle": "Research and scientific development company"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Nokia Bell Labs, commonly referred to as Bell Labs, is an American industrial research and development company owned by the Finnish technology company Nokia. With headquarters located in Murray Hill, New Jersey, the company operates several laboratories in the United States and around the world.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Bell_Labs",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Nokia_Bell_Labs_2023.svg/330px-Nokia_Bell_Labs_2023.svg.png",
+      "alt": "Bell Labs",
+      "position": "top",
+      "fit": "contain",
+      "maxWidth": 96,
+      "maxHeight": 82
+    }
+  },
+  "meta": {
+    "created": "2026-02-13T22:30:07.167522",
+    "modified": "2026-02-13T22:30:07.167528",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "Bell Labs"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Bell_Labs"
+  }
+}
