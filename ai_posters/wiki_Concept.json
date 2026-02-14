@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "12092fd5-db97-428e-8dc8-cd6cd9106a85",
+  "front": {
+    "title": "Concept",
+    "subtitle": "Mental representation or an abstract object"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "A concept is an abstract idea that serves as a foundation for more concrete principles, thoughts, and beliefs.\nConcepts play an important role in all aspects of cognition. As such, concepts are studied within such disciplines as linguistics, psychology, and philosophy, and these disciplines are interested in the logical and psychological structure of concepts, and how they are put together to form thoughts and sentences. The study of concepts has served as an important flagship of an emerging interdisciplinary approach, cognitive science.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Concept",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Generalization_process_using_trees.svg/330px-Generalization_process_using_trees.svg.png",
+      "alt": "Concept",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-14T13:48:41.187151",
+    "modified": "2026-02-14T13:48:41.187157",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "Concept"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Concept"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "4b4881b7-8bf7-4327-a8e4-29ad3db8d589",
+  "front": {
+    "title": "Marvin Minsky",
+    "subtitle": "American cognitive scientist (1927\u20132016)"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Marvin Lee Minsky was an American cognitive and computer scientist concerned largely with research in artificial intelligence (AI). He co-founded the Massachusetts Institute of Technology's AI laboratory and wrote extensively about AI and philosophy.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Marvin_Minsky",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Marvin_Minsky_at_OLPCb_%283x4_cropped%29.jpg/330px-Marvin_Minsky_at_OLPCb_%283x4_cropped%29.jpg",
+      "alt": "Marvin Minsky",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-14T13:50:50.375953",
+    "modified": "2026-02-14T13:50:50.375960",
+    "categories": [
+      "Turing Award winners"
+    ],
+    "tags": [
+      "Marvin Minsky"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Marvin_Minsky"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "f679e2c2-d9df-4147-8775-cbd2c58ef773",
+  "front": {
+    "title": "Mitsubishi i",
+    "subtitle": "Motor vehicle"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "The Mitsubishi i  is a kei car from automaker Mitsubishi Motors, first released in January 2006, twenty eight months after its debut at the 2003 Frankfurt Motor Show. It is the first four-door automobile since the 1960s to employ a \"rear midship\" setup with the engine behind the passengers, in an attempt to improve safety and interior space without enlarging the overall exterior.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Mitsubishi_i",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Mitsubishi_i.jpg/330px-Mitsubishi_i.jpg",
+      "alt": "Mitsubishi i",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-14T13:48:52.381005",
+    "modified": "2026-02-14T13:48:52.381011",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "Mitsubishi i"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Mitsubishi_i"
+  }
+}

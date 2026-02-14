@@ -1226,14 +1226,16 @@ app.post('/api/ai/topic-suggestions', async (req, res) => {
   try {
     const {
       categoryName,
+      categoryDescription,
       existingTopics,
       limit,
-      model
+      model,
+      source
     } = req.body || {};
 
     const errors = [];
-    if (!isNonEmptyString(categoryName)) {
-      errors.push('categoryName is required');
+    if (!isNonEmptyString(categoryDescription)) {
+      errors.push('categoryDescription is required');
     }
     const parsedExistingTopics = parseOptionalStringArray(existingTopics, 'existingTopics', errors);
     const parsedLimit = limit === undefined ? 12 : Number(limit);
@@ -1243,25 +1245,50 @@ app.post('/api/ai/topic-suggestions', async (req, res) => {
     if (model !== undefined && !isNonEmptyString(model)) {
       errors.push('model must be a non-empty string when provided');
     }
+    const parsedSource = String(source || 'wikipedia').trim().toLowerCase();
+    if (!['wikipedia', 'huggingface', 'hf'].includes(parsedSource)) {
+      errors.push('source must be wikipedia or huggingface');
+    }
     if (errors.length) {
       return sendValidationError(res, errors);
     }
 
+    const sourceRules = parsedSource === 'wikipedia'
+      ? [
+          '- Return likely valid Wikipedia page titles as topic IDs.',
+          '- Use canonical page-style tokens with underscores (e.g. Alan_Turing, Bell_Labs).',
+          '- Avoid generic long phrases that are unlikely to be direct page titles.'
+        ]
+      : [
+          '- Return likely valid Hugging Face model IDs.',
+          '- Prefer format organization/model-name (e.g. meta-llama/Llama-2-7b-hf).',
+          '- If organization is unknown, single model IDs are acceptable (e.g. gpt2).'
+        ];
+
+    const exclusionRule = parsedExistingTopics.length
+      ? `Avoid these existing topics: ${parsedExistingTopics.join(', ')}`
+      : 'No existing topics were provided.';
+
     const prompt = [
-      `Category: ${String(categoryName).trim()}`,
-      `Existing topics: ${parsedExistingTopics.length ? parsedExistingTopics.join(', ') : '(none)'}`,
+      `Category name (label only): ${String(categoryName || '').trim() || '(not provided)'}`,
+      `Category description (primary context): ${String(categoryDescription).trim()}`,
+      `Target source: ${parsedSource === 'hf' ? 'huggingface' : parsedSource}`,
       `Return exactly ${parsedLimit} or fewer topic suggestions.`,
       'Constraints:',
-      '- Prefer topics relevant to AI history, models, labs, benchmarks, tooling, and applications.',
+      '- Use only the category description as the semantic context for suggestions.',
+      '- Do not inject unrelated AI-specific context unless it is explicitly present in the description.',
+      '- Do not prepend AI/AI_ prefixes unless explicitly requested by the description.',
       '- Avoid duplicates and near-duplicates.',
       '- Use concise topic names.',
       '- Replace spaces with underscores.',
+      ...sourceRules,
+      `- ${exclusionRule}`,
       '- Return valid JSON only in the format: {"topics":["..."]}.'
     ].join('\n');
 
     const completion = await requestOpenRouterChatCompletion({
       model: model || DEFAULT_TOPIC_SUGGESTION_MODEL,
-      systemPrompt: 'You produce concise, high-quality topic suggestions for an AI museum content editor.',
+      systemPrompt: 'You produce concise, high-quality topic suggestions for a general content editor.',
       userPrompt: prompt,
       temperature: 0.2,
       maxTokens: 400
@@ -1269,8 +1296,8 @@ app.post('/api/ai/topic-suggestions', async (req, res) => {
 
     const parsed = extractJsonObject(completion);
     const aiTopics = Array.isArray(parsed?.topics) ? parsed.topics : [];
-    const seen = new Set(parsedExistingTopics.map(topic => topic.toLowerCase()));
-    const merged = [...parsedExistingTopics];
+    const seen = new Set();
+    const normalizedTopics = [];
     aiTopics.forEach(topic => {
       if (typeof topic !== 'string') return;
       const normalized = topic.trim().replace(/\s+/g, '_');
@@ -1278,11 +1305,11 @@ app.post('/api/ai/topic-suggestions', async (req, res) => {
       const key = normalized.toLowerCase();
       if (seen.has(key)) return;
       seen.add(key);
-      merged.push(normalized);
+      normalizedTopics.push(normalized);
     });
 
     return res.json({
-      topics: merged.slice(0, parsedLimit),
+      topics: normalizedTopics.slice(0, parsedLimit),
       source: 'openrouter',
       model: model || DEFAULT_TOPIC_SUGGESTION_MODEL
     });

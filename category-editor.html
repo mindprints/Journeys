@@ -362,6 +362,22 @@
             </div>
             <textarea id="category-topics" rows="6" placeholder="Unimate\nShakey_the_robot\nASIMO"></textarea>
             <small>Use source-appropriate topic names. Count will cap how many are used.</small>
+            <div style="margin-top: 0.75em;">
+              <label for="topic-suggestions-draft">AI Suggestions (review/edit before apply)</label>
+              <textarea id="topic-suggestions-draft" rows="5" placeholder="Suggestions appear here for manual review and cleanup."></textarea>
+              <div class="log-actions" style="margin-top: 0.5em;">
+                <button class="editor-btn small" id="apply-suggestions-btn" type="button">
+                  <i class="fas fa-plus"></i> Add Suggestions
+                </button>
+                <button class="editor-btn small" id="replace-topics-btn" type="button">
+                  <i class="fas fa-exchange-alt"></i> Replace Topics
+                </button>
+                <button class="editor-btn small" id="clear-suggestions-btn" type="button">
+                  <i class="fas fa-eraser"></i> Clear Suggestions
+                </button>
+              </div>
+              <small>Suggestions are not used for generation until you add/replace them in Topics.</small>
+            </div>
           </div>
         </div>
 

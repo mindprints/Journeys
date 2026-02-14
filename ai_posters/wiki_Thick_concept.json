@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "afcdc58f-6988-44c3-a712-49f0409b64d4",
+  "front": {
+    "title": "Thick concept",
+    "subtitle": "Concept with both descriptive and evaluative content"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "In philosophy, a thick concept is a kind of concept that both has a significant degree of descriptive content and is evaluatively loaded. Paradigmatic examples are various virtues and vices such as courage, cruelty, truthfulness and kindness. Courage for example, may be given a rough characterization in descriptive terms as '...opposing danger to promote a valued end'. At the same time, characterizing someone as courageous typically involves expressing an attitude of esteem or a \"pro-attitude\", or a good-making quality \u2013 i.e. an evaluative statement.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Thick_concept",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-14T13:48:56.865221",
+    "modified": "2026-02-14T13:48:56.865226",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "Thick concept"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Thick_concept"
+  }
+}

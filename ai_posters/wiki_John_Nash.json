@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "2bb23404-e32e-4f0d-839f-eb2171d83d29",
+  "front": {
+    "title": "John Nash",
+    "subtitle": "Topics referred to by the same term"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "John Nash may refer to:",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/John_Nash",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-14T13:50:43.332836",
+    "modified": "2026-02-14T13:50:43.332841",
+    "categories": [
+      "Turing Award winners"
+    ],
+    "tags": [
+      "John Nash"
+    ],
+    "source": "https://en.wikipedia.org/wiki/John_Nash"
+  }
+}

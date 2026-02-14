@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "6f0d7fac-1e7c-423e-9790-826b150376be",
+  "front": {
+    "title": "John McCarthy",
+    "subtitle": "Topics referred to by the same term"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "John McCarthy may refer to:",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/John_McCarthy",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-14T13:50:52.844169",
+    "modified": "2026-02-14T13:50:52.844176",
+    "categories": [
+      "Turing Award winners"
+    ],
+    "tags": [
+      "John McCarthy"
+    ],
+    "source": "https://en.wikipedia.org/wiki/John_McCarthy"
+  }
+}

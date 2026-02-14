@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "afc2e669-12a8-42d0-a589-702c329abdf7",
+  "front": {
+    "title": "Barbara Liskov",
+    "subtitle": "American computer scientist"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Barbara Liskov is an American computer scientist who has made pioneering contributions to programming languages and distributed computing. Her notable work includes the introduction of abstract data types and the accompanying principle of data abstraction, along with the Liskov substitution principle, which applies these ideas to object-oriented programming, subtyping, and inheritance. Her work was recognized with the 2008 Turing Award, the highest distinction in computer science.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Barbara_Liskov",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Barbara_Liskov_MIT_computer_scientist_2010.jpg/330px-Barbara_Liskov_MIT_computer_scientist_2010.jpg",
+      "alt": "Barbara Liskov",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-14T13:50:49.293170",
+    "modified": "2026-02-14T13:50:49.293175",
+    "categories": [
+      "Turing Award winners"
+    ],
+    "tags": [
+      "Barbara Liskov"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Barbara_Liskov"
+  }
+}

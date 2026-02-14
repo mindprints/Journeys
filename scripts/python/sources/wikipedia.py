@@ -144,10 +144,82 @@ def fetch_wikipedia_summary(topic):
     try:
         response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
-        return response.json()
+        return response.json(), None
     except requests.RequestException as e:
         print(f"Error fetching {topic}: {e}")
-        return None
+        return None, str(e)
+
+
+def fetch_wikipedia_search_suggestions(topic, limit=5):
+    url = "https://en.wikipedia.org/w/api.php"
+    params = {
+        "action": "query",
+        "list": "search",
+        "srsearch": topic.replace("_", " "),
+        "utf8": 1,
+        "format": "json",
+        "srlimit": limit,
+    }
+    headers = {
+        "User-Agent": "AI-Poster-Generator/1.0 (Educational Project; mindp@example.com)"
+    }
+
+    try:
+        response = requests.get(url, params=params, headers=headers, timeout=10)
+        response.raise_for_status()
+        payload = response.json()
+    except requests.RequestException:
+        return []
+
+    hits = payload.get("query", {}).get("search", []) or []
+    titles = []
+    for hit in hits:
+        title = hit.get("title")
+        if isinstance(title, str) and title.strip():
+            titles.append(title.strip().replace(" ", "_"))
+    return titles
+
+
+def build_placeholder_poster(topic, category_type, category_label=None, reason="", suggestions=None):
+    suggestions = suggestions or []
+    title = topic.replace("_", " ").strip() or topic
+    subtitle = "Draft placeholder - Wikipedia lookup requires review"
+
+    body_lines = [
+        "Automatic Wikipedia generation did not return a definitive article for this topic.",
+        "",
+        f"Original topic: {topic}",
+        f"Reason: {reason or 'Lookup failed or ambiguous result'}",
+        "",
+        "Next step: edit this poster in Unified Editor with the intended subject details.",
+    ]
+    if suggestions:
+        body_lines.append("")
+        body_lines.append("Possible clarifications:")
+        for suggestion in suggestions:
+            body_lines.append(f"- {suggestion}")
+
+    return {
+        "version": 2,
+        "type": "poster-v2",
+        "uid": str(uuid.uuid4()),
+        "front": {
+            "title": title,
+            "subtitle": subtitle,
+        },
+        "back": {
+            "layout": "text-only",
+            "text": "\n".join(body_lines),
+            "links": [],
+        },
+        "meta": {
+            "created": datetime.now().isoformat(),
+            "modified": datetime.now().isoformat(),
+            "categories": determine_category(category_type, category_label),
+            "tags": [topic.replace("_", " ")],
+            "source": "",
+        },
+    }
 
 
 def extract_year_from_text(text):
@@ -172,10 +244,47 @@ def determine_category(topic_list_name, category_label=None):
 def create_poster_from_wikipedia(
     topic, category_type, existing_index, category_label=None
 ):
-    data = fetch_wikipedia_summary(topic)
+    data, fetch_error = fetch_wikipedia_summary(topic)
 
     if not data:
-        return None, None
+        suggestions = fetch_wikipedia_search_suggestions(topic, limit=5)
+        placeholder = build_placeholder_poster(
+            topic,
+            category_type,
+            category_label=category_label,
+            reason=fetch_error or "Wikipedia page not found",
+            suggestions=suggestions,
+        )
+        duplicate_reason = find_duplicate_reason(
+            placeholder["front"]["title"],
+            topic,
+            "",
+            existing_index,
+        )
+        return placeholder, duplicate_reason
+
+    is_disambiguation = data.get("type") == "disambiguation"
+    extract_text = str(data.get("extract", "") or "")
+    if not is_disambiguation and "may refer to:" in extract_text.lower():
+        is_disambiguation = True
+
+    if is_disambiguation:
+        suggestions = fetch_wikipedia_search_suggestions(topic, limit=7)
+        placeholder = build_placeholder_poster(
+            topic,
+            category_type,
+            category_label=category_label,
+            reason="Ambiguous Wikipedia topic (disambiguation page)",
+            suggestions=suggestions,
+        )
+        duplicate_reason = find_duplicate_reason(
+            placeholder["front"]["title"],
+            topic,
+            "",
+            existing_index,
+        )
+        print(f"CLARIFY needed for topic: {topic}")
+        return placeholder, duplicate_reason
 
     title = data.get("title", "")
     url = data.get("content_urls", {}).get("desktop", {}).get("page", "")

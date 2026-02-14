@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "cc95d7e4-8305-4f79-970a-63c9b84184a0",
+  "front": {
+    "title": "Edward Feigenbaum",
+    "subtitle": "American computer scientist"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Edward Albert Feigenbaum is an American computer scientist working in the field of artificial intelligence, and with Raj Reddy he won the 1994 ACM Turing Award. He is often called the \"father of expert systems\".",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Edward_Feigenbaum",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/27._Dr._Edward_A._Feigenbaum_1994-1997.jpg/330px-27._Dr._Edward_A._Feigenbaum_1994-1997.jpg",
+      "alt": "Edward Feigenbaum",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-14T13:50:51.590680",
+    "modified": "2026-02-14T13:50:51.590687",
+    "categories": [
+      "Turing Award winners"
+    ],
+    "tags": [
+      "Edward Feigenbaum"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Edward_Feigenbaum"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "70cb4c9e-1920-43fc-9228-9a4ee0568f8f",
+  "front": {
+    "title": "Agrochemical",
+    "subtitle": "Any chemical used in agriculture"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "An agrochemical or agrichemical, a contraction of agricultural chemical, is a chemical product used in conventional or industrial agriculture. Agrochemical typically refers to pesticides and synthetic fertilizers. The term agrochemical is sometimes used informally synonymously with pesticides, sometimes also informally to mean pesticides and fertilizers, and sometimes more correctly to include all chemicals used in agriculture. Other chemicals used in agriculture are plant hormones and plant growth regulators (PGRs), insect attractants, insect repellents, plant defense inducers, herbicide safeners, adjuvents and co-formulants, soil conditioners and soil amendments, liming and acidifying agents. For livestock feed additives, animal growth regulators, anthelmintics and other antiparasitics are used.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Agrochemical",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Passaic_Agricultural_Chemical_Works._1876.jpg/330px-Passaic_Agricultural_Chemical_Works._1876.jpg",
+      "alt": "Agrochemical",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-14T13:42:19.934973",
+    "modified": "2026-02-14T13:42:19.934978",
+    "categories": [
+      "pesticides"
+    ],
+    "tags": [
+      "Agricultural Chemicals"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Agrochemical"
+  }
+}

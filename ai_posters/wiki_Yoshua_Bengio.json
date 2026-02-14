@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "8fb73ef5-8961-40dc-b4e4-30c4ff6da3cc",
+  "front": {
+    "title": "Yoshua Bengio",
+    "subtitle": "Canadian computer scientist"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Yoshua Bengio is a Canadian computer scientist, and a pioneer of artificial neural networks and deep learning. He is a professor at the Universit\u00e9 de Montr\u00e9al and co-president and scientific director of the nonprofit LawZero. He founded Mila, the Quebec Artificial Intelligence (AI) Institute, and was its scientific director until 2025.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Yoshua_Bengio",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/ICLR_2025_-_Yoshua_Bengio_02.jpg/330px-ICLR_2025_-_Yoshua_Bengio_02.jpg",
+      "alt": "Yoshua Bengio",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-14T13:50:45.653269",
+    "modified": "2026-02-14T13:50:45.653275",
+    "categories": [
+      "Turing Award winners"
+    ],
+    "tags": [
+      "Yoshua Bengio"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Yoshua_Bengio"
+  }
+}

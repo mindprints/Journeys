@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "44576f6b-df88-410c-8653-0fb86bb3b79c",
+  "front": {
+    "title": "Leslie Valiant",
+    "subtitle": "British American computer scientist"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Leslie Gabriel Valiant is a British American computer scientist and computational theorist. He was born to a chemical engineer father and a translator mother. He is currently the T. Jefferson Coolidge Professor of Computer Science and Applied Mathematics at Harvard University. Valiant was awarded the Turing Award in 2010, having been described by the A.C.M. as a heroic figure in theoretical computer science and a role model for his courage and creativity in addressing some of the deepest unsolved problems in science; in particular for his \"striking combination of depth and breadth\".",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Leslie_Valiant",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Leslie_Valiant_%2834913684313%29.jpg/330px-Leslie_Valiant_%2834913684313%29.jpg",
+      "alt": "Leslie Valiant",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-14T13:50:48.065701",
+    "modified": "2026-02-14T13:50:48.065707",
+    "categories": [
+      "Turing Award winners"
+    ],
+    "tags": [
+      "Leslie Valiant"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Leslie_Valiant"
+  }
+}

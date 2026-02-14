@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "a2a0e04f-941b-429b-a7b0-177f448973d6",
+  "front": {
+    "title": "Marginal concepts",
+    "subtitle": "In economics, marginal concepts are associated with a specific change in the quantity used of a good..."
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "In economics, marginal concepts are associated with a specific change in the quantity used of a good or service, as opposed to some notion of the over-all significance of that class of good or service, or of some total quantity thereof.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Marginal_concepts",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-14T13:48:50.190049",
+    "modified": "2026-02-14T13:48:50.190055",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "Marginal concepts"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Marginal_concepts"
+  }
+}

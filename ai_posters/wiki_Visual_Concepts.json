@@ -1,7 +1,7 @@
 {
   "version": 2,
   "type": "poster-v2",
-  "uid": "a7f1d582-2f67-4ac4-ad1d-685cf012a852",
+  "uid": "4040beae-11be-4792-811f-8cabd2de9f9a",
   "front": {
     "title": "Visual Concepts",
     "subtitle": "American video game developer"
@@ -20,15 +20,12 @@
     "image": {
       "src": "https://upload.wikimedia.org/wikipedia/commons/2/29/Visual_Concepts_Logo_%282019%29.png",
       "alt": "Visual Concepts",
-      "position": "top",
-      "fit": "contain",
-      "maxWidth": 72,
-      "maxHeight": 96
+      "position": "top"
     }
   },
   "meta": {
-    "created": "2026-02-13T22:30:33.232035",
-    "modified": "2026-02-14T10:48:00.046Z",
+    "created": "2026-02-14T13:49:00.382684",
+    "modified": "2026-02-14T13:49:00.382692",
     "categories": [
       "Bell Labs"
     ],

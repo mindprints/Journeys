@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "0df22ae6-f2ed-42a4-a161-4f393b6e2fff",
+  "front": {
+    "title": "Judea Pearl",
+    "subtitle": "American computer scientist (born 1936)"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Judea Pearl is an Israeli-American computer scientist and philosopher, best known for championing the probabilistic approach to artificial intelligence and the development of Bayesian networks. He is also credited for developing a theory of causal and counterfactual inference based on structural models. In 2011, the Association for Computing Machinery (ACM) awarded Pearl with the Turing Award, the highest distinction in computer science, \"for fundamental contributions to artificial intelligence through the development of a calculus for probabilistic and causal reasoning\". He is the author of several books, including the technical Causality: Models, Reasoning and Inference, and The Book of Why, a book on causality aimed at the general public.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Judea_Pearl",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Judea_Pearl_at_NIPS_2013_%2811781981594%29.jpg/330px-Judea_Pearl_at_NIPS_2013_%2811781981594%29.jpg",
+      "alt": "Judea Pearl",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-14T13:50:46.855813",
+    "modified": "2026-02-14T13:50:46.855819",
+    "categories": [
+      "Turing Award winners"
+    ],
+    "tags": [
+      "Judea Pearl"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Judea_Pearl"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "a7480a6d-bcc5-4c3f-be56-286493623d4b",
+  "front": {
+    "title": "Marian Croak",
+    "subtitle": "American engineer and inventor"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Marian Rogers Croak is an American engineer known for her voice over IP (VoIP) related inventions. Croak worked for three decades at Bell Labs and AT&T where she filed over 200 patents, and has worked at Google since 2014 as Vice President of Engineering, In 2022, she was inducted into the National Inventors Hall of Fame for her work with VoIP.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Marian_Croak",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/The_Next_Three_Billion-_Marian_Croak_speaking_%28cropped%29.jpg/330px-The_Next_Three_Billion-_Marian_Croak_speaking_%28cropped%29.jpg",
+      "alt": "Marian Croak",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-14T13:48:51.289185",
+    "modified": "2026-02-14T13:48:51.289191",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "Marian Croak"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Marian_Croak"
+  }
+}

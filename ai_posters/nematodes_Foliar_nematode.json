@@ -1,14 +1,21 @@
 {
   "version": 2,
   "type": "poster-v2",
-  "uid": "ff188b3d-ba16-46b0-917a-d12389bd9ef7",
+  "uid": "poster-mlm6uzg352xvmbtdu",
   "front": {
-    "title": "Foliar nematode",
-    "subtitle": "Group of roundworms"
+    "title": "Foliar nematode tests",
+    "subtitle": "Group of roundworms test"
   },
   "back": {
     "layout": "image-top",
     "text": "Foliar nematodes are plant parasitic roundworms in the genus Aphelenchoides. The three most economically important species are Aphelenchoides fragariae, A. ritzemabosi, and A. besseyi. Foliar nematodes are becoming a widespread and serious problem for the ornamental and nursery industries. A. fragariae causes damage on hundreds of different plants including chrysanthemum, begonia, gloxinia, African violet, cyclamen, and a wide variety of bedding plants and ferns, causing brown to black, vein-delimited lesions on leaf tissue, defoliation, and possible stunting of plants.",
+    "image": {
+      "src": "images/originals/foliar_nematode_tests_mlm6uzgu.webp",
+      "alt": "Foliar nematode",
+      "position": "top",
+      "maxWidth": 86,
+      "maxHeight": 92
+    },
     "links": [
       {
         "type": "external",
@@ -16,25 +23,17 @@
         "url": "https://en.wikipedia.org/wiki/Foliar_nematode",
         "primary": true
       }
-    ],
-    "image": {
-      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Foliar_nematode_pathogen.jpg/330px-Foliar_nematode_pathogen.jpg",
-      "alt": "Foliar nematode",
-      "position": "top",
-      "fit": "contain",
-      "maxWidth": 86,
-      "maxHeight": 92
-    }
+    ]
   },
   "meta": {
     "created": "2026-02-13T19:41:44.409288",
-    "modified": "2026-02-13T19:41:44.409293",
-    "categories": [
-      "Nematodes"
-    ],
+    "modified": "2026-02-14T10:43:38.355Z",
     "tags": [
       "Foliar nematode"
     ],
-    "source": "https://en.wikipedia.org/wiki/Foliar_nematode"
+    "source": "https://en.wikipedia.org/wiki/Foliar_nematode",
+    "categories": [
+      "Nematodes"
+    ]
   }
 }

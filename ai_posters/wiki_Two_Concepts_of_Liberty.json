@@ -1,7 +1,7 @@
 {
   "version": 2,
   "type": "poster-v2",
-  "uid": "78e87961-5f5f-4f04-9658-e396074d6344",
+  "uid": "e28679b1-9ba7-4630-8e56-fb3a65ee5f55",
   "front": {
     "title": "Two Concepts of Liberty",
     "subtitle": "1958 ethics lecture by Isaiah Berlin"
@@ -19,8 +19,8 @@
     ]
   },
   "meta": {
-    "created": "2026-02-13T22:30:32.027424",
-    "modified": "2026-02-14T10:48:00.043Z",
+    "created": "2026-02-14T13:48:59.157561",
+    "modified": "2026-02-14T13:48:59.157568",
     "categories": [
       "Bell Labs"
     ],

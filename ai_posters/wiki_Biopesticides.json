@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "045b62f1-6422-49db-8afd-51e907ce6440",
+  "front": {
+    "title": "Biopesticide",
+    "subtitle": "Several types of pest management intervention"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "A biopesticide is a biological substance or microorganism that is used to control pests. Invertebrates and macroorganisms used to control pests are usually categorised as biological pest control agents.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Biopesticide",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-14T13:42:17.221555",
+    "modified": "2026-02-14T13:42:17.221560",
+    "categories": [
+      "pesticides"
+    ],
+    "tags": [
+      "Biopesticides"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Biopesticide"
+  }
+}

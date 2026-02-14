@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "172ccb3d-6514-4037-8267-e004b34411a0",
+  "front": {
+    "title": "Tim Berners-Lee",
+    "subtitle": "English computer scientist (born 1955)"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Sir Timothy John Berners-Lee, also known as TimBL, is an English computer scientist best known as the inventor of the World Wide Web, HTML, the URL system, and HTTP. He is a professorial research fellow at the University of Oxford and a professor emeritus at the Massachusetts Institute of Technology (MIT).",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Tim_Berners-Lee",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/LS3_4919_%28cropped%29.jpg/330px-LS3_4919_%28cropped%29.jpg",
+      "alt": "Tim Berners-Lee",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-14T13:50:56.478043",
+    "modified": "2026-02-14T13:50:56.478052",
+    "categories": [
+      "Turing Award winners"
+    ],
+    "tags": [
+      "Tim Berners-Lee"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Tim_Berners-Lee"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "7c38f6ca-5985-43e8-9755-3608c32a347a",
+  "front": {
+    "title": "History of the transistor",
+    "subtitle": "A transistor is a semiconductor device with at least three terminals for connection to an electric c..."
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "A transistor is a semiconductor device with at least three terminals for connection to an electric circuit. In the common case, the third terminal controls the flow of current between the other two terminals. This can be used for amplification, as in the case of a radio receiver, or for rapid switching, as in the case of digital circuits. The transistor replaced the vacuum-tube triode, also called a (thermionic) valve, which was much larger in size and used significantly more power to operate. The first transistor was successfully demonstrated on December 23, 1947, at Bell Laboratories in Murray Hill, New Jersey. Bell Labs was the research arm of American Telephone and Telegraph (AT&T). The three individuals credited with the invention of the transistor were William Shockley, John Bardeen and Walter Brattain. The introduction of the transistor is often considered one of the most important inventions in history.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/History_of_the_transistor",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-14T13:48:46.656098",
+    "modified": "2026-02-14T13:48:46.656104",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "History of the transistor"
+    ],
+    "source": "https://en.wikipedia.org/wiki/History_of_the_transistor"
+  }
+}

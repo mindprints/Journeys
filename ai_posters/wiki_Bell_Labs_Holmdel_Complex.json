@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "d6500d34-2a5b-4992-91cd-529edbd78d6a",
+  "front": {
+    "title": "Bell Labs Holmdel Complex",
+    "subtitle": "Mixed-use commercial complex in Holmdel, New Jersey"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "The Bell Labs Holmdel Complex is a development in Holmdel Township, Monmouth County, New Jersey, United States. It functioned as a research and development facility for the Bell System and later Bell Labs between 1962 and 2007. The centerpiece of the campus, a modernist structure designed by Eero Saarinen, was dubbed \"the biggest mirror ever\" for its mirrored exterior. Roche-Dinkeloo, the successor firm to Saarinen's architectural practice, designed two expansions to the original structure.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Bell_Labs_Holmdel_Complex",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Bell_Works_Primary_Building_%28110125%29.jpg/330px-Bell_Works_Primary_Building_%28110125%29.jpg",
+      "alt": "Bell Labs Holmdel Complex",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-14T13:48:37.886779",
+    "modified": "2026-02-14T13:48:37.886785",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "Bell Labs Holmdel Complex"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Bell_Labs_Holmdel_Complex"
+  }
+}

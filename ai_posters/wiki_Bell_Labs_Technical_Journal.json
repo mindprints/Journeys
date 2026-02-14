@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "6e9f1033-7b2f-4202-86d9-59825f971d87",
+  "front": {
+    "title": "Bell Labs Technical Journal",
+    "subtitle": "Academic journal"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "The Bell Labs Technical Journal was the in-house scientific journal for scientists of Bell Labs, published yearly by the IEEE society.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Bell_Labs_Technical_Journal",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-14T13:48:38.984331",
+    "modified": "2026-02-14T13:48:38.984337",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "Bell Labs Technical Journal"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Bell_Labs_Technical_Journal"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "323d19bd-5fc9-4b0c-8606-6f22c0bf2b07",
+  "front": {
+    "title": "Integrated pest management",
+    "subtitle": "Approach for economic control of pests"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Integrated pest management (IPM), also known as integrated pest control (IPC) integrates both chemical and non-chemical practices for economic control of pests. The UN's Food and Agriculture Organization defines IPM as \"the careful consideration of all available pest control techniques and subsequent integration of appropriate measures that discourage the development of pest populations and keep pesticides and other interventions to levels that are economically justified and reduce or minimize risks to human health and the environment. IPM emphasizes the growth of a healthy crop with the least possible disruption to agro-ecosystems and encourages natural pest control mechanisms.\" Entomologists and ecologists have urged the adoption of IPM pest control since the 1970s. IPM is a safer pest control framework than reliance on the use of chemical pesticides, mitigating risks such as: insecticide-induced resurgence, pesticide resistance and (especially food) crop residues.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Integrated_pest_management",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/0/0f/IPMtrap4854.JPG",
+      "alt": "Integrated pest management",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-14T13:42:18.437450",
+    "modified": "2026-02-14T13:42:18.437458",
+    "categories": [
+      "pesticides"
+    ],
+    "tags": [
+      "Integrated Pest Management"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Integrated_pest_management"
+  }
+}

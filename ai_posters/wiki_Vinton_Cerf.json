@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "902cf665-b0d1-4e9c-9c14-3f6eb5a5b7c0",
+  "front": {
+    "title": "Vint Cerf",
+    "subtitle": "American computer scientist and Internet pioneer (born 1943)"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Vinton Gray Cerf is an American Internet pioneer and is recognized as one of \"the fathers of the Internet\", sharing this title with TCP/IP co-developer Robert Kahn.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Vint_Cerf",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Dr_Vint_Cerf_ForMemRS_%28cropped%29.jpg/330px-Dr_Vint_Cerf_ForMemRS_%28cropped%29.jpg",
+      "alt": "Vint Cerf",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-14T13:50:55.277750",
+    "modified": "2026-02-14T13:50:55.277757",
+    "categories": [
+      "Turing Award winners"
+    ],
+    "tags": [
+      "Vinton Cerf"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Vint_Cerf"
+  }
+}

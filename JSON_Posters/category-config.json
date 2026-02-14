@@ -1,5 +1,5 @@
 {
-  "updated": "2026-02-13T21:33:14.938Z",
+  "updated": "2026-02-14T13:49:34.262Z",
   "categories": [
     {
       "name": "Classical Robots",
@@ -167,6 +167,68 @@
         "Spicule_(nematode_anatomy)",
         "Strawberry_foliar_nematode"
       ]
+    },
+    {
+      "name": "new tests 3",
+      "slug": "new-tests-3",
+      "description": "whatever",
+      "color": "#f48c06",
+      "targetCount": null,
+      "source": "wikipedia",
+      "topics": []
+    },
+    {
+      "name": "mpf trdytomh noyvjy",
+      "slug": "mpf-trdytomh-noyvjy",
+      "description": "sdfg",
+      "color": "#372206",
+      "targetCount": null,
+      "source": "huggingface",
+      "topics": [
+        "AI_and_Robotics",
+        "AI_Applications_in_Healthcare",
+        "AI_in_Natural_Language_Processing",
+        "Early_AI_Research",
+        "Ethics_in_AI_Development",
+        "Evolution_of_Deep_Learning",
+        "Future_Trends_in_AI",
+        "Influential_AI_Labs",
+        "Key_AI_Benchmarks",
+        "Milestones_in_Machine_Learning",
+        "Neural_Network_Development",
+        "The_Turing_Test"
+      ]
+    },
+    {
+      "name": "tropical fish",
+      "slug": "tropical-fish",
+      "description": "The most popular tropical fish for home aquariums",
+      "color": "#f48c06",
+      "targetCount": null,
+      "source": "wikipedia",
+      "topics": [
+        "AI_and_Sustainable_Fishing_Practices",
+        "AI_Applications_in_Fish_Health_Monitoring",
+        "AI_in_Aquarium_Management",
+        "AI_Tools_for_Aquatic_Environment_Analysis",
+        "AI-Driven_Fish_Breeding_Techniques",
+        "Benchmarking_AI_Models_in_Fish_Research",
+        "Computer_Vision_for_Tropical_Fish_Observation",
+        "Data_Analysis_in_Aquaculture",
+        "Machine_Learning_for_Fish_Identification",
+        "Neural_Networks_in_Ecosystem_Simulation",
+        "Predictive_Modeling_for_Fish_Population_Dynamics",
+        "Reinforcement_Learning_for_Fish_Behavior_Study"
+      ]
+    },
+    {
+      "name": "Turing Award winners",
+      "slug": "turing-award-winners",
+      "description": "The 10 most prominent AI researchers who have turing awards for their contributions to AI",
+      "color": "#f48c06",
+      "targetCount": null,
+      "source": "wikipedia",
+      "topics": []
     }
   ]
 }

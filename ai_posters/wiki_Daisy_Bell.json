@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "9a62b88e-a925-4f6b-9086-84bb2c549141",
+  "front": {
+    "title": "Daisy Bell",
+    "subtitle": "1892 music hall song by Harry Dacre"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "\"Daisy Bell (Bicycle Built for Two)\" is a song written in 1892 by British songwriter Harry Dacre with the chorus \"Daisy, Daisy / Give me your answer, do. / I'm half crazy / all for the love of you\", ending with the words \"a bicycle built for two\". The song is said to have been inspired by Daisy Greville, Countess of Warwick, one of the many mistresses of King Edward VII. It is the earliest song sung using computer speech synthesis by the IBM 7090 in 1961.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Daisy_Bell",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/en/thumb/5/50/Daisybell.jpg/330px-Daisybell.jpg",
+      "alt": "Daisy Bell",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-14T13:48:42.279846",
+    "modified": "2026-02-14T13:48:42.279852",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "Daisy Bell"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Daisy_Bell"
+  }
+}

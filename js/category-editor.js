@@ -75,6 +75,10 @@ class CategoryEditor {
     this.topicsInput = document.getElementById('category-topics');
     this.refreshTopicsBtn = document.getElementById('refresh-topics-btn');
     this.suggestTopicsBtn = document.getElementById('suggest-topics-btn');
+    this.topicSuggestionsDraft = document.getElementById('topic-suggestions-draft');
+    this.applySuggestionsBtn = document.getElementById('apply-suggestions-btn');
+    this.replaceTopicsBtn = document.getElementById('replace-topics-btn');
+    this.clearSuggestionsBtn = document.getElementById('clear-suggestions-btn');
 
     this.modal = document.getElementById('generator-modal');
     this.closeModalBtn = document.getElementById('close-generator');
@@ -121,6 +125,19 @@ class CategoryEditor {
     }
     if (this.suggestTopicsBtn) {
       this.suggestTopicsBtn.addEventListener('click', () => this.suggestTopicsFromAI());
+    }
+    if (this.applySuggestionsBtn) {
+      this.applySuggestionsBtn.addEventListener('click', () => this.applySuggestionsToTopics(false));
+    }
+    if (this.replaceTopicsBtn) {
+      this.replaceTopicsBtn.addEventListener('click', () => this.applySuggestionsToTopics(true));
+    }
+    if (this.clearSuggestionsBtn) {
+      this.clearSuggestionsBtn.addEventListener('click', () => {
+        if (this.topicSuggestionsDraft) {
+          this.topicSuggestionsDraft.value = '';
+        }
+      });
     }
   }
 
@@ -229,6 +246,9 @@ class CategoryEditor {
     this.countInput.value = category.targetCount || '';
     this.sourceInput.value = category.source || 'wikipedia';
     this.topicsInput.value = (category.topics || []).join('\n');
+    if (this.topicSuggestionsDraft) {
+      this.topicSuggestionsDraft.value = '';
+    }
     this.deleteBtn.disabled = false;
     this.updateColorPreview();
     this.renderList();
@@ -249,6 +269,9 @@ class CategoryEditor {
     this.countInput.value = '';
     this.sourceInput.value = 'wikipedia';
     this.topicsInput.value = '';
+    if (this.topicSuggestionsDraft) {
+      this.topicSuggestionsDraft.value = '';
+    }
     this.deleteBtn.disabled = true;
     this.updateColorPreview();
     this.renderList();
@@ -380,14 +403,15 @@ class CategoryEditor {
   }
 
   async suggestTopicsFromAI() {
-    const categoryName = this.nameInput.value.trim();
-    if (!categoryName) {
-      window.alert('Enter a category name to get suggestions.');
+    const categoryDescription = this.descriptionInput.value.trim();
+    if (!categoryDescription) {
+      window.alert('Enter a category description first. Suggestions are based on description context.');
       return;
     }
 
+    const categoryName = this.nameInput.value.trim();
+    const source = this.sourceInput.value || 'wikipedia';
     const existingTopics = this.parseTopics(this.topicsInput.value);
-    const topicSet = new Set(existingTopics);
     const limit = 12;
 
     try {
@@ -396,22 +420,51 @@ class CategoryEditor {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           categoryName,
+          categoryDescription,
+          source,
           existingTopics,
           limit
         })
       }, 'Failed to fetch AI suggestions');
       const results = Array.isArray(data?.topics) ? data.topics : [];
+      const seen = new Set(existingTopics.map(topic => topic.toLowerCase()));
+      const staged = [];
       results.forEach(topic => {
-        if (typeof topic === 'string' && topic.trim()) {
-          topicSet.add(topic.trim().replace(/\s+/g, '_'));
-        }
+        if (typeof topic !== 'string') return;
+        const normalized = topic.trim().replace(/\s+/g, '_');
+        if (!normalized) return;
+        const key = normalized.toLowerCase();
+        if (seen.has(key)) return;
+        seen.add(key);
+        staged.push(normalized);
       });
-      const merged = Array.from(topicSet).sort((a, b) => a.localeCompare(b));
-      this.topicsInput.value = merged.join('\n');
+      if (this.topicSuggestionsDraft) {
+        this.topicSuggestionsDraft.value = staged.join('\n');
+      }
+      if (!staged.length) {
+        window.alert('No new suggestions returned. Try refining the description.');
+      }
     } catch (error) {
       console.error('Error fetching AI suggestions:', error);
       window.alert(`Could not load AI suggestions: ${error.message}`);
     }
+  }
+
+  applySuggestionsToTopics(replace = false) {
+    const draftTopics = this.parseTopics(this.topicSuggestionsDraft?.value || '');
+    if (!draftTopics.length) {
+      window.alert('No staged suggestions to apply.');
+      return;
+    }
+
+    if (replace) {
+      this.topicsInput.value = draftTopics.join('\n');
+      return;
+    }
+
+    const currentTopics = this.parseTopics(this.topicsInput.value);
+    const merged = this.parseTopics([...currentTopics, ...draftTopics].join('\n'));
+    this.topicsInput.value = merged.join('\n');
   }
 
   async saveCategory() {

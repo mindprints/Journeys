@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "31d8548e-a4c7-4b4c-a24d-539364f057ea",
+  "front": {
+    "title": "Ford Mustang I",
+    "subtitle": "Motor vehicle"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "The Ford Mustang I is a small, mid-engined (4-cylinder), open two-seater concept car with aluminium body work that was built by Ford in 1962. Although it shared few design elements with the final production vehicle, it did lend its name to the line.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Ford_Mustang_I",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/1962_Ford_Mustang_I_Roadster_%2814174957260%29.jpg/330px-1962_Ford_Mustang_I_Roadster_%2814174957260%29.jpg",
+      "alt": "Ford Mustang I",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-02-14T13:48:44.491578",
+    "modified": "2026-02-14T13:48:44.491584",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "Ford Mustang I"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Ford_Mustang_I"
+  }
+}

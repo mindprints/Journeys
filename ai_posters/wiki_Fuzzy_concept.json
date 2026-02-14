@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "1102dae0-dacd-4313-a369-7ebe015bb986",
+  "front": {
+    "title": "Fuzzy concept",
+    "subtitle": "Varying application boundaries"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "A fuzzy concept is an idea of which the boundaries of application can vary considerably according to context or conditions, instead of being fixed once and for all. That means the idea is somewhat vague or imprecise. Yet it is not unclear or meaningless. It has a definite meaning, which can often be made more exact with further elaboration and specification \u2014 including a closer definition of the context in which the concept is used. The inverse of a \"fuzzy concept\" is a \"crisp concept\". Fuzzy concepts are often used to navigate imprecision in the real world, when precise information is not available and an approximate indication is sufficient to be helpful.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Fuzzy_concept",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-02-14T13:48:45.570222",
+    "modified": "2026-02-14T13:48:45.570228",
+    "categories": [
+      "Bell Labs"
+    ],
+    "tags": [
+      "Fuzzy concept"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Fuzzy_concept"
+  }
+}
