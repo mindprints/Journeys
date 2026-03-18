@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "e220c9c3-1f95-4eb8-bd07-c905c21acb0b",
+  "front": {
+    "title": "Cyborgs and Identity in Science Fiction",
+    "subtitle": "Exploring the fusion of humanity and technology in literature.",
+    "chronology": {
+      "epochStart": 1950,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1950,
+          "name": "Cyborgs and Identity in Science Fiction"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Cyborgs, or cybernetic organisms, blend biological and artificial components, raising profound questions about identity and existence. In science fiction, they often serve as mirrors reflecting our hopes and fears regarding technology's role in shaping human experience. From early depictions in literature to modern portrayals in film, cyborgs challenge the boundaries of what it means to be human, prompting audiences to consider the implications of merging man with machine.\n\nThe concept of the cyborg first gained traction in the mid-20th century, notably through works like C. M. Kornbluth's 'The Little Black Bag' (1950), which explored themes of transformation and the ethical dilemmas of technological enhancement. As narratives evolved, cyborgs became symbols of both empowerment and alienation, illustrating the duality of progress in an increasingly digital world. By examining these characters, we can better understand our evolving relationship with technology and the ongoing quest for identity in an age of rapid innovation.",
+    "links": []
+  },
+  "meta": {
+    "created": "2026-03-18T22:02:20.520166",
+    "modified": "2026-03-18T22:02:20.520172",
+    "categories": [
+      "AI in Science Fiction"
+    ],
+    "tags": [
+      "Cyborgs_and_Identity",
+      "cyborgs",
+      "identity",
+      "science fiction"
+    ],
+    "source": "openrouter/openai/gpt-4o-mini"
+  }
+}

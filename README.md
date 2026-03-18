@@ -9,6 +9,10 @@ An interactive, scroll-driven 3D poster gallery for exploring AI timelines, imag
 - Express API that serves static assets and persists JSON/image content to `JSON_Posters/Posters`.
 - Unified v2 poster backs render in a 16:9 layout with tunable CSS variables.
 
+## Latest Notes
+- Session notes: `SESSION_NOTES_2026-02-14.md`
+- Handoff: `HANDOFF_2026-02-14.md`
+
 ## How the Scroll-Driven Carousel Works
 The core animation is CSS-only, driven by a scroll-timeline:
 

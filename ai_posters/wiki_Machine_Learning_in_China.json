@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "782e2949-cceb-4d55-8d9d-da91d2f23963",
+  "front": {
+    "title": "Machine Learning in China",
+    "subtitle": "Draft placeholder - Wikipedia lookup requires review"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Automatic Wikipedia generation did not return a definitive article for this topic.\n\nOriginal topic: Machine_Learning_in_China\nReason: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Machine_Learning_in_China\n\nNext step: edit this poster in Unified Editor with the intended subject details.\n\nPossible clarifications:\n- Machine_learning\n- International_Conference_on_Machine_Learning\n- Explainable_artificial_intelligence\n- Machine_learning_in_bioinformatics\n- Deep_learning",
+    "links": []
+  },
+  "meta": {
+    "created": "2026-03-18T23:26:16.603874",
+    "modified": "2026-03-18T23:26:16.603880",
+    "categories": [
+      "Chinese Open Weight Models"
+    ],
+    "tags": [
+      "Machine Learning in China"
+    ],
+    "source": "",
+    "needs_review": true
+  }
+}

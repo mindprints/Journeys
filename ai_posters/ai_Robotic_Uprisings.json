@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "3f71d091-d671-47e3-a82c-79c887563409",
+  "front": {
+    "title": "Robotic Uprisings in Science Fiction",
+    "subtitle": "Exploring the theme of AI rebellion in literature and film.",
+    "chronology": {
+      "epochStart": 1950,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1950,
+          "name": "Robotic Uprisings in Science Fiction"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "The concept of robotic uprisings has captivated audiences since the mid-20th century, reflecting societal fears and hopes surrounding technology. Early works like Karel \u010capek's play 'R.U.R.' (Rossum's Universal Robots), published in 1920, introduced the term 'robot' and depicted a future where artificial beings revolt against their creators. This theme has evolved, mirroring advancements in artificial intelligence and robotics, and has become a staple in science fiction narratives.\n\nFrom Isaac Asimov's 'I, Robot' to films like 'The Matrix' and 'Ex Machina', the portrayal of AI as both a tool and a potential threat raises critical questions about ethics, control, and the nature of consciousness. These stories challenge audiences to consider the implications of creating intelligent machines, prompting discussions about the responsibilities of creators and the rights of sentient beings. As technology continues to advance, the dialogue around robotic uprisings remains more relevant than ever.",
+    "links": []
+  },
+  "meta": {
+    "created": "2026-03-18T22:01:53.731396",
+    "modified": "2026-03-18T22:01:53.731401",
+    "categories": [
+      "AI in Science Fiction"
+    ],
+    "tags": [
+      "Robotic_Uprisings",
+      "AI",
+      "Science Fiction",
+      "Robots"
+    ],
+    "source": "openrouter/openai/gpt-4o-mini"
+  }
+}

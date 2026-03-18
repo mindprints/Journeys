@@ -14,8 +14,8 @@ from pathlib import Path
 import requests
 
 
-OPENROUTER_IMAGES_URL = "https://openrouter.ai/api/v1/images/generations"
-DEFAULT_IMAGE_MODEL = "openai/gpt-5-image-mini"
+OPENROUTER_CHAT_URL = "https://openrouter.ai/api/v1/chat/completions"
+DEFAULT_IMAGE_MODEL = "google/gemini-3.1-flash-image-preview"
 DEFAULT_IMAGES_DIR = Path("images/originals")
 
 
@@ -63,45 +63,46 @@ def generate_ai_image(title, subtitle="", images_dir=None):
 
     try:
         resp = requests.post(
-            OPENROUTER_IMAGES_URL,
+            OPENROUTER_CHAT_URL,
             headers={
                 "Authorization": f"Bearer {api_key}",
                 "Content-Type": "application/json",
             },
             json={
                 "model": model,
-                "prompt": prompt,
-                "n": 1,
-                "size": "1536x1024",
-                "response_format": "b64_json",
+                "messages": [{"role": "user", "content": prompt}],
+                "modalities": ["image", "text"],
+                "image_config": {"aspect_ratio": "16:9"},
             },
             timeout=90,
         )
-        resp.raise_for_status()
+        if not resp.ok:
+            print(f"[image] HTTP {resp.status_code}: {resp.text[:300]}")
+            return None
         payload = resp.json()
     except Exception as exc:
         print(f"[image] generation failed: {exc}")
         return None
 
-    item = (payload.get("data") or [{}])[0]
-    b64 = item.get("b64_json")
-    url = item.get("url")
+    # Gemini image models return image in choices[0].message.images[0].image_url.url
+    message = (payload.get("choices") or [{}])[0].get("message", {})
+    image_url = (message.get("images") or [{}])[0].get("image_url", {}).get("url", "")
+    if not image_url:
+        print(f"[image] no image in response: {str(payload)[:200]}")
+        return None
 
-    if b64:
+    if image_url.startswith("data:"):
         try:
-            img_bytes = base64.b64decode(b64)
+            img_bytes = base64.b64decode(image_url.split(",", 1)[1])
         except Exception:
             return None
-    elif url:
+    else:
         try:
-            dl = requests.get(url, timeout=30)
+            dl = requests.get(image_url, timeout=30)
             dl.raise_for_status()
             img_bytes = dl.content
         except Exception:
             return None
-    else:
-        print("[image] no image data in response")
-        return None
 
     # Derive a safe filename from the title
     slug = re.sub(r"[^a-z0-9]+", "_", title.lower()).strip("_")[:40]

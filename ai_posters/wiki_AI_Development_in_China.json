@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "c032a377-443c-4e55-a3fd-75341a745180",
+  "front": {
+    "title": "AI Development in China",
+    "subtitle": "Draft placeholder - Wikipedia lookup requires review"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Automatic Wikipedia generation did not return a definitive article for this topic.\n\nOriginal topic: AI_Development_in_China\nReason: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/AI_Development_in_China\n\nNext step: edit this poster in Unified Editor with the intended subject details.\n\nPossible clarifications:\n- Artificial_intelligence_industry_in_China\n- Applications_of_artificial_intelligence\n- AI-assisted_software_development\n- Ai_Weiwei\n- History_of_artificial_intelligence",
+    "links": []
+  },
+  "meta": {
+    "created": "2026-03-18T23:27:01.363215",
+    "modified": "2026-03-18T23:27:01.363219",
+    "categories": [
+      "Chinese Open Weight Models"
+    ],
+    "tags": [
+      "AI Development in China"
+    ],
+    "source": "",
+    "needs_review": true
+  }
+}

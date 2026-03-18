@@ -189,6 +189,7 @@ class UnifiedEditor {
         document.getElementById('cancel-image-btn').addEventListener('click', () => this.hideImagePicker());
         document.getElementById('select-image-btn').addEventListener('click', () => this.selectImage());
         document.getElementById('use-url-btn').addEventListener('click', () => this.useImageUrl());
+        document.getElementById('ai-generate-image-btn').addEventListener('click', () => this.generateAiImage());
         if (this.addExtraImageBtn) {
             this.addExtraImageBtn.addEventListener('click', () => this.showImagePicker('additional'));
         }
@@ -1024,6 +1025,38 @@ class UnifiedEditor {
     }
 
     // === Image Handling ===
+
+    async generateAiImage() {
+        const title = (document.getElementById('front-title')?.value || '').trim();
+        if (!title) {
+            alert('Please enter a poster title before generating an image.');
+            return;
+        }
+        const subtitle = (document.getElementById('front-subtitle')?.value || '').trim();
+        const btn = document.getElementById('ai-generate-image-btn');
+        const status = document.getElementById('ai-image-status');
+        btn.disabled = true;
+        status.textContent = 'Generating…';
+        try {
+            const resp = await fetch('/api/ai/generate-image', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, subtitle }),
+            });
+            const data = await resp.json();
+            if (!resp.ok) {
+                status.textContent = data.error || 'Generation failed';
+                return;
+            }
+            this.setImage(data.src, title);
+            status.textContent = 'Done!';
+            setTimeout(() => { status.textContent = ''; }, 3000);
+        } catch (err) {
+            status.textContent = 'Request failed';
+        } finally {
+            btn.disabled = false;
+        }
+    }
 
     showImagePicker(target = 'primary') {
         this.imagePickerTarget = target;

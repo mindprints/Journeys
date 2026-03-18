@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "531a0dd2-8610-41ed-950e-e03aceb0bad7",
+  "front": {
+    "title": "AI Research in China",
+    "subtitle": "Draft placeholder - Wikipedia lookup requires review"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Automatic Wikipedia generation did not return a definitive article for this topic.\n\nOriginal topic: AI_Research_in_China\nReason: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/AI_Research_in_China\n\nNext step: edit this poster in Unified Editor with the intended subject details.\n\nPossible clarifications:\n- Artificial_intelligence_industry_in_China\n- DeepSeek\n- History_of_artificial_intelligence\n- Artificial_intelligence\n- Applications_of_artificial_intelligence",
+    "links": []
+  },
+  "meta": {
+    "created": "2026-03-18T23:26:02.973977",
+    "modified": "2026-03-18T23:26:02.973981",
+    "categories": [
+      "Chinese Open Weight Models"
+    ],
+    "tags": [
+      "AI Research in China"
+    ],
+    "source": "",
+    "needs_review": true
+  }
+}

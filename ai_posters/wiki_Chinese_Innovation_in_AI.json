@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "5e0bff6e-c210-4d93-8109-caf837558b89",
+  "front": {
+    "title": "Chinese Innovation in AI",
+    "subtitle": "Draft placeholder - Wikipedia lookup requires review"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Automatic Wikipedia generation did not return a definitive article for this topic.\n\nOriginal topic: Chinese_Innovation_in_AI\nReason: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Chinese_Innovation_in_AI\n\nNext step: edit this poster in Unified Editor with the intended subject details.\n\nPossible clarifications:\n- Artificial_intelligence_industry_in_China\n- Z.ai\n- Regulation_of_artificial_intelligence\n- MiniMax_Group\n- India_AI_Impact_Summit_2026",
+    "links": []
+  },
+  "meta": {
+    "created": "2026-03-18T23:27:58.472381",
+    "modified": "2026-03-18T23:27:58.472387",
+    "categories": [
+      "Chinese Open Weight Models"
+    ],
+    "tags": [
+      "Chinese Innovation in AI"
+    ],
+    "source": "",
+    "needs_review": true
+  }
+}

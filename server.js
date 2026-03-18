@@ -36,7 +36,9 @@ const WIKI_LOG_PATH = path.join(WIKI_OUTPUT_DIR, 'wikipedia_grab.log');
 const GRAB_LOG_PATH = path.join(WIKI_OUTPUT_DIR, 'grab.log');
 const MERGE_LOG_PATH = path.join(WIKI_OUTPUT_DIR, 'merge_enrichment.log');
 const OPENROUTER_CHAT_COMPLETIONS_URL = 'https://openrouter.ai/api/v1/chat/completions';
+const OPENROUTER_IMAGES_URL = 'https://openrouter.ai/api/v1/images/generations';
 const DEFAULT_TOPIC_SUGGESTION_MODEL = process.env.OPENROUTER_TOPIC_MODEL || process.env.OPENROUTER_MODEL || 'openai/gpt-4o-mini';
+const DEFAULT_IMAGE_MODEL = process.env.OPENROUTER_IMAGE_MODEL || 'google/gemini-3.1-flash-image-preview';
 
 // Set up multer for file uploads
 const upload = multer({
@@ -769,6 +771,88 @@ app.post('/api/save-image', upload.single('image'), (req, res) => {
     console.error('Error saving image:', error);
     res.status(500).json({ error: 'Failed to save image' });
   }
+});
+
+// Generate an AI image for a poster via OpenRouter and save it locally
+app.post('/api/ai/generate-image', async (req, res) => {
+  const { title, subtitle } = req.body || {};
+  if (!title || typeof title !== 'string') {
+    return res.status(400).json({ error: 'title is required' });
+  }
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  if (!apiKey) {
+    return res.status(503).json({ error: 'OPENROUTER_API_KEY is not configured' });
+  }
+  const model = DEFAULT_IMAGE_MODEL;
+  const context = subtitle ? `${title.trim()}. ${subtitle.trim().replace(/\.$/, '')}` : title.trim();
+  const prompt =
+    `Illustration for an artificial intelligence and technology museum exhibit poster about: ${context}. ` +
+    'Interpret the subject as an AI system, algorithm, or technology concept — not fashion or entertainment. ' +
+    'Clean, modern graphic design style. Bold composition, rich colours. ' +
+    'No text, labels, or words in the image.';
+
+  let payload;
+  try {
+    const resp = await fetch(OPENROUTER_CHAT_COMPLETIONS_URL, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model,
+        messages: [{ role: 'user', content: prompt }],
+        modalities: ['image', 'text'],
+        image_config: { aspect_ratio: '16:9' },
+      }),
+    });
+    if (!resp.ok) {
+      const errText = await resp.text();
+      console.error(`[generate-image] OpenRouter HTTP ${resp.status}:`, errText.slice(0, 300));
+      return res.status(502).json({ error: `Image generation failed (HTTP ${resp.status})` });
+    }
+    payload = await resp.json();
+  } catch (err) {
+    console.error('[generate-image] fetch error:', err);
+    return res.status(502).json({ error: 'Image generation request failed' });
+  }
+
+  // Gemini image models return the image in choices[0].message.images[0].image_url.url
+  // as a base64 data URL: "data:image/png;base64,..."
+  const message = payload?.choices?.[0]?.message;
+  const imageUrl = message?.images?.[0]?.image_url?.url;
+  if (!imageUrl) {
+    console.error('[generate-image] no image in response:', JSON.stringify(payload).slice(0, 300));
+    return res.status(502).json({ error: 'No image data returned from OpenRouter' });
+  }
+
+  let imgBuffer;
+  if (imageUrl.startsWith('data:')) {
+    const b64 = imageUrl.split(',')[1];
+    imgBuffer = Buffer.from(b64, 'base64');
+  } else {
+    try {
+      const dl = await fetch(imageUrl);
+      if (!dl.ok) return res.status(502).json({ error: 'Failed to download generated image' });
+      imgBuffer = Buffer.from(await dl.arrayBuffer());
+    } catch (err) {
+      return res.status(502).json({ error: 'Failed to download generated image' });
+    }
+  }
+
+  const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40);
+  const filename = `ai_${slug}_${Date.now()}.png`;
+  const saveDir = path.join(__dirname, 'images', 'originals');
+  const filePath = path.join(saveDir, filename);
+  try {
+    fs.mkdirSync(saveDir, { recursive: true });
+    fs.writeFileSync(filePath, imgBuffer);
+  } catch (err) {
+    console.error('[generate-image] save error:', err);
+    return res.status(500).json({ error: 'Failed to save generated image' });
+  }
+
+  res.json({ src: `images/originals/${filename}` });
 });
 
 // Delete a poster or image file

@@ -546,6 +546,12 @@ def create_poster_from_wikipedia(
             "alt": title,
             "position": "top",
         }
+    else:
+        print("no thumbnail, AI generating image... ", end="", flush=True)
+        image_src = generate_ai_image(title, subtitle)
+        if image_src:
+            poster["back"]["layout"] = "image-top"
+            poster["back"]["image"] = {"src": image_src, "alt": title, "position": "top"}
 
     if category_type == "pioneers" and "extract" in data:
         year = extract_year_from_text(extract)

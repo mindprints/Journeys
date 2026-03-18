@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "e47cdecd-68ca-4868-9dec-1c06375e13f6",
+  "front": {
+    "title": "Open Weight Models",
+    "subtitle": "Draft placeholder - Wikipedia lookup requires review"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Automatic Wikipedia generation did not return a definitive article for this topic.\n\nOriginal topic: Open_Weight_Models\nReason: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Open_Weight_Models\n\nNext step: edit this poster in Unified Editor with the intended subject details.\n\nPossible clarifications:\n- Open-source_artificial_intelligence\n- Large_language_model\n- Llama_(language_model)\n- Generative_pre-trained_transformer\n- Qwen",
+    "links": []
+  },
+  "meta": {
+    "created": "2026-03-18T23:26:47.774096",
+    "modified": "2026-03-18T23:26:47.774100",
+    "categories": [
+      "Chinese Open Weight Models"
+    ],
+    "tags": [
+      "Open Weight Models"
+    ],
+    "source": "",
+    "needs_review": true
+  }
+}

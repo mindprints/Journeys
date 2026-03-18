@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "90c7ef6e-259b-46c1-84dd-1743e86b51fc",
+  "front": {
+    "title": "Predictive Algorithms in Science Fiction",
+    "subtitle": "Exploring the intersection of AI and future predictions.",
+    "chronology": {
+      "epochStart": 1950,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1950,
+          "name": "Predictive Algorithms in Science Fiction"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Predictive algorithms, a cornerstone of artificial intelligence, have long fascinated science fiction writers and filmmakers. These algorithms analyze vast amounts of data to forecast outcomes, often depicted in stories where machines anticipate human behavior, societal trends, or even catastrophic events. From Isaac Asimov's 'Foundation' series to the film 'Minority Report,' the concept of predicting the future has sparked imaginations and raised ethical questions about free will and determinism.\n\nIn science fiction, predictive algorithms are often portrayed as both powerful tools and potential threats. They can enhance decision-making and improve efficiency, but they also risk infringing on privacy and autonomy. As we delve into these narratives, we reflect on our own relationship with technology and the implications of relying on algorithms to shape our understanding of the future. These stories challenge us to consider how closely our reality aligns with these speculative visions and what it means for our society as we advance in AI technology.",
+    "links": []
+  },
+  "meta": {
+    "created": "2026-03-18T22:02:26.589344",
+    "modified": "2026-03-18T22:02:26.589350",
+    "categories": [
+      "AI in Science Fiction"
+    ],
+    "tags": [
+      "Predictive_Algorithms",
+      "Artificial Intelligence",
+      "Science Fiction",
+      "Predictive Technology"
+    ],
+    "source": "openrouter/openai/gpt-4o-mini"
+  }
+}

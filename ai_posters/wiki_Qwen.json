@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "01434ee1-2350-4fce-8aac-64aa2a3cebd9",
+  "front": {
+    "title": "Qwen",
+    "subtitle": "Family of large language models by Alibaba"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Qwen is a family of large language models developed by Alibaba Cloud. Many Qwen variants are distributed as open\u2011weight models under the Apache\u20112.0 license, while others are served through Alibaba Cloud.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Qwen",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Qwen_3_chatbot_example_screenshot.webp/330px-Qwen_3_chatbot_example_screenshot.webp.png",
+      "alt": "Qwen",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-18T22:35:46.747509",
+    "modified": "2026-03-18T22:35:46.747513",
+    "categories": [
+      "Chinese Open Weight Models"
+    ],
+    "tags": [
+      "Qwen"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Qwen"
+  }
+}

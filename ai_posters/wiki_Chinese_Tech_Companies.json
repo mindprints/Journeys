@@ -1,0 +1,47 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "4d31eb48-d6ae-4b44-b23e-babb69cb07e9",
+  "front": {
+    "title": "Chinese Tech Companies and Open Weight Models",
+    "subtitle": "Major Chinese technology firms driving open-source AI development globally.",
+    "chronology": {
+      "epochStart": 2023,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 2023,
+          "name": "Chinese Tech Companies and Open Weight Models"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Chinese technology companies have emerged as significant contributors to the global open-weight AI model ecosystem. Firms such as Alibaba, Baidu, Tencent, and specialized AI startups like Zhipu AI, Baichuan Intelligence, 01.AI, and DeepSeek have released large language models with publicly available weights. These models, including the Qwen, Yi, ChatGLM, Baichuan, and DeepSeek series, allow researchers and developers worldwide to inspect, modify, and deploy foundation models without proprietary restrictions.\n\nThe release strategies vary across companies. Some offer fully open weights under permissive licenses, while others adopt hybrid approaches with tiered access based on model size or commercial use. Alibaba's Qwen family and DeepSeek's models have gained particular traction in the open-source community for their competitive performance on international benchmarks, demonstrating that Chinese-developed models can match or exceed Western counterparts on coding, mathematics, and multilingual tasks.\n\nThis wave of open-weight releases reflects both strategic and competitive dynamics. By open-sourcing models, Chinese companies attract developer talent, build ecosystem loyalty, and establish technical credibility. The movement has also accelerated domestic AI innovation, as smaller companies and academic researchers build upon these foundation models rather than training from scratch, lowering barriers to entry in the generative AI space.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_chinese_tech_companies_and_open_weight_m_1773872848.png",
+      "alt": "Chinese Tech Companies and Open Weight Models",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-18T23:27:28.780747",
+    "modified": "2026-03-18T23:27:28.780752",
+    "categories": [
+      "Chinese Open Weight Models"
+    ],
+    "tags": [
+      "Chinese Tech Companies",
+      "open-weight models",
+      "Qwen",
+      "DeepSeek",
+      "Chinese AI",
+      "foundation models"
+    ],
+    "source": "openrouter/z-ai/glm-5-turbo",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}
