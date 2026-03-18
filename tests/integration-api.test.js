@@ -2,6 +2,8 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { startServer } = require('../server');
 
+const SKIP_LIVE = process.env.CI === 'true' || process.env.SKIP_LIVE_TESTS === 'true';
+
 let server;
 let baseUrl;
 
@@ -32,12 +34,13 @@ test.after(async () => {
   });
 });
 
-test('ai topic suggestions works with primary model', { timeout: 60000 }, async () => {
+test('ai topic suggestions works with primary model', { timeout: 60000, skip: SKIP_LIVE ? 'live network tests disabled (CI/SKIP_LIVE_TESTS)' : false }, async () => {
   const { response, payload } = await postJson('/api/ai/topic-suggestions', {
     categoryName: 'AI Agents',
     existingTopics: ['AutoGPT'],
     limit: 8,
     model: PRIMARY_MODEL,
+    categoryDescription: 'Autonomous AI agents and multi-agent frameworks',
   });
 
   assert.equal(response.status, 200, `Expected 200 from ${PRIMARY_MODEL}`);
@@ -47,12 +50,13 @@ test('ai topic suggestions works with primary model', { timeout: 60000 }, async 
   assert.ok(payload.topics.length > 0);
 });
 
-test('ai topic suggestions works with secondary model', { timeout: 60000 }, async () => {
+test('ai topic suggestions works with secondary model', { timeout: 60000, skip: SKIP_LIVE ? 'live network tests disabled (CI/SKIP_LIVE_TESTS)' : false }, async () => {
   const { response, payload } = await postJson('/api/ai/topic-suggestions', {
     categoryName: 'AI Agents',
     existingTopics: ['AutoGPT'],
     limit: 8,
     model: SECONDARY_MODEL,
+    categoryDescription: 'Autonomous AI agents and multi-agent frameworks',
   });
 
   assert.equal(response.status, 200, `Expected 200 from ${SECONDARY_MODEL}`);

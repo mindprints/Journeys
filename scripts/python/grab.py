@@ -9,13 +9,15 @@ import re
 import sys
 
 from grab_common import build_existing_index
-from sources import wikipedia, huggingface
+from sources import wikipedia, huggingface, aimodel
 
 
 SOURCES = {
     "wikipedia": wikipedia,
     "huggingface": huggingface,
     "hf": huggingface,
+    "aimodel": aimodel,
+    "ai-model": aimodel,
 }
 
 

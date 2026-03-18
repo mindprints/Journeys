@@ -116,11 +116,16 @@ article header .v2-back-frame {
 	justify-content: center;
 	transform: rotate(-90deg) scale(var(--v2-back-scale, 1));
 	transform-origin: center center;
+	backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
 }
 
 article header .v2-back-frame .v2-back-content {
 	width: 100%;
 	height: 100%;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
 }
 
 /* Front side */

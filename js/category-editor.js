@@ -92,6 +92,13 @@ class CategoryEditor {
     this.loadRunLogBtn = document.getElementById('load-run-log');
     this.loadMergeLogBtn = document.getElementById('load-merge-log');
     this.clearLogBtn = document.getElementById('clear-log');
+    this.runSummary = document.getElementById('run-summary');
+    this.summaryCreated = document.getElementById('summary-created');
+    this.summaryMerged = document.getElementById('summary-merged');
+    this.summarySkipped = document.getElementById('summary-skipped');
+    this.summaryFailed = document.getElementById('summary-failed');
+    this.summaryPlaceholders = document.getElementById('summary-placeholders');
+    this.openDraftsBtn = document.getElementById('open-drafts-btn');
   }
 
   bindEvents() {
@@ -558,6 +565,8 @@ class CategoryEditor {
     const count = this.generatorCount.value ? parseInt(this.generatorCount.value, 10) : null;
 
     this.generatorLog.textContent = `Running ${payload.source || 'wikipedia'} generator...\n`;
+    if (this.runSummary) this.runSummary.style.display = 'none';
+    if (this.openDraftsBtn) this.openDraftsBtn.style.display = 'none';
     try {
       const data = await this.requestJson('/api/run-grab', {
         method: 'POST',
@@ -571,10 +580,32 @@ class CategoryEditor {
           mergeOnly: this.mergeOnlyCheckbox.checked
         })
       }, 'Failed to run generator');
-      this.generatorLog.textContent = data.output || 'No output returned.';
+      const output = data.output || 'No output returned.';
+      this.generatorLog.textContent = output;
+      this.showRunSummary(output);
     } catch (error) {
       this.generatorLog.textContent = `Error: ${error.message}`;
     }
+  }
+
+  showRunSummary(output) {
+    const extract = (pattern) => {
+      const m = output.match(pattern);
+      return m ? parseInt(m[1], 10) : 0;
+    };
+    const created = extract(/^Created:\s*(\d+)/m);
+    const merged = extract(/^MERGE enriched:\s*(\d+)/m);
+    const skipped = extract(/^SKIP duplicates:\s*(\d+)/m);
+    const failed = extract(/^Failed:\s*(\d+)/m);
+    const placeholders = (output.match(/CLARIFY needed for topic:/g) || []).length;
+
+    if (this.summaryCreated) this.summaryCreated.textContent = created;
+    if (this.summaryMerged) this.summaryMerged.textContent = merged;
+    if (this.summarySkipped) this.summarySkipped.textContent = skipped;
+    if (this.summaryFailed) this.summaryFailed.textContent = failed;
+    if (this.summaryPlaceholders) this.summaryPlaceholders.textContent = placeholders;
+    if (this.runSummary) this.runSummary.style.display = '';
+    if (this.openDraftsBtn && placeholders > 0) this.openDraftsBtn.style.display = '';
   }
 
   async loadLog(endpoint) {
