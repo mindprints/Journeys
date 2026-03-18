@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node --check server.js)",
+      "Bash(node --check js/unified-editor.js)",
+      "Bash(node --check js/category-editor.js)",
+      "Bash(node --check tests/integration-api.test.js)",
+      "Bash(python -m py_compile scripts/python/sources/wikipedia.py)",
+      "Bash(node --test tests/model-intel-smoke.test.js)",
+      "Bash(CI=true node --env-file-if-exists=.env --test tests/integration-api.test.js)",
+      "Bash(python -m py_compile scripts/python/sources/aimodel.py)",
+      "Bash(python -m py_compile scripts/python/grab.py)",
+      "Bash(git -C \"C:\\\\Users\\\\mindp\\\\Documents\\\\GitHub\\\\Journeys\\\\.claude\\\\worktrees\\\\friendly-swanson\" status --short)",
+      "Bash(git -C \"C:\\\\Users\\\\mindp\\\\Documents\\\\GitHub\\\\Journeys\\\\.claude\\\\worktrees\\\\friendly-swanson\" add .env.example category-editor.html css/carousel.css css/poster-v2.css js/category-editor.js js/unified-editor.js package.json scripts/python/grab.py scripts/python/sources/wikipedia.py scripts/python/sources/aimodel.py server.js tests/integration-api.test.js unified-editor.html)",
+      "Bash(python -m py_compile \"C:\\\\Users\\\\mindp\\\\Documents\\\\GitHub\\\\Journeys\\\\scripts\\\\python\\\\sources\\\\wikipedia.py\")",
+      "Bash(git -C \"C:\\\\Users\\\\mindp\\\\Documents\\\\GitHub\\\\Journeys\" add scripts/python/sources/wikipedia.py)",
+      "Bash(git -C:*)",
+      "Bash(python -m py_compile ai_helpers.py)",
+      "Bash(python -m py_compile wikipedia.py)",
+      "Bash(python -m py_compile aimodel.py)",
+      "Bash(python -c \"from sources import wikipedia, huggingface, aimodel; print\\(''imports OK''\\)\")",
+      "WebFetch(domain:openrouter.ai)",
+      "WebSearch",
+      "WebFetch(domain:developer.tenten.co)",
+      "WebFetch(domain:yingtu.ai)",
+      "WebFetch(domain:developer.puter.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:docs.fastrouter.ai)",
+      "WebFetch(domain:raw.githubusercontent.com)"
+    ]
+  }
+}
