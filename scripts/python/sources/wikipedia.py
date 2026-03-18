@@ -3,6 +3,7 @@
 
 from datetime import datetime
 from pathlib import Path
+import os
 import requests
 import time
 import re
@@ -180,6 +181,162 @@ def fetch_wikipedia_search_suggestions(topic, limit=5):
     return titles
 
 
+OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+
+
+def _openrouter_api_key():
+    return os.environ.get("OPENROUTER_API_KEY", "").strip()
+
+
+def _openrouter_model():
+    return (
+        os.environ.get("OPENROUTER_CONTENT_MODEL", "").strip()
+        or os.environ.get("OPENROUTER_MODEL", "").strip()
+        or "openai/gpt-4o-mini"
+    )
+
+
+def _call_openrouter(user_prompt, system_prompt, max_tokens=80, temperature=0.0):
+    """Minimal OpenRouter call. Returns content string or None on any error."""
+    api_key = _openrouter_api_key()
+    if not api_key:
+        return None
+    try:
+        resp = requests.post(
+            OPENROUTER_URL,
+            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+            json={
+                "model": _openrouter_model(),
+                "temperature": temperature,
+                "max_tokens": max_tokens,
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+            },
+            timeout=20,
+        )
+        resp.raise_for_status()
+        return (resp.json().get("choices") or [{}])[0].get("message", {}).get("content", "").strip()
+    except Exception:
+        return None
+
+
+def _ai_disambiguate(topic, candidates, category_label=None):
+    """Ask the AI to pick the best Wikipedia page title from disambiguation candidates.
+
+    Returns a Wikipedia page title as an underscore slug, or None if unresolvable.
+    """
+    if not candidates:
+        return None
+    context = category_label or "AI / technology museum exhibit"
+    numbered = "\n".join(f"{i+1}. {c.replace('_', ' ')}" for i, c in enumerate(candidates))
+    content = _call_openrouter(
+        user_prompt=(
+            f'Topic requested: "{topic.replace("_", " ")}"\n'
+            f"Context: {context}\n\n"
+            f"Candidate Wikipedia page titles:\n{numbered}\n\n"
+            "Which single candidate best matches what a visitor to an AI/technology museum "
+            "would expect to find under this topic?\n"
+            "Reply with ONLY the exact candidate title as listed (use the exact text from the list). "
+            'If none are suitable, reply with the single word "none".'
+        ),
+        system_prompt="You select the single most relevant Wikipedia article for a given topic. Reply with only the title or 'none'.",
+        max_tokens=60,
+        temperature=0.0,
+    )
+    if not content or content.lower().strip(" .\"'") == "none":
+        return None
+    # Normalise the returned title back to a Wikipedia slug
+    chosen = content.strip().strip("\"'").split("\n")[0].strip()
+    # Strip any leading numbering the model might have echoed (e.g. "1. Alan Turing")
+    chosen = re.sub(r"^\d+\.\s*", "", chosen)
+    slug = chosen.replace(" ", "_")
+    # Only accept if it looks like one of the candidates (case-insensitive)
+    candidates_lower = {c.lower(): c for c in candidates}
+    matched = candidates_lower.get(slug.lower()) or candidates_lower.get(chosen.lower().replace(" ", "_"))
+    return matched or (slug if slug else None)
+
+
+def _ai_generate_fallback(topic, category_type, category_label=None):
+    """Generate poster content via AI when Wikipedia lookup fails entirely.
+
+    Returns a v2 poster dict (with meta.ai_generated=True) or None on API failure.
+    """
+    context = category_label or "AI / technology"
+    model = _openrouter_model()
+    content = _call_openrouter(
+        user_prompt=(
+            f'Write educational content for a museum exhibit poster about: "{topic.replace("_", " ")}"\n'
+            f"Category context: {context}\n\n"
+            "Return ONLY valid JSON (no markdown fences):\n"
+            "{\n"
+            '  "title": "Canonical display name (max 60 chars)",\n'
+            '  "subtitle": "One-sentence description (max 120 chars)",\n'
+            '  "text": "2-3 educational paragraphs. Plain text, no markdown.",\n'
+            '  "year": 1950,\n'
+            '  "tags": ["tag1", "tag2", "tag3"]\n'
+            "}\n"
+            'Set "year" to the most relevant key year or null. Write factual, engaging content.'
+        ),
+        system_prompt="You write concise, accurate educational content for museum exhibit posters. Return only JSON.",
+        max_tokens=600,
+        temperature=0.4,
+    )
+    if not content:
+        return None
+    # Extract JSON object
+    match = re.search(r"\{[\s\S]*\}", content)
+    if not match:
+        return None
+    try:
+        data = json.loads(match.group())
+    except json.JSONDecodeError:
+        return None
+
+    title = str(data.get("title") or topic.replace("_", " ")).strip()
+    subtitle = str(data.get("subtitle") or "").strip()
+    text = str(data.get("text") or "").strip()
+    tags_raw = data.get("tags") or []
+    tags = [str(t).strip() for t in tags_raw if str(t).strip()][:5]
+    year = data.get("year")
+    try:
+        year = int(year) if year is not None else None
+    except (TypeError, ValueError):
+        year = None
+
+    poster = {
+        "version": 2,
+        "type": "poster-v2",
+        "uid": str(uuid.uuid4()),
+        "front": {
+            "title": title,
+            "subtitle": subtitle,
+        },
+        "back": {
+            "layout": "text-only",
+            "text": text,
+            "links": [],
+        },
+        "meta": {
+            "created": datetime.now().isoformat(),
+            "modified": datetime.now().isoformat(),
+            "categories": determine_category(category_type, category_label),
+            "tags": [topic.replace("_", " ")] + tags,
+            "source": f"openrouter/{model}",
+            "ai_generated": True,
+            "needs_review": True,
+        },
+    }
+    if year:
+        poster["front"]["chronology"] = {
+            "epochStart": year,
+            "epochEnd": datetime.now().year,
+            "epochEvents": [{"year": year, "name": title}],
+        }
+    return poster
+
+
 def build_placeholder_poster(topic, category_type, category_label=None, reason="", suggestions=None):
     suggestions = suggestions or []
     title = topic.replace("_", " ").strip() or topic
@@ -242,54 +399,84 @@ def determine_category(topic_list_name, category_label=None):
     return categories_map.get(topic_list_name, ["Artificial Intelligence"])
 
 
+def _is_disambiguation(data):
+    if data.get("type") == "disambiguation":
+        return True
+    return "may refer to:" in str(data.get("extract", "") or "").lower()
+
+
 def create_poster_from_wikipedia(
     topic, category_type, existing_index, category_label=None
 ):
     data, fetch_error = fetch_wikipedia_summary(topic)
+    used_topic = topic
 
+    # ── Step 1: handle fetch failure ────────────────────────────────────────
     if not data:
+        suggestions = fetch_wikipedia_search_suggestions(topic, limit=7)
+        resolved = _ai_disambiguate(topic, suggestions, category_label=category_label)
+        if resolved and resolved.lower() != topic.lower():
+            print(f"AI resolved '{topic}' -> '{resolved}'", end=" ")
+            data, fetch_error = fetch_wikipedia_summary(resolved)
+            if data:
+                used_topic = resolved
+
+    # Still no data after AI resolution attempt → try AI content generation
+    if not data:
+        print("AI generating... ", end="")
+        poster = _ai_generate_fallback(topic, category_type, category_label)
+        if poster:
+            duplicate_reason = find_duplicate_reason(
+                poster["front"]["title"], topic, "", existing_index
+            )
+            return poster, duplicate_reason
+        # Last resort: placeholder
         suggestions = fetch_wikipedia_search_suggestions(topic, limit=5)
         placeholder = build_placeholder_poster(
-            topic,
-            category_type,
-            category_label=category_label,
-            reason=fetch_error or "Wikipedia page not found",
-            suggestions=suggestions,
+            topic, category_type, category_label=category_label,
+            reason=fetch_error or "Wikipedia page not found", suggestions=suggestions,
         )
         duplicate_reason = find_duplicate_reason(
-            placeholder["front"]["title"],
-            topic,
-            "",
-            existing_index,
+            placeholder["front"]["title"], topic, "", existing_index
         )
         return placeholder, duplicate_reason
 
-    is_disambiguation = data.get("type") == "disambiguation"
-    extract_text = str(data.get("extract", "") or "")
-    if not is_disambiguation and "may refer to:" in extract_text.lower():
-        is_disambiguation = True
-
-    if is_disambiguation:
+    # ── Step 2: handle disambiguation ────────────────────────────────────────
+    if _is_disambiguation(data):
         suggestions = fetch_wikipedia_search_suggestions(topic, limit=7)
-        placeholder = build_placeholder_poster(
-            topic,
-            category_type,
-            category_label=category_label,
-            reason="Ambiguous Wikipedia topic (disambiguation page)",
-            suggestions=suggestions,
-        )
-        duplicate_reason = find_duplicate_reason(
-            placeholder["front"]["title"],
-            topic,
-            "",
-            existing_index,
-        )
-        print(f"CLARIFY needed for topic: {topic}")
-        return placeholder, duplicate_reason
+        resolved = _ai_disambiguate(topic, suggestions, category_label=category_label)
+        if resolved:
+            print(f"AI resolved '{topic}' -> '{resolved}'", end=" ")
+            retry_data, _ = fetch_wikipedia_summary(resolved)
+            if retry_data and not _is_disambiguation(retry_data):
+                data = retry_data
+                used_topic = resolved
+            else:
+                resolved = None  # resolution didn't help
 
+        if _is_disambiguation(data):
+            # AI could not resolve — generate content instead of placeholder
+            print(f"CLARIFY '{topic}' -> AI generating... ", end="")
+            poster = _ai_generate_fallback(topic, category_type, category_label)
+            if poster:
+                duplicate_reason = find_duplicate_reason(
+                    poster["front"]["title"], topic, "", existing_index
+                )
+                return poster, duplicate_reason
+            placeholder = build_placeholder_poster(
+                topic, category_type, category_label=category_label,
+                reason="Ambiguous Wikipedia topic (disambiguation page)",
+                suggestions=suggestions,
+            )
+            duplicate_reason = find_duplicate_reason(
+                placeholder["front"]["title"], topic, "", existing_index
+            )
+            return placeholder, duplicate_reason
+
+    # ── Step 3: build poster from Wikipedia data (normal path) ───────────────
     title = data.get("title", "")
     url = data.get("content_urls", {}).get("desktop", {}).get("page", "")
-    duplicate_reason = find_duplicate_reason(title, topic, url, existing_index)
+    duplicate_reason = find_duplicate_reason(title, used_topic, url, existing_index)
 
     description = data.get("description", "")
     extract = data.get("extract", "")
