@@ -16,6 +16,8 @@ import uuid
 
 import requests
 
+from ai_helpers import generate_ai_image
+
 from grab_common import (
     build_existing_index,
     find_duplicate_reason,
@@ -164,6 +166,9 @@ def create_poster_from_aimodel(topic, category_type, existing_index, category_la
 
     duplicate_reason = find_duplicate_reason(title, topic, "", existing_index)
 
+    print("generating image... ", end="", flush=True)
+    image_src = generate_ai_image(title, subtitle)
+
     poster = {
         "version": 2,
         "type": "poster-v2",
@@ -173,7 +178,7 @@ def create_poster_from_aimodel(topic, category_type, existing_index, category_la
             "subtitle": subtitle,
         },
         "back": {
-            "layout": "text-only",
+            "layout": "image-top" if image_src else "text-only",
             "text": text,
             "links": [],
         },
@@ -185,6 +190,9 @@ def create_poster_from_aimodel(topic, category_type, existing_index, category_la
             "source": "openrouter/" + _get_model(),
         },
     }
+
+    if image_src:
+        poster["back"]["image"] = {"src": image_src, "alt": title, "position": "top"}
 
     if year:
         poster["front"]["chronology"] = {

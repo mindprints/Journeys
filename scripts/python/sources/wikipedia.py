@@ -10,6 +10,8 @@ import re
 import json
 import uuid
 
+from ai_helpers import generate_ai_image
+
 from grab_common import (
     build_existing_index,
     find_duplicate_reason,
@@ -305,6 +307,9 @@ def _ai_generate_fallback(topic, category_type, category_label=None):
     except (TypeError, ValueError):
         year = None
 
+    print("generating image... ", end="", flush=True)
+    image_src = generate_ai_image(title, subtitle)
+
     poster = {
         "version": 2,
         "type": "poster-v2",
@@ -314,7 +319,7 @@ def _ai_generate_fallback(topic, category_type, category_label=None):
             "subtitle": subtitle,
         },
         "back": {
-            "layout": "text-only",
+            "layout": "image-top" if image_src else "text-only",
             "text": text,
             "links": [],
         },
@@ -328,6 +333,8 @@ def _ai_generate_fallback(topic, category_type, category_label=None):
             "needs_review": True,
         },
     }
+    if image_src:
+        poster["back"]["image"] = {"src": image_src, "alt": title, "position": "top"}
     if year:
         poster["front"]["chronology"] = {
             "epochStart": year,
