@@ -80,8 +80,9 @@ def generate_poster_content(topic, category_label=None):
     context = category_label or "General AI / Technology"
 
     prompt = (
-        f'Write educational content for a museum exhibit poster about: "{topic}"\n'
-        f"Category context: {context}\n\n"
+        f"Category: {context}\n"
+        f'Topic (interpreted as an AI/technology subject): "{topic}"\n\n'
+        "Write educational content for an AI and technology museum exhibit poster about this topic. "
         "Return ONLY valid JSON in this exact format (no markdown, no extra keys):\n"
         "{\n"
         '  "title": "Canonical display name (max 60 chars)",\n'
@@ -102,7 +103,13 @@ def generate_poster_content(topic, category_label=None):
         "messages": [
             {
                 "role": "system",
-                "content": "You write concise, accurate educational content for museum exhibit posters.",
+                "content": (
+                    "You write concise, factual educational content for an artificial intelligence "
+                    "and technology museum. Every topic you receive is about AI, machine learning, "
+                    "computer science, or related technology — never about fashion, sport, or entertainment "
+                    "unless the category context explicitly says so. "
+                    "Interpret ambiguous names (e.g. 'model', 'Kimi', 'Gemini') as AI/technology subjects."
+                ),
             },
             {"role": "user", "content": prompt},
         ],

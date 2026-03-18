@@ -55,10 +55,10 @@ def generate_ai_image(title, subtitle="", images_dir=None):
 
     context = f"{title}. {subtitle.strip('.')}" if subtitle else title
     prompt = (
-        f"Educational museum exhibit illustration for a poster about: {context}. "
+        f"Illustration for an artificial intelligence and technology museum exhibit poster about: {context}. "
+        "Interpret the subject as an AI system, algorithm, or technology concept — not fashion or entertainment. "
         "Clean, modern graphic design style. Bold composition, rich colours. "
-        "No text, labels, or words in the image. "
-        "Suitable for a science and technology museum display."
+        "No text, labels, or words in the image."
     )
 
     try:

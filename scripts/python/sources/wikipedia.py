@@ -243,7 +243,14 @@ def _ai_disambiguate(topic, candidates, category_label=None):
             "Reply with ONLY the exact candidate title as listed (use the exact text from the list). "
             'If none are suitable, reply with the single word "none".'
         ),
-        system_prompt="You select the single most relevant Wikipedia article for a given topic. Reply with only the title or 'none'.",
+        system_prompt=(
+            "You are a curator for an artificial intelligence and technology museum. "
+            "Your job is to select the single Wikipedia article that best covers the given topic "
+            "in an AI, machine learning, or computer science context. "
+            "Always prefer AI models, chatbots, researchers, algorithms, or tech companies over "
+            "unrelated homonyms (fashion, sport, entertainment, etc.). "
+            "Reply with only the exact candidate title or the word 'none'."
+        ),
         max_tokens=60,
         temperature=0.0,
     )
@@ -269,8 +276,9 @@ def _ai_generate_fallback(topic, category_type, category_label=None):
     model = _openrouter_model()
     content = _call_openrouter(
         user_prompt=(
-            f'Write educational content for a museum exhibit poster about: "{topic.replace("_", " ")}"\n'
-            f"Category context: {context}\n\n"
+            f"Category: {context}\n"
+            f'Topic (interpreted as an AI/technology subject): "{topic.replace("_", " ")}"\n\n'
+            "Write educational content for a museum exhibit poster about this AI/technology topic. "
             "Return ONLY valid JSON (no markdown fences):\n"
             "{\n"
             '  "title": "Canonical display name (max 60 chars)",\n'
@@ -281,7 +289,14 @@ def _ai_generate_fallback(topic, category_type, category_label=None):
             "}\n"
             'Set "year" to the most relevant key year or null. Write factual, engaging content.'
         ),
-        system_prompt="You write concise, accurate educational content for museum exhibit posters. Return only JSON.",
+        system_prompt=(
+            "You write concise, factual educational content for an artificial intelligence "
+            "and technology museum. Every topic you receive is about AI, machine learning, "
+            "computer science, or related technology — never about fashion, sport, or entertainment "
+            "unless the category context explicitly says so. "
+            "Interpret ambiguous names (e.g. 'model', 'Kimi', 'Gemini') as AI/technology subjects. "
+            "Return only valid JSON."
+        ),
         max_tokens=600,
         temperature=0.4,
     )
