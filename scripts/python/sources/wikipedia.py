@@ -218,6 +218,7 @@ def build_placeholder_poster(topic, category_type, category_label=None, reason="
             "categories": determine_category(category_type, category_label),
             "tags": [topic.replace("_", " ")],
             "source": "",
+            "needs_review": True,
         },
     }
 

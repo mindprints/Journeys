@@ -346,8 +346,9 @@
               <select id="category-source">
                 <option value="wikipedia">Wikipedia</option>
                 <option value="huggingface">Hugging Face</option>
+                <option value="aimodel">AI-Model (OpenRouter)</option>
               </select>
-              <small>Select the content source for generation.</small>
+              <small>Select the content source for generation. AI-Model generates content directly via OpenRouter.</small>
             </div>
           </div>
           <div class="form-group">
@@ -444,8 +445,22 @@
         <div class="log-panel" id="generator-log"></div>
       </div>
 
+      <div id="run-summary" style="display:none; margin-top:0.75em; padding:0.75em 1em; background:rgba(42,35,89,0.7); border-radius:8px; border:1px solid #3a355e;">
+        <div style="font-size:0.85em; color:#9aa0b5; margin-bottom:0.4em; text-transform:uppercase; letter-spacing:0.06em;">Run Summary</div>
+        <div style="display:flex; gap:1.25em; flex-wrap:wrap; font-size:0.92em;">
+          <span><span id="summary-created" style="color:#4ade80; font-weight:700;">0</span> created</span>
+          <span><span id="summary-merged" style="color:#60a5fa; font-weight:700;">0</span> merged</span>
+          <span><span id="summary-skipped" style="color:#9aa0b5; font-weight:700;">0</span> skipped</span>
+          <span><span id="summary-failed" style="color:#f87171; font-weight:700;">0</span> failed</span>
+          <span><span id="summary-placeholders" style="color:#fb923c; font-weight:700;">0</span> placeholders</span>
+        </div>
+      </div>
+
       <div class="action-bar">
         <button class="editor-btn" id="cancel-generator">Cancel</button>
+        <button class="editor-btn" id="open-drafts-btn" style="display:none;" onclick="window.open('unified-editor.html?filter=needs-review','_blank')">
+          <i class="fas fa-external-link-alt"></i> Open Drafts
+        </button>
         <span class="spacer"></span>
         <button class="editor-btn primary" id="run-generator">Run Generator</button>
       </div>

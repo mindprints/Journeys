@@ -28,7 +28,17 @@ class UnifiedEditor {
         await this.loadCategories();
         await this.loadPosters();
         await this.loadImages();
+        this.applyUrlParams();
         this.updatePreview();
+    }
+
+    applyUrlParams() {
+        const params = new URLSearchParams(window.location.search);
+        const filter = params.get('filter');
+        if (filter === 'needs-review' && this.categoryFilter) {
+            this.categoryFilter.value = '__needs_review__';
+            this.filterPosters();
+        }
     }
 
     cacheElements() {
@@ -410,6 +420,9 @@ class UnifiedEditor {
         return this.posters.filter(poster => {
             const title = (poster.front?.title || poster.data?.figure || poster.title || poster.filename || '').toLowerCase();
             const matchesSearch = !search || title.includes(search);
+            if (category === '__needs_review__') {
+                return matchesSearch && poster.meta?.needs_review === true;
+            }
             const categories = this.getPosterCategories(poster);
             const normalized = categories
                 .filter(c => typeof c === 'string')
@@ -1122,7 +1135,7 @@ class UnifiedEditor {
         ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
         const webpBlob = await new Promise(resolve => {
-            canvas.toBlob(resolve, 'image/webp', 0.92);
+            canvas.toBlob(resolve, 'image/webp', 0.97);
         });
 
         if (!webpBlob) {
