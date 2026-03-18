@@ -16,7 +16,7 @@ import uuid
 
 import requests
 
-from ai_helpers import generate_ai_image
+from .ai_helpers import generate_ai_image
 
 from grab_common import (
     build_existing_index,
