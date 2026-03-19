@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "c67d47b1-4cb4-414b-818b-1deedee03a27",
+  "front": {
+    "title": "AI Contributions from China",
+    "subtitle": "Draft placeholder - Wikipedia lookup requires review"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Automatic Wikipedia generation did not return a definitive article for this topic.\n\nOriginal topic: AI_Contributions_from_China\nReason: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/AI_Contributions_from_China\n\nNext step: edit this poster in Unified Editor with the intended subject details.\n\nPossible clarifications:\n- AI_agent\n- Artificial_intelligence_industry_in_China\n- History_of_artificial_intelligence\n- Ai_Weiwei\n- DeepSeek_(chatbot)",
+    "links": []
+  },
+  "meta": {
+    "created": "2026-03-18T23:28:25.696609",
+    "modified": "2026-03-18T23:28:25.696614",
+    "categories": [
+      "Chinese Open Weight Models"
+    ],
+    "tags": [
+      "AI Contributions from China"
+    ],
+    "source": "",
+    "needs_review": true
+  }
+}

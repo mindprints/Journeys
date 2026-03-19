@@ -92,6 +92,18 @@ class CategoryEditor {
     this.loadRunLogBtn = document.getElementById('load-run-log');
     this.loadMergeLogBtn = document.getElementById('load-merge-log');
     this.clearLogBtn = document.getElementById('clear-log');
+    this.runSummary = document.getElementById('run-summary');
+    this.summaryCreated = document.getElementById('summary-created');
+    this.summaryMerged = document.getElementById('summary-merged');
+    this.summarySkipped = document.getElementById('summary-skipped');
+    this.summaryFailed = document.getElementById('summary-failed');
+    this.summaryPlaceholders = document.getElementById('summary-placeholders');
+    this.openDraftsBtn = document.getElementById('open-drafts-btn');
+
+    this.disambigPanel = document.getElementById('disambig-panel');
+    this.disambigCards = document.getElementById('disambig-cards');
+    this.disambigConfirmBtn = document.getElementById('disambig-confirm-btn');
+    this.disambigSkipBtn = document.getElementById('disambig-skip-btn');
   }
 
   bindEvents() {
@@ -110,7 +122,13 @@ class CategoryEditor {
 
     this.closeModalBtn.addEventListener('click', () => this.closeGenerator());
     this.cancelModalBtn.addEventListener('click', () => this.closeGenerator());
-    this.runBtn.addEventListener('click', () => this.runGenerator());
+    this.runBtn.addEventListener('click', () => this.startGeneration());
+    if (this.disambigConfirmBtn) {
+      this.disambigConfirmBtn.addEventListener('click', () => this.confirmDisambig());
+    }
+    if (this.disambigSkipBtn) {
+      this.disambigSkipBtn.addEventListener('click', () => this.runGeneration({}, []));
+    }
     this.loadRunLogBtn.addEventListener('click', () => this.loadLog('/api/grab-log'));
     this.loadMergeLogBtn.addEventListener('click', () => this.loadLog('/api/merge-enrichment-log'));
     this.clearLogBtn.addEventListener('click', () => {
@@ -534,6 +552,11 @@ class CategoryEditor {
     this.mergeCheckbox.checked = true;
     this.mergeOnlyCheckbox.checked = false;
     this.generatorLog.textContent = '';
+    if (this.disambigPanel) this.disambigPanel.style.display = 'none';
+    if (this.runSummary) this.runSummary.style.display = 'none';
+    if (this.openDraftsBtn) this.openDraftsBtn.style.display = 'none';
+    this._disambigResolutions = {};
+    this._disambigAiTopics = [];
     this.modal.classList.add('active');
   }
 
@@ -541,40 +564,207 @@ class CategoryEditor {
     this.modal.classList.remove('active');
   }
 
-  async runGenerator() {
+  _getGeneratorTopics(payload) {
+    const overrideTopics = this.parseTopics(this.generatorTopics.value);
+    return overrideTopics.length ? overrideTopics : payload.topics;
+  }
+
+  async startGeneration() {
     const payload = this.buildCategoryPayload();
     if (!payload.name) {
       window.alert('Save the category name before running.');
       return;
     }
-
-    const overrideTopics = this.parseTopics(this.generatorTopics.value);
-    const topicsToUse = overrideTopics.length ? overrideTopics : payload.topics;
+    const topicsToUse = this._getGeneratorTopics(payload);
     if (!topicsToUse.length) {
       window.alert('Add at least one topic to run the generator.');
       return;
     }
 
+    const source = (payload.source || 'wikipedia').toLowerCase();
+    const isWikipedia = source === 'wikipedia';
+
+    if (isWikipedia) {
+      // Run preflight disambiguation check first
+      this.generatorLog.textContent = `Checking ${topicsToUse.length} topic(s) on Wikipedia...\n`;
+      if (this.disambigPanel) this.disambigPanel.style.display = 'none';
+      this.runBtn.disabled = true;
+      try {
+        const result = await this.requestJson('/api/preflight/topics', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ topics: topicsToUse, source })
+        }, 'Preflight check failed');
+
+        const issues = (result.results || []).filter(r => r.status === 'notfound' || r.status === 'disambiguation');
+        if (issues.length) {
+          this.generatorLog.textContent = `Found ${issues.length} topic(s) needing resolution. Choose an option for each below.\n`;
+          this.showDisambigPanel(issues, topicsToUse);
+          return; // wait for user to resolve
+        }
+        // No issues — run directly
+        this.generatorLog.textContent = `All topics OK. Starting generation...\n`;
+      } catch (err) {
+        this.generatorLog.textContent = `Preflight check failed: ${err.message}\nProceeding with generation anyway...\n`;
+      } finally {
+        this.runBtn.disabled = false;
+      }
+    }
+
+    await this.runGeneration({}, []);
+  }
+
+  showDisambigPanel(issues, allTopics) {
+    this._disambigResolutions = {};
+    this._disambigAiTopics = [];
+    this._disambigIssueTopics = new Set(issues.map(i => i.topic));
+    this.disambigCards.innerHTML = '';
+
+    for (const issue of issues) {
+      const card = this.buildDisambigCard(issue);
+      this.disambigCards.appendChild(card);
+    }
+
+    this.disambigPanel.style.display = '';
+    this.disambigConfirmBtn.disabled = true; // enabled once all resolved
+    this._updateDisambigConfirmState();
+  }
+
+  buildDisambigCard(issue) {
+    const card = document.createElement('div');
+    card.className = 'disambig-card';
+    card.dataset.topic = issue.topic;
+
+    const statusLabel = issue.status === 'notfound' ? 'Not Found' : 'Disambiguation';
+    const statusClass = issue.status === 'notfound' ? 'notfound' : 'disambiguation';
+
+    const header = document.createElement('div');
+    header.className = 'disambig-card-header';
+    header.innerHTML = `<span class="disambig-topic-name">${issue.topic.replace(/_/g, ' ')}</span>
+      <span class="disambig-status ${statusClass}">${statusLabel}</span>`;
+    card.appendChild(header);
+
+    const chips = document.createElement('div');
+    chips.className = 'disambig-chips';
+
+    const suggestions = issue.suggestions || [];
+    for (const suggestion of suggestions) {
+      const chip = document.createElement('button');
+      chip.className = 'disambig-chip';
+      chip.textContent = suggestion.replace(/_/g, ' ');
+      chip.title = suggestion;
+      chip.addEventListener('click', () => this._selectDisambigChip(card, issue.topic, suggestion, false, chip));
+      chips.appendChild(chip);
+    }
+
+    const aiChip = document.createElement('button');
+    aiChip.className = 'disambig-chip ai-chip';
+    aiChip.textContent = '✦ Use AI';
+    aiChip.addEventListener('click', () => this._selectDisambigChip(card, issue.topic, '__AI__', true, aiChip));
+    chips.appendChild(aiChip);
+
+    card.appendChild(chips);
+
+    const resolution = document.createElement('div');
+    resolution.className = 'disambig-resolution';
+    resolution.style.display = 'none';
+    card.appendChild(resolution);
+
+    return card;
+  }
+
+  _selectDisambigChip(card, originalTopic, choice, isAI, chipEl) {
+    // Deselect all chips in this card
+    card.querySelectorAll('.disambig-chip').forEach(c => c.classList.remove('selected'));
+    // Select the clicked chip
+    if (chipEl) chipEl.classList.add('selected');
+
+    // Record resolution
+    if (isAI) {
+      delete this._disambigResolutions[originalTopic];
+      if (!this._disambigAiTopics.includes(originalTopic)) {
+        this._disambigAiTopics.push(originalTopic);
+      }
+      card.querySelector('.disambig-resolution').textContent = '✦ AI will generate content';
+    } else {
+      this._disambigAiTopics = this._disambigAiTopics.filter(t => t !== originalTopic);
+      this._disambigResolutions[originalTopic] = choice;
+      card.querySelector('.disambig-resolution').textContent = `→ ${choice.replace(/_/g, ' ')}`;
+    }
+
+    card.querySelector('.disambig-resolution').style.display = '';
+    card.classList.add('resolved');
+    this._updateDisambigConfirmState();
+  }
+
+  _updateDisambigConfirmState() {
+    const totalIssues = this._disambigIssueTopics ? this._disambigIssueTopics.size : 0;
+    const resolved = Object.keys(this._disambigResolutions).length + this._disambigAiTopics.length;
+    this.disambigConfirmBtn.disabled = resolved < totalIssues;
+  }
+
+  async confirmDisambig() {
+    if (this.disambigPanel) this.disambigPanel.style.display = 'none';
+    await this.runGeneration(this._disambigResolutions, this._disambigAiTopics);
+  }
+
+  async runGeneration(topicOverrides, aiTopics) {
+    const payload = this.buildCategoryPayload();
+    const topicsToUse = this._getGeneratorTopics(payload);
     const count = this.generatorCount.value ? parseInt(this.generatorCount.value, 10) : null;
 
     this.generatorLog.textContent = `Running ${payload.source || 'wikipedia'} generator...\n`;
+    if (this.runSummary) this.runSummary.style.display = 'none';
+    if (this.openDraftsBtn) this.openDraftsBtn.style.display = 'none';
+    this.runBtn.disabled = true;
     try {
+      const body = {
+        source: payload.source || 'wikipedia',
+        category: payload.name,
+        topics: topicsToUse,
+        count,
+        mergeEnrich: this.mergeCheckbox.checked,
+        mergeOnly: this.mergeOnlyCheckbox.checked
+      };
+      if (topicOverrides && Object.keys(topicOverrides).length) {
+        body.topicOverrides = topicOverrides;
+      }
+      if (aiTopics && aiTopics.length) {
+        body.aiTopics = aiTopics;
+      }
       const data = await this.requestJson('/api/run-grab', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          source: payload.source || 'wikipedia',
-          category: payload.name,
-          topics: topicsToUse,
-          count,
-          mergeEnrich: this.mergeCheckbox.checked,
-          mergeOnly: this.mergeOnlyCheckbox.checked
-        })
+        body: JSON.stringify(body)
       }, 'Failed to run generator');
-      this.generatorLog.textContent = data.output || 'No output returned.';
+      const output = data.output || 'No output returned.';
+      this.generatorLog.textContent = output;
+      this.showRunSummary(output);
     } catch (error) {
       this.generatorLog.textContent = `Error: ${error.message}`;
+    } finally {
+      this.runBtn.disabled = false;
     }
+  }
+
+  showRunSummary(output) {
+    const extract = (pattern) => {
+      const m = output.match(pattern);
+      return m ? parseInt(m[1], 10) : 0;
+    };
+    const created = extract(/^Created:\s*(\d+)/m);
+    const merged = extract(/^MERGE enriched:\s*(\d+)/m);
+    const skipped = extract(/^SKIP duplicates:\s*(\d+)/m);
+    const failed = extract(/^Failed:\s*(\d+)/m);
+    const placeholders = (output.match(/CLARIFY needed for topic:/g) || []).length;
+
+    if (this.summaryCreated) this.summaryCreated.textContent = created;
+    if (this.summaryMerged) this.summaryMerged.textContent = merged;
+    if (this.summarySkipped) this.summarySkipped.textContent = skipped;
+    if (this.summaryFailed) this.summaryFailed.textContent = failed;
+    if (this.summaryPlaceholders) this.summaryPlaceholders.textContent = placeholders;
+    if (this.runSummary) this.runSummary.style.display = '';
+    if (this.openDraftsBtn && placeholders > 0) this.openDraftsBtn.style.display = '';
   }
 
   async loadLog(endpoint) {

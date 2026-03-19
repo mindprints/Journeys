@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "5b6609e2-3562-467d-a138-f5c073fed80b",
+  "front": {
+    "title": "AI Ethics in Fiction",
+    "subtitle": "Exploring moral dilemmas posed by artificial intelligence in literature.",
+    "chronology": {
+      "epochStart": 1950,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1950,
+          "name": "AI Ethics in Fiction"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Artificial intelligence (AI) has long been a staple of science fiction, serving as a mirror to our societal values and ethical concerns. From Isaac Asimov's 'Three Laws of Robotics' to the sentient machines of Philip K. Dick, these narratives challenge our understanding of morality, autonomy, and the human condition. Through imaginative storytelling, authors explore the consequences of creating intelligent beings and the responsibilities that come with such power.\n\nAs AI technology continues to evolve in the real world, the ethical questions raised in fiction become increasingly relevant. Issues such as the potential for AI to surpass human intelligence, the implications of machine decision-making, and the rights of sentient entities are topics that resonate with contemporary debates. By examining these fictional portrayals, we gain insight into our fears and hopes regarding AI, prompting us to consider how we might navigate the ethical landscape of our own technological future.",
+    "links": []
+  },
+  "meta": {
+    "created": "2026-03-18T22:02:00.335055",
+    "modified": "2026-03-18T22:02:00.335061",
+    "categories": [
+      "AI in Science Fiction"
+    ],
+    "tags": [
+      "AI_Ethics_in_Fiction",
+      "AI",
+      "Ethics",
+      "Science Fiction"
+    ],
+    "source": "openrouter/openai/gpt-4o-mini"
+  }
+}

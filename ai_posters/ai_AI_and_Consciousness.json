@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "a0140ee1-c79f-45f2-9456-a0432403d0e5",
+  "front": {
+    "title": "AI and Consciousness in Science Fiction",
+    "subtitle": "Exploring the intersection of artificial intelligence and human thought.",
+    "chronology": {
+      "epochStart": 1950,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1950,
+          "name": "AI and Consciousness in Science Fiction"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "The concept of artificial intelligence (AI) has long captivated the imagination of writers and thinkers. In science fiction, AI often embodies the quest to understand consciousness, raising profound questions about what it means to be sentient. From Isaac Asimov's 'I, Robot' to Philip K. Dick's 'Do Androids Dream of Electric Sheep?', these narratives explore the ethical and philosophical dilemmas surrounding machines that can think and feel. Through these stories, we confront our own humanity and the boundaries of intelligence.\n\nAs technology advances, the line between human cognition and machine processing blurs. Science fiction serves as a mirror, reflecting societal hopes and fears about AI's potential. Are we creating beings that can surpass us, or are we merely programming sophisticated tools? The exploration of AI in these narratives prompts us to consider the implications of creating consciousness and challenges us to define the essence of life itself. As we continue to innovate, the questions posed by these stories remain as relevant as ever.",
+    "links": []
+  },
+  "meta": {
+    "created": "2026-03-18T22:02:39.189637",
+    "modified": "2026-03-18T22:02:39.189643",
+    "categories": [
+      "AI in Science Fiction"
+    ],
+    "tags": [
+      "AI_and_Consciousness",
+      "Artificial Intelligence",
+      "Science Fiction",
+      "Consciousness"
+    ],
+    "source": "openrouter/openai/gpt-4o-mini"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "eb8b05ff-f3f8-46da-a6af-09e158128232",
+  "front": {
+    "title": "Sentient Machines in Science Fiction",
+    "subtitle": "Exploring the rise of artificial intelligence in literature and film.",
+    "chronology": {
+      "epochStart": 1950,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1950,
+          "name": "Sentient Machines in Science Fiction"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "The concept of sentient machines has captivated audiences since the mid-20th century, reflecting humanity's hopes and fears about technology. In 1950, Alan Turing's groundbreaking paper introduced the idea of machines that could think, laying the foundation for future explorations in artificial intelligence. Science fiction quickly adopted this theme, presenting complex narratives that questioned the nature of consciousness and the ethical implications of creating intelligent beings.\n\nIconic works like Isaac Asimov's 'I, Robot' and the film '2001: A Space Odyssey' challenged perceptions of autonomy and morality in machines. These stories often depicted robots and AI as both allies and adversaries, prompting discussions about their potential roles in society. As technology advances, the portrayal of sentient machines continues to evolve, reflecting our ongoing dialogue about the relationship between humans and artificial intelligence.",
+    "links": []
+  },
+  "meta": {
+    "created": "2026-03-18T22:01:40.676893",
+    "modified": "2026-03-18T22:01:40.676899",
+    "categories": [
+      "AI in Science Fiction"
+    ],
+    "tags": [
+      "Sentient_Machines",
+      "AI",
+      "Science Fiction",
+      "Sentience"
+    ],
+    "source": "openrouter/openai/gpt-4o-mini"
+  }
+}

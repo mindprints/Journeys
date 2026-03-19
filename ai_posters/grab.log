@@ -5,28 +5,44 @@ Source: wikipedia
 Starting poster generation...
 Output directory: C:\Users\mindp\Documents\GitHub\Journeys\ai_posters
 
-[1/12] Fetching: John_Nash... Created: wiki_John_Nash.json
-[2/12] Fetching: Geoffrey_Hinton... Created: wiki_Geoffrey_Hinton.json
-[3/12] Fetching: Yoshua_Bengio... Created: wiki_Yoshua_Bengio.json
-[4/12] Fetching: Judea_Pearl... Created: wiki_Judea_Pearl.json
-[5/12] Fetching: Leslie_Valiant... Created: wiki_Leslie_Valiant.json
-[6/12] Fetching: Barbara_Liskov... Created: wiki_Barbara_Liskov.json
-[7/12] Fetching: Marvin_Minsky... Created: wiki_Marvin_Minsky.json
-[8/12] Fetching: Edward_Feigenbaum... Created: wiki_Edward_Feigenbaum.json
-[9/12] Fetching: John_McCarthy... Created: wiki_John_McCarthy.json
-[10/12] Fetching: Peter_Naur... Created: wiki_Peter_Naur.json
-[11/12] Fetching: Vinton_Cerf... Created: wiki_Vinton_Cerf.json
-[12/12] Fetching: Tim_Berners-Lee... Created: wiki_Tim_Berners-Lee.json
+[1/16] Fetching: Chinese_Open_Weight_Models... Error fetching Chinese_Open_Weight_Models: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Chinese_Open_Weight_Models
+AI generating... Created: wiki_Chinese_Open_Weight_Models.json
+[2/16] Fetching: Open_Source_AI_Models... Error fetching Open_Source_AI_Models: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Open_Source_AI_Models
+AI generating... Created: wiki_Open_Source_AI_Models.json
+[3/16] Fetching: AI_Research_in_China... Error fetching AI_Research_in_China: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/AI_Research_in_China
+AI generating... Created: wiki_AI_Research_in_China.json
+[4/16] Fetching: Machine_Learning_in_China... Error fetching Machine_Learning_in_China: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Machine_Learning_in_China
+AI generating... Created: wiki_Machine_Learning_in_China.json
+[5/16] Fetching: Chinese_AI_Industry... Error fetching Chinese_AI_Industry: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Chinese_AI_Industry
+AI generating... Created: wiki_Chinese_AI_Industry.json
+[6/16] Fetching: Open_Weight_Models... Error fetching Open_Weight_Models: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Open_Weight_Models
+AI generating... Created: wiki_Open_Weight_Models.json
+[7/16] Fetching: AI_Development_in_China... Error fetching AI_Development_in_China: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/AI_Development_in_China
+AI generating... Created: wiki_AI_Development_in_China.json
+[8/16] Fetching: Chinese_Tech_Companies... Error fetching Chinese_Tech_Companies: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Chinese_Tech_Companies
+AI generating... generating image... Created: wiki_Chinese_Tech_Companies.json
+[9/16] Fetching: AI_Ethics_in_China... Error fetching AI_Ethics_in_China: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/AI_Ethics_in_China
+AI generating... Created: wiki_AI_Ethics_in_China.json
+[10/16] Fetching: Chinese_Innovation_in_AI... Error fetching Chinese_Innovation_in_AI: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Chinese_Innovation_in_AI
+AI generating... Created: wiki_Chinese_Innovation_in_AI.json
+[11/16] Fetching: Global_AI_Standards... Error fetching Global_AI_Standards: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Global_AI_Standards
+AI generating... Created: wiki_Global_AI_Standards.json
+[12/16] Fetching: AI_Contributions_from_China... Error fetching AI_Contributions_from_China: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/AI_Contributions_from_China
+AI generating... Created: wiki_AI_Contributions_from_China.json
+[13/16] Fetching: MiniMax... no thumbnail, AI generating image... Created: wiki_MiniMax.json
+[14/16] Fetching: Qwen... SKIP duplicate (title)
+[15/16] Fetching: DeepSeek... no thumbnail, AI generating image... SKIP duplicate (title)
+[16/16] Fetching: Kimi... CLARIFY 'Kimi' -> AI generating... Created: wiki_Kimi.json
 
 ============================================================
 SUMMARY
 ============================================================
-Created: 12 posters
-SKIP duplicates: 0 posters
+Created: 14 posters
+SKIP duplicates: 2 posters
 MERGE enriched: 0 posters
 Failed: 0 posters
 Output directory: C:\Users\mindp\Documents\GitHub\Journeys\ai_posters
 
-Total topics attempted: 12
+Total topics attempted: 16
 
 Done!

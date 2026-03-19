@@ -261,6 +261,55 @@
       flex-wrap: wrap;
     }
 
+    .disambig-card {
+      background: rgba(42,35,89,0.55);
+      border: 1px solid #3a355e;
+      border-radius: 8px;
+      padding: 0.65em 0.9em;
+      margin-bottom: 0.55em;
+    }
+    .disambig-card.resolved { border-color: #4ade80; }
+    .disambig-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6em;
+      margin-bottom: 0.4em;
+    }
+    .disambig-topic-name { font-weight: 600; color: #e0def4; }
+    .disambig-status {
+      font-size: 0.75em;
+      padding: 0.15em 0.55em;
+      border-radius: 99px;
+      font-weight: 600;
+    }
+    .disambig-status.notfound { background: #7f1d1d; color: #fca5a5; }
+    .disambig-status.disambiguation { background: #78350f; color: #fcd34d; }
+    .disambig-resolution {
+      font-size: 0.82em;
+      color: #4ade80;
+      margin-top: 0.25em;
+    }
+    .disambig-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4em;
+      margin-top: 0.35em;
+    }
+    .disambig-chip {
+      background: #2a2359;
+      border: 1px solid #4a4478;
+      color: #cdd6f4;
+      border-radius: 6px;
+      padding: 0.2em 0.65em;
+      font-size: 0.8em;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .disambig-chip:hover { background: #3b3278; border-color: #7c6fff; }
+    .disambig-chip.ai-chip { border-color: #7c3aed; color: #c4b5fd; }
+    .disambig-chip.ai-chip:hover { background: #4c1d95; border-color: #a78bfa; }
+    .disambig-chip.selected { background: #166534; border-color: #4ade80; color: #bbf7d0; }
+
     @media (max-width: 900px) {
       .editor-layout {
         grid-template-columns: 1fr;
@@ -346,8 +395,9 @@
               <select id="category-source">
                 <option value="wikipedia">Wikipedia</option>
                 <option value="huggingface">Hugging Face</option>
+                <option value="aimodel">AI-Model (OpenRouter)</option>
               </select>
-              <small>Select the content source for generation.</small>
+              <small>Select the content source for generation. AI-Model generates content directly via OpenRouter.</small>
             </div>
           </div>
           <div class="form-group">
@@ -434,6 +484,19 @@
         </div>
       </div>
 
+      <!-- Disambiguation resolution panel — shown when preflight finds issues -->
+      <div id="disambig-panel" style="display:none;" class="form-section">
+        <h3><i class="fas fa-question-circle"></i> Resolve Topics Before Generating</h3>
+        <p style="font-size:0.85em; color:#9aa0b5; margin:0 0 0.75em;">
+          Some topics could not be found or are ambiguous. Choose a Wikipedia article or let AI generate the content.
+        </p>
+        <div id="disambig-cards"></div>
+        <div style="margin-top:0.75em; display:flex; gap:0.5em; justify-content:flex-end;">
+          <button class="editor-btn small" id="disambig-skip-btn">Skip &amp; Run Anyway</button>
+          <button class="editor-btn small primary" id="disambig-confirm-btn">Confirm &amp; Run</button>
+        </div>
+      </div>
+
       <div class="form-section">
         <h3><i class="fas fa-terminal"></i> Logs</h3>
         <div class="log-actions">
@@ -444,8 +507,22 @@
         <div class="log-panel" id="generator-log"></div>
       </div>
 
+      <div id="run-summary" style="display:none; margin-top:0.75em; padding:0.75em 1em; background:rgba(42,35,89,0.7); border-radius:8px; border:1px solid #3a355e;">
+        <div style="font-size:0.85em; color:#9aa0b5; margin-bottom:0.4em; text-transform:uppercase; letter-spacing:0.06em;">Run Summary</div>
+        <div style="display:flex; gap:1.25em; flex-wrap:wrap; font-size:0.92em;">
+          <span><span id="summary-created" style="color:#4ade80; font-weight:700;">0</span> created</span>
+          <span><span id="summary-merged" style="color:#60a5fa; font-weight:700;">0</span> merged</span>
+          <span><span id="summary-skipped" style="color:#9aa0b5; font-weight:700;">0</span> skipped</span>
+          <span><span id="summary-failed" style="color:#f87171; font-weight:700;">0</span> failed</span>
+          <span><span id="summary-placeholders" style="color:#fb923c; font-weight:700;">0</span> placeholders</span>
+        </div>
+      </div>
+
       <div class="action-bar">
         <button class="editor-btn" id="cancel-generator">Cancel</button>
+        <button class="editor-btn" id="open-drafts-btn" style="display:none;" onclick="window.open('unified-editor.html?filter=needs-review','_blank')">
+          <i class="fas fa-external-link-alt"></i> Open Drafts
+        </button>
         <span class="spacer"></span>
         <button class="editor-btn primary" id="run-generator">Run Generator</button>
       </div>

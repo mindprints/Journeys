@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "5eb4036c-3186-44c3-a56c-abe874fbc527",
+  "front": {
+    "title": "Time Travel and AI in Science Fiction",
+    "subtitle": "Exploring the intersection of artificial intelligence and temporal journeys.",
+    "chronology": {
+      "epochStart": 1950,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1950,
+          "name": "Time Travel and AI in Science Fiction"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Time travel has long captivated the imagination of science fiction writers, presenting a unique canvas for exploring the implications of technology and human existence. In these narratives, artificial intelligence often serves as a pivotal element, acting as both a guide and a challenge to the time traveler. From the sentient machines of Isaac Asimov's stories to the complex algorithms in modern films, AI embodies the potential and peril of advanced technology in altering the fabric of time and reality.\n\nThe interplay between time travel and AI raises profound questions about free will, ethics, and the consequences of tampering with the past. As characters navigate through different timelines, they confront the paradoxes that arise from their interactions with AI, which often possesses knowledge of future events. This dynamic not only enhances the storytelling but also encourages audiences to reflect on the broader implications of artificial intelligence in our own world, particularly as we stand on the brink of technological advancements that could one day make time travel a reality.",
+    "links": []
+  },
+  "meta": {
+    "created": "2026-03-18T22:02:45.042840",
+    "modified": "2026-03-18T22:02:45.042846",
+    "categories": [
+      "AI in Science Fiction"
+    ],
+    "tags": [
+      "Time_Travel_and_AI",
+      "Science Fiction",
+      "Artificial Intelligence",
+      "Time Travel"
+    ],
+    "source": "openrouter/openai/gpt-4o-mini"
+  }
+}

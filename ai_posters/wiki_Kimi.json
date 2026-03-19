@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "8166047b-9303-458b-9b21-867e1934f53f",
+  "front": {
+    "title": "Kimi",
+    "subtitle": "Draft placeholder - Wikipedia lookup requires review"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Automatic Wikipedia generation did not return a definitive article for this topic.\n\nOriginal topic: Kimi\nReason: Ambiguous Wikipedia topic (disambiguation page)\n\nNext step: edit this poster in Unified Editor with the intended subject details.\n\nPossible clarifications:\n- Kimi_Antonelli\n- Kimi\n- Kimi_(chatbot)\n- Kimi_R\u00e4ikk\u00f6nen\n- Kimi_ni_Todoke\n- Hana-Kimi\n- Kimi_(film)",
+    "links": []
+  },
+  "meta": {
+    "created": "2026-03-18T23:29:11.534685",
+    "modified": "2026-03-18T23:29:11.534691",
+    "categories": [
+      "Chinese Open Weight Models"
+    ],
+    "tags": [
+      "Kimi"
+    ],
+    "source": "",
+    "needs_review": true
+  }
+}

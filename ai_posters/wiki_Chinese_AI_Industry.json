@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "5bb4451c-dfaf-42f0-bec3-72a89035e152",
+  "front": {
+    "title": "Chinese AI Industry",
+    "subtitle": "Draft placeholder - Wikipedia lookup requires review"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Automatic Wikipedia generation did not return a definitive article for this topic.\n\nOriginal topic: Chinese_AI_Industry\nReason: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Chinese_AI_Industry\n\nNext step: edit this poster in Unified Editor with the intended subject details.\n\nPossible clarifications:\n- Artificial_intelligence_industry_in_China\n- Z.ai\n- Moonshot_AI\n- DeepSeek\n- Generative_AI_pornography",
+    "links": []
+  },
+  "meta": {
+    "created": "2026-03-18T23:26:32.431906",
+    "modified": "2026-03-18T23:26:32.431912",
+    "categories": [
+      "Chinese Open Weight Models"
+    ],
+    "tags": [
+      "Chinese AI Industry"
+    ],
+    "source": "",
+    "needs_review": true
+  }
+}

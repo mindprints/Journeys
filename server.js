@@ -36,7 +36,9 @@ const WIKI_LOG_PATH = path.join(WIKI_OUTPUT_DIR, 'wikipedia_grab.log');
 const GRAB_LOG_PATH = path.join(WIKI_OUTPUT_DIR, 'grab.log');
 const MERGE_LOG_PATH = path.join(WIKI_OUTPUT_DIR, 'merge_enrichment.log');
 const OPENROUTER_CHAT_COMPLETIONS_URL = 'https://openrouter.ai/api/v1/chat/completions';
+const OPENROUTER_IMAGES_URL = 'https://openrouter.ai/api/v1/images/generations';
 const DEFAULT_TOPIC_SUGGESTION_MODEL = process.env.OPENROUTER_TOPIC_MODEL || process.env.OPENROUTER_MODEL || 'openai/gpt-4o-mini';
+const DEFAULT_IMAGE_MODEL = process.env.OPENROUTER_IMAGE_MODEL || 'google/gemini-3.1-flash-image-preview';
 
 // Set up multer for file uploads
 const upload = multer({
@@ -357,7 +359,9 @@ async function requestOpenRouterChatCompletion({ model, systemPrompt, userPrompt
   }
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 30000);
+  const timeoutId = setTimeout(() => {
+    controller.abort();
+  }, 30000);
 
   try {
     const response = await fetch(OPENROUTER_CHAT_COMPLETIONS_URL, {
@@ -393,14 +397,23 @@ async function requestOpenRouterChatCompletion({ model, systemPrompt, userPrompt
       throw error;
     }
 
-    const content = payload?.choices?.[0]?.message?.content;
+    const msg = payload?.choices?.[0]?.message;
+    const content = msg?.content || msg?.reasoning_content || msg?.reasoning;
     if (!isNonEmptyString(content)) {
+      console.error('[openrouter] empty content for model', model, '— raw choice:', JSON.stringify(payload?.choices?.[0] || payload).slice(0, 500));
       const error = new Error('OpenRouter response did not include message content');
       error.code = 'OPENROUTER_EMPTY_RESPONSE';
       throw error;
     }
 
     return String(content);
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      const timeoutError = new Error('OpenRouter request timed out after 30s');
+      timeoutError.code = 'OPENROUTER_TIMEOUT';
+      throw timeoutError;
+    }
+    throw err;
   } finally {
     clearTimeout(timeoutId);
   }
@@ -760,6 +773,88 @@ app.post('/api/save-image', upload.single('image'), (req, res) => {
     console.error('Error saving image:', error);
     res.status(500).json({ error: 'Failed to save image' });
   }
+});
+
+// Generate an AI image for a poster via OpenRouter and save it locally
+app.post('/api/ai/generate-image', async (req, res) => {
+  const { title, subtitle } = req.body || {};
+  if (!title || typeof title !== 'string') {
+    return res.status(400).json({ error: 'title is required' });
+  }
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  if (!apiKey) {
+    return res.status(503).json({ error: 'OPENROUTER_API_KEY is not configured' });
+  }
+  const model = DEFAULT_IMAGE_MODEL;
+  const context = subtitle ? `${title.trim()}. ${subtitle.trim().replace(/\.$/, '')}` : title.trim();
+  const prompt =
+    `Illustration for an artificial intelligence and technology museum exhibit poster about: ${context}. ` +
+    'Interpret the subject as an AI system, algorithm, or technology concept — not fashion or entertainment. ' +
+    'Clean, modern graphic design style. Bold composition, rich colours. ' +
+    'No text, labels, or words in the image.';
+
+  let payload;
+  try {
+    const resp = await fetch(OPENROUTER_CHAT_COMPLETIONS_URL, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model,
+        messages: [{ role: 'user', content: prompt }],
+        modalities: ['image', 'text'],
+        image_config: { aspect_ratio: '16:9' },
+      }),
+    });
+    if (!resp.ok) {
+      const errText = await resp.text();
+      console.error(`[generate-image] OpenRouter HTTP ${resp.status}:`, errText.slice(0, 300));
+      return res.status(502).json({ error: `Image generation failed (HTTP ${resp.status})` });
+    }
+    payload = await resp.json();
+  } catch (err) {
+    console.error('[generate-image] fetch error:', err);
+    return res.status(502).json({ error: 'Image generation request failed' });
+  }
+
+  // Gemini image models return the image in choices[0].message.images[0].image_url.url
+  // as a base64 data URL: "data:image/png;base64,..."
+  const message = payload?.choices?.[0]?.message;
+  const imageUrl = message?.images?.[0]?.image_url?.url;
+  if (!imageUrl) {
+    console.error('[generate-image] no image in response:', JSON.stringify(payload).slice(0, 300));
+    return res.status(502).json({ error: 'No image data returned from OpenRouter' });
+  }
+
+  let imgBuffer;
+  if (imageUrl.startsWith('data:')) {
+    const b64 = imageUrl.split(',')[1];
+    imgBuffer = Buffer.from(b64, 'base64');
+  } else {
+    try {
+      const dl = await fetch(imageUrl);
+      if (!dl.ok) return res.status(502).json({ error: 'Failed to download generated image' });
+      imgBuffer = Buffer.from(await dl.arrayBuffer());
+    } catch (err) {
+      return res.status(502).json({ error: 'Failed to download generated image' });
+    }
+  }
+
+  const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40);
+  const filename = `ai_${slug}_${Date.now()}.png`;
+  const saveDir = path.join(__dirname, 'images', 'originals');
+  const filePath = path.join(saveDir, filename);
+  try {
+    fs.mkdirSync(saveDir, { recursive: true });
+    fs.writeFileSync(filePath, imgBuffer);
+  } catch (err) {
+    console.error('[generate-image] save error:', err);
+    return res.status(500).json({ error: 'Failed to save generated image' });
+  }
+
+  res.json({ src: `images/originals/${filename}` });
 });
 
 // Delete a poster or image file
@@ -1246,24 +1341,34 @@ app.post('/api/ai/topic-suggestions', async (req, res) => {
       errors.push('model must be a non-empty string when provided');
     }
     const parsedSource = String(source || 'wikipedia').trim().toLowerCase();
-    if (!['wikipedia', 'huggingface', 'hf'].includes(parsedSource)) {
-      errors.push('source must be wikipedia or huggingface');
+    if (!['wikipedia', 'huggingface', 'hf', 'aimodel', 'ai-model'].includes(parsedSource)) {
+      errors.push('source must be wikipedia, huggingface, or aimodel');
     }
     if (errors.length) {
       return sendValidationError(res, errors);
     }
 
-    const sourceRules = parsedSource === 'wikipedia'
+    const isHF = parsedSource === 'huggingface' || parsedSource === 'hf';
+    const isAIModel = parsedSource === 'aimodel' || parsedSource === 'ai-model';
+
+    const sourceRules = isAIModel
       ? [
-          '- Return likely valid Wikipedia page titles as topic IDs.',
-          '- Use canonical page-style tokens with underscores (e.g. Alan_Turing, Bell_Labs).',
-          '- Avoid generic long phrases that are unlikely to be direct page titles.'
+          '- Return free-form topic labels — these will be passed directly to an AI for poster content generation.',
+          '- Use clear, descriptive names suitable as museum exhibit titles (e.g. "Attention Mechanism", "Backpropagation").',
+          '- Do not use underscores; use spaces and natural capitalisation.',
+          '- Aim for concise noun phrases (2-5 words).'
         ]
-      : [
-          '- Return likely valid Hugging Face model IDs.',
-          '- Prefer format organization/model-name (e.g. meta-llama/Llama-2-7b-hf).',
-          '- If organization is unknown, single model IDs are acceptable (e.g. gpt2).'
-        ];
+      : isHF
+        ? [
+            '- Return likely valid Hugging Face model IDs.',
+            '- Prefer format organization/model-name (e.g. meta-llama/Llama-2-7b-hf).',
+            '- If organization is unknown, single model IDs are acceptable (e.g. gpt2).'
+          ]
+        : [
+            '- Return likely valid Wikipedia page titles as topic IDs.',
+            '- Use canonical page-style tokens with underscores (e.g. Alan_Turing, Bell_Labs).',
+            '- Avoid generic long phrases that are unlikely to be direct page titles.'
+          ];
 
     const exclusionRule = parsedExistingTopics.length
       ? `Avoid these existing topics: ${parsedExistingTopics.join(', ')}`
@@ -1272,7 +1377,7 @@ app.post('/api/ai/topic-suggestions', async (req, res) => {
     const prompt = [
       `Category name (label only): ${String(categoryName || '').trim() || '(not provided)'}`,
       `Category description (primary context): ${String(categoryDescription).trim()}`,
-      `Target source: ${parsedSource === 'hf' ? 'huggingface' : parsedSource}`,
+      `Target source: ${isAIModel ? 'aimodel' : isHF ? 'huggingface' : 'wikipedia'}`,
       `Return exactly ${parsedLimit} or fewer topic suggestions.`,
       'Constraints:',
       '- Use only the category description as the semantic context for suggestions.',
@@ -1280,7 +1385,7 @@ app.post('/api/ai/topic-suggestions', async (req, res) => {
       '- Do not prepend AI/AI_ prefixes unless explicitly requested by the description.',
       '- Avoid duplicates and near-duplicates.',
       '- Use concise topic names.',
-      '- Replace spaces with underscores.',
+      ...(isAIModel ? [] : ['- Replace spaces with underscores.']),
       ...sourceRules,
       `- ${exclusionRule}`,
       '- Return valid JSON only in the format: {"topics":["..."]}.'
@@ -1300,7 +1405,10 @@ app.post('/api/ai/topic-suggestions', async (req, res) => {
     const normalizedTopics = [];
     aiTopics.forEach(topic => {
       if (typeof topic !== 'string') return;
-      const normalized = topic.trim().replace(/\s+/g, '_');
+      // aimodel topics are free-form labels — preserve spaces; others use underscores
+      const normalized = isAIModel
+        ? topic.trim().replace(/\s{2,}/g, ' ')
+        : topic.trim().replace(/\s+/g, '_');
       if (!normalized) return;
       const key = normalized.toLowerCase();
       if (seen.has(key)) return;
@@ -1320,7 +1428,92 @@ app.post('/api/ai/topic-suggestions', async (req, res) => {
         error: 'AI suggestions unavailable: OPENROUTER_API_KEY is not configured'
       });
     }
+    if (error?.name === 'AbortError' || error?.code === 'OPENROUTER_TIMEOUT') {
+      return res.status(504).json({ error: 'AI suggestion request timed out (30s). Try again or use a faster model.' });
+    }
+    if (error?.code === 'OPENROUTER_REQUEST_FAILED') {
+      return res.status(502).json({ error: `AI suggestions upstream error: ${error.message}` });
+    }
+    if (error?.code === 'OPENROUTER_EMPTY_RESPONSE') {
+      return res.status(502).json({ error: 'AI model returned an empty response. Try a different model.' });
+    }
     return res.status(500).json({ error: 'Failed to generate AI topic suggestions' });
+  }
+});
+
+// Preflight topic existence checker
+app.post('/api/preflight/topics', async (req, res) => {
+  try {
+    const { topics, source } = req.body || {};
+    const errors = [];
+    const parsedTopics = parseOptionalStringArray(topics, 'topics', errors);
+    if (!parsedTopics.length) errors.push('topics must be a non-empty array of strings');
+    const parsedSource = String(source || 'wikipedia').trim().toLowerCase();
+    if (!['wikipedia', 'huggingface', 'hf', 'aimodel', 'ai-model'].includes(parsedSource)) {
+      errors.push('source must be wikipedia, huggingface, or aimodel');
+    }
+    if (errors.length) return sendValidationError(res, errors);
+
+    const isHF = parsedSource === 'huggingface' || parsedSource === 'hf';
+    const isAIModel = parsedSource === 'aimodel' || parsedSource === 'ai-model';
+
+    // AI-Model topics are free-form labels — no external check needed
+    if (isAIModel) {
+      return res.json({
+        results: parsedTopics.map(topic => ({ topic, status: 'ok' })),
+        source: parsedSource
+      });
+    }
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+    try {
+      const results = await Promise.all(parsedTopics.map(async topic => {
+        try {
+          if (isHF) {
+            const url = `https://huggingface.co/api/models/${encodeURIComponent(topic)}`;
+            const r = await fetch(url, { signal: controller.signal });
+            if (r.status === 404) return { topic, status: 'notfound' };
+            if (!r.ok) return { topic, status: 'error', detail: `HF API ${r.status}` };
+            return { topic, status: 'ok' };
+          } else {
+            const slug = encodeURIComponent(topic.replace(/ /g, '_'));
+            const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${slug}`;
+            const r = await fetch(url, { signal: controller.signal });
+            const fetchSuggestions = async (q) => {
+              try {
+                const sgUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(q.replace(/_/g, ' '))}&format=json&srlimit=6&origin=*`;
+                const sgr = await fetch(sgUrl, { signal: controller.signal });
+                if (!sgr.ok) return [];
+                const sgd = await sgr.json();
+                return (sgd.query?.search || []).map(h => h.title.replace(/ /g, '_'));
+              } catch { return []; }
+            };
+            if (r.status === 404) {
+              const suggestions = await fetchSuggestions(topic);
+              return { topic, status: 'notfound', suggestions };
+            }
+            if (!r.ok) return { topic, status: 'error', detail: `Wikipedia API ${r.status}` };
+            const data = await r.json();
+            if (data.type === 'disambiguation' || String(data.extract || '').toLowerCase().includes('may refer to:')) {
+              const suggestions = await fetchSuggestions(topic);
+              return { topic, status: 'disambiguation', suggestions };
+            }
+            return { topic, status: 'ok' };
+          }
+        } catch (err) {
+          if (err.name === 'AbortError') return { topic, status: 'error', detail: 'timeout' };
+          return { topic, status: 'error', detail: err.message };
+        }
+      }));
+      return res.json({ results, source: parsedSource });
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  } catch (error) {
+    console.error('Error in preflight topic check:', error);
+    return res.status(500).json({ error: 'Preflight check failed' });
   }
 });
 
@@ -1337,7 +1530,9 @@ app.post('/api/run-grab', (req, res) => {
       search,
       filter,
       useCurated,
-      curatedSet
+      curatedSet,
+      topicOverrides,
+      aiTopics
     } = req.body || {};
 
     if (!source) {
@@ -1380,6 +1575,14 @@ app.post('/api/run-grab', (req, res) => {
 
     if (curatedSet) {
       args.push('--curated-set', String(curatedSet));
+    }
+
+    if (topicOverrides && typeof topicOverrides === 'object' && Object.keys(topicOverrides).length) {
+      args.push('--topic-overrides', JSON.stringify(topicOverrides));
+    }
+
+    if (Array.isArray(aiTopics) && aiTopics.length) {
+      args.push('--ai-topics', aiTopics.join(','));
     }
 
     if (!fs.existsSync(WIKI_OUTPUT_DIR)) {
