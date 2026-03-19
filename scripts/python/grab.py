@@ -4,6 +4,7 @@ Unified poster grabber.
 """
 
 import argparse
+import json
 from pathlib import Path
 import re
 import sys
@@ -44,6 +45,14 @@ def parse_args():
     parser.add_argument(
         "--output-dir", default="ai_posters", help="Output directory for posters"
     )
+    parser.add_argument(
+        "--topic-overrides",
+        help='JSON object mapping original topic names to replacement names',
+    )
+    parser.add_argument(
+        "--ai-topics",
+        help="Comma-separated topics to generate via AI only (skip Wikipedia lookup)",
+    )
     return parser.parse_args()
 
 
@@ -81,6 +90,21 @@ def main():
     category_label = args.category
     category_type = "category"
 
+    # Apply user-supplied topic overrides (disambiguation resolutions)
+    topic_overrides = {}
+    if args.topic_overrides:
+        try:
+            topic_overrides = json.loads(args.topic_overrides)
+        except json.JSONDecodeError as e:
+            print(f"Warning: could not parse --topic-overrides: {e}")
+    if topic_overrides:
+        topics = [topic_overrides.get(t, t) for t in topics]
+
+    # Collect AI-only topics (user chose to skip Wikipedia)
+    ai_topics_set = set()
+    if args.ai_topics:
+        ai_topics_set = {t.strip() for t in args.ai_topics.split(",") if t.strip()}
+
     if args.use_curated:
         if not hasattr(adapter, "get_curated_sets"):
             print(f"Source does not support curated sets: {args.source}")
@@ -116,6 +140,13 @@ def main():
     print(f"Source: {args.source}")
     print("=" * 60)
 
+    extra_kwargs = {}
+    if ai_topics_set and hasattr(adapter, "generate_posters"):
+        import inspect
+        sig = inspect.signature(adapter.generate_posters)
+        if "ai_topics" in sig.parameters:
+            extra_kwargs["ai_topics"] = ai_topics_set
+
     adapter.generate_posters(
         topics,
         category_label=category_label,
@@ -127,6 +158,7 @@ def main():
         existing_lookup=existing_lookup,
         category_type=category_type,
         existing_roots=existing_roots,
+        **extra_kwargs,
     )
 
     print("\nDone!")

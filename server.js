@@ -397,8 +397,10 @@ async function requestOpenRouterChatCompletion({ model, systemPrompt, userPrompt
       throw error;
     }
 
-    const content = payload?.choices?.[0]?.message?.content;
+    const msg = payload?.choices?.[0]?.message;
+    const content = msg?.content || msg?.reasoning_content || msg?.reasoning;
     if (!isNonEmptyString(content)) {
+      console.error('[openrouter] empty content for model', model, '— raw choice:', JSON.stringify(payload?.choices?.[0] || payload).slice(0, 500));
       const error = new Error('OpenRouter response did not include message content');
       error.code = 'OPENROUTER_EMPTY_RESPONSE';
       throw error;
@@ -1479,11 +1481,24 @@ app.post('/api/preflight/topics', async (req, res) => {
             const slug = encodeURIComponent(topic.replace(/ /g, '_'));
             const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${slug}`;
             const r = await fetch(url, { signal: controller.signal });
-            if (r.status === 404) return { topic, status: 'notfound' };
+            const fetchSuggestions = async (q) => {
+              try {
+                const sgUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(q.replace(/_/g, ' '))}&format=json&srlimit=6&origin=*`;
+                const sgr = await fetch(sgUrl, { signal: controller.signal });
+                if (!sgr.ok) return [];
+                const sgd = await sgr.json();
+                return (sgd.query?.search || []).map(h => h.title.replace(/ /g, '_'));
+              } catch { return []; }
+            };
+            if (r.status === 404) {
+              const suggestions = await fetchSuggestions(topic);
+              return { topic, status: 'notfound', suggestions };
+            }
             if (!r.ok) return { topic, status: 'error', detail: `Wikipedia API ${r.status}` };
             const data = await r.json();
             if (data.type === 'disambiguation' || String(data.extract || '').toLowerCase().includes('may refer to:')) {
-              return { topic, status: 'disambiguation' };
+              const suggestions = await fetchSuggestions(topic);
+              return { topic, status: 'disambiguation', suggestions };
             }
             return { topic, status: 'ok' };
           }
@@ -1515,7 +1530,9 @@ app.post('/api/run-grab', (req, res) => {
       search,
       filter,
       useCurated,
-      curatedSet
+      curatedSet,
+      topicOverrides,
+      aiTopics
     } = req.body || {};
 
     if (!source) {
@@ -1558,6 +1575,14 @@ app.post('/api/run-grab', (req, res) => {
 
     if (curatedSet) {
       args.push('--curated-set', String(curatedSet));
+    }
+
+    if (topicOverrides && typeof topicOverrides === 'object' && Object.keys(topicOverrides).length) {
+      args.push('--topic-overrides', JSON.stringify(topicOverrides));
+    }
+
+    if (Array.isArray(aiTopics) && aiTopics.length) {
+      args.push('--ai-topics', aiTopics.join(','));
     }
 
     if (!fs.existsSync(WIKI_OUTPUT_DIR)) {

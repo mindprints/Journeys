@@ -582,12 +582,14 @@ def generate_posters(
     delay_between_requests=None,
     category_type="category",
     existing_roots=None,
+    ai_topics=None,
 ):
     output_dir = output_dir or DEFAULT_OUTPUT_DIR
     delay_between_requests = (
         DEFAULT_DELAY if delay_between_requests is None else delay_between_requests
     )
     existing_roots = existing_roots or DEFAULT_EXISTING_ROOTS
+    ai_topics = set(ai_topics) if ai_topics else set()
 
     if existing_index is None or existing_lookup is None:
         existing_index, existing_lookup = build_existing_index(existing_roots)
@@ -606,14 +608,30 @@ def generate_posters(
     print(f"Output directory: {output_dir.absolute()}\n")
 
     for i, topic in enumerate(topics, 1):
-        print(f"[{i}/{len(topics)}] Fetching: {topic}... ", end="")
-
-        poster, duplicate_reason = create_poster_from_wikipedia(
-            topic,
-            category_type,
-            existing_index,
-            category_label=category_label,
-        )
+        if topic in ai_topics:
+            print(f"[{i}/{len(topics)}] AI generating (user-selected): {topic}... ", end="")
+            poster = _ai_generate_fallback(topic, category_type, category_label)
+            if poster:
+                duplicate_reason = find_duplicate_reason(
+                    poster["front"]["title"], topic, "", existing_index
+                )
+            else:
+                placeholder = build_placeholder_poster(
+                    topic, category_type, category_label=category_label,
+                    reason="AI content generation failed",
+                )
+                duplicate_reason = find_duplicate_reason(
+                    placeholder["front"]["title"], topic, "", existing_index
+                )
+                poster = placeholder
+        else:
+            print(f"[{i}/{len(topics)}] Fetching: {topic}... ", end="")
+            poster, duplicate_reason = create_poster_from_wikipedia(
+                topic,
+                category_type,
+                existing_index,
+                category_label=category_label,
+            )
 
         if poster and not duplicate_reason:
             if merge_only:
