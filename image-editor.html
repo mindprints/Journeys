@@ -248,7 +248,6 @@
     <nav>
       <a href="index.html" class="nav-link">Return to Gallery</a>
       <a href="unified-editor.html" class="nav-link">Unified Editor</a>
-      <a href="website-editor.html" class="nav-link">Website Editor</a>
     </nav>
     <div class="chooser">
       <select id="category-chooser">
@@ -301,61 +300,29 @@
                 <button id="loadUrlBtn" class="editor-btn small" style="margin-top: 0.5em;">Load</button>
               </div>
             </div>
+
+            <!-- AI Generate -->
+            <div class="upload-option">
+              <i class="fas fa-magic"></i>
+              <h3>AI Generate</h3>
+              <div class="form-group" style="margin-top: 1em;">
+                <input type="text" id="aiImageTitle" placeholder="Describe the image…">
+                <button id="aiGenerateImageBtn" class="editor-btn small" style="margin-top: 0.5em;"><i class="fas fa-sparkles"></i> Generate</button>
+                <span id="aiImageStatus" style="font-size:0.8em; color:#9aa0b5; margin-top:0.3em; display:block;"></span>
+              </div>
+            </div>
           </div>
 
           <div id="processingOptions" style="display: none;">
             <h3>Processing Options</h3>
-
-            <div class="form-group">
-              <label>Output Format</label>
-              <div style="display: flex; gap: 1em; margin-bottom: 1em;">
-                <label style="display: flex; align-items: center;">
-                  <input type="radio" name="outputFormat" value="webp" checked style="margin-right: 0.5em;">
-                  <span>WebP (Recommended)</span>
-                </label>
-                <label style="display: flex; align-items: center;">
-                  <input type="radio" name="outputFormat" value="jpeg" style="margin-right: 0.5em;">
-                  <span>JPEG</span>
-                </label>
-                <label style="display: flex; align-items: center;">
-                  <input type="radio" name="outputFormat" value="png" style="margin-right: 0.5em;">
-                  <span>PNG</span>
-                </label>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="qualitySlider">Quality</label>
-              <div class="slider-container">
-                <span>0%</span>
-                <input type="range" min="0" max="100" value="80" class="slider" id="qualitySlider">
-                <span>100%</span>
-                <span id="qualityValue">80%</span>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label>Resize</label>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1em; margin-bottom: 1em;">
-                <div>
-                  <label for="resizeWidth">Width (px)</label>
-                  <input type="number" id="resizeWidth" placeholder="Auto">
-                </div>
-                <div>
-                  <label for="resizeHeight">Height (px)</label>
-                  <input type="number" id="resizeHeight" placeholder="Auto">
-                </div>
-              </div>
-              <div style="display: flex; align-items: center;">
-                <input type="checkbox" id="maintainAspect" checked style="margin-right: 0.5em;">
-                <label for="maintainAspect">Maintain aspect ratio</label>
-              </div>
-            </div>
+            <p style="font-size:0.82em; color:#9aa0b5; margin:0 0 0.75em;">
+              Images are automatically converted to <strong>WebP</strong> at standard quality and fitted to their original canvas. Use the crop tool to adjust composition.
+            </p>
 
             <div class="form-group">
               <div style="display: flex; align-items: center; margin-bottom: 1em;">
                 <input type="checkbox" id="useJsonWrapper" style="margin-right: 0.5em;">
-                <label for="useJsonWrapper">Create v2 poster in selected category</label>
+                <label for="useJsonWrapper" title="When checked, saves a JSON poster entry in the selected category pointing to this image. The image file is always saved to /images/originals/ regardless.">Create v2 poster in selected category</label>
                 <div style="margin-left: auto; font-size: 0.8em; color: #f48c06;">Images always saved to
                   /images/originals/</div>
               </div>

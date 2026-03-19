@@ -178,11 +178,6 @@ class UnifiedEditor {
             });
         }
 
-        // Preview flip
-        document.getElementById('toggle-preview-btn').addEventListener('click', () => this.togglePreview());
-        document.getElementById('preview-front-btn').addEventListener('click', () => this.showPreviewSide('front'));
-        document.getElementById('preview-back-btn').addEventListener('click', () => this.showPreviewSide('back'));
-
         // Image picker
         this.imagePicker.addEventListener('click', () => this.showImagePicker('primary'));
         document.getElementById('close-image-modal').addEventListener('click', () => this.hideImagePicker());
@@ -1452,10 +1447,6 @@ class UnifiedEditor {
         this.previewBackContent.innerHTML = backHtml;
     }
 
-    togglePreview() {
-        this.previewPoster.classList.toggle('flipped');
-    }
-
     showPreviewSide(side) {
         if (side === 'front') {
             this.previewPoster.classList.remove('flipped');
@@ -1473,6 +1464,9 @@ class UnifiedEditor {
         this.tabContents.forEach(content => {
             content.classList.toggle('active', content.id === `tab-${tabId}`);
         });
+        // Sync preview to match the active tab
+        if (tabId === 'front') this.showPreviewSide('front');
+        else if (tabId === 'back') this.showPreviewSide('back');
     }
 
     // === New Poster ===

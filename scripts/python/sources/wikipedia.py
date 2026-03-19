@@ -267,6 +267,36 @@ def _ai_disambiguate(topic, candidates, category_label=None):
     return matched or (slug if slug else None)
 
 
+def _ai_generate_tags(title, subtitle, extract, max_tags=5):
+    """Ask the AI to generate concise, relevant tags for a Wikipedia poster.
+
+    Returns a list of tag strings, or an empty list if the API is unavailable.
+    Falls back gracefully so it never blocks poster generation.
+    """
+    if not _openrouter_api_key():
+        return []
+    snippet = extract[:300].strip() if extract else subtitle or title
+    content = _call_openrouter(
+        user_prompt=(
+            f'Title: "{title}"\n'
+            f'Description: "{subtitle}"\n'
+            f'Excerpt: "{snippet}"\n\n'
+            f"List {max_tags} short, relevant tags for this AI/technology topic. "
+            "Reply with ONLY a comma-separated list of tags, no explanations."
+        ),
+        system_prompt=(
+            "You produce concise topic tags for an AI and technology museum exhibit. "
+            "Each tag is 1-3 words. Output only a comma-separated list."
+        ),
+        max_tokens=60,
+        temperature=0.3,
+    )
+    if not content:
+        return []
+    tags = [t.strip().strip("\"'") for t in content.split(",") if t.strip()]
+    return tags[:max_tags]
+
+
 def _ai_generate_fallback(topic, category_type, category_label=None):
     """Generate poster content via AI when Wikipedia lookup fails entirely.
 
@@ -535,7 +565,7 @@ def create_poster_from_wikipedia(
             "created": datetime.now().isoformat(),
             "modified": datetime.now().isoformat(),
             "categories": determine_category(category_type, category_label),
-            "tags": [topic.replace("_", " ")],
+            "tags": _ai_generate_tags(title, subtitle, extract) or [topic.replace("_", " ")],
             "source": url,
         },
     }
