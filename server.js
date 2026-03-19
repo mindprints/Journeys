@@ -1385,7 +1385,7 @@ app.post('/api/ai/topic-suggestions', async (req, res) => {
       '- Do not prepend AI/AI_ prefixes unless explicitly requested by the description.',
       '- Avoid duplicates and near-duplicates.',
       '- Use concise topic names.',
-      '- Replace spaces with underscores.',
+      ...(isAIModel ? [] : ['- Replace spaces with underscores.']),
       ...sourceRules,
       `- ${exclusionRule}`,
       '- Return valid JSON only in the format: {"topics":["..."]}.'

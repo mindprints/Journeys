@@ -1043,11 +1043,13 @@ class UnifiedEditor {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ title, subtitle }),
             });
-            const data = await resp.json();
             if (!resp.ok) {
-                status.textContent = data.error || 'Generation failed';
+                let errMsg = 'Generation failed';
+                try { errMsg = (await resp.json()).error || errMsg; } catch (_) { /* non-JSON error body */ }
+                status.textContent = errMsg;
                 return;
             }
+            const data = await resp.json();
             this.setImage(data.src, title);
             status.textContent = 'Done!';
             setTimeout(() => { status.textContent = ''; }, 3000);

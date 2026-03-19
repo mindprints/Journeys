@@ -115,5 +115,7 @@ def generate_ai_image(title, subtitle="", images_dir=None):
         print(f"[image] could not save: {exc}")
         return None
 
-    # Return as a forward-slash relative path (web-root-relative)
-    return f"{save_dir}/{filename}".replace("\\", "/")
+    # Always return a web-root-relative path regardless of whether save_dir is
+    # absolute or relative (avoids serialising an absolute filesystem path into
+    # the poster JSON when a custom images_dir is passed in).
+    return f"images/originals/{filename}"

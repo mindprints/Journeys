@@ -18,6 +18,11 @@ const { startServer } = require('../server');
 
 const SKIP_LIVE = process.env.CI === 'true' || process.env.SKIP_LIVE_TESTS === 'true';
 
+// Guaranteed-nonexistent Wikipedia slug — uses a UUID fragment so it can never
+// become a real article title, while still being search-able enough to return
+// suggestions (the prefix keeps it in the machine-learning neighbourhood).
+const NONEXISTENT_WIKI_SLUG = 'Machine_Learning_Nonexistent_4f8a2c1e9b3d';
+
 let server;
 let baseUrl;
 
@@ -92,20 +97,19 @@ test('preflight rejects invalid source', async () => {
 });
 
 test('preflight rejects non-array topics string', async () => {
+  // parseOptionalStringArray always pushes a validation error for non-arrays,
+  // so passing a bare string must always produce a 400.
   const { response, payload } = await postJson('/api/preflight/topics', {
     topics: 'Machine_learning',
     source: 'wikipedia',
   });
 
-  // A single string is coerced to array by parseOptionalStringArray;
-  // if it passes, we just need a valid structure back.
-  // If it fails validation, we expect 400.
-  if (response.status === 400) {
-    assert.equal(payload.error, 'Invalid request body');
-  } else {
-    assert.equal(response.status, 200);
-    assert.ok(Array.isArray(payload.results));
-  }
+  assert.equal(response.status, 400, `Expected 400, got ${response.status}`);
+  assert.equal(payload.error, 'Invalid request body');
+  assert.ok(
+    Array.isArray(payload.details) && payload.details.some(d => /topics/i.test(d)),
+    `Expected topics validation detail, got: ${JSON.stringify(payload.details)}`
+  );
 });
 
 // ─── aimodel fast-path (no network) ───────────────────────────────────────
@@ -165,14 +169,14 @@ test(
   { timeout: 20000, skip: SKIP_LIVE ? 'live network tests disabled' : false },
   async () => {
     const { response, payload } = await postJson('/api/preflight/topics', {
-      topics: ['Machine_Learning_in_China'],
+      topics: [NONEXISTENT_WIKI_SLUG],
       source: 'wikipedia',
     });
 
     assert.equal(response.status, 200);
 
     const result = payload.results[0];
-    assert.equal(result.topic, 'Machine_Learning_in_China');
+    assert.equal(result.topic, NONEXISTENT_WIKI_SLUG);
     assert.equal(result.status, 'notfound');
 
     // Suggestions should be a non-empty array of strings
@@ -216,7 +220,7 @@ test(
   { timeout: 30000, skip: SKIP_LIVE ? 'live network tests disabled' : false },
   async () => {
     const { response, payload } = await postJson('/api/preflight/topics', {
-      topics: ['Machine_learning', 'Machine_Learning_in_China', 'Deep_learning'],
+      topics: ['Machine_learning', NONEXISTENT_WIKI_SLUG, 'Deep_learning'],
       source: 'wikipedia',
     });
 
@@ -229,7 +233,7 @@ test(
     assert.equal(mlResult.status, 'ok');
 
     // Machine_Learning_in_China should be notfound with suggestions
-    const chinaResult = payload.results.find(r => r.topic === 'Machine_Learning_in_China');
+    const chinaResult = payload.results.find(r => r.topic === NONEXISTENT_WIKI_SLUG);
     assert.ok(chinaResult, 'Machine_Learning_in_China result missing');
     assert.equal(chinaResult.status, 'notfound');
     assert.ok(Array.isArray(chinaResult.suggestions));
@@ -247,7 +251,7 @@ test(
   { timeout: 20000, skip: SKIP_LIVE ? 'live network tests disabled' : false },
   async () => {
     const { response, payload } = await postJson('/api/preflight/topics', {
-      topics: ['Machine_Learning_in_China'],
+      topics: [NONEXISTENT_WIKI_SLUG],
       source: 'wikipedia',
     });
 
