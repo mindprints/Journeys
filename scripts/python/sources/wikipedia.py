@@ -565,7 +565,7 @@ def create_poster_from_wikipedia(
             "created": datetime.now().isoformat(),
             "modified": datetime.now().isoformat(),
             "categories": determine_category(category_type, category_label),
-            "tags": _ai_generate_tags(title, subtitle, extract) or [topic.replace("_", " ")],
+            "tags": _ai_generate_tags(title, subtitle, extract) or [title.replace("_", " ")],
             "source": url,
         },
     }

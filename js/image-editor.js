@@ -488,11 +488,16 @@ async function deleteImage(imagePath, posterPath) {
     // Also delete the associated poster JSON if we know the path
     if (posterPath) {
       try {
-        await fetch('/api/delete-poster', {
+        // Send only the filename, not the full path, for server-side validation
+        const posterFilename = posterPath.split('/').pop();
+        const posterResp = await fetch('/api/delete-poster', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ path: posterPath })
+          body: JSON.stringify({ path: posterFilename })
         });
+        if (!posterResp.ok) {
+          console.warn(`Could not delete associated poster JSON: server returned ${posterResp.status}`);
+        }
       } catch (imgErr) {
         console.warn('Could not delete associated poster JSON:', imgErr);
       }
@@ -935,14 +940,34 @@ async function generateAiImageForEditor() {
       return;
     }
     const data = await resp.json();
-    // Fetch the saved image and load it into the uploader
-    const imgResp = await fetch(data.src);
-    const blob = await imgResp.blob();
+    // Register the server-saved image directly — avoid re-uploading a duplicate
     const filename = data.src.split('/').pop();
-    const file = new File([blob], filename, { type: blob.type || 'image/webp' });
-    handleFiles([file]);
-    if (statusEl) statusEl.textContent = 'Done!';
-    setTimeout(() => { if (statusEl) statusEl.textContent = ''; }, 3000);
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      canvas.getContext('2d').drawImage(img, 0, 0);
+      const dataUrl = canvas.toDataURL('image/webp', 0.85);
+      const imageData = {
+        id: Date.now(),
+        name: filename,
+        originalFile: null,
+        originalDataUrl: dataUrl,
+        processedDataUrl: null,
+        serverSrc: data.src,
+        selected: false
+      };
+      images.push(imageData);
+      updateUI();
+      renderImagePreview(imageData);
+      if (statusEl) statusEl.textContent = 'Done!';
+      setTimeout(() => { if (statusEl) statusEl.textContent = ''; }, 3000);
+    };
+    img.onerror = () => {
+      if (statusEl) statusEl.textContent = 'Failed to load generated image';
+    };
+    img.src = data.src;
   } catch (err) {
     if (statusEl) statusEl.textContent = 'Request failed';
     console.error('[AI generate]', err);
@@ -1153,6 +1178,11 @@ async function saveAllImagesToGallery() {
   let errorCount = 0;
 
   for (const imageData of images) {
+    // Skip images already persisted on the server (e.g. AI-generated assets)
+    if (imageData.serverSrc) {
+      savedCount++;
+      continue;
+    }
     try {
       const imageUrl = imageData.processedDataUrl || imageData.originalDataUrl;
       const blob = dataURLToBlob(imageUrl);

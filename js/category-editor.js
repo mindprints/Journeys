@@ -144,7 +144,7 @@ class CategoryEditor {
     }
   }
 
-  async loadConfig() {
+  async loadConfig({ suppressDefaultSelect = false } = {}) {
     try {
       const [config, posterCategories] = await Promise.all([
         this.requestJson('/api/category-config', {}, 'Failed to load category config'),
@@ -154,10 +154,12 @@ class CategoryEditor {
       this.configCategories = Array.isArray(config.categories) ? config.categories : [];
       this.categories = this.mergeCategories(this.configCategories, posterCategories);
       this.renderList();
-      if (this.categories.length) {
-        this.selectCategory(0);
-      } else {
-        this.startNewCategory();
+      if (!suppressDefaultSelect) {
+        if (this.categories.length) {
+          this.selectCategory(0);
+        } else {
+          this.startNewCategory();
+        }
       }
     } catch (error) {
       console.error('Error loading category config:', error);
@@ -462,6 +464,7 @@ class CategoryEditor {
       chip.style.cssText = 'font-size:0.78em; padding:0.2em 0.65em; border-radius:1em; opacity:0.9;';
       chip.textContent = topic.replace(/_/g, ' ');
       chip.title = `Add "${topic}" to topics`;
+      chip.setAttribute('aria-label', `Add "${topic.replace(/_/g, ' ')}" to topics`);
       chip.addEventListener('click', () => {
         const current = this.parseTopics(this.topicsInput.value);
         const key = topic.toLowerCase();
@@ -473,7 +476,10 @@ class CategoryEditor {
       });
       this.topicChipsContainer.appendChild(chip);
     });
-    if (this.topicChipsHint) this.topicChipsHint.style.display = '';
+    if (this.topicChipsHint) {
+      this.topicChipsHint.style.display = '';
+      this.topicChipsHint.textContent = `${topics.length} topic suggestion${topics.length !== 1 ? 's' : ''} available. Click a suggestion to add it to the topics list.`;
+    }
   }
 
   async saveCategory() {
@@ -502,13 +508,21 @@ class CategoryEditor {
         body: JSON.stringify({ categories: this.configCategories })
       }, 'Failed to save category config');
       const savedSlug = payload.slug || payload.name || '';
-      await this.loadConfig();
+      await this.loadConfig({ suppressDefaultSelect: true });
       // Re-select the category we just saved instead of defaulting to index 0
       if (savedSlug) {
         const idx = this.categories.findIndex(
           c => (c.slug || c.name || '') === savedSlug
         );
-        if (idx !== -1) this.selectCategory(idx);
+        if (idx !== -1) {
+          this.selectCategory(idx);
+        } else {
+          this.startNewCategory();
+        }
+      } else if (this.categories.length) {
+        this.selectCategory(0);
+      } else {
+        this.startNewCategory();
       }
     } catch (error) {
       console.error('Error saving category config:', error);
