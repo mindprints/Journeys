@@ -15,7 +15,8 @@
       font-family: "Saira", sans-serif;
       display: grid;
       grid-template-columns: minmax(260px, 320px) 1fr;
-      min-height: 100vh;
+      height: 100vh;
+      overflow: hidden;
       gap: 1em;
       padding: 1em;
     }
@@ -27,10 +28,17 @@
       flex-direction: column;
       gap: 0.9em;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      overflow-y: auto;
+      max-height: 100vh;
     }
-    .panel h1 {
-      font-size: 1.1em;
-      margin: 0;
+    .panel h1 { font-size: 1.1em; margin: 0; }
+    .section-label {
+      font-size: 0.7em;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.4);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 0.6em;
     }
     .control {
       display: grid;
@@ -38,49 +46,39 @@
       gap: 0.6em;
       align-items: center;
     }
-    .control label {
-      font-size: 0.85em;
-      color: #c8c8e8;
-    }
-    .control input[type="range"] {
+    .control label { font-size: 0.85em; color: #c8c8e8; }
+    .control input[type="range"] { width: 100%; }
+    .control output { font-size: 0.8em; color: #f4c267; min-width: 4ch; text-align: right; }
+    select {
       width: 100%;
+      padding: 0.35em 0.5em;
+      background: #2a2359;
+      border: 1px solid #3a355e;
+      border-radius: 5px;
+      color: #e6e6f0;
+      font-family: inherit;
+      font-size: 0.85em;
     }
-    .control output {
-      font-size: 0.8em;
-      color: #f4c267;
-      min-width: 4ch;
-      text-align: right;
-    }
-    .buttons {
-      display: flex;
-      gap: 0.5em;
-      margin-top: 0.5em;
-    }
-    .text-expand-controls {
+    .picker-row { display: flex; flex-direction: column; gap: 0.3em; }
+    .picker-row label { font-size: 0.78em; color: #9898b8; }
+    .buttons { display: flex; gap: 0.5em; flex-wrap: wrap; }
+    .text-expand-controls,
+    .image-expand-controls {
       display: none;
       flex-direction: column;
       gap: 0.9em;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-top: 1px solid rgba(255,255,255,0.08);
       padding-top: 0.8em;
-      margin-top: 0.4em;
     }
-    .text-expand-controls.active {
-      display: flex;
-    }
-    body.text-expanded-active #base-text-controls {
-      display: none;
-    }
-    .text-expand-controls .control label {
-      color: #7fe3ff;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-    }
-    .text-expand-controls .control output {
-      color: #7fe3ff;
-    }
-    .text-expand-controls input[type="range"] {
-      accent-color: #7fe3ff;
-    }
+    .text-expand-controls.active,
+    .image-expand-controls.active { display: flex; }
+    body.text-expanded-active #base-text-controls { display: none; }
+    .text-expand-controls .control label { color: #7fe3ff; font-weight: 600; }
+    .text-expand-controls .control output { color: #7fe3ff; }
+    .text-expand-controls input[type="range"] { accent-color: #7fe3ff; }
+    .image-expand-controls .control label { color: #f4a261; font-weight: 600; }
+    .image-expand-controls .control output { color: #f4a261; }
+    .image-expand-controls input[type="range"] { accent-color: #f4a261; }
     button {
       padding: 0.45em 0.8em;
       border: none;
@@ -88,83 +86,124 @@
       background: #3a355e;
       color: #fff;
       cursor: pointer;
+      font-family: inherit;
+      font-size: 0.85em;
     }
     button.primary { background: #4a95ee; }
+    button.accent  { background: #c06428; }
+
+    /* ── Stage ─────────────────────────────────────────────────────── */
     .stage {
       background: #1a153d;
       border-radius: 10px;
-      padding: 1em;
-      display: grid;
-      place-items: center;
-      min-height: 90vh;
+      padding: 0.75em 1em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
       overflow: hidden;
     }
+
+    /* The carousel section / article positioning is overridden here.
+       We use --hov:0 so the header (back content) is front-facing and visible.
+       We then cancel the -90° frame rotation so the landscape content renders upright. */
     .stage section {
-      display: grid;
-      place-items: center;
       transform: none !important;
       translate: none !important;
       rotate: none !important;
+      width: 100%;   /* fill the stage so article's 100% resolves correctly */
     }
     .stage article {
-      --hov: 0;
+      --hov: 0;          /* 0 → header front-facing (visible); 1 → header flipped (invisible) */
       --n: 1;
       --i: 0;
-      width: min(520px, 90vw);
-      aspect-ratio: 2 / 3;
+      /* Fill the stage height, cap at available width */
+      width: min(calc((100vh - 5em) * 16 / 9), 100%);
+      aspect-ratio: 16 / 9;   /* landscape — matches the v2 content's natural 16:9 frame */
       display: grid;
       place-items: center;
       transform: none !important;
       transition: none !important;
     }
+
+    /* Cancel ALL carousel header transforms so the back content shows upright */
     .stage article header {
+      rotate: none !important;          /* cancel y calc(--hov * 0.5turn) */
+      transform: none !important;       /* cancel rotateX/rotateZ */
+      backface-visibility: visible !important;
+      font-size: var(--v2-live-header-scale, 0.5em);
       width: 100%;
       height: 100%;
-      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: auto;
     }
-    .stage article figure {
-      display: none !important;
+
+    /* Cancel the -90° rotation on the frame; keep only the scale.
+       The frame fills the landscape article naturally. */
+    .stage article header .v2-back-frame {
+      transform: scale(var(--v2-back-scale, 0.67)) !important;
+      width: 100% !important;
+      height: 100% !important;
+      max-height: 100% !important;
     }
-    .stage .tuner-note {
+
+    /* Hide the front (figure) — we only tune the back */
+    .stage article figure { display: none !important; }
+
+    .tuner-note {
       margin-top: 0.75em;
       font-size: 0.8em;
       color: #a9a2d0;
+      text-align: center;
     }
   </style>
 </head>
 <body>
   <aside class="panel">
     <h1>V2 Back Tuner</h1>
+
+    <!-- Poster picker -->
+    <div class="picker-row">
+      <label for="category-select">Category</label>
+      <select id="category-select">
+        <option value="">All categories</option>
+      </select>
+    </div>
+    <div class="picker-row">
+      <label for="poster-select">Poster</label>
+      <select id="poster-select">
+        <option value="">Loading…</option>
+      </select>
+    </div>
+
+    <!-- Layout -->
+    <div class="section-label">Layout &amp; Scale</div>
     <div class="control">
-      <label for="live-header-scale">Live header scale</label>
+      <label for="live-header-scale">Content scale (em)</label>
       <input id="live-header-scale" type="range" min="0.4" max="1" step="0.01" value="0.5" data-var="--v2-live-header-scale" data-unit="em" />
       <output id="live-header-scale-value">0.5em</output>
     </div>
     <div class="control">
-      <label for="back-scale">Back frame scale</label>
-      <input id="back-scale" type="range" min="0.6" max="1.6" step="0.01" value="0.67" data-var="--v2-back-scale" data-unit="" />
+      <label for="back-scale">Frame scale</label>
+      <input id="back-scale" type="range" min="0.5" max="1.2" step="0.01" value="0.67" data-var="--v2-back-scale" data-unit="" />
       <output id="back-scale-value">0.67</output>
     </div>
     <div class="control">
-      <label for="frame-width">Frame width %</label>
-      <input id="frame-width" type="range" min="50" max="260" step="1" value="223" data-var="--v2-back-frame-width" data-unit="%" />
-      <output id="frame-width-value">223%</output>
+      <label for="content-padding">Content padding</label>
+      <input id="content-padding" type="range" min="0.6" max="1.6" step="0.01" value="1.1" data-var="--v2-back-padding" data-unit="em" />
+      <output id="content-padding-value">1.1em</output>
     </div>
     <div class="control">
-      <label for="frame-height">Frame height %</label>
-      <input id="frame-height" type="range" min="50" max="200" step="1" value="100" data-var="--v2-back-frame-height" data-unit="%" />
-      <output id="frame-height-value">100%</output>
+      <label for="grid-gap">Grid gap</label>
+      <input id="grid-gap" type="range" min="0.4" max="1.2" step="0.01" value="0.8" data-var="--v2-back-grid-gap" data-unit="em" />
+      <output id="grid-gap-value">0.8em</output>
     </div>
-    <div class="control">
-      <label for="frame-max-height">Frame max height %</label>
-      <input id="frame-max-height" type="range" min="50" max="200" step="1" value="100" data-var="--v2-back-frame-max-height" data-unit="%" />
-      <output id="frame-max-height-value">100%</output>
-    </div>
-    <div class="control">
-      <label for="header-font">Header font size</label>
-      <input id="header-font" type="range" min="0.7" max="1.5" step="0.01" value="1.04" data-var="--v2-back-header-font-size" data-unit="rem" />
-      <output id="header-font-value">1.04rem</output>
-    </div>
+
+    <!-- Typography -->
+    <div class="section-label">Typography</div>
     <div class="control">
       <label for="title-size">Title size</label>
       <input id="title-size" type="range" min="1.0" max="1.8" step="0.01" value="1.35" data-var="--v2-back-title-size" data-unit="em" />
@@ -183,10 +222,64 @@
       </div>
     </div>
     <div class="control">
-      <label for="content-padding">Content padding</label>
-      <input id="content-padding" type="range" min="0.6" max="1.6" step="0.01" value="1.1" data-var="--v2-back-padding" data-unit="em" />
-      <output id="content-padding-value">1.1em</output>
+      <label for="panel-title-size">Panel label size</label>
+      <input id="panel-title-size" type="range" min="0.45" max="0.8" step="0.01" value="0.6" data-var="--v2-back-panel-title-size" data-unit="em" />
+      <output id="panel-title-size-value">0.6em</output>
     </div>
+    <div class="control">
+      <label for="badge-size">Badge size</label>
+      <input id="badge-size" type="range" min="0.45" max="0.8" step="0.01" value="0.55" data-var="--v2-back-badge-size" data-unit="em" />
+      <output id="badge-size-value">0.55em</output>
+    </div>
+    <div class="control">
+      <label for="link-size">Link size</label>
+      <input id="link-size" type="range" min="0.6" max="1.0" step="0.01" value="0.69" data-var="--v2-back-link-size" data-unit="em" />
+      <output id="link-size-value">0.69em</output>
+    </div>
+
+    <!-- Image panel -->
+    <div class="section-label">Image panel</div>
+    <div class="control">
+      <label for="text-col">Text column (fr)</label>
+      <input id="text-col" type="range" min="0.5" max="2.0" step="0.05" value="1.1" data-var="--v2-back-text-col" data-unit="fr" />
+      <output id="text-col-value">1.1fr</output>
+    </div>
+    <div class="control">
+      <label for="image-col">Image column (fr)</label>
+      <input id="image-col" type="range" min="0.5" max="2.0" step="0.05" value="0.9" data-var="--v2-back-image-col" data-unit="fr" />
+      <output id="image-col-value">0.9fr</output>
+    </div>
+
+    <!-- Image-expand tuning (shown when image is expanded) -->
+    <div class="image-expand-controls" id="image-expand-controls">
+      <div class="control">
+        <label for="image-frame-width">Image frame width %</label>
+        <input id="image-frame-width" type="range" min="100" max="260" step="1" value="100" data-var="--v2-image-frame-width" data-unit="%" />
+        <output id="image-frame-width-value">100%</output>
+      </div>
+      <div class="control">
+        <label for="image-frame-height">Image frame height %</label>
+        <input id="image-frame-height" type="range" min="60" max="200" step="1" value="100" data-var="--v2-image-frame-height" data-unit="%" />
+        <output id="image-frame-height-value">100%</output>
+      </div>
+      <div class="control">
+        <label for="image-frame-max-height">Image frame max height %</label>
+        <input id="image-frame-max-height" type="range" min="60" max="200" step="1" value="100" data-var="--v2-image-frame-max-height" data-unit="%" />
+        <output id="image-frame-max-height-value">100%</output>
+      </div>
+      <div class="control">
+        <label for="image-frame-scale">Image frame scale</label>
+        <input id="image-frame-scale" type="range" min="0.5" max="1.6" step="0.01" value="1" data-var="--v2-image-frame-scale" data-unit="" />
+        <output id="image-frame-scale-value">1</output>
+      </div>
+      <div class="control">
+        <label for="image-panel-padding">Image panel padding</label>
+        <input id="image-panel-padding" type="range" min="0.4" max="1.6" step="0.01" value="0.7" data-var="--v2-image-panel-padding" data-unit="em" />
+        <output id="image-panel-padding-value">0.7em</output>
+      </div>
+    </div>
+
+    <!-- Text-expand tuning (shown when textbox is expanded) -->
     <div class="text-expand-controls" id="text-expand-controls">
       <div class="control">
         <label for="text-frame-width">Text frame width %</label>
@@ -224,82 +317,37 @@
         <output id="text-expanded-line-height-value">1.95</output>
       </div>
     </div>
-    <div class="control">
-      <label for="grid-gap">Grid gap</label>
-      <input id="grid-gap" type="range" min="0.4" max="1.2" step="0.01" value="0.8" data-var="--v2-back-grid-gap" data-unit="em" />
-      <output id="grid-gap-value">0.8em</output>
-    </div>
-    <div class="control">
-      <label for="panel-title-size">Panel title size</label>
-      <input id="panel-title-size" type="range" min="0.45" max="0.8" step="0.01" value="0.6" data-var="--v2-back-panel-title-size" data-unit="em" />
-      <output id="panel-title-size-value">0.6em</output>
-    </div>
-    <div class="control">
-      <label for="badge-size">Badge size</label>
-      <input id="badge-size" type="range" min="0.45" max="0.8" step="0.01" value="0.55" data-var="--v2-back-badge-size" data-unit="em" />
-      <output id="badge-size-value">0.55em</output>
-    </div>
-    <div class="control">
-      <label for="link-size">Link size</label>
-      <input id="link-size" type="range" min="0.6" max="1.0" step="0.01" value="0.69" data-var="--v2-back-link-size" data-unit="em" />
-      <output id="link-size-value">0.69em</output>
-    </div>
+
+    <!-- Actions -->
     <div class="buttons">
       <button class="primary" id="reset-btn">Reset</button>
       <button id="copy-btn">Copy CSS vars</button>
     </div>
     <div class="buttons">
       <button id="toggle-text-expand">Expand Textbox</button>
+      <button id="toggle-image-expand" class="accent">Expand Image</button>
     </div>
-    <textarea id="vars-output" rows="6" readonly style="width: 100%; background: #11102b; color: #d9d9ff; border: 1px solid #3a355e; border-radius: 6px; padding: 0.6em;"></textarea>
+
+    <textarea id="vars-output" rows="6" readonly
+      style="width:100%;background:#11102b;color:#d9d9ff;border:1px solid #3a355e;border-radius:6px;padding:0.6em;font-size:0.78em;"></textarea>
   </aside>
 
   <main class="stage">
     <section class="assembly" id="posters-container"></section>
-    <div class="tuner-note" id="tuner-status">Loading poster...</div>
+    <div class="tuner-note" id="tuner-status">Loading…</div>
   </main>
 
   <script src="js/lib/snarkdown.min.js"></script>
   <script src="js/loadPosters.js"></script>
   <script>
+    // ── Slider wiring ────────────────────────────────────────────────
     const controls = Array.from(document.querySelectorAll('input[type="range"][data-var]'));
-    const output = document.getElementById('vars-output');
-    const channel = 'v2-back-tuner';
-    const storageKey = 'v2-back-tuner';
-    const broadcaster = 'BroadcastChannel' in window ? new BroadcastChannel(channel) : null;
-    const status = document.getElementById('tuner-status');
-    const textToggleBtn = document.getElementById('toggle-text-expand');
-    const textExpandControls = document.getElementById('text-expand-controls');
-    let textExpanded = false;
+    const varsOutput = document.getElementById('vars-output');
+    const status     = document.getElementById('tuner-status');
 
-    const collectVars = () => {
-      const vars = {};
-      controls.forEach((input) => {
-        const variable = input.dataset.var;
-        const unit = input.dataset.unit || '';
-        vars[variable] = input.value + unit;
-      });
-      return vars;
-    };
-
-    const emitVars = () => {
-      const vars = collectVars();
-      const payload = { vars, updatedAt: Date.now() };
-      try {
-        localStorage.setItem(storageKey, JSON.stringify(payload));
-      } catch (err) {
-        console.warn('localStorage update failed', err);
-      }
-      if (broadcaster) {
-        broadcaster.postMessage(payload);
-      }
-    };
-
-    const updateVar = (input) => {
-      const variable = input.dataset.var;
-      const unit = input.dataset.unit || '';
-      const value = input.value + unit;
-      document.documentElement.style.setProperty(variable, value);
+    const updateVar = input => {
+      const value = input.value + (input.dataset.unit || '');
+      document.documentElement.style.setProperty(input.dataset.var, value);
       const out = document.getElementById(`${input.id}-value`);
       if (out) out.textContent = value;
       updateOutput();
@@ -307,92 +355,171 @@
     };
 
     const updateOutput = () => {
-      const lines = controls.map((input) => {
-        const variable = input.dataset.var;
-        const unit = input.dataset.unit || '';
-        return `${variable}: ${input.value}${unit};`;
-      });
-      output.value = lines.join('\n');
+      varsOutput.value = controls
+        .map(i => `${i.dataset.var}: ${i.value}${i.dataset.unit || ''};`)
+        .join('\n');
     };
 
-    controls.forEach((input) => {
+    const emitVars = () => {
+      const vars = {};
+      controls.forEach(i => { vars[i.dataset.var] = i.value + (i.dataset.unit || ''); });
+      const payload = { vars, updatedAt: Date.now() };
+      try { localStorage.setItem('v2-back-tuner', JSON.stringify(payload)); } catch (_) {}
+      if (typeof BroadcastChannel !== 'undefined') {
+        try { new BroadcastChannel('v2-back-tuner').postMessage(payload); } catch (_) {}
+      }
+    };
+
+    controls.forEach(input => {
       input.addEventListener('input', () => updateVar(input));
       updateVar(input);
     });
 
     document.getElementById('reset-btn').addEventListener('click', () => {
-      controls.forEach((input) => {
-        input.value = input.defaultValue;
-        updateVar(input);
-      });
+      controls.forEach(input => { input.value = input.defaultValue; updateVar(input); });
     });
 
     document.getElementById('copy-btn').addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(output.value);
-      } catch (err) {
-        console.warn('Copy failed', err);
-      }
+      try { await navigator.clipboard.writeText(varsOutput.value); } catch (_) {}
     });
 
+    // ── Text-expand toggle ───────────────────────────────────────────
+    let textExpanded  = false;
+    let imageExpanded = false;
+    const textToggleBtn      = document.getElementById('toggle-text-expand');
+    const imageToggleBtn     = document.getElementById('toggle-image-expand');
+    const textExpandControls  = document.getElementById('text-expand-controls');
+    const imageExpandControls = document.getElementById('image-expand-controls');
+
+    const getArticle = () => document.querySelector('.stage article');
+
     const applyTextExpanded = () => {
-      const article = document.querySelector('.stage article');
-      if (!article) return;
-      article.classList.toggle('text-expanded', textExpanded);
-      document.body.classList.toggle('text-expanded-active', textExpanded);
-      if (textToggleBtn) {
-        textToggleBtn.textContent = textExpanded ? 'Collapse Textbox' : 'Expand Textbox';
+      const a = getArticle();
+      if (a) {
+        a.classList.toggle('text-expanded', textExpanded);
+        if (textExpanded) a.classList.remove('image-expanded');
       }
-      if (textExpandControls) {
-        textExpandControls.classList.toggle('active', textExpanded);
+      document.body.classList.toggle('text-expanded-active', textExpanded);
+      textToggleBtn.textContent = textExpanded ? 'Collapse Textbox' : 'Expand Textbox';
+      textExpandControls.classList.toggle('active', textExpanded);
+      if (textExpanded) {
+        imageExpanded = false;
+        imageExpandControls.classList.remove('active');
+        imageToggleBtn.textContent = 'Expand Image';
       }
     };
 
-    if (textToggleBtn) {
-      textToggleBtn.addEventListener('click', () => {
-        textExpanded = !textExpanded;
-        applyTextExpanded();
+    const applyImageExpanded = () => {
+      const a = getArticle();
+      if (a) {
+        a.classList.toggle('image-expanded', imageExpanded);
+        if (imageExpanded) a.classList.remove('text-expanded');
+      }
+      imageToggleBtn.textContent = imageExpanded ? 'Collapse Image' : 'Expand Image';
+      imageExpandControls.classList.toggle('active', imageExpanded);
+      if (imageExpanded) {
+        textExpanded = false;
+        document.body.classList.remove('text-expanded-active');
+        textExpandControls.classList.remove('active');
+        textToggleBtn.textContent = 'Expand Textbox';
+      }
+    };
+
+    textToggleBtn.addEventListener('click', () => { textExpanded = !textExpanded; applyTextExpanded(); });
+    imageToggleBtn.addEventListener('click', () => { imageExpanded = !imageExpanded; applyImageExpanded(); });
+
+    // ── Poster picker ────────────────────────────────────────────────
+    let allPosters      = [];
+    let filteredPosters = [];
+    const categorySel   = document.getElementById('category-select');
+    const posterSel     = document.getElementById('poster-select');
+
+    const hasImage = p =>
+      !!(p.back?.image?.src || (Array.isArray(p.back?.images) && p.back.images.length > 0));
+
+    async function initPosterPicker() {
+      // Populate category dropdown
+      try {
+        const r = await fetch('/api/categories');
+        if (r.ok) {
+          (await r.json()).forEach(cat => {
+            const o = document.createElement('option');
+            o.value = cat.value || cat.name;
+            o.textContent = cat.name || cat.value;
+            categorySel.appendChild(o);
+          });
+        }
+      } catch (_) {}
+
+      // Load all posters
+      try {
+        const r = await fetch('/api/posters-all');
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        const raw = await r.json();
+        allPosters = raw.filter(p => p && p.type && p.type !== 'skip-log' && !String(p.path || '').endsWith('.log'));
+        updatePosterDropdown();
+        await loadSelectedPoster();
+      } catch (err) {
+        status.textContent = `Failed to load posters: ${err.message}`;
+      }
+
+      categorySel.addEventListener('change', async () => { updatePosterDropdown(); await loadSelectedPoster(); });
+      posterSel.addEventListener('change', loadSelectedPoster);
+    }
+
+    function updatePosterDropdown() {
+      const cat = categorySel.value;
+      filteredPosters = cat
+        ? allPosters.filter(p => {
+            const cats = p.meta?.categories || p.categories || [];
+            return cats.some(c => String(c).toLowerCase() === cat.toLowerCase());
+          })
+        : allPosters.slice();
+
+      // Sort: posters with images first, then alpha
+      filteredPosters.sort((a, b) => {
+        const ai = hasImage(a), bi = hasImage(b);
+        if (ai && !bi) return -1;
+        if (!ai && bi) return 1;
+        return (a.front?.title || a.filename || '').localeCompare(b.front?.title || b.filename || '');
+      });
+
+      posterSel.innerHTML = '';
+      if (!filteredPosters.length) {
+        posterSel.innerHTML = '<option value="">No posters found</option>';
+        return;
+      }
+      filteredPosters.forEach((p, i) => {
+        const o = document.createElement('option');
+        o.value = i;
+        const title = p.front?.title || p.filename || `Poster ${i + 1}`;
+        o.textContent = hasImage(p) ? `[img] ${title}` : title;
+        posterSel.appendChild(o);
       });
     }
 
-    const loadPosterForTuning = async () => {
-      const params = new URLSearchParams(window.location.search);
-      const directory = params.get('directory') || 'JSON_Posters/VIPs';
-      const filename = params.get('poster') || 'Andrej_Karpathy.json';
-      const baseParam = params.get('base');
-      const isHttp = window.location.protocol === 'http:' || window.location.protocol === 'https:';
-      const baseUrl = baseParam || (isHttp ? '' : 'http://localhost:3000');
+    async function loadSelectedPoster() {
+      const idx    = parseInt(posterSel.value, 10);
+      const poster = filteredPosters[isNaN(idx) ? 0 : idx];
+      if (!poster) { status.textContent = 'No poster selected.'; return; }
 
-      if (!isHttp && !baseParam) {
-        const suggested = `${baseUrl}/v2-back-tuner.html?directory=${encodeURIComponent(directory)}&poster=${encodeURIComponent(filename)}`;
-        status.innerHTML = `Open via server to avoid CORS: <a href="${suggested}" style="color:#4a95ee;">${suggested}</a>`;
+      status.textContent = 'Rendering…';
+      try {
+        await window.loadPosters([poster]);
+      } catch (err) {
+        status.textContent = `Render error: ${err.message}`;
         return;
       }
 
-      try {
-        const response = await fetch(`${baseUrl}/api/posters-in-directory?directory=${encodeURIComponent(directory)}`);
-        if (!response.ok) {
-          throw new Error(`Failed to load posters (${response.status})`);
-        }
-        const posters = await response.json();
-        const match = posters.find(p => p.filename === filename || p.path?.endsWith(`/${filename}`));
-        const poster = match || posters.find(p => p.type === 'poster-v2') || posters[0];
+      // Re-apply expand state to the freshly rendered article
+      applyTextExpanded();
+      applyImageExpanded();
 
-        if (!poster) {
-          status.textContent = 'No poster data found for tuning.';
-          return;
-        }
+      const title = poster.front?.title || poster.filename || 'poster';
+      status.textContent = `Tuning: ${title}${hasImage(poster) ? ' · has image' : ''}`;
+    }
 
-        await window.loadPosters([poster]);
-        applyTextExpanded();
-        status.textContent = `Tuning: ${poster.front?.title || poster.data?.figure || poster.filename || filename}`;
-      } catch (err) {
-        console.error(err);
-        status.textContent = 'Failed to load poster data.';
-      }
-    };
-
-    loadPosterForTuning();
+    initPosterPicker();
   </script>
 </body>
 </html>
