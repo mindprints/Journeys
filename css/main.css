@@ -35,6 +35,9 @@
   width: min(92vw, 1200px);
   aspect-ratio: 16 / 9;
   cursor: default;
+  pointer-events: none;
+}
+#back-overlay.visible #back-overlay-frame {
   pointer-events: auto;
 }
 #back-overlay-frame .v2-back-content {
