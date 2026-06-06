@@ -120,6 +120,41 @@ document.addEventListener('DOMContentLoaded', () => {
 		stopAutoRotate();
 	}
 
+	// ── Hi-res back overlay ──────────────────────────────────────────
+	const backOverlay      = document.getElementById('back-overlay');
+	const backOverlayFrame = document.getElementById('back-overlay-frame');
+	let backOverlayTimer   = null;
+
+	function showBackOverlay(article) {
+		const backContent = article.querySelector('.v2-back-content');
+		if (!backContent) return;
+		clearTimeout(backOverlayTimer);
+		// Wait for the card flip animation (~350ms) then show the hi-res clone
+		backOverlayTimer = setTimeout(() => {
+			backOverlayFrame.innerHTML = '';
+			backOverlayFrame.appendChild(backContent.cloneNode(true));
+			backOverlay.classList.add('visible');
+		}, 350);
+	}
+
+	function hideBackOverlay() {
+		clearTimeout(backOverlayTimer);
+		backOverlay.classList.remove('visible');
+		setTimeout(() => {
+			if (!backOverlay.classList.contains('visible')) backOverlayFrame.innerHTML = '';
+		}, 300);
+	}
+
+	backOverlay.addEventListener('click', (e) => {
+		if (e.target === backOverlay) {
+			hideBackOverlay();
+			document.querySelectorAll('article').forEach(a => {
+				a.style.removeProperty('--hov');
+				a.classList.remove('text-expanded', 'image-expanded');
+			});
+		}
+	});
+
 	// Function to open full article
 	function openFullArticle(article) {
 		const fullArticle = document.querySelector('.full-article');
@@ -160,26 +195,39 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (panelArticle) {
 				const isOpen = panelArticle.style.getPropertyValue('--hov') === '1';
 				if (isOpen) {
+					const isExpanded = panelArticle.classList.contains('image-expanded');
+					const isPanelTitle = Boolean(e.target.closest('.v2-back-panel-title'));
+
+					// Parse the image list once
+					let imageList = [];
 					const imagesData = imagePanel.dataset.images;
 					if (imagesData) {
-						let images = [];
-						try {
-							images = JSON.parse(decodeURIComponent(imagesData));
-						} catch (err) {
-							images = [];
+						try { imageList = JSON.parse(decodeURIComponent(imagesData)); } catch (_) {}
+					}
+					const isMulti = imageList.length > 1;
+
+					if (!isExpanded) {
+						// Any click while collapsed → expand
+						panelArticle.classList.remove('text-expanded');
+						panelArticle.classList.add('image-expanded');
+					} else if (isPanelTitle) {
+						// Click on the "Image" label while expanded → collapse
+						panelArticle.classList.remove('image-expanded');
+					} else if (isMulti) {
+						// Click on image area while expanded → cycle to next image
+						const imgEl = imagePanel.querySelector('img');
+						const currentIndex = Number.parseInt(imagePanel.dataset.imageIndex || '0', 10) || 0;
+						const nextIndex = (currentIndex + 1) % imageList.length;
+						const nextImage = imageList[nextIndex];
+						if (imgEl && nextImage) {
+							imgEl.src = nextImage.src;
+							imgEl.alt = nextImage.alt || '';
+							applyImageSizing(imgEl, nextImage);
+							imagePanel.dataset.imageIndex = `${nextIndex}`;
 						}
-						if (images.length > 1) {
-							const imgEl = imagePanel.querySelector('img');
-							const currentIndex = Number.parseInt(imagePanel.dataset.imageIndex || '0', 10) || 0;
-							const nextIndex = (currentIndex + 1) % images.length;
-								const nextImage = images[nextIndex];
-								if (imgEl && nextImage) {
-									imgEl.src = nextImage.src;
-									imgEl.alt = nextImage.alt || '';
-									applyImageSizing(imgEl, nextImage);
-									imagePanel.dataset.imageIndex = `${nextIndex}`;
-								}
-							}
+					} else {
+						// Single image, already expanded → collapse
+						panelArticle.classList.remove('image-expanded');
 					}
 				}
 				e.stopPropagation();
@@ -194,6 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				const isOpen = panelArticle.style.getPropertyValue('--hov') === '1';
 				const isLink = Boolean(e.target.closest('a'));
 				if (isOpen && !isLink) {
+					panelArticle.classList.remove('image-expanded');
 					panelArticle.classList.toggle('text-expanded');
 				}
 				e.stopPropagation();
@@ -228,14 +277,18 @@ document.addEventListener('DOMContentLoaded', () => {
 							if (otherArticle !== clickedArticle) {
 								otherArticle.style.removeProperty('--hov');
 								otherArticle.classList.remove('text-expanded');
+								otherArticle.classList.remove('image-expanded');
 							}
 						});
 						// Toggle clicked poster
 						if (currentHov === '1') {
 							clickedArticle.style.removeProperty('--hov');
 							clickedArticle.classList.remove('text-expanded');
+							clickedArticle.classList.remove('image-expanded');
+							hideBackOverlay();
 						} else {
 							clickedArticle.style.setProperty('--hov', '1');
+							showBackOverlay(clickedArticle);
 						}
 					}
 				}
@@ -247,6 +300,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.addEventListener('keydown', (e) => {
 		if (e.key === 'Escape') {
 			closeFullArticle();
+			hideBackOverlay();
+			document.querySelectorAll('article').forEach(a => {
+				a.style.removeProperty('--hov');
+				a.classList.remove('text-expanded', 'image-expanded');
+			});
 			return;
 		}
 
@@ -263,6 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
 						if (article !== centeredArticle) {
 							article.style.removeProperty('--hov');
 							article.classList.remove('text-expanded');
+							article.classList.remove('image-expanded');
 						}
 					});
 
@@ -270,8 +329,11 @@ document.addEventListener('DOMContentLoaded', () => {
 					if (currentHov === '1') {
 						centeredArticle.style.removeProperty('--hov');
 						centeredArticle.classList.remove('text-expanded');
+						centeredArticle.classList.remove('image-expanded');
+						hideBackOverlay();
 					} else {
 						centeredArticle.style.setProperty('--hov', '1');
+						showBackOverlay(centeredArticle);
 					}
 				}
 			}

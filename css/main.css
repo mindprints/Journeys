@@ -12,3 +12,32 @@
 
 /* UI Components */
 @import 'ui-components.css';
+
+/* ── Hi-res back overlay ─────────────────────────────────────────── */
+#back-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(8, 6, 20, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+#back-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+#back-overlay-frame {
+  width: min(92vw, 1200px);
+  aspect-ratio: 16 / 9;
+  cursor: default;
+  pointer-events: auto;
+}
+#back-overlay-frame .v2-back-content {
+  width: 100%;
+  height: 100%;
+}
