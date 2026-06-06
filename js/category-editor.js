@@ -75,10 +75,8 @@ class CategoryEditor {
     this.topicsInput = document.getElementById('category-topics');
     this.refreshTopicsBtn = document.getElementById('refresh-topics-btn');
     this.suggestTopicsBtn = document.getElementById('suggest-topics-btn');
-    this.topicSuggestionsDraft = document.getElementById('topic-suggestions-draft');
-    this.applySuggestionsBtn = document.getElementById('apply-suggestions-btn');
-    this.replaceTopicsBtn = document.getElementById('replace-topics-btn');
-    this.clearSuggestionsBtn = document.getElementById('clear-suggestions-btn');
+    this.topicChipsContainer = document.getElementById('topic-suggestion-chips');
+    this.topicChipsHint = document.getElementById('topic-chips-hint');
 
     this.modal = document.getElementById('generator-modal');
     this.closeModalBtn = document.getElementById('close-generator');
@@ -144,22 +142,9 @@ class CategoryEditor {
     if (this.suggestTopicsBtn) {
       this.suggestTopicsBtn.addEventListener('click', () => this.suggestTopicsFromAI());
     }
-    if (this.applySuggestionsBtn) {
-      this.applySuggestionsBtn.addEventListener('click', () => this.applySuggestionsToTopics(false));
-    }
-    if (this.replaceTopicsBtn) {
-      this.replaceTopicsBtn.addEventListener('click', () => this.applySuggestionsToTopics(true));
-    }
-    if (this.clearSuggestionsBtn) {
-      this.clearSuggestionsBtn.addEventListener('click', () => {
-        if (this.topicSuggestionsDraft) {
-          this.topicSuggestionsDraft.value = '';
-        }
-      });
-    }
   }
 
-  async loadConfig() {
+  async loadConfig({ suppressDefaultSelect = false } = {}) {
     try {
       const [config, posterCategories] = await Promise.all([
         this.requestJson('/api/category-config', {}, 'Failed to load category config'),
@@ -169,10 +154,12 @@ class CategoryEditor {
       this.configCategories = Array.isArray(config.categories) ? config.categories : [];
       this.categories = this.mergeCategories(this.configCategories, posterCategories);
       this.renderList();
-      if (this.categories.length) {
-        this.selectCategory(0);
-      } else {
-        this.startNewCategory();
+      if (!suppressDefaultSelect) {
+        if (this.categories.length) {
+          this.selectCategory(0);
+        } else {
+          this.startNewCategory();
+        }
       }
     } catch (error) {
       console.error('Error loading category config:', error);
@@ -264,9 +251,7 @@ class CategoryEditor {
     this.countInput.value = category.targetCount || '';
     this.sourceInput.value = category.source || 'wikipedia';
     this.topicsInput.value = (category.topics || []).join('\n');
-    if (this.topicSuggestionsDraft) {
-      this.topicSuggestionsDraft.value = '';
-    }
+    this._clearTopicChips();
     this.deleteBtn.disabled = false;
     this.updateColorPreview();
     this.renderList();
@@ -287,9 +272,7 @@ class CategoryEditor {
     this.countInput.value = '';
     this.sourceInput.value = 'wikipedia';
     this.topicsInput.value = '';
-    if (this.topicSuggestionsDraft) {
-      this.topicSuggestionsDraft.value = '';
-    }
+    this._clearTopicChips();
     this.deleteBtn.disabled = true;
     this.updateColorPreview();
     this.renderList();
@@ -456,9 +439,7 @@ class CategoryEditor {
         seen.add(key);
         staged.push(normalized);
       });
-      if (this.topicSuggestionsDraft) {
-        this.topicSuggestionsDraft.value = staged.join('\n');
-      }
+      this._renderTopicChips(staged);
       if (!staged.length) {
         window.alert('No new suggestions returned. Try refining the description.');
       }
@@ -468,21 +449,37 @@ class CategoryEditor {
     }
   }
 
-  applySuggestionsToTopics(replace = false) {
-    const draftTopics = this.parseTopics(this.topicSuggestionsDraft?.value || '');
-    if (!draftTopics.length) {
-      window.alert('No staged suggestions to apply.');
-      return;
-    }
+  _clearTopicChips() {
+    if (this.topicChipsContainer) this.topicChipsContainer.innerHTML = '';
+    if (this.topicChipsHint) this.topicChipsHint.style.display = 'none';
+  }
 
-    if (replace) {
-      this.topicsInput.value = draftTopics.join('\n');
-      return;
+  _renderTopicChips(topics) {
+    this._clearTopicChips();
+    if (!topics.length) return;
+    topics.forEach(topic => {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'editor-btn small';
+      chip.style.cssText = 'font-size:0.78em; padding:0.2em 0.65em; border-radius:1em; opacity:0.9;';
+      chip.textContent = topic.replace(/_/g, ' ');
+      chip.title = `Add "${topic}" to topics`;
+      chip.setAttribute('aria-label', `Add "${topic.replace(/_/g, ' ')}" to topics`);
+      chip.addEventListener('click', () => {
+        const current = this.parseTopics(this.topicsInput.value);
+        const key = topic.toLowerCase();
+        if (!current.map(t => t.toLowerCase()).includes(key)) {
+          this.topicsInput.value = [...current, topic].join('\n');
+        }
+        chip.style.opacity = '0.35';
+        chip.disabled = true;
+      });
+      this.topicChipsContainer.appendChild(chip);
+    });
+    if (this.topicChipsHint) {
+      this.topicChipsHint.style.display = '';
+      this.topicChipsHint.textContent = `${topics.length} topic suggestion${topics.length !== 1 ? 's' : ''} available. Click a suggestion to add it to the topics list.`;
     }
-
-    const currentTopics = this.parseTopics(this.topicsInput.value);
-    const merged = this.parseTopics([...currentTopics, ...draftTopics].join('\n'));
-    this.topicsInput.value = merged.join('\n');
   }
 
   async saveCategory() {
@@ -510,7 +507,23 @@ class CategoryEditor {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ categories: this.configCategories })
       }, 'Failed to save category config');
-      await this.loadConfig();
+      const savedSlug = payload.slug || payload.name || '';
+      await this.loadConfig({ suppressDefaultSelect: true });
+      // Re-select the category we just saved instead of defaulting to index 0
+      if (savedSlug) {
+        const idx = this.categories.findIndex(
+          c => (c.slug || c.name || '') === savedSlug
+        );
+        if (idx !== -1) {
+          this.selectCategory(idx);
+        } else {
+          this.startNewCategory();
+        }
+      } else if (this.categories.length) {
+        this.selectCategory(0);
+      } else {
+        this.startNewCategory();
+      }
     } catch (error) {
       console.error('Error saving category config:', error);
     }
@@ -713,10 +726,21 @@ class CategoryEditor {
     const topicsToUse = this._getGeneratorTopics(payload);
     const count = this.generatorCount.value ? parseInt(this.generatorCount.value, 10) : null;
 
-    this.generatorLog.textContent = `Running ${payload.source || 'wikipedia'} generator...\n`;
     if (this.runSummary) this.runSummary.style.display = 'none';
     if (this.openDraftsBtn) this.openDraftsBtn.style.display = 'none';
     this.runBtn.disabled = true;
+
+    // Elapsed-time counter so users know we haven't stalled
+    const source = payload.source || 'wikipedia';
+    let elapsed = 0;
+    const updateHeader = () => {
+      const lines = this.generatorLog.textContent.split('\n');
+      lines[0] = `Running ${source} generator… ${elapsed}s`;
+      this.generatorLog.textContent = lines.join('\n');
+    };
+    this.generatorLog.textContent = `Running ${source} generator… 0s\n`;
+    this._elapsedTimer = setInterval(() => { elapsed++; updateHeader(); }, 1000);
+
     try {
       const body = {
         source: payload.source || 'wikipedia',
@@ -743,6 +767,8 @@ class CategoryEditor {
     } catch (error) {
       this.generatorLog.textContent = `Error: ${error.message}`;
     } finally {
+      clearInterval(this._elapsedTimer);
+      this._elapsedTimer = null;
       this.runBtn.disabled = false;
     }
   }

@@ -24,11 +24,6 @@ const processAllBtn = document.getElementById('processAllBtn');
 const cropSelectedBtn = document.getElementById('cropSelectedBtn');
 const saveAllBtn = document.getElementById('saveAllBtn');
 const clearAllBtn = document.getElementById('clearAllBtn');
-const qualitySlider = document.getElementById('qualitySlider');
-const qualityValue = document.getElementById('qualityValue');
-const resizeWidth = document.getElementById('resizeWidth');
-const resizeHeight = document.getElementById('resizeHeight');
-const maintainAspect = document.getElementById('maintainAspect');
 const useJsonWrapper = document.getElementById('useJsonWrapper');
 const imageMetadataPanel = document.getElementById('imageMetadataPanel');
 const imageTitle = document.getElementById('imageTitle');
@@ -94,12 +89,9 @@ function initializeImageUploader() {
   // URL loading
   loadUrlBtn.addEventListener('click', loadImageFromUrl);
 
-  // Quality slider
-  qualitySlider.addEventListener('input', updateQualityValue);
-
-  // Aspect ratio maintenance
-  resizeWidth.addEventListener('input', handleResizeInput);
-  resizeHeight.addEventListener('input', handleResizeInput);
+  // AI image generation
+  const aiGenerateImageBtn = document.getElementById('aiGenerateImageBtn');
+  if (aiGenerateImageBtn) aiGenerateImageBtn.addEventListener('click', generateAiImageForEditor);
 
   // Button actions
   clearAllBtn.addEventListener('click', clearAllImages);
@@ -314,7 +306,7 @@ async function loadImagesFromCategory() {
         posterItem.appendChild(titleElement);
         posterItem.appendChild(infoElement);
 
-        posterItem.addEventListener('click', () => showImagePreview(imageSrc));
+        posterItem.addEventListener('click', () => showImagePreview(imageSrc, poster.path));
 
         imagesList.appendChild(posterItem);
       }
@@ -327,7 +319,7 @@ async function loadImagesFromCategory() {
 }
 
 // Show an image preview (could expand to allow deletion, etc.)
-function showImagePreview(imagePath) {
+function showImagePreview(imagePath, posterPath) {
   // Extract filename from path for display
   let fileName = imagePath.split('/').pop();
 
@@ -429,7 +421,7 @@ function showImagePreview(imagePath) {
 
   // Delete button handler
   deleteBtn.addEventListener('click', () => {
-    confirmDeleteImage(imagePath);
+    confirmDeleteImage(imagePath, posterPath);
     document.body.removeChild(overlay);
   });
 }
@@ -471,40 +463,48 @@ function loadImageToEditor(imagePath) {
   img.src = imagePath;
 }
 
-// Confirm delete image
-function confirmDeleteImage(imagePath) {
+// Confirm delete image (and optionally its associated poster JSON)
+function confirmDeleteImage(imagePath, posterPath) {
   const fileName = imagePath.split('/').pop();
-
-  dialogMessage.textContent = `Are you sure you want to delete "${fileName}"? This action cannot be undone.`;
-  dialogCallback = () => deleteImage(imagePath);
-
-  // Show the confirmation dialog
+  const extra = posterPath ? ' The associated poster entry will also be removed.' : '';
+  dialogMessage.textContent = `Are you sure you want to delete "${fileName}"?${extra} This action cannot be undone.`;
+  dialogCallback = () => deleteImage(imagePath, posterPath);
   openDialog();
 }
 
-// Delete an image
-async function deleteImage(imagePath) {
+// Delete an image file and, if provided, its associated poster JSON
+async function deleteImage(imagePath, posterPath) {
   try {
+    // Delete the image file
     const response = await fetch('/api/delete-poster', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        path: imagePath
-      })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ path: imagePath })
     });
-
     if (!response.ok) {
       throw new Error(`Server returned ${response.status}: ${response.statusText}`);
     }
 
-    // Show success message
-    alert(`Image deleted successfully!`);
+    // Also delete the associated poster JSON if we know the path
+    if (posterPath) {
+      try {
+        // Send only the filename, not the full path, for server-side validation
+        const posterFilename = posterPath.split('/').pop();
+        const posterResp = await fetch('/api/delete-poster', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ path: posterFilename })
+        });
+        if (!posterResp.ok) {
+          console.warn(`Could not delete associated poster JSON: server returned ${posterResp.status}`);
+        }
+      } catch (imgErr) {
+        console.warn('Could not delete associated poster JSON:', imgErr);
+      }
+    }
 
-    // Reload images from directory
+    alert('Deleted successfully!');
     await loadImagesFromCategory();
-
   } catch (error) {
     console.error('Error deleting image:', error);
     showErrorMessage('Failed to delete image. Please try again.');
@@ -847,14 +847,8 @@ function clearAllImages() {
 
 // Image processing functions
 function processAllImages() {
-  const format = document.querySelector('input[name="outputFormat"]:checked').value;
-  const quality = parseInt(qualitySlider.value) / 100;
-  const width = resizeWidth.value ? parseInt(resizeWidth.value) : null;
-  const height = resizeHeight.value ? parseInt(resizeHeight.value) : null;
-  const keepAspect = maintainAspect.checked;
-
   Promise.all(
-    images.map(imageData => processImage(imageData, format, quality, width, height, keepAspect))
+    images.map(imageData => processImage(imageData, 'webp', 0.85, null, null, true))
   ).then(() => {
     alert('All images have been processed!');
   });
@@ -899,13 +893,7 @@ function processImage(imageData, format, quality, width, height, keepAspect) {
       // Draw image to canvas
       ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
 
-      // Convert to selected format
-      let mimeType;
-      switch (format) {
-        case 'jpeg': mimeType = 'image/jpeg'; break;
-        case 'png': mimeType = 'image/png'; break;
-        default: mimeType = 'image/webp';
-      }
+      const mimeType = 'image/webp';
 
       // Get processed data URL
       canvas.toBlob(blob => {
@@ -930,29 +918,62 @@ function updateImagePreview(imageData) {
   }
 }
 
-function updateQualityValue() {
-  qualityValue.textContent = `${qualitySlider.value}%`;
-}
-
-function handleResizeInput(e) {
-  if (!maintainAspect.checked || !e.target.value) return;
-
-  const imgIndex = images.findIndex(img => img.selected);
-  if (imgIndex === -1) return;
-
-  const img = new Image();
-  img.onload = function () {
-    const aspectRatio = img.width / img.height;
-
-    if (e.target === resizeWidth && resizeWidth.value) {
-      resizeHeight.value = Math.round(resizeWidth.value / aspectRatio);
-    } else if (e.target === resizeHeight && resizeHeight.value) {
-      resizeWidth.value = Math.round(resizeHeight.value * aspectRatio);
+// AI image generation for image editor
+async function generateAiImageForEditor() {
+  const titleInput = document.getElementById('aiImageTitle');
+  const statusEl = document.getElementById('aiImageStatus');
+  const btn = document.getElementById('aiGenerateImageBtn');
+  const title = (titleInput?.value || '').trim();
+  if (!title) { if (statusEl) statusEl.textContent = 'Enter a description first.'; return; }
+  btn.disabled = true;
+  if (statusEl) statusEl.textContent = 'Generating…';
+  try {
+    const resp = await fetch('/api/ai/generate-image', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title }),
+    });
+    if (!resp.ok) {
+      let msg = 'Generation failed';
+      try { msg = (await resp.json()).error || msg; } catch (_) {}
+      if (statusEl) statusEl.textContent = msg;
+      return;
     }
-  };
-
-  const imageData = images[imgIndex];
-  img.src = imageData.processedDataUrl || imageData.originalDataUrl;
+    const data = await resp.json();
+    // Register the server-saved image directly — avoid re-uploading a duplicate
+    const filename = data.src.split('/').pop();
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      canvas.getContext('2d').drawImage(img, 0, 0);
+      const dataUrl = canvas.toDataURL('image/webp', 0.85);
+      const imageData = {
+        id: Date.now(),
+        name: filename,
+        originalFile: null,
+        originalDataUrl: dataUrl,
+        processedDataUrl: null,
+        serverSrc: data.src,
+        selected: false
+      };
+      images.push(imageData);
+      updateUI();
+      renderImagePreview(imageData);
+      if (statusEl) statusEl.textContent = 'Done!';
+      setTimeout(() => { if (statusEl) statusEl.textContent = ''; }, 3000);
+    };
+    img.onerror = () => {
+      if (statusEl) statusEl.textContent = 'Failed to load generated image';
+    };
+    img.src = data.src;
+  } catch (err) {
+    if (statusEl) statusEl.textContent = 'Request failed';
+    console.error('[AI generate]', err);
+  } finally {
+    btn.disabled = false;
+  }
 }
 
 // Cropping functions
@@ -1038,10 +1059,6 @@ function applyCrop() {
     imageSmoothingQuality: 'high',
   });
 
-  // Convert to blob and update image data
-  const format = document.querySelector('input[name="outputFormat"]:checked').value;
-  const mimeType = format === 'jpeg' ? 'image/jpeg' : (format === 'png' ? 'image/png' : 'image/webp');
-
   canvas.toBlob(blob => {
     const reader = new FileReader();
     reader.onload = function () {
@@ -1050,7 +1067,7 @@ function applyCrop() {
       closeCropperModal();
     };
     reader.readAsDataURL(blob);
-  }, mimeType, parseInt(qualitySlider.value) / 100);
+  }, 'image/webp', 0.85);
 }
 
 // Save all images to the centralized images folder
@@ -1060,13 +1077,14 @@ async function saveAllImagesToGallery() {
     return;
   }
 
-  // Process images if they haven't been processed yet
-  const format = document.querySelector('input[name="outputFormat"]:checked').value;
-  const quality = parseInt(qualitySlider.value) / 100;
-  const width = resizeWidth.value ? parseInt(resizeWidth.value) : null;
-  const height = resizeHeight.value ? parseInt(resizeHeight.value) : null;
-  const keepAspect = maintainAspect.checked;
   const createPosterJson = useJsonWrapper.checked;
+
+  // Always WebP at standard quality; use crop tool to adjust composition
+  const format = 'webp';
+  const quality = 0.85;
+  const width = null;
+  const height = null;
+  const keepAspect = true;
 
   console.log("Save options:", {
     format,
@@ -1160,6 +1178,11 @@ async function saveAllImagesToGallery() {
   let errorCount = 0;
 
   for (const imageData of images) {
+    // Skip images already persisted on the server (e.g. AI-generated assets)
+    if (imageData.serverSrc) {
+      savedCount++;
+      continue;
+    }
     try {
       const imageUrl = imageData.processedDataUrl || imageData.originalDataUrl;
       const blob = dataURLToBlob(imageUrl);
