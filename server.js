@@ -23,6 +23,24 @@ function getModelIntelArtificialAnalysisModule() {
   return modelIntelArtificialAnalysisPromise;
 }
 
+// Openverse OAuth2 token cache (client-credentials flow, tokens expire every 12 h)
+const _ovToken = { value: null, expiresAt: 0 };
+async function getOpenverseToken() {
+  const clientId     = process.env.OPENVERSE_CLIENT_ID;
+  const clientSecret = process.env.OPENVERSE_CLIENT_SECRET;
+  if (!clientId || !clientSecret) return null;
+  if (_ovToken.value && Date.now() < _ovToken.expiresAt) return _ovToken.value;
+  const body = new URLSearchParams({ client_id: clientId, client_secret: clientSecret, grant_type: 'client_credentials' });
+  const resp = await fetch('https://api.openverse.org/v1/auth_tokens/token/', {
+    method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString(),
+  });
+  if (!resp.ok) return null;
+  const data = await resp.json();
+  _ovToken.value = data.access_token;
+  _ovToken.expiresAt = Date.now() + (data.expires_in - 300) * 1000; // refresh 5 min early
+  return _ovToken.value;
+}
+
 // Constants
 const JSON_POSTERS_DIR = path.join(__dirname, 'JSON_Posters');
 const POSTERS_DIR_NAME = 'Posters';
@@ -61,7 +79,7 @@ app.use((err, req, res, next) => {
 });
 
 // Set static files with caching headers
-app.use(express.static('./', {
+app.use(express.static(__dirname, {
   etag: true,
   lastModified: true,
   setHeaders: (res, path) => {
@@ -855,6 +873,297 @@ app.post('/api/ai/generate-image', async (req, res) => {
   }
 
   res.json({ src: `images/originals/${filename}` });
+});
+
+// Content generation: Wikipedia text + Wikimedia/Commons image, with search and AI fallbacks
+// Flow: 1) Wikipedia lookup  2) disambiguation  3) Wikimedia image
+//        4) Openverse image  5) Brave text/image  6) AI fallback
+app.post('/api/content/generate', async (req, res) => {
+  const { title, subtitle, slug: slugOverride } = req.body || {};
+  if (!title || typeof title !== 'string') {
+    return res.status(400).json({ error: 'title is required' });
+  }
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  const slug = (slugOverride || title.trim()).replace(/ /g, '_');
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30000);
+
+  try {
+    let text = null;
+    let imagePath = null;
+    let textSource = 'none';
+    let imageSource = 'none';
+    let wikiFound = false;
+
+    // ── Steps 1 & 2: Wikipedia lookup + disambiguation ─────────────────
+    try {
+      const wikiUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(slug)}`;
+      const wikiResp = await fetch(wikiUrl, { signal: controller.signal });
+
+      if (wikiResp.ok) {
+        const data = await wikiResp.json();
+
+        // Disambiguation check
+        if (data.type === 'disambiguation' || (data.extract || '').toLowerCase().includes('may refer to:')) {
+          let options = [];
+          try {
+            const sgUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(slug.replace(/_/g, ' '))}&format=json&srlimit=6&origin=*`;
+            const sgResp = await fetch(sgUrl, { signal: controller.signal });
+            if (sgResp.ok) {
+              const sgData = await sgResp.json();
+              options = (sgData.query?.search || []).map(h => ({
+                title: h.title,
+                slug: h.title.replace(/ /g, '_'),
+                snippet: (h.snippet || '').replace(/<[^>]+>/g, ''),
+              }));
+            }
+          } catch (_) { /* ignore */ }
+          clearTimeout(timeoutId);
+          return res.json({ status: 'disambiguation', options });
+        }
+
+        wikiFound = true;
+        if (data.extract) { text = data.extract; textSource = 'wikipedia'; }
+
+        // ── Step 3: Wikimedia image from Wikipedia page summary ─────────
+        const imgUrl = data.originalimage?.source || data.thumbnail?.source;
+        if (imgUrl) {
+          try {
+            const imgResp = await fetch(imgUrl, { signal: controller.signal });
+            if (imgResp.ok) {
+              const imgBuffer = Buffer.from(await imgResp.arrayBuffer());
+              const ext = (imgUrl.split('.').pop().split('?')[0] || 'jpg').toLowerCase().slice(0, 4);
+              const safeSlug = slug.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40);
+              const filename = `wm_${safeSlug}_${Date.now()}.${ext}`;
+              const saveDir = path.join(__dirname, 'images', 'originals');
+              fs.mkdirSync(saveDir, { recursive: true });
+              fs.writeFileSync(path.join(saveDir, filename), imgBuffer);
+              imagePath = `images/originals/${filename}`;
+              imageSource = 'wikimedia';
+            }
+          } catch (_) { /* fall through to Commons search */ }
+        }
+
+        // If no image from Wikipedia summary, search Wikimedia Commons directly
+        if (!imagePath) {
+          try {
+            const commonsUrl = `https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(title)}&srnamespace=6&format=json&srlimit=3&origin=*`;
+            const csResp = await fetch(commonsUrl, { signal: controller.signal });
+            if (csResp.ok) {
+              const csData = await csResp.json();
+              const firstFile = csData.query?.search?.[0];
+              if (firstFile) {
+                const infoUrl = `https://commons.wikimedia.org/w/api.php?action=query&titles=${encodeURIComponent(firstFile.title)}&prop=imageinfo&iiprop=url&format=json&origin=*`;
+                const infoResp = await fetch(infoUrl, { signal: controller.signal });
+                if (infoResp.ok) {
+                  const infoData = await infoResp.json();
+                  const page = Object.values(infoData.query?.pages || {})[0];
+                  const commonsImgUrl = page?.imageinfo?.[0]?.url;
+                  if (commonsImgUrl) {
+                    const dlResp = await fetch(commonsImgUrl, { signal: controller.signal });
+                    if (dlResp.ok) {
+                      const imgBuffer = Buffer.from(await dlResp.arrayBuffer());
+                      const ext = (commonsImgUrl.split('.').pop().split('?')[0] || 'jpg').toLowerCase().slice(0, 4);
+                      const safeSlug = slug.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40);
+                      const filename = `wm_${safeSlug}_${Date.now()}.${ext}`;
+                      const saveDir = path.join(__dirname, 'images', 'originals');
+                      fs.mkdirSync(saveDir, { recursive: true });
+                      fs.writeFileSync(path.join(saveDir, filename), imgBuffer);
+                      imagePath = `images/originals/${filename}`;
+                      imageSource = 'wikimedia';
+                    }
+                  }
+                }
+              }
+            }
+          } catch (_) { /* fall through to AI image */ }
+        }
+      }
+      // 404 = no Wikipedia entry; wikiFound stays false, falls through to AI text
+    } catch (wikiErr) {
+      if (wikiErr.name === 'AbortError') {
+        clearTimeout(timeoutId);
+        return res.status(504).json({ error: 'Request timed out' });
+      }
+      // Network error — fall through to AI
+    }
+
+    // ── Step 4: Openverse image search (Wikimedia found nothing) ───────
+    if (!imagePath) {
+      try {
+        const ovToken = await getOpenverseToken();
+        const ovHeaders = { 'Accept': 'application/json' };
+        if (ovToken) ovHeaders['Authorization'] = `Bearer ${ovToken}`;
+        const ovUrl = `https://api.openverse.org/v1/images/?q=${encodeURIComponent(title)}&page_size=5`;
+        const ovResp = await fetch(ovUrl, { headers: ovHeaders, signal: controller.signal });
+        if (ovResp.ok) {
+          const ovData = await ovResp.json();
+          const hit = (ovData.results || []).find(r => r.url && !/\.svg$/i.test(r.url));
+          if (hit?.url) {
+            const dlResp = await fetch(hit.url, { signal: controller.signal });
+            if (dlResp.ok) {
+              const imgBuffer = Buffer.from(await dlResp.arrayBuffer());
+              const ext = (hit.url.split('.').pop().split('?')[0] || 'jpg').toLowerCase().slice(0, 4);
+              const safeSlug = slug.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40);
+              const filename = `ov_${safeSlug}_${Date.now()}.${ext}`;
+              const saveDir = path.join(__dirname, 'images', 'originals');
+              fs.mkdirSync(saveDir, { recursive: true });
+              fs.writeFileSync(path.join(saveDir, filename), imgBuffer);
+              imagePath = `images/originals/${filename}`;
+              imageSource = 'openverse';
+            }
+          }
+        }
+      } catch (_) { /* fall through to AI image */ }
+    }
+
+    // ── Step 5: Brave Search — text + image fallback (current events bridge) ─
+    const braveKey = process.env.BRAVE_API_KEY;
+    if (braveKey) {
+      const braveHeaders = {
+        'Accept': 'application/json',
+        'X-Subscription-Token': braveKey,
+      };
+
+      // 5a: Brave text snippets (only if Wikipedia found nothing)
+      if (!text) {
+        try {
+          const braveTextUrl = `https://api.search.brave.com/res/v1/web/search?q=${encodeURIComponent(title)}&count=5&text_decorations=false`;
+          const braveTextResp = await fetch(braveTextUrl, { headers: braveHeaders, signal: controller.signal });
+          if (braveTextResp.ok) {
+            const braveTextData = await braveTextResp.json();
+            const snippets = (braveTextData.web?.results || [])
+              .map(item => (item.description || '').replace(/\n/g, ' ').trim())
+              .filter(Boolean)
+              .slice(0, 3);
+            if (snippets.length) {
+              text = snippets.join(' ');
+              textSource = 'brave';
+            }
+          }
+        } catch (_) { /* fall through to AI text */ }
+      }
+
+      // 5b: Brave image search (only if no image yet)
+      if (!imagePath) {
+        try {
+          const braveImgUrl = `https://api.search.brave.com/res/v1/images/search?q=${encodeURIComponent(title)}&count=5&safe=moderate`;
+          const braveImgResp = await fetch(braveImgUrl, { headers: braveHeaders, signal: controller.signal });
+          if (braveImgResp.ok) {
+            const braveImgData = await braveImgResp.json();
+            const hit = (braveImgData.results || []).find(item =>
+              item.properties?.url && !/\.svg$/i.test(item.properties.url)
+            );
+            if (hit?.properties?.url) {
+              const imageUrl = hit.properties.url;
+              const dlResp = await fetch(imageUrl, {
+                headers: { 'User-Agent': 'Mozilla/5.0 (compatible; JourneysBot/1.0)' },
+                signal: controller.signal,
+              });
+              if (dlResp.ok) {
+                const imgBuffer = Buffer.from(await dlResp.arrayBuffer());
+                const ext = (imageUrl.split('.').pop().split('?')[0] || 'jpg').toLowerCase().slice(0, 4);
+                const safeSlug = slug.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40);
+                const filename = `br_${safeSlug}_${Date.now()}.${ext}`;
+                const saveDir = path.join(__dirname, 'images', 'originals');
+                fs.mkdirSync(saveDir, { recursive: true });
+                fs.writeFileSync(path.join(saveDir, filename), imgBuffer);
+                imagePath = `images/originals/${filename}`;
+                imageSource = 'brave';
+              }
+            }
+          }
+        } catch (_) { /* fall through to AI image */ }
+      }
+    }
+
+    // ── Step 6: AI text fallback (no Wikipedia or Brave entry found) ─────
+    if (!text && apiKey) {
+      const context = subtitle ? `${title.trim()}. ${subtitle.trim().replace(/\.$/, '')}` : title.trim();
+      const prompt =
+        `Write a concise museum exhibit description (3–4 sentences) for an artificial intelligence and technology museum poster about: ${context}. ` +
+        'Focus on what it is, why it matters, and its significance in AI history. Plain prose only — no bullet points, no headers.';
+      try {
+        const aiResp = await fetch(OPENROUTER_CHAT_COMPLETIONS_URL, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: DEFAULT_TOPIC_SUGGESTION_MODEL,
+            messages: [{ role: 'user', content: prompt }],
+            max_tokens: 250,
+          }),
+          signal: controller.signal,
+        });
+        if (aiResp.ok) {
+          const aiData = await aiResp.json();
+          const aiText = aiData.choices?.[0]?.message?.content?.trim();
+          if (aiText) { text = aiText; textSource = 'ai'; }
+        }
+      } catch (_) { /* ignore */ }
+    }
+
+    // ── Step 7: AI image fallback (no Wikimedia/Openverse/Brave image found) ─
+    if (!imagePath && apiKey) {
+      const context = subtitle ? `${title.trim()}. ${subtitle.trim().replace(/\.$/, '')}` : title.trim();
+      const prompt =
+        `Illustration for an artificial intelligence and technology museum exhibit poster about: ${context}. ` +
+        'Interpret the subject as an AI system, algorithm, or technology concept — not fashion or entertainment. ' +
+        'Clean, modern graphic design style. Bold composition, rich colours. ' +
+        'No text, labels, or words in the image.';
+      try {
+        const imgResp = await fetch(OPENROUTER_CHAT_COMPLETIONS_URL, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: DEFAULT_IMAGE_MODEL,
+            messages: [{ role: 'user', content: prompt }],
+            modalities: ['image', 'text'],
+            image_config: { aspect_ratio: '16:9' },
+          }),
+          signal: controller.signal,
+        });
+        if (imgResp.ok) {
+          const imgData = await imgResp.json();
+          const imageUrl = imgData?.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+          if (imageUrl) {
+            let imgBuffer;
+            if (imageUrl.startsWith('data:')) {
+              imgBuffer = Buffer.from(imageUrl.split(',')[1], 'base64');
+            } else {
+              try {
+                const dlResp = await fetch(imageUrl);
+                if (dlResp.ok) imgBuffer = Buffer.from(await dlResp.arrayBuffer());
+              } catch (_) { /* ignore */ }
+            }
+            if (imgBuffer) {
+              const safeSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40);
+              const filename = `ai_${safeSlug}_${Date.now()}.png`;
+              const saveDir = path.join(__dirname, 'images', 'originals');
+              fs.mkdirSync(saveDir, { recursive: true });
+              fs.writeFileSync(path.join(saveDir, filename), imgBuffer);
+              imagePath = `images/originals/${filename}`;
+              imageSource = 'ai';
+            }
+          }
+        }
+      } catch (_) { /* ignore */ }
+    }
+
+    clearTimeout(timeoutId);
+    return res.json({
+      status: 'ok',
+      text: text || null,
+      image: imagePath || null,
+      sources: { text: textSource, image: imageSource },
+      wikiFound,
+    });
+
+  } catch (err) {
+    clearTimeout(timeoutId);
+    console.error('[content/generate] error:', err);
+    return res.status(500).json({ error: 'Content generation failed' });
+  }
 });
 
 // Delete a poster or image file
