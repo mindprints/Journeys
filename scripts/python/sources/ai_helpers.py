@@ -54,12 +54,40 @@ def generate_ai_image(title, subtitle="", images_dir=None):
     save_dir = Path(images_dir) if images_dir else DEFAULT_IMAGES_DIR
 
     context = f"{title}. {subtitle.strip('.')}" if subtitle else title
-    prompt = (
-        f"Illustration for an artificial intelligence and technology museum exhibit poster about: {context}. "
-        "Interpret the subject as an AI system, algorithm, or technology concept — not fashion or entertainment. "
-        "Clean, modern graphic design style. Bold composition, rich colours. "
-        "No text, labels, or words in the image."
-    )
+    desc = subtitle.lower() if subtitle else ""
+
+    _PERSON  = r"\b(born|scientist|researcher|engineer|professor|politician|artist|author|inventor|mathematician|philosopher|physician|architect|composer|director|actor|actress|CEO|founder|entrepreneur|activist|journalist|historian|economist|biologist|physicist|chemist|psychologist|sociologist)\b"
+    _PLACE   = r"\b(city|town|village|country|nation|state|province|region|district|island|mountain|river|lake|ocean|continent|municipality|capital|borough)\b"
+    _OBJECT  = r"\b(device|machine|vehicle|robot|spacecraft|weapon|instrument|tool|chemical|compound|molecule|species|animal|plant|organism|protein|gene)\b"
+
+    if re.search(_PERSON, desc, re.IGNORECASE):
+        prompt = (
+            f"Portrait illustration for a museum exhibit poster about: {context}. "
+            "Subject shown in a professional, respectful setting relevant to their field. "
+            "Clean editorial style, rich colours, suitable for an AI and technology museum. "
+            "No text or labels."
+        )
+    elif re.search(_PLACE, desc, re.IGNORECASE):
+        prompt = (
+            f"Location scene for a museum exhibit poster about: {context}. "
+            "Evocative landscape or cityscape, clean modern illustration style. "
+            "No text or labels."
+        )
+    elif re.search(_OBJECT, desc, re.IGNORECASE):
+        prompt = (
+            f"Technical illustration of the object or device for a museum exhibit poster about: {context}. "
+            "Clean cutaway or isometric view, labelled components, scientific illustration style. "
+            "White or dark background. No decorative text."
+        )
+    else:
+        prompt = (
+            f"Educational infographic diagram for a museum exhibit poster about: {context}. "
+            "Show HOW it works: use labeled boxes, arrows indicating data or process flow, "
+            "mathematical or pseudocode notation where helpful, and layered architecture if applicable. "
+            "Style: clean technical diagram, dark background, high-contrast labels, "
+            "colour-coded components. Looks like a textbook figure or IEEE paper diagram, not decorative art. "
+            "No lorem ipsum. Labels must be meaningful (e.g. 'Input layer', 'Attention head', 'Loss function')."
+        )
 
     try:
         resp = requests.post(

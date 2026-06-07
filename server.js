@@ -1994,6 +1994,8 @@ app.post('/api/run-grab', (req, res) => {
   try {
     const {
       source,
+      sources,
+      useBrave,
       category,
       topics,
       count,
@@ -2055,6 +2057,13 @@ app.post('/api/run-grab', (req, res) => {
 
     if (Array.isArray(aiTopics) && aiTopics.length) {
       args.push('--ai-topics', aiTopics.join(','));
+    }
+
+    // Pass Brave link enrichment flag when requested
+    const braveFlagOn = useBrave === true
+      || (Array.isArray(sources) && sources.includes('brave'));
+    if (braveFlagOn) {
+      args.push('--brave-links');
     }
 
     if (!fs.existsSync(WIKI_OUTPUT_DIR)) {

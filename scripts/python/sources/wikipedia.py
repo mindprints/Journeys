@@ -31,6 +31,46 @@ DEFAULT_EXISTING_ROOTS = [Path("JSON_Posters"), Path("backups")]
 DEFAULT_DELAY = 1
 
 
+def _brave_api_key():
+    return os.environ.get("BRAVE_API_KEY", "").strip()
+
+
+def _fetch_brave_links(title, count=2):
+    """Fetch top web-search results from Brave for additional poster links.
+
+    Returns a list of {type, label, url} dicts, or [] on any failure.
+    """
+    api_key = _brave_api_key()
+    if not api_key:
+        return []
+    try:
+        resp = requests.get(
+            "https://api.search.brave.com/res/v1/web/search",
+            params={"q": title, "count": count + 2, "text_decorations": False},
+            headers={"X-Subscription-Token": api_key, "Accept": "application/json"},
+            timeout=10,
+        )
+        resp.raise_for_status()
+        results = resp.json().get("web", {}).get("results", [])
+        links = []
+        seen = set()
+        for r in results:
+            url = (r.get("url") or "").strip()
+            label = (r.get("title") or url)[:80]
+            if not url or url in seen:
+                continue
+            # Skip Wikipedia — already have that link
+            if "wikipedia.org" in url:
+                continue
+            seen.add(url)
+            links.append({"type": "external", "label": label, "url": url})
+            if len(links) >= count:
+                break
+        return links
+    except Exception:
+        return []
+
+
 # Curated topic lists (optional)
 AI_PIONEERS = [
     "Alan_Turing",
@@ -379,7 +419,10 @@ def _ai_generate_fallback(topic, category_type, category_label=None):
         },
     }
     if image_src:
-        poster["back"]["image"] = {"src": image_src, "alt": title, "position": "top"}
+        poster["back"]["image"] = {
+            "src": image_src, "alt": title, "position": "top",
+            "caption": "AI Generated",
+        }
     if year:
         poster["front"]["chronology"] = {
             "epochStart": year,
@@ -458,7 +501,7 @@ def _is_disambiguation(data):
 
 
 def create_poster_from_wikipedia(
-    topic, category_type, existing_index, category_label=None
+    topic, category_type, existing_index, category_label=None, brave_links=False
 ):
     data, fetch_error = fetch_wikipedia_summary(topic)
     used_topic = topic
@@ -541,6 +584,11 @@ def create_poster_from_wikipedia(
         else extract
     )
 
+    # Build Wikipedia link + optional Brave links
+    links = [{"type": "external", "label": "Read more on Wikipedia", "url": url, "primary": True}]
+    if brave_links:
+        links.extend(_fetch_brave_links(title, count=2))
+
     poster = {
         "version": 2,
         "type": "poster-v2",
@@ -552,14 +600,7 @@ def create_poster_from_wikipedia(
         "back": {
             "layout": "image-top" if data.get("thumbnail") else "text-only",
             "text": extract,
-            "links": [
-                {
-                    "type": "external",
-                    "label": "Read more on Wikipedia",
-                    "url": url,
-                    "primary": True,
-                }
-            ],
+            "links": links,
         },
         "meta": {
             "created": datetime.now().isoformat(),
@@ -575,13 +616,17 @@ def create_poster_from_wikipedia(
             "src": data["thumbnail"].get("source", ""),
             "alt": title,
             "position": "top",
+            "caption": "Source: Wikimedia",
         }
     else:
         print("no thumbnail, AI generating image... ", end="", flush=True)
         image_src = generate_ai_image(title, subtitle)
         if image_src:
             poster["back"]["layout"] = "image-top"
-            poster["back"]["image"] = {"src": image_src, "alt": title, "position": "top"}
+            poster["back"]["image"] = {
+                "src": image_src, "alt": title, "position": "top",
+                "caption": "AI Generated",
+            }
 
     if category_type == "pioneers" and "extract" in data:
         year = extract_year_from_text(extract)
@@ -613,6 +658,7 @@ def generate_posters(
     category_type="category",
     existing_roots=None,
     ai_topics=None,
+    brave_links=False,
 ):
     output_dir = output_dir or DEFAULT_OUTPUT_DIR
     delay_between_requests = (
@@ -661,6 +707,7 @@ def generate_posters(
                 category_type,
                 existing_index,
                 category_label=category_label,
+                brave_links=brave_links,
             )
 
         if poster and not duplicate_reason:

@@ -393,14 +393,16 @@ async function loadPosters(postersDataArray) {
                   : link.type === 'file' ? 'fa-file'
                     : 'fa-terminal';
 
+              const escAttr = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+              const typeAttr = ` data-type="${link.type}"`;
               if (link.type === 'external' && link.url) {
-                linksHtml += `<a href="${link.url}" onclick="window.open('${link.url}', '_blank', 'noopener,noreferrer,width=1200,height=800'); return false;" class="v2-link${isPrimary}"><i class="fas ${icon}"></i> ${link.label}</a>`;
+                linksHtml += `<a href="${escAttr(link.url)}" data-url="${escAttr(link.url)}"${typeAttr} onclick="window.open(this.dataset.url, '_blank', 'noopener,noreferrer,width=1200,height=800'); return false;" class="v2-link${isPrimary}"><i class="fas ${icon}"></i> ${link.label}</a>`;
               } else if (link.type === 'internal' && link.target) {
-                linksHtml += `<a href="#" onclick="window.navigateToPoster && window.navigateToPoster('${link.target}'); return false;" class="v2-link${isPrimary}"><i class="fas ${icon}"></i> ${link.label}</a>`;
+                linksHtml += `<a href="#" data-target="${escAttr(link.target)}"${typeAttr} onclick="window.navigateToPoster && window.navigateToPoster(this.dataset.target); return false;" class="v2-link${isPrimary}"><i class="fas ${icon}"></i> ${link.label}</a>`;
               } else if (link.type === 'file' && link.path) {
-                linksHtml += `<a href="#" onclick="window.openLocalFile && window.openLocalFile('${link.path}'); return false;" class="v2-link${isPrimary}"><i class="fas ${icon}"></i> ${link.label}</a>`;
+                linksHtml += `<a href="#" data-path="${escAttr(link.path)}"${typeAttr} onclick="window.openLocalFile && window.openLocalFile(this.dataset.path); return false;" class="v2-link${isPrimary}"><i class="fas ${icon}"></i> ${link.label}</a>`;
               } else if (link.type === 'app' && link.command) {
-                linksHtml += `<a href="#" onclick="window.launchApp && window.launchApp('${link.command}', ${JSON.stringify(link.args || [])}); return false;" class="v2-link${isPrimary}"><i class="fas ${icon}"></i> ${link.label}</a>`;
+                linksHtml += `<a href="#" data-command="${escAttr(link.command)}" data-args="${escAttr(JSON.stringify(link.args || []))}"${typeAttr} onclick="window.launchApp && window.launchApp(this.dataset.command, JSON.parse(this.dataset.args)); return false;" class="v2-link${isPrimary}"><i class="fas ${icon}"></i> ${link.label}</a>`;
               }
             });
             linksHtml += `</div>`;
@@ -435,7 +437,7 @@ async function loadPosters(postersDataArray) {
             const initialImage = limitedImages[0];
             headerHTML += `<div class="v2-back-panel v2-back-image-panel" data-images="${encodedImages}" data-image-index="0" data-image-count="${limitedImages.length}">
               <div class="v2-back-panel-title">Image</div>
-              <div class="v2-back-image"><img src="${initialImage.src}" alt="${initialImage.alt || ''}"${imageStyleAttr(initialImage)} /></div>
+              <div class="v2-back-image"><img src="${initialImage.src}" alt="${initialImage.alt || ''}"${imageStyleAttr(initialImage)} />${initialImage.caption ? `<div class="v2-back-image-caption">${initialImage.caption}</div>` : ''}</div>
             </div>`;
           }
 

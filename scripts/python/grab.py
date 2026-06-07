@@ -53,6 +53,11 @@ def parse_args():
         "--ai-topics",
         help="Comma-separated topics to generate via AI only (skip Wikipedia lookup)",
     )
+    parser.add_argument(
+        "--brave-links",
+        action="store_true",
+        help="Fetch Brave web-search results to add as extra links on each poster",
+    )
     return parser.parse_args()
 
 
@@ -146,6 +151,8 @@ def main():
         sig = inspect.signature(adapter.generate_posters)
         if "ai_topics" in sig.parameters:
             extra_kwargs["ai_topics"] = ai_topics_set
+        if args.brave_links and "brave_links" in sig.parameters:
+            extra_kwargs["brave_links"] = True
 
     adapter.generate_posters(
         topics,
