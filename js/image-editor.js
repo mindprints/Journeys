@@ -72,6 +72,44 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   dialogCancelBtn.addEventListener('click', closeDialog);
+
+  // Integration: inject "Back to Poster Editor" link if launched from unified editor
+  const returnCtxRaw = localStorage.getItem('imageEditorReturn');
+  if (returnCtxRaw) {
+    try {
+      const returnCtx = JSON.parse(returnCtxRaw);
+      const nav = document.querySelector('header nav');
+      if (nav && returnCtx.returnUrl) {
+        const returnLink = document.createElement('a');
+        returnLink.className = 'nav-link';
+        returnLink.href = returnCtx.returnUrl;
+        returnLink.innerHTML = '<i class="fas fa-arrow-left"></i> Back to Poster Editor';
+        returnLink.style.color = '#f48c06';
+        returnLink.style.fontWeight = '600';
+        nav.insertBefore(returnLink, nav.firstChild);
+      }
+    } catch (_) { /* ignore */ }
+  }
+
+  // Integration: pre-load an image passed via ?editImage=<path> URL param
+  const urlParams = new URLSearchParams(window.location.search);
+  const editImagePath = urlParams.get('editImage');
+  if (editImagePath) {
+    // Small delay so the uploader is fully wired before we inject
+    setTimeout(() => loadImageToEditor(editImagePath), 100);
+  }
+
+  // Integration: pre-fill the AI generation prompt from posterEditorReturn context
+  // when opened for a new image (no ?editImage= param).
+  if (!editImagePath && returnCtxRaw) {
+    try {
+      const returnCtx = JSON.parse(returnCtxRaw);
+      if (returnCtx.promptHint) {
+        const promptEl = document.getElementById('aiImageTitle');
+        if (promptEl && !promptEl.value) promptEl.value = returnCtx.promptHint;
+      }
+    } catch (_) { /* ignore */ }
+  }
 });
 
 // Initialize image uploader functionality
@@ -1176,10 +1214,12 @@ async function saveAllImagesToGallery() {
   // Now save each image
   let savedCount = 0;
   let errorCount = 0;
+  const savedPaths = [];
 
   for (const imageData of images) {
     // Skip images already persisted on the server (e.g. AI-generated assets)
     if (imageData.serverSrc) {
+      savedPaths.push(imageData.serverSrc);
       savedCount++;
       continue;
     }
@@ -1241,6 +1281,7 @@ async function saveAllImagesToGallery() {
       }
 
       console.log(`Image saved to: ${filePath}`);
+      savedPaths.push(filePath);
 
       // If poster JSON is requested, create a v2 poster JSON in the selected category
       if (createPosterJson) {
@@ -1319,6 +1360,21 @@ async function saveAllImagesToGallery() {
       console.error(`Error saving image ${imageData.name}:`, error);
       errorCount++;
     }
+  }
+
+  // Notify unified editor if this session was launched from it
+  if (savedPaths.length) {
+    try {
+      const returnCtxRaw = localStorage.getItem('imageEditorReturn');
+      if (returnCtxRaw) {
+        const returnCtx = JSON.parse(returnCtxRaw);
+        localStorage.setItem('imageEditorResult', JSON.stringify({
+          imagePaths: savedPaths,
+          target: returnCtx.imageTarget || 'primary'
+        }));
+        localStorage.removeItem('imageEditorReturn');
+      }
+    } catch (_) { /* ignore */ }
   }
 
   // Show summary message

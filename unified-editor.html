@@ -309,27 +309,51 @@
         }
 
         .link-item {
-            display: grid;
-            grid-template-columns: 100px 1fr auto;
-            gap: 0.5em;
-            align-items: center;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35em;
             margin-bottom: 0.5em;
             padding: 0.5em;
             background: #2a2359;
             border-radius: 4px;
         }
 
+        .link-item-row {
+            display: flex;
+            gap: 0.5em;
+            align-items: center;
+        }
+
         .link-item select {
+            width: 100px;
+            flex-shrink: 0;
             padding: 0.4em;
         }
 
-        .link-item input {
+        .link-url-group {
+            display: flex;
+            flex: 1;
+            gap: 0.25em;
+            min-width: 0;
+        }
+
+        .link-url-group .link-url {
+            flex: 1;
+            min-width: 0;
+            padding: 0.4em;
+        }
+
+        .link-item .link-label {
+            flex: 1;
+            min-width: 0;
             padding: 0.4em;
         }
 
         .link-item .link-actions {
             display: flex;
             gap: 0.25em;
+            flex-shrink: 0;
+            align-items: center;
         }
 
         /* Image Picker */
@@ -354,12 +378,36 @@
         .image-picker-btn.has-image {
             padding: 0.5em;
             border-style: solid;
+            position: relative;
+            cursor: default;
         }
 
         .image-picker-btn img {
             max-width: 100%;
             max-height: 150px;
             border-radius: 4px;
+        }
+
+        /* Image action overlay (shown on hover when an image is set) */
+        .image-preview-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.78);
+            display: flex;
+            gap: 0.4em;
+            padding: 0.5em 0.75em;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            transition: opacity 0.2s;
+            border-radius: 0 0 6px 6px;
+        }
+
+        .image-picker-btn.has-image:hover .image-preview-overlay {
+            opacity: 1;
         }
 
         /* Preview Panel */
@@ -616,6 +664,7 @@
             <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Gallery</a>
             <a href="category-editor.html" class="nav-link">Category Editor</a>
             <a href="image-editor.html" class="nav-link">Image Tools</a>
+            <a href="ai-dashboard.html" class="nav-link"><i class="fas fa-sliders-h"></i> AI Dashboard</a>
         </nav>
     </header>
 
@@ -723,6 +772,10 @@
                                 <button type="button" id="add-event-btn" class="editor-btn small">
                                     <i class="fas fa-plus"></i> Add Event
                                 </button>
+                                <button type="button" id="ai-generate-chronology-btn" class="editor-btn small">
+                                    <i class="fas fa-magic"></i> AI Generate
+                                </button>
+                                <span id="ai-chronology-status" style="margin-left:0.5em; font-size:0.82em; color:#888;"></span>
                             </div>
                         </div>
 
@@ -755,6 +808,13 @@
 
 Supports **bold**, *italic*, [links](url), lists, and more."></textarea>
                             <small>Use Markdown for formatting. Double line breaks create paragraphs.</small>
+                            <div style="margin-top:0.5em;">
+                                <button type="button" id="ai-generate-text-btn" class="editor-btn small">
+                                    <i class="fas fa-magic"></i> AI Generate
+                                </button>
+                                <span id="ai-text-status" style="margin-left:0.75em; font-size:0.82em; color:#888;"></span>
+                                <div id="ai-text-disambiguation" style="display:none; margin-top:0.5em;"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -852,6 +912,12 @@ Supports **bold**, *italic*, [links](url), lists, and more."></textarea>
                         <div class="form-group">
                             <label for="meta-tags">Tags (comma-separated)</label>
                             <input type="text" id="meta-tags" placeholder="e.g., AI, history, pioneer">
+                            <div style="margin-top:0.3em;">
+                                <button type="button" id="ai-generate-tags-btn" class="editor-btn small">
+                                    <i class="fas fa-magic"></i> AI Generate
+                                </button>
+                                <span id="ai-tags-status" style="margin-left:0.75em; font-size:0.82em; color:#888;"></span>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="meta-source">Source</label>

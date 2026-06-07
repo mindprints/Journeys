@@ -41,6 +41,52 @@ async function getOpenverseToken() {
   return _ovToken.value;
 }
 
+// ── AI image prompt builder ────────────────────────────────────────────────────
+// Chooses a prompt style based on the Wikipedia short description so that
+// abstract concepts get instructive diagrams instead of vague illustrations.
+const PERSON_SIGNALS  = /\b(born|scientist|researcher|engineer|professor|politician|artist|author|inventor|mathematician|philosopher|physician|architect|composer|director|actor|actress|CEO|founder|entrepreneur|activist|journalist|historian|economist|biologist|physicist|chemist|psychologist|sociologist)\b/i;
+const PLACE_SIGNALS   = /\b(city|town|village|country|nation|state|province|region|district|island|mountain|river|lake|ocean|continent|municipality|capital|borough)\b/i;
+const OBJECT_SIGNALS  = /\b(device|machine|vehicle|robot|spacecraft|weapon|instrument|tool|chemical|compound|molecule|species|animal|plant|organism|protein|gene)\b/i;
+
+function buildAiImagePrompt(context, wikiDescription) {
+  const desc = (wikiDescription || '').toLowerCase();
+
+  if (PERSON_SIGNALS.test(desc)) {
+    return (
+      `Portrait illustration for a museum exhibit poster about: ${context}. ` +
+      'Subject shown in a professional, respectful setting relevant to their field. ' +
+      'Clean editorial style, rich colours, suitable for an AI and technology museum. ' +
+      'No text or labels.'
+    );
+  }
+
+  if (PLACE_SIGNALS.test(desc)) {
+    return (
+      `Location scene for a museum exhibit poster about: ${context}. ` +
+      'Evocative landscape or cityscape, clean modern illustration style. ' +
+      'No text or labels.'
+    );
+  }
+
+  if (OBJECT_SIGNALS.test(desc)) {
+    return (
+      `Technical illustration of the object or device for a museum exhibit poster about: ${context}. ` +
+      'Clean cutaway or isometric view, labelled components, scientific illustration style. ' +
+      'White or dark background. No decorative text.'
+    );
+  }
+
+  // Default: abstract concept → instructive diagram / infographic
+  return (
+    `Educational infographic diagram for a museum exhibit poster about: ${context}. ` +
+    'Show HOW it works: use labeled boxes, arrows indicating data or process flow, ' +
+    'mathematical or pseudocode notation where helpful, and layered architecture if applicable. ' +
+    'Style: clean technical diagram, dark background, high-contrast labels, ' +
+    'colour-coded components. Looks like a textbook figure or IEEE paper diagram, not decorative art. ' +
+    'No lorem ipsum. Labels must be meaningful (e.g. "Input layer", "Attention head", "Loss function").'
+  );
+}
+
 // Constants
 const JSON_POSTERS_DIR = path.join(__dirname, 'JSON_Posters');
 const POSTERS_DIR_NAME = 'Posters';
@@ -55,6 +101,28 @@ const GRAB_LOG_PATH = path.join(WIKI_OUTPUT_DIR, 'grab.log');
 const MERGE_LOG_PATH = path.join(WIKI_OUTPUT_DIR, 'merge_enrichment.log');
 const OPENROUTER_CHAT_COMPLETIONS_URL = 'https://openrouter.ai/api/v1/chat/completions';
 const OPENROUTER_IMAGES_URL = 'https://openrouter.ai/api/v1/images/generations';
+const AI_CONFIG_PATH = path.join(__dirname, 'ai-config.json');
+
+function loadAiConfig() {
+  try {
+    if (fs.existsSync(AI_CONFIG_PATH)) return JSON.parse(fs.readFileSync(AI_CONFIG_PATH, 'utf8'));
+  } catch (_) { /* fall through to defaults */ }
+  return {};
+}
+
+function getAiSetting(key, envFallback, hardDefault) {
+  const cfg = loadAiConfig();
+  return cfg[key] || process.env[envFallback] || hardDefault;
+}
+
+// Dynamic model/source getters — read from ai-config.json at call time so the
+// dashboard can change settings without a server restart.
+function getTopicModel()   { return getAiSetting('topicModel',   'OPENROUTER_TOPIC_MODEL',  'openai/gpt-4o-mini'); }
+function getContentModel() { return getAiSetting('contentModel', 'OPENROUTER_MODEL',        'openai/gpt-4o-mini'); }
+function getImageModel()   { return getAiSetting('imageModel',   'OPENROUTER_IMAGE_MODEL',  'google/gemini-3.1-flash-image-preview'); }
+function isOpenverseEnabled() { const cfg = loadAiConfig(); return cfg.openverseEnabled !== false; }
+function isBraveEnabled()     { const cfg = loadAiConfig(); return cfg.braveEnabled     !== false; }
+
 const DEFAULT_TOPIC_SUGGESTION_MODEL = process.env.OPENROUTER_TOPIC_MODEL || process.env.OPENROUTER_MODEL || 'openai/gpt-4o-mini';
 const DEFAULT_IMAGE_MODEL = process.env.OPENROUTER_IMAGE_MODEL || 'google/gemini-3.1-flash-image-preview';
 
@@ -795,7 +863,7 @@ app.post('/api/save-image', upload.single('image'), (req, res) => {
 
 // Generate an AI image for a poster via OpenRouter and save it locally
 app.post('/api/ai/generate-image', async (req, res) => {
-  const { title, subtitle } = req.body || {};
+  const { title, subtitle, description } = req.body || {};
   if (!title || typeof title !== 'string') {
     return res.status(400).json({ error: 'title is required' });
   }
@@ -803,13 +871,9 @@ app.post('/api/ai/generate-image', async (req, res) => {
   if (!apiKey) {
     return res.status(503).json({ error: 'OPENROUTER_API_KEY is not configured' });
   }
-  const model = DEFAULT_IMAGE_MODEL;
+  const model = getImageModel();
   const context = subtitle ? `${title.trim()}. ${subtitle.trim().replace(/\.$/, '')}` : title.trim();
-  const prompt =
-    `Illustration for an artificial intelligence and technology museum exhibit poster about: ${context}. ` +
-    'Interpret the subject as an AI system, algorithm, or technology concept — not fashion or entertainment. ' +
-    'Clean, modern graphic design style. Bold composition, rich colours. ' +
-    'No text, labels, or words in the image.';
+  const prompt = buildAiImagePrompt(context, description || '');
 
   let payload;
   try {
@@ -875,14 +939,79 @@ app.post('/api/ai/generate-image', async (req, res) => {
   res.json({ src: `images/originals/${filename}` });
 });
 
+// ── Lightweight AI generation helpers (used by unified editor) ──────────────
+
+app.post('/api/ai/generate-subtitle', async (req, res) => {
+  const { title, text } = req.body || {};
+  if (!title) return res.status(400).json({ error: 'title is required' });
+  const snippet = (text || '').slice(0, 200).replace(/\n/g, ' ');
+  try {
+    const subtitle = await requestOpenRouterChatCompletion({
+      model: getContentModel(),
+      systemPrompt: 'You write short poster subtitles. Reply with ONLY the subtitle text — no quotes, no punctuation at the end, no explanation.',
+      userPrompt: `Write a 4–8 word subtitle for a poster titled "${title}". Context: ${snippet || '(none)'}`,
+      temperature: 0.4,
+      maxTokens: 30,
+    });
+    res.json({ subtitle: subtitle.trim() });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/ai/generate-chronology', async (req, res) => {
+  const { title, text } = req.body || {};
+  if (!title) return res.status(400).json({ error: 'title is required' });
+  const snippet = (text || '').slice(0, 600).replace(/\n/g, ' ');
+  try {
+    const raw = await requestOpenRouterChatCompletion({
+      model: getContentModel(),
+      systemPrompt: 'You extract chronological data. Reply with ONLY a JSON object — no markdown, no explanation.',
+      userPrompt: `For "${title}", return a JSON object with keys: epochStart (number or null), epochEnd (number or null), events (array of {year, name} objects, max 6). Context: ${snippet || '(none)'}`,
+      temperature: 0.2,
+      maxTokens: 300,
+    });
+    const json = raw.replace(/```[a-z]*\n?/gi, '').trim();
+    const data = JSON.parse(json);
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/ai/generate-tags', async (req, res) => {
+  const { title, text, categories } = req.body || {};
+  if (!title) return res.status(400).json({ error: 'title is required' });
+  const snippet = (text || '').slice(0, 400).replace(/\n/g, ' ');
+  const cats = Array.isArray(categories) ? categories.join(', ') : (categories || '');
+  try {
+    const raw = await requestOpenRouterChatCompletion({
+      model: getContentModel(),
+      systemPrompt: 'You generate poster tags. Reply with ONLY a comma-separated list of tags — no explanation.',
+      userPrompt: `Generate 5–8 concise tags for a poster titled "${title}"${cats ? ` in categories: ${cats}` : ''}. Context: ${snippet || '(none)'}`,
+      temperature: 0.3,
+      maxTokens: 60,
+    });
+    const tags = raw.split(',').map(t => t.trim()).filter(Boolean).join(', ');
+    res.json({ tags });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Content generation: Wikipedia text + Wikimedia/Commons image, with search and AI fallbacks
 // Flow: 1) Wikipedia lookup  2) disambiguation  3) Wikimedia image
 //        4) Openverse image  5) Brave text/image  6) AI fallback
 app.post('/api/content/generate', async (req, res) => {
-  const { title, subtitle, slug: slugOverride } = req.body || {};
+  const { title, subtitle, slug: slugOverride, _skipSources } = req.body || {};
   if (!title || typeof title !== 'string') {
     return res.status(400).json({ error: 'title is required' });
   }
+  // _skipSources: test-only bypass — lets callers force specific waterfall steps.
+  // Only respected outside production so it can never be abused in live deployments.
+  const skipSources = new Set(
+    process.env.NODE_ENV !== 'production' && Array.isArray(_skipSources) ? _skipSources : []
+  );
   const apiKey = process.env.OPENROUTER_API_KEY;
   const slug = (slugOverride || title.trim()).replace(/ /g, '_');
 
@@ -895,6 +1024,7 @@ app.post('/api/content/generate', async (req, res) => {
     let textSource = 'none';
     let imageSource = 'none';
     let wikiFound = false;
+    let wikiDescription = ''; // short description from Wikipedia (e.g. "American computer scientist")
 
     // ── Steps 1 & 2: Wikipedia lookup + disambiguation ─────────────────
     try {
@@ -924,11 +1054,12 @@ app.post('/api/content/generate', async (req, res) => {
         }
 
         wikiFound = true;
+        wikiDescription = data.description || '';
         if (data.extract) { text = data.extract; textSource = 'wikipedia'; }
 
         // ── Step 3: Wikimedia image from Wikipedia page summary ─────────
         const imgUrl = data.originalimage?.source || data.thumbnail?.source;
-        if (imgUrl) {
+        if (imgUrl && !skipSources.has('wikimedia')) {
           try {
             const imgResp = await fetch(imgUrl, { signal: controller.signal });
             if (imgResp.ok) {
@@ -946,7 +1077,7 @@ app.post('/api/content/generate', async (req, res) => {
         }
 
         // If no image from Wikipedia summary, search Wikimedia Commons directly
-        if (!imagePath) {
+        if (!imagePath && !skipSources.has('wikimedia')) {
           try {
             const commonsUrl = `https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(title)}&srnamespace=6&format=json&srlimit=3&origin=*`;
             const csResp = await fetch(commonsUrl, { signal: controller.signal });
@@ -990,7 +1121,7 @@ app.post('/api/content/generate', async (req, res) => {
     }
 
     // ── Step 4: Openverse image search (Wikimedia found nothing) ───────
-    if (!imagePath) {
+    if (!imagePath && !skipSources.has('openverse') && isOpenverseEnabled()) {
       try {
         const ovToken = await getOpenverseToken();
         const ovHeaders = { 'Accept': 'application/json' };
@@ -1019,7 +1150,7 @@ app.post('/api/content/generate', async (req, res) => {
     }
 
     // ── Step 5: Brave Search — text + image fallback (current events bridge) ─
-    const braveKey = process.env.BRAVE_API_KEY;
+    const braveKey = isBraveEnabled() ? process.env.BRAVE_API_KEY : null;
     if (braveKey) {
       const braveHeaders = {
         'Accept': 'application/json',
@@ -1046,7 +1177,7 @@ app.post('/api/content/generate', async (req, res) => {
       }
 
       // 5b: Brave image search (only if no image yet)
-      if (!imagePath) {
+      if (!imagePath && !skipSources.has('brave')) {
         try {
           const braveImgUrl = `https://api.search.brave.com/res/v1/images/search?q=${encodeURIComponent(title)}&count=5&safe=moderate`;
           const braveImgResp = await fetch(braveImgUrl, { headers: braveHeaders, signal: controller.signal });
@@ -1089,7 +1220,7 @@ app.post('/api/content/generate', async (req, res) => {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            model: DEFAULT_TOPIC_SUGGESTION_MODEL,
+            model: getContentModel(),
             messages: [{ role: 'user', content: prompt }],
             max_tokens: 250,
           }),
@@ -1106,17 +1237,13 @@ app.post('/api/content/generate', async (req, res) => {
     // ── Step 7: AI image fallback (no Wikimedia/Openverse/Brave image found) ─
     if (!imagePath && apiKey) {
       const context = subtitle ? `${title.trim()}. ${subtitle.trim().replace(/\.$/, '')}` : title.trim();
-      const prompt =
-        `Illustration for an artificial intelligence and technology museum exhibit poster about: ${context}. ` +
-        'Interpret the subject as an AI system, algorithm, or technology concept — not fashion or entertainment. ' +
-        'Clean, modern graphic design style. Bold composition, rich colours. ' +
-        'No text, labels, or words in the image.';
+      const prompt = buildAiImagePrompt(context, wikiDescription);
       try {
         const imgResp = await fetch(OPENROUTER_CHAT_COMPLETIONS_URL, {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            model: DEFAULT_IMAGE_MODEL,
+            model: getImageModel(),
             messages: [{ role: 'user', content: prompt }],
             modalities: ['image', 'text'],
             image_config: { aspect_ratio: '16:9' },
@@ -1377,12 +1504,48 @@ app.post('/api/delete-journey', (req, res) => {
 app.get('/api/all-posters', async (req, res) => {
   try {
     const allPosters = await collectAllPosters();
-    const filtered = allPosters.filter(p => p.type !== 'error' && p.type !== 'unknown' && p.type !== 'skip-raw-image');
+    const filtered = allPosters.filter(p => p.type !== 'error' && p.type !== 'unknown' && p.type !== 'skip-raw-image' && p.type !== 'skip-log' && p.type !== 'unsupported');
     const uniquePosters = Array.from(new Map(filtered.map(p => [p.path, p])).values());
     res.json(uniquePosters);
   } catch (error) {
     console.error('Error getting all posters for editor:', error);
     res.status(500).json({ error: 'Failed to get all posters: ' + error.message });
+  }
+});
+
+// AI config
+app.get('/api/ai-config', (req, res) => {
+  const cfg = loadAiConfig();
+  res.json({
+    topicModel:       cfg.topicModel       || getTopicModel(),
+    contentModel:     cfg.contentModel     || getContentModel(),
+    imageModel:       cfg.imageModel       || getImageModel(),
+    openverseEnabled: cfg.openverseEnabled !== false,
+    braveEnabled:     cfg.braveEnabled     !== false,
+    _defaults: {
+      topicModel:   process.env.OPENROUTER_TOPIC_MODEL  || 'openai/gpt-4o-mini',
+      contentModel: process.env.OPENROUTER_MODEL        || 'openai/gpt-4o-mini',
+      imageModel:   process.env.OPENROUTER_IMAGE_MODEL  || 'google/gemini-3.1-flash-image-preview',
+    },
+  });
+});
+
+app.post('/api/ai-config', (req, res) => {
+  try {
+    const { topicModel, contentModel, imageModel, openverseEnabled, braveEnabled } = req.body || {};
+    const current = loadAiConfig();
+    const updated = {
+      ...current,
+      ...(topicModel   !== undefined && { topicModel }),
+      ...(contentModel !== undefined && { contentModel }),
+      ...(imageModel   !== undefined && { imageModel }),
+      ...(openverseEnabled !== undefined && { openverseEnabled: Boolean(openverseEnabled) }),
+      ...(braveEnabled     !== undefined && { braveEnabled:     Boolean(braveEnabled) }),
+    };
+    fs.writeFileSync(AI_CONFIG_PATH, JSON.stringify(updated, null, 2));
+    res.json({ success: true, config: updated });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to save AI config: ' + err.message });
   }
 });
 
@@ -2039,6 +2202,83 @@ app.get('/api/merge-enrichment-log', (req, res) => {
     console.error('Error reading merge log:', error);
     res.status(500).json({ error: 'Failed to read merge log: ' + error.message });
   }
+});
+
+// Open a local file with its default application (Windows: start, macOS: open)
+app.post('/api/open-file', (req, res) => {
+  const { path: filePath } = req.body;
+  if (!filePath || typeof filePath !== 'string') {
+    return res.status(400).json({ error: 'path is required' });
+  }
+  // Use cmd /c start so Windows picks the registered default application
+  const child = spawn('cmd', ['/c', 'start', '', filePath], { detached: true, stdio: 'ignore' });
+  child.unref();
+  child.on('error', err => res.status(500).json({ error: err.message }));
+  // Respond immediately — start is fire-and-forget
+  res.json({ ok: true });
+});
+
+// Launch a desktop application with optional arguments
+app.post('/api/launch-app', (req, res) => {
+  const { command, args = [] } = req.body;
+  if (!command || typeof command !== 'string') {
+    return res.status(400).json({ error: 'command is required' });
+  }
+  const child = spawn(command, Array.isArray(args) ? args : [], { detached: true, stdio: 'ignore' });
+  child.unref();
+  child.on('error', err => res.status(500).json({ error: err.message }));
+  res.json({ ok: true });
+});
+
+// Open a native file-picker dialog (Windows only) and return the chosen path
+app.get('/api/browse-file', (req, res) => {
+  const filter = req.query.filter || 'All Files (*.*)|*.*';
+  // Compile a small C# helper that spawns the dialog on its own explicit STA thread.
+  // This is more reliable than relying on PowerShell's -Sta host flag, which can still
+  // fail with "This feature requires desktop integration" in some Windows contexts.
+  const safeFilter = filter.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+  const psScript = `
+Add-Type -ReferencedAssemblies System.Windows.Forms -TypeDefinition @'
+using System;
+using System.Threading;
+using System.Windows.Forms;
+public class FilePicker {
+    public static string Pick(string filter) {
+        string result = null;
+        var t = new Thread(() => {
+            var d = new OpenFileDialog();
+            d.Filter = filter;
+            d.Title = "Select file";
+            if (d.ShowDialog() == DialogResult.OK) result = d.FileName;
+        });
+        t.SetApartmentState(ApartmentState.STA);
+        t.Start();
+        t.Join();
+        return result;
+    }
+}
+'@
+$path = [FilePicker]::Pick("${safeFilter}")
+if ($path) { Write-Output $path }
+`;
+  const ps = spawn('powershell', ['-NoProfile', '-Command', psScript]);
+  let output = '';
+  let error = '';
+  ps.stdout.on('data', d => { output += d.toString(); });
+  ps.stderr.on('data', d => { error += d.toString(); });
+  ps.on('close', () => {
+    const filePath = output.trim();
+    if (filePath) {
+      res.json({ path: filePath });
+    } else if (error.trim()) {
+      res.status(500).json({ error: error.trim() });
+    } else {
+      res.json({ path: null }); // user cancelled
+    }
+  });
+  ps.on('error', err => {
+    res.status(500).json({ error: err.message });
+  });
 });
 
 function startServer(listenPort = port) {

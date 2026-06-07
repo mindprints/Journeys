@@ -30,6 +30,12 @@ class UnifiedEditor {
         await this.loadImages();
         this.applyUrlParams();
         this.updatePreview();
+
+        // Pick up any image returned from Image Tools (opened via openImageInEditor)
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) this.checkImageEditorReturn();
+        });
+        window.addEventListener('focus', () => this.checkImageEditorReturn());
     }
 
     applyUrlParams() {
@@ -178,16 +184,26 @@ class UnifiedEditor {
             });
         }
 
-        // Image picker
-        this.imagePicker.addEventListener('click', () => this.showImagePicker('primary'));
+        // Image picker — "Click to select image" opens Image Tools with prompt prefill;
+        // when an image is already set, overlay buttons handle actions.
+        this.imagePicker.addEventListener('click', () => {
+            if (!this.imagePicker.classList.contains('has-image')) {
+                this.openImageTools('primary');
+            }
+        });
         document.getElementById('close-image-modal').addEventListener('click', () => this.hideImagePicker());
         document.getElementById('cancel-image-btn').addEventListener('click', () => this.hideImagePicker());
         document.getElementById('select-image-btn').addEventListener('click', () => this.selectImage());
         document.getElementById('use-url-btn').addEventListener('click', () => this.useImageUrl());
         document.getElementById('ai-generate-image-btn').addEventListener('click', () => this.generateAiImage());
         if (this.addExtraImageBtn) {
-            this.addExtraImageBtn.addEventListener('click', () => this.showImagePicker('additional'));
+            this.addExtraImageBtn.addEventListener('click', () => this.openImageTools('additional'));
         }
+
+        // AI generation buttons
+        document.getElementById('ai-generate-text-btn')?.addEventListener('click', () => this.generateAiText());
+        document.getElementById('ai-generate-chronology-btn')?.addEventListener('click', () => this.generateAiChronology());
+        document.getElementById('ai-generate-tags-btn')?.addEventListener('click', () => this.generateAiTags());
 
         if (this.metaCategories) {
             this.metaCategories.addEventListener('keydown', (event) => {
@@ -979,23 +995,60 @@ class UnifiedEditor {
     addLink(link = { type: 'external', url: '', label: '' }) {
         const div = document.createElement('div');
         div.className = 'link-item';
+        const showBrowse = link.type === 'file' || link.type === 'app';
         div.innerHTML = `
-      <select class="link-type">
-        <option value="external" ${link.type === 'external' ? 'selected' : ''}>External</option>
-        <option value="internal" ${link.type === 'internal' ? 'selected' : ''}>Internal</option>
-        <option value="file" ${link.type === 'file' ? 'selected' : ''}>File</option>
-      </select>
-      <input type="text" placeholder="URL or path" value="${this.escapeHtml(link.url || link.target || link.path || '')}" class="link-url">
-      <input type="text" placeholder="Label" value="${this.escapeHtml(link.label || '')}" class="link-label">
-      <div class="link-actions">
-        <label style="display: flex; align-items: center; gap: 0.25em; font-size: 0.8em;">
-          <input type="checkbox" class="link-primary" ${link.primary ? 'checked' : ''}> Primary
-        </label>
-        <button type="button" class="editor-btn small danger" onclick="this.closest('.link-item').remove();">
-          <i class="fas fa-times"></i>
-        </button>
+      <div class="link-item-row">
+        <select class="link-type">
+          <option value="external" ${link.type === 'external' ? 'selected' : ''}>External</option>
+          <option value="internal" ${link.type === 'internal' ? 'selected' : ''}>Internal</option>
+          <option value="file" ${link.type === 'file' ? 'selected' : ''}>File</option>
+          <option value="app" ${link.type === 'app' ? 'selected' : ''}>App</option>
+        </select>
+        <div class="link-url-group">
+          <input type="text" placeholder="URL or path" value="${this.escapeHtml(link.url || link.target || link.path || link.command || '')}" class="link-url">
+          <button type="button" class="editor-btn small link-browse-btn" title="Browse for file" style="${showBrowse ? '' : 'display:none'}">
+            <i class="fas fa-folder-open"></i>
+          </button>
+        </div>
+      </div>
+      <div class="link-item-row">
+        <input type="text" placeholder="Label" value="${this.escapeHtml(link.label || '')}" class="link-label">
+        <div class="link-actions">
+          <label style="display: flex; align-items: center; gap: 0.25em; font-size: 0.8em;">
+            <input type="checkbox" class="link-primary" ${link.primary ? 'checked' : ''}> Primary
+          </label>
+          <button type="button" class="editor-btn small danger" onclick="this.closest('.link-item').remove();">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
       </div>
     `;
+
+        // Show/hide browse button when type changes
+        const typeSelect = div.querySelector('.link-type');
+        const browseBtn = div.querySelector('.link-browse-btn');
+        const urlInput = div.querySelector('.link-url');
+        typeSelect.addEventListener('change', () => {
+            const t = typeSelect.value;
+            browseBtn.style.display = (t === 'file' || t === 'app') ? '' : 'none';
+        });
+
+        browseBtn.addEventListener('click', async () => {
+            const filter = 'All Files (*.*)|*.*|Executables (*.exe;*.bat;*.cmd)|*.exe;*.bat;*.cmd';
+            try {
+                const res = await fetch(`/api/browse-file?filter=${encodeURIComponent(filter)}`);
+                const data = await res.json();
+                if (data.error) {
+                    alert('Browse failed: ' + data.error);
+                } else if (data.path) {
+                    urlInput.value = data.path;
+                }
+                // data.path === null means user cancelled — do nothing
+            } catch (e) {
+                alert('Browse failed: ' + e.message);
+            }
+        });
+
         this.linksList.appendChild(div);
     }
 
@@ -1012,6 +1065,7 @@ class UnifiedEditor {
                 if (type === 'external') link.url = url;
                 else if (type === 'internal') link.target = url;
                 else if (type === 'file') link.path = url;
+                else if (type === 'app') link.command = url;
                 if (primary) link.primary = true;
                 links.push(link);
             }
@@ -1227,7 +1281,36 @@ class UnifiedEditor {
         this.backImageAlt.value = alt;
         this.imageAltText.value = alt;
 
-        this.imagePicker.innerHTML = `<img src="${src}" alt="${alt}">`;
+        this.imagePicker.innerHTML = `
+          <img src="${src}" alt="${this.escapeHtml(alt)}">
+          <div class="image-preview-overlay">
+            <button type="button" class="editor-btn small img-change-btn" title="Pick a different image">
+              <i class="fas fa-exchange-alt"></i> Change
+            </button>
+            <button type="button" class="editor-btn small img-edit-btn" title="Open in Image Tools for cropping / re-upload">
+              <i class="fas fa-tools"></i> Image Tools
+            </button>
+            <button type="button" class="editor-btn small danger img-remove-btn" title="Remove image from this poster">
+              <i class="fas fa-times"></i> Remove
+            </button>
+          </div>
+        `;
+
+        this.imagePicker.querySelector('.img-change-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.showImagePicker('primary');
+        });
+        this.imagePicker.querySelector('.img-edit-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.openImageInEditor(src);
+        });
+        this.imagePicker.querySelector('.img-remove-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.clearImage();
+            this.updatePreview();
+            this.markDirty();
+        });
+
         this.imagePicker.classList.add('has-image');
         this.imageOptions.style.display = 'grid';
         if (this.imageDimensions) this.imageDimensions.style.display = 'grid';
@@ -1380,8 +1463,10 @@ class UnifiedEditor {
             links.forEach(link => {
                 const isPrimary = link.primary ? ' primary' : '';
                 const icon = link.type === 'external' ? 'fa-external-link-alt'
-                    : link.type === 'internal' ? 'fa-link' : 'fa-file';
-                linksHtml += `<a class="v2-link${isPrimary}"><i class="fas ${icon}"></i> ${this.escapeHtml(link.label)}</a>`;
+                    : link.type === 'internal' ? 'fa-link'
+                    : link.type === 'app' ? 'fa-terminal'
+                    : 'fa-file';
+                linksHtml += `<a class="v2-link${isPrimary}" data-type="${link.type}"><i class="fas ${icon}"></i> ${this.escapeHtml(link.label)}</a>`;
             });
             linksHtml += '</div>';
         }
@@ -1644,10 +1729,222 @@ class UnifiedEditor {
         div.textContent = text || '';
         return div.innerHTML;
     }
+
+    // === AI Generation ===
+
+    async generateAiText() {
+        const title = document.getElementById('front-title')?.value.trim();
+        if (!title) { alert('Please enter a poster title first.'); return; }
+        const subtitle = document.getElementById('front-subtitle')?.value.trim() || '';
+        const btn    = document.getElementById('ai-generate-text-btn');
+        const status = document.getElementById('ai-text-status');
+        const disambig = document.getElementById('ai-text-disambiguation');
+        btn.disabled = true;
+        disambig.style.display = 'none';
+        status.textContent = 'Generating…';
+        try {
+            const resp = await fetch('/api/content/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, subtitle }),
+            });
+            const data = await resp.json();
+            if (!resp.ok) throw new Error(data.error || 'Generation failed');
+
+            if (data.status === 'disambiguation') {
+                status.textContent = 'Multiple matches — pick one:';
+                disambig.style.display = 'block';
+                disambig.innerHTML = data.options.map(o =>
+                    `<button type="button" class="editor-btn small" style="margin:0.2em 0.3em 0.2em 0;white-space:normal;text-align:left;"
+                        data-slug="${this.escapeHtml(o.slug)}">${this.escapeHtml(o.title)}</button>`
+                ).join('');
+                disambig.querySelectorAll('button').forEach(b => {
+                    b.addEventListener('click', async () => {
+                        disambig.style.display = 'none';
+                        btn.disabled = true;
+                        status.textContent = 'Generating…';
+                        try {
+                            const r2 = await fetch('/api/content/generate', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ title, subtitle, slug: b.dataset.slug }),
+                            });
+                            const d2 = await r2.json();
+                            if (!r2.ok) throw new Error(d2.error || 'Generation failed');
+                            await this._applyGeneratedContent(d2, title, b.dataset.slug, subtitle);
+                            status.textContent = '✓ Done';
+                        } catch (e) { status.textContent = `Error: ${e.message}`; }
+                        finally { btn.disabled = false; }
+                    });
+                });
+                return;
+            }
+
+            await this._applyGeneratedContent(data, title, title.replace(/ /g, '_'), subtitle);
+            status.textContent = '✓ Done';
+        } catch (e) {
+            status.textContent = `Error: ${e.message}`;
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    async _applyGeneratedContent(data, title, slug, subtitle) {
+        const backText = document.getElementById('back-text');
+        const subtitleEl = document.getElementById('front-subtitle');
+        const sourceEl  = document.getElementById('meta-source');
+
+        if (data.text && backText) {
+            backText.value = data.text;
+            this.updatePreview();
+            this.markDirty();
+        }
+
+        // Auto-fill subtitle if blank
+        if (subtitleEl && !subtitleEl.value.trim() && data.text) {
+            try {
+                const sr = await fetch('/api/ai/generate-subtitle', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, text: data.text }),
+                });
+                if (sr.ok) {
+                    const sd = await sr.json();
+                    if (sd.subtitle) {
+                        subtitleEl.value = sd.subtitle;
+                        this.updatePreview();
+                        this.markDirty();
+                    }
+                }
+            } catch (_) { /* non-fatal */ }
+        }
+
+        // Auto-fill Source if Wikipedia was used and Source is blank
+        if (sourceEl && !sourceEl.value.trim() && data.sources?.text === 'wikipedia') {
+            sourceEl.value = `https://en.wikipedia.org/wiki/${encodeURIComponent(slug)}`;
+            this.markDirty();
+        }
+    }
+
+    async generateAiChronology() {
+        const title = document.getElementById('front-title')?.value.trim();
+        if (!title) { alert('Please enter a poster title first.'); return; }
+        const text   = document.getElementById('back-text')?.value || '';
+        const btn    = document.getElementById('ai-generate-chronology-btn');
+        const status = document.getElementById('ai-chronology-status');
+        btn.disabled = true;
+        status.textContent = 'Generating…';
+        try {
+            const resp = await fetch('/api/ai/generate-chronology', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, text }),
+            });
+            const data = await resp.json();
+            if (!resp.ok) throw new Error(data.error || 'Generation failed');
+
+            const startEl = document.getElementById('epoch-start');
+            const endEl   = document.getElementById('epoch-end');
+            if (startEl && !startEl.value && data.epochStart != null) startEl.value = data.epochStart;
+            if (endEl   && !endEl.value   && data.epochEnd   != null) endEl.value   = data.epochEnd;
+
+            if (Array.isArray(data.events)) {
+                data.events.forEach(ev => {
+                    // Only add if a matching year isn't already present
+                    const existing = document.querySelectorAll('#events-container .event-year');
+                    const alreadyThere = [...existing].some(el => String(el.value) === String(ev.year));
+                    if (!alreadyThere) this.addEvent(ev.year, ev.name);
+                });
+            }
+            this.updatePreview();
+            this.markDirty();
+            status.textContent = '✓ Done';
+        } catch (e) {
+            status.textContent = `Error: ${e.message}`;
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    async generateAiTags() {
+        const title = document.getElementById('front-title')?.value.trim();
+        if (!title) { alert('Please enter a poster title first.'); return; }
+        const text       = document.getElementById('back-text')?.value || '';
+        const categories = this.getCategories();
+        const btn    = document.getElementById('ai-generate-tags-btn');
+        const status = document.getElementById('ai-tags-status');
+        btn.disabled = true;
+        status.textContent = 'Generating…';
+        try {
+            const resp = await fetch('/api/ai/generate-tags', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, text, categories }),
+            });
+            const data = await resp.json();
+            if (!resp.ok) throw new Error(data.error || 'Generation failed');
+            const tagsEl = document.getElementById('meta-tags');
+            if (tagsEl && data.tags) {
+                tagsEl.value = data.tags;
+                this.markDirty();
+            }
+            status.textContent = '✓ Done';
+        } catch (e) {
+            status.textContent = `Error: ${e.message}`;
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    // === Image Editor Integration ===
+
+    openImageTools(target = 'primary') {
+        const title = document.getElementById('front-title')?.value.trim() || '';
+        const text  = document.getElementById('back-text')?.value.trim() || '';
+        const promptHint = text
+            ? `${title} — ${text.slice(0, 120)}`
+            : title;
+        localStorage.setItem('imageEditorReturn', JSON.stringify({
+            posterPath: this.posterPath.value,
+            imageTarget: target,
+            returnUrl: window.location.href,
+            promptHint,
+        }));
+        window.open('image-editor.html', '_blank');
+    }
+
+    openImageInEditor(src) {
+        localStorage.setItem('imageEditorReturn', JSON.stringify({
+            posterPath: this.posterPath.value,
+            imageTarget: 'primary',
+            returnUrl: window.location.href
+        }));
+        window.open(`image-editor.html?editImage=${encodeURIComponent(src)}`, '_blank');
+    }
+
+    checkImageEditorReturn() {
+        const raw = localStorage.getItem('imageEditorResult');
+        if (!raw) return;
+        localStorage.removeItem('imageEditorResult');
+        try {
+            const data = JSON.parse(raw);
+            if (!Array.isArray(data.imagePaths) || !data.imagePaths.length) return;
+            const src = data.imagePaths[0];
+            if (confirm(`Apply image from Image Tools?\n${src.split('/').pop()}`)) {
+                if (data.target === 'additional') {
+                    this.addAdditionalImage(src);
+                } else {
+                    this.setImage(src);
+                }
+                this.markDirty();
+            }
+        } catch (_) { /* malformed localStorage entry */ }
+    }
 }
 
 // Initialize editor
 let editor;
 document.addEventListener('DOMContentLoaded', () => {
     editor = new UnifiedEditor();
+    window.editor = editor;
 });
