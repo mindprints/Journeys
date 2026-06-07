@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "58c854b7-15cd-47f2-8d99-b352e2a4917f",
+  "front": {
+    "title": "John Grey (Australian Politician) and Early Computing",
+    "subtitle": "A key advocate for Australia's early adoption of digital computing and scientific research infrastructure.",
+    "chronology": {
+      "epochStart": 1954,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1954,
+          "name": "John Grey (Australian Politician) and Early Computing"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "John Grey was a significant figure in the mid-20th century Australian political landscape who championed the integration of advanced technology into national governance and industry. During a period of rapid global transition toward automation, Grey supported the funding and development of the Commonwealth Scientific and Industrial Research Organisation (CSIRO), which was instrumental in building CSIRAC, Australia's first digital computer. His advocacy helped establish the legislative framework necessary for high-level computational research in the Southern Hemisphere.\n\nGrey's contributions focused on the intersection of public policy and technological sovereignty. He recognized that for a nation to remain competitive in the post-war era, it required independent mastery over electronic data processing. By securing resources for early computer science departments in Australian universities, he paved the way for future generations of software engineers and artificial intelligence researchers, ensuring that the continent was not merely a consumer of technology, but a creator.",
+    "links": []
+  },
+  "meta": {
+    "created": "2026-03-19T10:01:15.240654",
+    "modified": "2026-03-19T19:38:48.245Z",
+    "categories": [
+      "No-Category"
+    ],
+    "tags": [
+      "John Grey (Australian politician)",
+      "Computing History",
+      "Public Policy",
+      "CSIRAC"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}

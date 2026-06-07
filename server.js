@@ -683,6 +683,43 @@ app.get('/api/posters-in-category', async (req, res) => {
   }
 });
 
+// Search posters by title/subtitle (q=) or exact path lookup (path=)
+app.get('/api/search-posters', async (req, res) => {
+  try {
+    const q = (req.query.q || '').trim().toLowerCase();
+    const byPath = (req.query.path || '').trim();
+
+    const allPosters = await collectAllPosters();
+    const valid = allPosters.filter(p =>
+      p.type !== 'error' && p.type !== 'unknown' &&
+      p.type !== 'skip-raw-image' && p.type !== 'skip-log'
+    );
+
+    let results;
+    if (byPath) {
+      results = valid.filter(p => p.path === byPath || p.path.endsWith(byPath));
+    } else if (q) {
+      results = valid.filter(p => {
+        const title = (p.title || '').toLowerCase();
+        const subtitle = (p.data?.front?.subtitle || p.front?.subtitle || '').toLowerCase();
+        return title.includes(q) || subtitle.includes(q);
+      }).slice(0, 10);
+    } else {
+      results = [];
+    }
+
+    res.json(results.map(p => ({
+      title: p.title,
+      subtitle: p.data?.front?.subtitle || p.front?.subtitle || '',
+      path: p.path,
+      categories: p.categories || []
+    })));
+  } catch (error) {
+    console.error('Error searching posters:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Get posters by a list of filenames
 app.post('/api/posters-by-filenames', async (req, res) => {
   try {

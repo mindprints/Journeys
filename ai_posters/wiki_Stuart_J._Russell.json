@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "poster-mo5qkvvblrdkmo5n5",
+  "front": {
+    "title": "Stuart J. Russell",
+    "subtitle": "British computer scientist and author (born 1962)"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Stuart Jonathan Russell is a British computer scientist known for his contributions to artificial intelligence (AI). He is a professor of computer science at the University of California, Berkeley and was from 2008 to 2011 an adjunct professor of neurological surgery at the University of California, San Francisco. He holds the Smith-Zadeh Chair in Engineering at University of California, Berkeley. He founded and leads the Center for Human-Compatible Artificial Intelligence (CHAI) at UC Berkeley and the International Association for Safe and Ethical Artificial Intelligence (IASEAI). Russell is the co-author with Peter Norvig of the authoritative textbook of the field of AI: Artificial Intelligence: A Modern Approach used in more than 1,500 universities in 135 countries.",
+    "image": {
+      "src": "images/originals/stuart_j_russell_mo5qkvvx.webp",
+      "alt": "Stuart J. Russell",
+      "position": "top"
+    },
+    "links": [
+      {
+        "type": "app",
+        "label": "bambu",
+        "command": "C:\\Program Files\\Bambu Studio\\bambu-studio.exe",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-03-19T09:31:35.534644",
+    "modified": "2026-04-19T12:22:41.495Z",
+    "tags": [
+      "Stuart J. Russell"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Stuart_J._Russell",
+    "categories": [
+      "AI Scientists"
+    ]
+  }
+}

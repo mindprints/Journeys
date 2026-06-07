@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "d83dfe33-aea6-4290-9438-a83f5170907e",
+  "front": {
+    "title": "The Grey-Walter Machina Speculatrix",
+    "subtitle": "Early autonomous robotics and the foundations of cybernetic artificial intelligence.",
+    "chronology": {
+      "epochStart": 1948,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1948,
+          "name": "The Grey-Walter Machina Speculatrix"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "In the mid-20th century, the field of cybernetics explored the intersection of biology and technology. While the historical 2nd Viscount Grey of Fallodon was a statesman, the name 'Grey' in the context of artificial intelligence history is most synonymous with William Grey Walter. He developed the first truly autonomous electronic robots, known as Elmer and Elsie, which demonstrated complex behaviors through simple circuitry.\n\nThese 'tortoise' robots utilized light sensors and touch sensors to navigate their environment, seeking out light sources to recharge their batteries. This work proved that sophisticated, goal-oriented behavior could emerge from a small number of interconnected components, a concept known as emergent behavior. This discovery laid the groundwork for modern robotics and the study of neural networks.\n\nGrey Walter's experiments challenged the notion that intelligence required a massive central processor. By mimicking biological reflexes using vacuum tubes and sensors, he provided a physical proof of concept for the theories of artificial life and autonomous systems that define the AI landscape today.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_the_grey_walter_machina_speculatrix_1773910687.png",
+      "alt": "The Grey-Walter Machina Speculatrix",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T09:58:07.761760",
+    "modified": "2026-03-19T19:38:48.252Z",
+    "categories": [
+      "No-Category"
+    ],
+    "tags": [
+      " 2nd Viscount Grey of Fallodon",
+      "Cybernetics",
+      "Robotics",
+      "Artificial Life"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}

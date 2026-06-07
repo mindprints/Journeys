@@ -1,0 +1,62 @@
+{
+  "name": "a test journey",
+  "description": "simply a test",
+  "posters": [
+    {
+      "filename": "ai_Human-AI_Relationships.json",
+      "type": "poster-v2",
+      "title": "Human-AI Relationships",
+      "thumbnail": null
+    },
+    {
+      "filename": "ai_Predictive_Algorithms.json",
+      "type": "poster-v2",
+      "title": "Predictive Algorithms",
+      "thumbnail": null
+    },
+    {
+      "filename": "ai_The_Singularity.json",
+      "type": "poster-v2",
+      "title": "The Technological Singularity",
+      "thumbnail": null
+    },
+    {
+      "filename": "wiki_AlphaGo.json",
+      "type": "poster-v2",
+      "title": "AlphaGo",
+      "thumbnail": null
+    },
+    {
+      "filename": "wiki_Andrej_Karpathy.json",
+      "type": "poster-v2",
+      "title": "Andrej Karpathy",
+      "thumbnail": null
+    },
+    {
+      "filename": "wiki_Open_Source_AI_Models.json",
+      "type": "poster-v2",
+      "title": "Open Source AI Models",
+      "thumbnail": null
+    },
+    {
+      "filename": "wiki_Computation_history.json",
+      "type": "poster-v2",
+      "title": "Computation history",
+      "thumbnail": null
+    },
+    {
+      "filename": "grab.log",
+      "type": "skip-log",
+      "title": "grab",
+      "thumbnail": null
+    },
+    {
+      "filename": "wikipedia_grab.log",
+      "type": "skip-log",
+      "title": "wikipedia_grab",
+      "thumbnail": null
+    }
+  ],
+  "dateCreated": "2026-06-06T13:07:57.086Z",
+  "dateModified": "2026-06-06T13:07:57.086Z"
+}

@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "80d15101-4f8a-498c-821d-6886cc857898",
+  "front": {
+    "title": "Neural architecture search",
+    "subtitle": "Machine learning-powered structure design"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Neural architecture search (NAS) is a technique for automating the design of artificial neural networks (ANN), a widely used model in the field of machine learning. NAS has been used to design networks that are on par with or outperform hand-designed architectures. Methods for NAS can be categorized according to the search space, search strategy and performance estimation strategy used:The search space defines the type(s) of ANN that can be designed and optimized.\nThe search strategy defines the approach used to explore the search space.\nThe performance estimation strategy evaluates the performance of a possible ANN from its design.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Neural_architecture_search",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-06-06T14:58:14.600096",
+    "modified": "2026-06-06T14:58:14.600101",
+    "categories": [
+      "Recursive Self Improvement"
+    ],
+    "tags": [
+      "Neural architecture search"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Neural_architecture_search"
+  }
+}

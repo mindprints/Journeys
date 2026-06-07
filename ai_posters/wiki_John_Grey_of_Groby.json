@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "67334694-b2b5-48b3-b1eb-58557fab82f1",
+  "front": {
+    "title": "John Grey of Groby",
+    "subtitle": "English knight (c. 1432–1461)"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Sir John Grey of Groby, Leicestershire was a Lancastrian knight, the first husband of Elizabeth Woodville who later married King Edward IV of England, and great-great-grandfather of Lady Jane Grey.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/John_Grey_of_Groby",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Grey.svg/330px-Grey.svg.png",
+      "alt": "John Grey of Groby",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T09:58:08.962671",
+    "modified": "2026-03-19T19:38:48.249Z",
+    "categories": [
+      "No-Category"
+    ],
+    "tags": [
+      "John Grey of Groby"
+    ],
+    "source": "https://en.wikipedia.org/wiki/John_Grey_of_Groby"
+  }
+}

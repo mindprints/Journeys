@@ -1,38 +1,43 @@
 {
   "version": 2,
   "type": "poster-v2",
-  "uid": "11427a8e-c94c-4ead-ac44-88993c2575a3",
+  "uid": "29d55465-e86c-4dda-a5da-cb4de4024f7e",
   "front": {
-    "title": "The Singularity: A New Era of Intelligence",
-    "subtitle": "Exploring the concept of technological transcendence in sci-fi.",
+    "title": "The Technological Singularity",
+    "subtitle": "A hypothetical point in time where autonomous AI growth becomes uncontrollable and irreversible.",
     "chronology": {
-      "epochStart": 1950,
+      "epochStart": 1958,
       "epochEnd": 2026,
       "epochEvents": [
         {
-          "year": 1950,
-          "name": "The Singularity: A New Era of Intelligence"
+          "year": 1958,
+          "name": "The Technological Singularity"
         }
       ]
     }
   },
   "back": {
-    "layout": "text-only",
-    "text": "The Singularity is a theoretical point in the future when artificial intelligence surpasses human intelligence, leading to exponential advancements in technology and society. This concept has captivated the imagination of science fiction writers and futurists alike, suggesting a transformative moment that could redefine humanity's role in the universe. It raises profound questions about ethics, control, and the future of human existence.\n\nThe term 'Singularity' gained prominence in the 1950s, particularly through the works of visionary thinkers like John von Neumann and later, Vernor Vinge. In literature, it has been depicted in various forms, from the sentient machines of Isaac Asimov's stories to the dystopian futures imagined by authors like William Gibson. As AI continues to evolve, discussions surrounding the Singularity challenge us to consider the implications of creating systems that may one day surpass our own cognitive abilities.",
-    "links": []
+    "layout": "image-top",
+    "text": "The Singularity is a theoretical future event triggered by the development of artificial general intelligence (AGI). According to this hypothesis, an upgradable intelligent agent would enter a 'runaway self-improvement cycle,' where each new version of the AI designs a more capable successor at an exponential rate. This process would result in an intelligence explosion, far surpassing all human cognitive abilities and fundamentally altering civilization.\n\nWhile the concept is a staple of science fiction, it is rooted in computer science and mathematics. Mathematician John von Neumann first discussed the idea in the 1950s, and it was later popularized by author Vernor Vinge and futurist Ray Kurzweil. They argue that the accelerating pace of technological progress follows Moore's Law and other exponential trends, eventually reaching a point where human prediction becomes impossible.\n\nCritics and researchers debate the feasibility of the Singularity, citing physical limits of hardware, the complexity of consciousness, and the 'diminishing returns' of software optimization. Whether a looming reality or a philosophical metaphor, the Singularity serves as a critical framework for discussing AI safety, ethics, and the long-term trajectory of human-machine evolution.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_the_technological_singularity_1780740114.png",
+      "alt": "The Technological Singularity",
+      "position": "top"
+    }
   },
   "meta": {
-    "created": "2026-03-18T22:01:47.200424",
-    "modified": "2026-03-18T22:01:47.200430",
+    "created": "2026-06-06T12:01:54.209774",
+    "modified": "2026-06-06T12:01:54.209784",
     "categories": [
       "AI in Science Fiction"
     ],
     "tags": [
       "The_Singularity",
-      "Artificial Intelligence",
-      "Science Fiction",
-      "Technological Singularity"
+      "Futurism",
+      "AGI",
+      "Intelligence Explosion"
     ],
-    "source": "openrouter/openai/gpt-4o-mini"
+    "source": "openrouter/google/gemini-3-flash-preview"
   }
 }

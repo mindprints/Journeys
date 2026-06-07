@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "86c1c8fe-5edd-4eb8-8cc3-d47db94c6281",
+  "front": {
+    "title": "Technological singularity",
+    "subtitle": "Hypothetical event"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "The technological singularity, often simply called the singularity, is a hypothetical event in which technological growth accelerates beyond human control, producing unpredictable changes in human civilization. According to the most popular version of the singularity hypothesis, I. J. Good's intelligence explosion model of 1965, an upgradable intelligent agent could eventually enter a positive feedback loop of successive self-improvement cycles; more intelligent generations would appear more and more rapidly, causing an explosive increase in intelligence that culminates in a powerful superintelligence, far surpassing human intelligence.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Technological_singularity",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "images/originals/ai_technological_singularity_1780750627.png",
+      "alt": "Technological singularity",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T14:56:54.595859",
+    "modified": "2026-06-06T14:56:54.595863",
+    "categories": [
+      "Recursive Self Improvement"
+    ],
+    "tags": [
+      "Artificial Intelligence",
+      "Intelligence Explosion",
+      "Future Technology",
+      "Transhumanism",
+      "Superintelligence"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Technological_singularity"
+  }
+}

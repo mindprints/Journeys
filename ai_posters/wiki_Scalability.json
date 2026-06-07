@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "a4a0e8c5-b299-468e-9e14-5faaf15a5fa1",
+  "front": {
+    "title": "Scalability",
+    "subtitle": "Ability of a system to handle an increasing amount of work"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Scalability is the property of a system to handle a growing amount of work. One definition for software systems specifies that this may be done by adding resources to the system.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Scalability",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Complex_systems_topic_network_%28Sayama_2024%29.png/330px-Complex_systems_topic_network_%28Sayama_2024%29.png",
+      "alt": "Scalability",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T20:53:35.497058",
+    "modified": "2026-03-19T20:53:35.497064",
+    "categories": [
+      "Deep Learning"
+    ],
+    "tags": [
+      "Scalability"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Scalability"
+  }
+}

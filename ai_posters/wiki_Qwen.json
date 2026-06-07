@@ -8,7 +8,7 @@
   },
   "back": {
     "layout": "image-top",
-    "text": "Qwen is a family of large language models developed by Alibaba Cloud. Many Qwen variants are distributed as open\u2011weight models under the Apache\u20112.0 license, while others are served through Alibaba Cloud.",
+    "text": "Qwen is a family of large language models developed by Alibaba Cloud. Many Qwen variants are distributed as open‑weight models under the Apache‑2.0 license, while others are served through Alibaba Cloud.",
     "links": [
       {
         "type": "external",
@@ -25,9 +25,9 @@
   },
   "meta": {
     "created": "2026-03-18T22:35:46.747509",
-    "modified": "2026-03-18T22:35:46.747513",
+    "modified": "2026-06-06T16:30:00.833Z",
     "categories": [
-      "Chinese Open Weight Models"
+      "No-Category"
     ],
     "tags": [
       "Qwen"

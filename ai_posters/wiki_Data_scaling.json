@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "e0065f8b-7f51-4ca8-8190-efaaff0de96b",
+  "front": {
+    "title": "Data Scaling",
+    "subtitle": "The process of normalizing numerical input ranges to optimize neural network training and convergence.",
+    "chronology": {
+      "epochStart": 1951,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1951,
+          "name": "Data Scaling"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Data scaling is a critical preprocessing step in deep learning that transforms numerical features into a common scale. Without scaling, features with larger absolute values can dominate the learning process, causing the model to ignore smaller but equally important variables. This imbalance often leads to unstable gradients and significantly slower training times.\n\nCommon techniques include Min-Max Scaling, which squishes data into a range between 0 and 1, and Standardization, which centers data around a mean of zero with a unit standard deviation. By ensuring all inputs occupy a similar mathematical space, optimization algorithms like Gradient Descent can navigate the error landscape more efficiently, reaching an optimal solution faster and with greater numerical stability.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_data_scaling_1773950100.png",
+      "alt": "Data Scaling",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T20:55:00.050357",
+    "modified": "2026-03-19T20:55:00.050366",
+    "categories": [
+      "Deep Learning"
+    ],
+    "tags": [
+      "Data scaling",
+      "Preprocessing",
+      "Optimization",
+      "Neural Networks"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}

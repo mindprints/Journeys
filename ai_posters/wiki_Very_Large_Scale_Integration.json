@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "34e0d549-37c9-4b3a-baf0-ef8c024684c8",
+  "front": {
+    "title": "Very-large-scale integration",
+    "subtitle": "Creating an integrated circuit by combining many transistors into a single chip"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Very-large-scale integration (VLSI) is the process of creating an integrated circuit (IC) by combining millions or billions of MOS transistors onto a single chip. VLSI began in the 1970s when MOS integrated circuit chips were developed and then widely adopted, enabling complex semiconductor and telecommunications technologies. Microprocessors and memory chips are VLSI devices.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Very-large-scale_integration",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Diopsis.jpg/330px-Diopsis.jpg",
+      "alt": "Very-large-scale integration",
+      "position": "top",
+      "caption": "Source: Wikimedia"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T21:17:53.696228",
+    "modified": "2026-06-07T21:17:53.696232",
+    "categories": [
+      "ASICS"
+    ],
+    "tags": [
+      "Microchips",
+      "Semiconductors",
+      "VLSI",
+      "Integrated Circuits",
+      "Hardware Design"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Very-large-scale_integration"
+  }
+}

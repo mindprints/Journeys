@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "e6e5044f-8e96-4f49-8ca1-b1287a7c2591",
+  "front": {
+    "title": "Emergent Abilities in Large Language Models",
+    "subtitle": "Unpredictable capabilities that appear only when AI models reach a certain scale of data and computation.",
+    "chronology": {
+      "epochStart": 2022,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 2022,
+          "name": "Emergent Abilities in Large Language Models"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Emergent abilities are skills found in large-scale machine learning models that are not present in smaller versions of the same architecture. These capabilities, such as multi-step logical reasoning, solving complex math problems, or translating obscure languages, often appear suddenly once a model crosses a specific threshold of parameters and training data. They are not explicitly programmed but arise from the model's increased capacity to recognize deep patterns.\n\nResearchers describe this phenomenon as a phase transition, similar to how water turns to ice at a specific temperature. While the underlying algorithms remain the same, the sheer scale of the neural network allows it to perform tasks it was never specifically trained for. Understanding these leaps is critical for predicting the future power and safety risks of advanced artificial intelligence systems.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_emergent_abilities_in_large_language_mod_1773950082.png",
+      "alt": "Emergent Abilities in Large Language Models",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T20:54:42.786254",
+    "modified": "2026-03-19T20:54:42.786265",
+    "categories": [
+      "Deep Learning"
+    ],
+    "tags": [
+      "Emergent abilities",
+      "Deep Learning",
+      "Scaling Laws",
+      "Neural Networks"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}

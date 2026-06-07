@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "4b7c9cdb-a8d8-4c35-a793-3097bca3b2db",
+  "front": {
+    "title": "Geoffrey Hinton",
+    "subtitle": "British-Canadian computer scientist (born 1947)"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Geoffrey Everest Hinton is a British-Canadian computer scientist, cognitive scientist, cognitive psychologist and Nobel Prize laureate known for his work on artificial neural networks, which earned him the title \"the Godfather of AI\". He is University Professor Emeritus at the University of Toronto.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Geoffrey_Hinton",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Geoffrey_E._Hinton%2C_2024_Nobel_Prize_Laureate_in_Physics_%28cropped1%29.jpg/330px-Geoffrey_E._Hinton%2C_2024_Nobel_Prize_Laureate_in_Physics_%28cropped1%29.jpg",
+      "alt": "Geoffrey Hinton",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T09:31:25.001982",
+    "modified": "2026-03-19T19:46:53.262Z",
+    "categories": [
+      "AI Scientists"
+    ],
+    "tags": [
+      "Geoffrey Hinton"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Geoffrey_Hinton"
+  }
+}

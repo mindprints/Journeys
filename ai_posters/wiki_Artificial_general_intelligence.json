@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "def09baf-fd77-4548-8b9b-9e894cf9e159",
+  "front": {
+    "title": "Artificial general intelligence",
+    "subtitle": "Type of AI with wide-ranging abilities"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Artificial general intelligence (AGI) is a hypothetical type of artificial intelligence that matches or surpasses human capabilities across virtually all cognitive tasks.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Artificial_general_intelligence",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-06-06T14:58:12.248205",
+    "modified": "2026-06-06T14:58:12.248209",
+    "categories": [
+      "Recursive Self Improvement"
+    ],
+    "tags": [
+      "Artificial general intelligence"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Artificial_general_intelligence"
+  }
+}

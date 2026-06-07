@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "ef236b62-ed2f-4cb3-b10c-5213828dd603",
+  "front": {
+    "title": "Terminator (character)",
+    "subtitle": "Terminator franchise character"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "The Terminator, also known as a Cyberdyne Systems Model 101 or T-800, is the name of several film characters from the Terminator franchise portrayed by Arnold Schwarzenegger. The Terminator itself is part of a series of machines created by Skynet, an artificial intelligence, for infiltration-based surveillance and assassination missions. It is a cyborg, with a tough computer-controlled metal endoskeleton covered in living tissue.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Terminator_(character)",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/en/b/b9/Terminator-2-judgement-day.jpg",
+      "alt": "Terminator (character)",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T20:39:29.132017",
+    "modified": "2026-06-07T20:39:29.132022",
+    "categories": [
+      "Clasical Robots"
+    ],
+    "tags": [
+      "Artificial Intelligence",
+      "Robotics",
+      "Science Fiction",
+      "Cyborgs",
+      "Machine Learning"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Terminator_(character)"
+  }
+}

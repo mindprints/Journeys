@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "c4b85efd-14e2-44a7-a6af-798979ad450a",
+  "front": {
+    "title": "Sir John Grey and the Grey Walter Tortoises",
+    "subtitle": "A pioneer in cybernetics and the development of autonomous mobile robotics.",
+    "chronology": {
+      "epochStart": 1948,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1948,
+          "name": "Sir John Grey and the Grey Walter Tortoises"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "William Grey Walter, often referred to in historical engineering contexts as Sir John Grey Walter, was a neurophysiologist and cyberneticist who created some of the first electronic autonomous robots. In the late 1940s and early 1950s, he developed the Machina Speculatrix, popularly known as the tortoises. These devices were designed to demonstrate that complex, lifelike behavior could emerge from a small number of interconnected components, such as vacuum tubes and light sensors. These robots are considered the ancestors of modern autonomous systems. They were capable of phototaxis, or moving toward light sources, and could navigate around obstacles to find a recharging station when their batteries ran low. This work laid the foundational principles for reactive robotics and the study of artificial life, proving that machines could interact dynamically with their environment without a central computer processor.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_sir_john_grey_and_the_grey_walter_tortoi_1773910821.png",
+      "alt": "Sir John Grey and the Grey Walter Tortoises",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T10:00:21.812786",
+    "modified": "2026-03-19T19:38:48.251Z",
+    "categories": [
+      "No-Category"
+    ],
+    "tags": [
+      "Sir John Grey",
+      "Cybernetics",
+      "Robotics",
+      "Artificial Life"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "301fc0fd-f86c-425c-b19f-c11ea0f112d6",
+  "front": {
+    "title": "GPT-4",
+    "subtitle": "2023 text-generating language model"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Generative Pre-trained Transformer 4 (GPT-4) is a large language model developed by OpenAI and the fourth in its series of GPT foundation models.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/GPT-4",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/en/a/a1/GPT-4_icon.png",
+      "alt": "GPT-4",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T20:53:39.087648",
+    "modified": "2026-03-19T20:53:39.087652",
+    "categories": [
+      "Deep Learning"
+    ],
+    "tags": [
+      "GPT-4"
+    ],
+    "source": "https://en.wikipedia.org/wiki/GPT-4"
+  }
+}

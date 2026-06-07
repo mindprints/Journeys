@@ -1024,6 +1024,22 @@ class UnifiedEditor {
       </div>
     `;
 
+        // Inject the internal-link search helper row
+        const searchRow = document.createElement('div');
+        searchRow.className = 'link-item-row link-internal-search-row';
+        searchRow.style.display = link.type === 'internal' ? 'flex' : 'none';
+        const searchQuery = document.createElement('input');
+        searchQuery.type = 'text';
+        searchQuery.className = 'link-internal-query';
+        searchQuery.placeholder = 'Search poster by title…';
+        searchQuery.autocomplete = 'off';
+        searchQuery.spellcheck = false;
+        const searchDrop = document.createElement('div');
+        searchDrop.className = 'link-internal-suggestions';
+        searchRow.appendChild(searchQuery);
+        searchRow.appendChild(searchDrop);
+        div.insertBefore(searchRow, div.querySelector('.link-item-row:last-child'));
+
         // Show/hide browse button when type changes
         const typeSelect = div.querySelector('.link-type');
         const browseBtn = div.querySelector('.link-browse-btn');
@@ -1031,6 +1047,8 @@ class UnifiedEditor {
         typeSelect.addEventListener('change', () => {
             const t = typeSelect.value;
             browseBtn.style.display = (t === 'file' || t === 'app') ? '' : 'none';
+            searchRow.style.display = t === 'internal' ? 'flex' : 'none';
+            if (t !== 'internal') searchDrop.style.display = 'none';
         });
 
         browseBtn.addEventListener('click', async () => {
@@ -1047,6 +1065,53 @@ class UnifiedEditor {
             } catch (e) {
                 alert('Browse failed: ' + e.message);
             }
+        });
+
+        // Internal link search
+        let searchTimer = null;
+        searchQuery.addEventListener('input', () => {
+            clearTimeout(searchTimer);
+            const q = searchQuery.value.trim();
+            if (!q) { searchDrop.style.display = 'none'; return; }
+            searchTimer = setTimeout(async () => {
+                try {
+                    const resp = await fetch(`/api/search-posters?q=${encodeURIComponent(q)}`);
+                    const results = await resp.json();
+                    searchDrop.innerHTML = '';
+                    if (!results.length) { searchDrop.style.display = 'none'; return; }
+                    results.forEach(r => {
+                        const item = document.createElement('div');
+                        item.className = 'link-internal-suggestion';
+                        item.dataset.path = r.path;
+                        const titleEl = document.createElement('div');
+                        titleEl.className = 'suggestion-title';
+                        titleEl.textContent = r.title;
+                        item.appendChild(titleEl);
+                        if (r.subtitle) {
+                            const subEl = document.createElement('div');
+                            subEl.className = 'suggestion-sub';
+                            subEl.textContent = r.subtitle;
+                            item.appendChild(subEl);
+                        }
+                        item.addEventListener('mousedown', e => {
+                            e.preventDefault(); // keep focus on searchQuery
+                            urlInput.value = r.path;
+                            searchQuery.value = r.title;
+                            searchDrop.style.display = 'none';
+                            // Auto-fill label if empty
+                            const labelInput = div.querySelector('.link-label');
+                            if (labelInput && !labelInput.value.trim()) {
+                                labelInput.value = r.title;
+                            }
+                        });
+                        searchDrop.appendChild(item);
+                    });
+                    searchDrop.style.display = 'block';
+                } catch (e) { console.error('Internal link search error:', e); }
+            }, 250);
+        });
+        searchQuery.addEventListener('blur', () => {
+            setTimeout(() => { searchDrop.style.display = 'none'; }, 200);
         });
 
         this.linksList.appendChild(div);

@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "poster-mq3wumxeov1a15ox5",
+  "front": {
+    "title": "Monte Carlo Tree Search"
+  },
+  "back": {
+    "layout": "auto"
+  },
+  "meta": {
+    "created": "2026-06-07T15:02:06.482Z",
+    "modified": "2026-06-07T15:24:46.092Z",
+    "categories": [
+      "Test Category"
+    ]
+  }
+}

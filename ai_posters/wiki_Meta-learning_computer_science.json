@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "86392e24-454b-43c9-af94-349dacb1a1b7",
+  "front": {
+    "title": "Meta-learning (computer science)",
+    "subtitle": "Subfield of machine learning"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Meta-learning\nis a subfield of machine learning where automatic learning algorithms are applied to metadata about machine learning experiments. As of 2017, the term had not found a standard interpretation, however the main goal is to use such metadata to understand how automatic learning can become flexible in solving learning problems, hence to improve the performance of existing learning algorithms or to learn (induce) the learning algorithm itself, hence the alternative term learning to learn.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Meta-learning_(computer_science)",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-06-06T14:58:17.332777",
+    "modified": "2026-06-06T14:58:17.332781",
+    "categories": [
+      "Recursive Self Improvement"
+    ],
+    "tags": [
+      "Meta-learning (computer science)"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Meta-learning_(computer_science)"
+  }
+}

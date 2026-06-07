@@ -1,38 +1,43 @@
 {
   "version": 2,
   "type": "poster-v2",
-  "uid": "5eb4036c-3186-44c3-a56c-abe874fbc527",
+  "uid": "3e6ec8c7-2e5b-4ae3-9de6-e369e01b874a",
   "front": {
-    "title": "Time Travel and AI in Science Fiction",
-    "subtitle": "Exploring the intersection of artificial intelligence and temporal journeys.",
+    "title": "Temporal Computing: AI and Time Travel in Fiction",
+    "subtitle": "Exploring how science fiction uses artificial intelligence to manage the paradoxes and calculations of time travel.",
     "chronology": {
-      "epochStart": 1950,
+      "epochStart": 1895,
       "epochEnd": 2026,
       "epochEvents": [
         {
-          "year": 1950,
-          "name": "Time Travel and AI in Science Fiction"
+          "year": 1895,
+          "name": "Temporal Computing: AI and Time Travel in Fiction"
         }
       ]
     }
   },
   "back": {
-    "layout": "text-only",
-    "text": "Time travel has long captivated the imagination of science fiction writers, presenting a unique canvas for exploring the implications of technology and human existence. In these narratives, artificial intelligence often serves as a pivotal element, acting as both a guide and a challenge to the time traveler. From the sentient machines of Isaac Asimov's stories to the complex algorithms in modern films, AI embodies the potential and peril of advanced technology in altering the fabric of time and reality.\n\nThe interplay between time travel and AI raises profound questions about free will, ethics, and the consequences of tampering with the past. As characters navigate through different timelines, they confront the paradoxes that arise from their interactions with AI, which often possesses knowledge of future events. This dynamic not only enhances the storytelling but also encourages audiences to reflect on the broader implications of artificial intelligence in our own world, particularly as we stand on the brink of technological advancements that could one day make time travel a reality.",
-    "links": []
+    "layout": "image-top",
+    "text": "In science fiction, time travel is often depicted as a computational challenge beyond human capability. Authors frequently employ AI as the 'navigator' for temporal shifts, using machine learning to calculate complex trajectories through 4D space-time and to predict the cascading consequences of altering the past, often referred to as the Butterfly Effect. These fictional systems serve as a metaphor for real-world predictive modeling and the ethical implications of using data to alter future outcomes.\n\nProminent examples include AI entities that monitor 'sacred timelines' or prevent temporal paradoxes. These stories explore the concept of 'causality loops,' where an AI might be responsible for its own creation by sending information back in time. While physical time travel remains theoretical, these narratives reflect modern concerns about algorithmic determinism and the power of AI to shape the course of human history through long-term forecasting and automated decision-making.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_temporal_computing_ai_and_time_travel_in_1780740262.png",
+      "alt": "Temporal Computing: AI and Time Travel in Fiction",
+      "position": "top"
+    }
   },
   "meta": {
-    "created": "2026-03-18T22:02:45.042840",
-    "modified": "2026-03-18T22:02:45.042846",
+    "created": "2026-06-06T12:04:22.882927",
+    "modified": "2026-06-06T12:04:22.882934",
     "categories": [
       "AI in Science Fiction"
     ],
     "tags": [
       "Time_Travel_and_AI",
-      "Science Fiction",
-      "Artificial Intelligence",
-      "Time Travel"
+      "Predictive Modeling",
+      "Causality",
+      "Speculative Science"
     ],
-    "source": "openrouter/openai/gpt-4o-mini"
+    "source": "openrouter/google/gemini-3-flash-preview"
   }
 }

@@ -1,42 +1,43 @@
 {
   "version": 2,
   "type": "poster-v2",
-  "uid": "poster-mmwlzg0lgk25kgeno",
+  "uid": "1704f25e-580d-4afa-bdeb-88fb014c28e8",
   "front": {
     "title": "AI in Dystopian Futures",
-    "subtitle": "Exploring the role of artificial intelligence in speculative fiction.",
+    "subtitle": "Exploring the cautionary role of artificial intelligence in speculative literature and cinema.",
     "chronology": {
-      "epochStart": 1950,
+      "epochStart": 1927,
       "epochEnd": 2026,
       "epochEvents": [
         {
-          "year": 1950,
+          "year": 1927,
           "name": "AI in Dystopian Futures"
         }
       ]
     }
   },
   "back": {
-    "layout": "text-only",
-    "text": "Artificial intelligence has long been a compelling theme in science fiction, often depicted as a double-edged sword. In dystopian narratives, AI frequently embodies humanity's fears of losing control over technology. From Isaac Asimov's 'I, Robot' to the chilling world of 'The Matrix,' these stories explore the consequences of advanced AI systems that surpass human intelligence, leading to oppressive regimes or existential threats. \n\nThese fictional portrayals serve as cautionary tales, prompting society to reflect on ethical considerations and the potential ramifications of AI development. As we venture further into the era of machine learning and automation, the lessons gleaned from these dystopian futures remain relevant, urging us to navigate the complexities of technology with foresight and responsibility.",
+    "layout": "image-top",
+    "text": "Dystopian science fiction often utilizes artificial intelligence as a narrative tool to explore themes of control, surveillance, and the loss of human agency. These stories frequently depict AI as an omnipresent governing force or a tool used by authoritarian regimes to enforce social order. By presenting extreme scenarios where technology supersedes human ethics, these works serve as philosophical thought experiments regarding the alignment of machine goals with human values.\n\nCommon tropes in this genre include the 'rogue superintelligence' and the 'automated bureaucracy,' where algorithmic decision-making becomes cold, rigid, and inescapable. While these depictions are often hyperbolic, they reflect real-world societal anxieties concerning data privacy, algorithmic bias, and the potential for technological overreach. In a museum context, these narratives highlight the importance of responsible AI development and the necessity of maintaining human oversight in automated systems.",
+    "links": [],
     "image": {
-      "src": "images/originals/ai_ai_in_dystopian_futures_1773872646328.png",
+      "src": "images/originals/ai_ai_in_dystopian_futures_1780740279.png",
       "alt": "AI in Dystopian Futures",
       "position": "top"
     }
   },
   "meta": {
-    "created": "2026-03-18T22:02:50.854256",
-    "modified": "2026-03-18T22:24:24.788Z",
-    "tags": [
-      "AI_in_Dystopian_Futures",
-      "AI",
-      "Dystopia",
-      "Science Fiction"
-    ],
-    "source": "openrouter/openai/gpt-4o-mini",
+    "created": "2026-06-06T12:04:39.709472",
+    "modified": "2026-06-06T12:04:39.709482",
     "categories": [
       "AI in Science Fiction"
-    ]
+    ],
+    "tags": [
+      "AI_in_Dystopian_Futures",
+      "Speculative Fiction",
+      "Ethics",
+      "Societal Impact"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview"
   }
 }

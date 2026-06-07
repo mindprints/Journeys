@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "9c40180b-9734-4ff1-895a-dfc58bc2ae6f",
+  "front": {
+    "title": "Metropolis (1927 film)",
+    "subtitle": "German silent science-fiction film"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Metropolis is a 1927 German expressionist science-fiction silent film directed by Fritz Lang and written by Thea von Harbou in collaboration with Lang, based on von Harbou's 1925 novel of the same name. It stars Gustav Fr\u00f6hlich, Alfred Abel, Rudolf Klein-Rogge, and Brigitte Helm. Erich Pommer produced it in the Babelsberg Studio for Universum Film A.G. (UFA). Metropolis is regarded as a pioneering science-fiction film, being among the first feature-length ones of that genre. Filming took place over 17 months in 1925\u20131926 at a cost of more than five million Reichsmarks, or the equivalent of about \u20ac21 million.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Metropolis_(1927_film)",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/en/thumb/9/97/Metropolis_%28German_three-sheet_poster%29.jpg/330px-Metropolis_%28German_three-sheet_poster%29.jpg",
+      "alt": "Metropolis (1927 film)",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T20:39:09.027855",
+    "modified": "2026-06-07T20:39:09.027859",
+    "categories": [
+      "Clasical Robots"
+    ],
+    "tags": [
+      "Early robotics",
+      "Humanoid AI",
+      "Sci-fi cinema",
+      "German Expressionism",
+      "Future cities"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Metropolis_(1927_film)"
+  }
+}

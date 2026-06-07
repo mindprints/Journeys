@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "6ccb99fe-75c1-45c4-b78c-f2fb08e801f2",
+  "front": {
+    "title": "AlphaZero",
+    "subtitle": "Game-playing artificial intelligence"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "AlphaZero is a computer program developed by artificial intelligence research company DeepMind to master the games of chess, shogi and go. This algorithm uses an approach similar to AlphaGo Zero.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/AlphaZero",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Chess_Programming.svg/330px-Chess_Programming.svg.png",
+      "alt": "AlphaZero",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:37:51.090424",
+    "modified": "2026-03-19T22:37:51.090428",
+    "categories": [
+      "The Bitter Lesson"
+    ],
+    "tags": [
+      "AlphaZero"
+    ],
+    "source": "https://en.wikipedia.org/wiki/AlphaZero"
+  }
+}

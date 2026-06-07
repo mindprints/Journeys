@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "bb6fc341-3a85-4233-ac1f-fdba304df0a4",
+  "front": {
+    "title": "ASIMO",
+    "subtitle": "Humanoid robot created by Honda"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "ASIMO is a humanoid robot created by Honda. After developing experiental walking robots in the 1980s\u20131990s, the company introduced the original ASIMO in 2000. Three updated models followed from 2004 to 2011. The line was retired in 2022, with Honda stating that it would utilize some of the technology for other projects.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/ASIMO",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Honda_ASIMO_%28ver._2011%29_2011_Tokyo_Motor_Show.jpg/330px-Honda_ASIMO_%28ver._2011%29_2011_Tokyo_Motor_Show.jpg",
+      "alt": "ASIMO",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T20:38:59.389830",
+    "modified": "2026-06-07T20:38:59.389835",
+    "categories": [
+      "Clasical Robots"
+    ],
+    "tags": [
+      "Humanoid robots",
+      "Honda",
+      "Bipedal locomotion",
+      "Robotics history",
+      "Service robots"
+    ],
+    "source": "https://en.wikipedia.org/wiki/ASIMO"
+  }
+}

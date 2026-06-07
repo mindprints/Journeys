@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "3e69450c-04ab-4a7f-85ed-7e011e0899d0",
+  "front": {
+    "title": "HAL 9000",
+    "subtitle": "Fictional character in Arthur C. Clarke's Space Odyssey series"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "HAL 9000 is a fictional artificial intelligence character and the main antagonist in the Space Odyssey series. First appearing in the 1968 film 2001: A Space Odyssey, HAL is a sentient artificial general intelligence computer that controls the systems of the Discovery One spacecraft and interacts with the ship's astronaut crew. While part of HAL's hardware is shown toward the end of the film, he is mostly depicted as a camera lens containing a red and yellow dot, with such units located throughout the ship. HAL 9000 is voiced by Douglas Rain in the two feature film adaptations of the Space Odyssey series. HAL speaks in a soft, calm voice and a conversational manner, and engages convivially with crewmen David Bowman and Frank Poole until he begins to malfunction.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/HAL_9000",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "images/originals/ai_hal_9000_1780857568.png",
+      "alt": "HAL 9000",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T20:39:13.769392",
+    "modified": "2026-06-07T20:39:13.769396",
+    "categories": [
+      "Clasical Robots"
+    ],
+    "tags": [
+      "Science Fiction",
+      "Artificial Intelligence",
+      "Space Exploration",
+      "Sentient Computer",
+      "Pop Culture"
+    ],
+    "source": "https://en.wikipedia.org/wiki/HAL_9000"
+  }
+}

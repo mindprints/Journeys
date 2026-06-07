@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "7dc9a36b-c8e0-4ee7-a729-2964e463789e",
+  "front": {
+    "title": "API",
+    "subtitle": "Connection between computers or programs"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "\nAn application programming interface (API) is a connection between computers or between computer programs. It is a type of software interface, offering a service to other pieces of software. A document or standard that describes how to build such a connection or interface is called an API specification. A computer system that meets this standard is said to implement or expose an API. The term API may refer either to the specification or to the implementation.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/API",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "images/originals/ai_api_1773955048.png",
+      "alt": "API",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:17:01.153626",
+    "modified": "2026-03-19T22:17:01.153629",
+    "categories": [
+      "harnesses and scaffolds"
+    ],
+    "tags": [
+      "Application programming interface"
+    ],
+    "source": "https://en.wikipedia.org/wiki/API"
+  }
+}

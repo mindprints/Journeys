@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "0d862b52-0fc9-43d3-8363-b149f0496a76",
+  "front": {
+    "title": "Python Programming Language",
+    "subtitle": "The versatile, high-level language that has become the foundational standard for artificial intelligence.",
+    "chronology": {
+      "epochStart": 1991,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1991,
+          "name": "Python Programming Language"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Created by Guido van Rossum and first released in 1991, Python was designed with a philosophy that emphasizes code readability and simplicity. Its clear syntax allows developers to express complex concepts in fewer lines of code compared to languages like C++ or Java. This accessibility has made it the primary entry point for students and researchers entering the field of computer science.\n\nIn the realm of artificial intelligence, Python is the undisputed leader. Its dominance is driven by a vast ecosystem of specialized libraries such as TensorFlow, PyTorch, and Scikit-learn. These tools provide the building blocks for deep learning, data analysis, and neural network construction, allowing engineers to prototype and deploy AI models with unprecedented speed.\n\nBeyond its technical capabilities, Python thrives due to its massive global community. As an open-source project, it is constantly improved by contributors worldwide. This collaborative environment ensures that as new breakthroughs in machine learning emerge, Python remains the primary vehicle for turning theoretical mathematics into functional, world-changing technology.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_python_programming_language_1780750124.png",
+      "alt": "Python Programming Language",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T14:48:44.999300",
+    "modified": "2026-06-06T14:48:44.999312",
+    "categories": [
+      "Test Category"
+    ],
+    "tags": [
+      "Python",
+      "Programming",
+      "Software",
+      "Machine Learning"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview"
+  }
+}

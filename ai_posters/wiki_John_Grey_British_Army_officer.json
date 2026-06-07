@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "3995b475-d995-49d5-9a8f-939db096a24b",
+  "front": {
+    "title": "John Grey (British Army officer, died 1856)",
+    "subtitle": "British Officer and East India company official"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Lieutenant-General Sir John Grey was an officer of British Army and the East India Company forces, and was the Commander-in-chief of the Bombay Army from 30 December 1850 to 22 November 1852.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/John_Grey_(British_Army_officer%2C_died_1856)",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "images/originals/ai_john_grey_british_army_officer_died_1856_1773910854.png",
+      "alt": "John Grey (British Army officer, died 1856)",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T10:00:41.900310",
+    "modified": "2026-03-19T19:38:48.246Z",
+    "categories": [
+      "No-Category"
+    ],
+    "tags": [
+      "John Grey (British Army officer)"
+    ],
+    "source": "https://en.wikipedia.org/wiki/John_Grey_(British_Army_officer%2C_died_1856)"
+  }
+}

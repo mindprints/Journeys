@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "2c211b65-24d6-4415-9e17-b2702cb53c42",
+  "front": {
+    "title": "Protocol stack",
+    "subtitle": "Comprehensive computer networking implementation"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "The protocol stack or network stack is an implementation of a computer networking protocol suite or protocol family. Some of these terms are used interchangeably, but strictly speaking, the suite is the definition of the communication protocols, and the stack is the software implementation of them.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Protocol_stack",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/OSI_Model_v1.svg/330px-OSI_Model_v1.svg.png",
+      "alt": "Protocol stack",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:17:29.904964",
+    "modified": "2026-03-19T22:17:29.904968",
+    "categories": [
+      "harnesses and scaffolds"
+    ],
+    "tags": [
+      "Protocol stack"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Protocol_stack"
+  }
+}

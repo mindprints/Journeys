@@ -1,38 +1,43 @@
 {
   "version": 2,
   "type": "poster-v2",
-  "uid": "eb8b05ff-f3f8-46da-a6af-09e158128232",
+  "uid": "ba371187-6aea-4029-887b-8040bd64d890",
   "front": {
-    "title": "Sentient Machines in Science Fiction",
-    "subtitle": "Exploring the rise of artificial intelligence in literature and film.",
+    "title": "Sentient Machines",
+    "subtitle": "Exploring the boundary between programmed logic and conscious thought in speculative technology.",
     "chronology": {
       "epochStart": 1950,
       "epochEnd": 2026,
       "epochEvents": [
         {
           "year": 1950,
-          "name": "Sentient Machines in Science Fiction"
+          "name": "Sentient Machines"
         }
       ]
     }
   },
   "back": {
-    "layout": "text-only",
-    "text": "The concept of sentient machines has captivated audiences since the mid-20th century, reflecting humanity's hopes and fears about technology. In 1950, Alan Turing's groundbreaking paper introduced the idea of machines that could think, laying the foundation for future explorations in artificial intelligence. Science fiction quickly adopted this theme, presenting complex narratives that questioned the nature of consciousness and the ethical implications of creating intelligent beings.\n\nIconic works like Isaac Asimov's 'I, Robot' and the film '2001: A Space Odyssey' challenged perceptions of autonomy and morality in machines. These stories often depicted robots and AI as both allies and adversaries, prompting discussions about their potential roles in society. As technology advances, the portrayal of sentient machines continues to evolve, reflecting our ongoing dialogue about the relationship between humans and artificial intelligence.",
-    "links": []
+    "layout": "image-top",
+    "text": "Sentient machines are a cornerstone of science fiction, representing artificial entities that possess self-awareness, emotions, and the capacity for subjective experience. While modern AI excels at pattern recognition and data processing, it lacks the 'qualia' or internal life associated with true sentience. These fictional depictions serve as philosophical thought experiments, forcing humanity to define the criteria for personhood and the ethical responsibilities of creators toward their creations.\n\nIn literature and film, the transition from automation to sentience often serves as a metaphor for civil rights and the evolution of intelligence. From Isaac Asimov's positronic brains to the self-aware systems of late 20th-century cinema, these narratives anticipate the challenges of the Turing Test and the 'Hard Problem' of consciousness. They prompt researchers to consider whether consciousness is a biological exclusive or an emergent property of sufficiently complex information processing.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_sentient_machines_1780740099.png",
+      "alt": "Sentient Machines",
+      "position": "top"
+    }
   },
   "meta": {
-    "created": "2026-03-18T22:01:40.676893",
-    "modified": "2026-03-18T22:01:40.676899",
+    "created": "2026-06-06T12:01:39.089506",
+    "modified": "2026-06-06T12:01:39.089516",
     "categories": [
       "AI in Science Fiction"
     ],
     "tags": [
       "Sentient_Machines",
-      "AI",
-      "Science Fiction",
-      "Sentience"
+      "Consciousness",
+      "Ethics",
+      "Philosophy"
     ],
-    "source": "openrouter/openai/gpt-4o-mini"
+    "source": "openrouter/google/gemini-3-flash-preview"
   }
 }

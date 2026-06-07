@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "c31b9dd4-8ee6-4c1a-a3a1-8bd7df271a33",
+  "front": {
+    "title": "Demis Hassabis",
+    "subtitle": "British AI researcher (born 1976)"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Sir Demis Hassabis is a British artificial intelligence (AI) researcher and entrepreneur. He is the chief executive officer and co-founder of Google DeepMind and Isomorphic Labs, and a UK Government AI Adviser. In 2024, Hassabis and John M. Jumper were jointly awarded the Nobel Prize in Chemistry for their AI research contributions for protein structure prediction.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Demis_Hassabis",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Demis_Hassabis%2C_2024_Nobel_Prize_Laureate_in_Chemistry_7_%28cropped%29.jpg/330px-Demis_Hassabis%2C_2024_Nobel_Prize_Laureate_in_Chemistry_7_%28cropped%29.jpg",
+      "alt": "Demis Hassabis",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T09:31:30.867568",
+    "modified": "2026-03-19T19:45:48.316Z",
+    "categories": [
+      "AI Scientists"
+    ],
+    "tags": [
+      "Demis Hassabis"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Demis_Hassabis"
+  }
+}

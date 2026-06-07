@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "930a58dd-282a-4f6b-bce8-734c2efa0940",
+  "front": {
+    "title": "John Grey and Early Computational Logic",
+    "subtitle": "Exploring the intersection of formal logic, linguistic structures, and early algorithmic thinking.",
+    "chronology": {
+      "epochStart": 1866,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1866,
+          "name": "John Grey and Early Computational Logic"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "In the history of computer science, figures like John Grey represent the bridge between classical formal logic and the development of automated reasoning. While often associated with ecclesiastical history, Grey's contributions to the systematization of language and logical proofs provided a conceptual framework for early information processing. His work emphasized the importance of structured syntax, which later became a cornerstone for programming language theory.\n\nGrey's analytical approach to text and symbolic representation mirrored the evolution of symbolic AI. By treating language as a set of rules that could be parsed and categorized, he inadvertently contributed to the lineage of natural language processing. This exhibit explores how his rigorous methodologies influenced the mathematical foundations required for modern machine learning and the digital representation of human knowledge.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_john_grey_and_early_computational_logic_1773910899.png",
+      "alt": "John Grey and Early Computational Logic",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T10:01:39.339544",
+    "modified": "2026-03-19T19:38:48.247Z",
+    "categories": [
+      "No-Category"
+    ],
+    "tags": [
+      "John Grey (clergyman)",
+      "Logic",
+      "NLP",
+      "Symbolic AI"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}

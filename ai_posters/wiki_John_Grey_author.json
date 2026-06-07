@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "d0bba986-704f-4e96-b517-a7cd03140400",
+  "front": {
+    "title": "John Grey (AI Ethics and Philosophy)",
+    "subtitle": "A scholar exploring the intersection of human consciousness, technology, and the ethical implications of automation.",
+    "chronology": {
+      "epochStart": 2010,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 2010,
+          "name": "John Grey (AI Ethics and Philosophy)"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "John Grey is recognized in the field of technology philosophy for his critical analysis of how artificial intelligence and automation reshape human society. His work often focuses on the tension between technological progress and the preservation of human agency, questioning the long-term impact of delegating decision-making processes to algorithmic systems. By examining the historical trajectory of automation, Grey provides a framework for understanding the societal shifts caused by the integration of AI into daily life.\n\nIn the context of machine learning, Grey's contributions emphasize the importance of transparency and accountability. He argues that as AI systems become more complex, the risk of 'black box' decision-making increases, potentially leading to unforeseen ethical dilemmas. His research serves as a cautionary guide for developers and policymakers, urging the creation of AI that aligns with human values while acknowledging the inherent limitations of computational logic in replicating human intuition.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_john_grey_ai_ethics_and_philosophy_1773910922.png",
+      "alt": "John Grey (AI Ethics and Philosophy)",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T10:02:02.441843",
+    "modified": "2026-03-19T19:38:48.246Z",
+    "categories": [
+      "No-Category"
+    ],
+    "tags": [
+      "John Grey (author)",
+      "AI Ethics",
+      "Philosophy of Technology",
+      "Automation"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}

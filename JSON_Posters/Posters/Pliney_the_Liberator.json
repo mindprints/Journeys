@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "poster-mq3xaigapujlyda0n",
+  "front": {
+    "title": "Pliney the Liberator",
+    "subtitle": "The man who can jailbreak anything"
+  },
+  "back": {
+    "layout": "auto",
+    "image": {
+      "src": "images/originals/ai_pliney_the_liberator_1780825565375.png",
+      "alt": "Pliney the Liberator",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T09:46:38.683Z",
+    "modified": "2026-06-07T15:14:27.178Z",
+    "categories": [
+      "No-Category"
+    ]
+  }
+}

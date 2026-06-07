@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "ba551189-1a46-44ae-8a3d-5e5a628f8676",
+  "front": {
+    "title": "Chinchilla (language model)",
+    "subtitle": "Language model by DeepMind"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Chinchilla is a family of large language models (LLMs) developed by the research team at Google DeepMind, presented in March 2022.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Chinchilla_(language_model)",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "images/originals/ai_chinchilla_language_model_1773950036.png",
+      "alt": "Chinchilla (language model)",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T20:53:40.206676",
+    "modified": "2026-03-19T20:53:40.206681",
+    "categories": [
+      "Deep Learning"
+    ],
+    "tags": [
+      "Chinchilla (language model)"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Chinchilla_(language_model)"
+  }
+}

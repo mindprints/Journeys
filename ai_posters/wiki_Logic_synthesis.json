@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "2cdc485f-5b34-43f5-8e8c-4dab7b3f75af",
+  "front": {
+    "title": "Logic synthesis",
+    "subtitle": "Process by which desired circuit behavior is turned into a schematic of logic gates"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "\nIn computer engineering, logic synthesis is a process by which an abstract specification of desired circuit behavior, typically at register transfer level (RTL), is turned into a design implementation in terms of logic gates, typically by a computer program called a synthesis tool. Common examples of this process include synthesis of designs specified in hardware description languages, including VHDL and Verilog. Some synthesis tools generate bitstreams for programmable logic devices such as PALs or FPGAs, while others target the creation of ASICs. Logic synthesis is one step in circuit design in the electronic design automation, the others are place and route and verification and validation.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Logic_synthesis",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "images/originals/ai_logic_synthesis_1780859832.png",
+      "alt": "Logic synthesis",
+      "position": "top",
+      "caption": "AI Generated"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T21:16:54.637894",
+    "modified": "2026-06-07T21:16:54.637898",
+    "categories": [
+      "ASICS"
+    ],
+    "tags": [
+      "Computer Engineering",
+      "Circuit Design",
+      "Logic Gates",
+      "Hardware Automation",
+      "Digital Logic"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Logic_synthesis"
+  }
+}

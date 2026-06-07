@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "c5bcb3cd-6efd-4134-b812-3119c215aed6",
+  "front": {
+    "title": "Alibaba Group",
+    "subtitle": "Chinese multinational technology company"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Alibaba Group Holding Limited, branded as Alibaba, is a Chinese multinational technology company specializing in e-commerce, retail, Internet, and technology. Founded on 28 June 1999 in Hangzhou, Zhejiang, the company provides consumer-to-consumer (C2C), business-to-consumer (B2C), and business-to-business (B2B) sales services via Chinese and global marketplaces, as well as local consumer, digital media and entertainment, logistics, and cloud computing services. It owns and operates a diverse portfolio of companies around the world in numerous business sectors.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Alibaba_Group",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/TaobaoCity_Alibaba_Xixi_Park.jpg/330px-TaobaoCity_Alibaba_Xixi_Park.jpg",
+      "alt": "Alibaba Group",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T18:32:52.569193",
+    "modified": "2026-06-06T18:32:52.569197",
+    "categories": [
+      "Chinese Open Weight Models"
+    ],
+    "tags": [
+      "E-commerce",
+      "Cloud Computing",
+      "Digital Retail",
+      "Chinese Technology",
+      "Logistics AI"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Alibaba_Group"
+  }
+}

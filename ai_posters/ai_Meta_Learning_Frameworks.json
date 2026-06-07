@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "9610146a-34ab-4119-aff7-e7d5fc949e1c",
+  "front": {
+    "title": "Meta-Learning Frameworks",
+    "subtitle": "Advanced systems designed to help artificial intelligence learn how to learn from limited data.",
+    "chronology": {
+      "epochStart": 2017,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 2017,
+          "name": "Meta-Learning Frameworks"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Meta-learning frameworks represent a shift in artificial intelligence from task-specific training to general adaptability. While traditional machine learning requires thousands of examples to master a single skill, meta-learning enables models to draw upon past experiences to solve new problems with only a handful of data points. This process, often called few-shot learning, mimics the human ability to recognize a new object or concept after seeing it only once or twice.\n\nThese frameworks function by optimizing the learning process itself. During the meta-training phase, the system is exposed to a variety of different tasks, allowing it to develop a set of internal priors or initialization weights. When faced with a novel challenge, the model uses these pre-optimized starting points to rapidly fine-tune its parameters. Popular frameworks like Model-Agnostic Meta-Learning (MAML) and Prototypical Networks have become foundational in fields where data is scarce, such as medical imaging and personalized robotics.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_meta_learning_frameworks_1780752789.png",
+      "alt": "Meta-Learning Frameworks",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T15:33:09.151739",
+    "modified": "2026-06-06T15:33:09.151746",
+    "categories": [
+      "RSI"
+    ],
+    "tags": [
+      "Meta_Learning_Frameworks",
+      "Optimization",
+      "Few-Shot Learning",
+      "Neural Networks"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview"
+  }
+}

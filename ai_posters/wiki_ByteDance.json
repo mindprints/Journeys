@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "f1d6c08c-b25d-494d-a9cb-da792031dcc9",
+  "front": {
+    "title": "ByteDance",
+    "subtitle": "Chinese Internet technology company"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "ByteDance is a Chinese internet technology company headquartered in Haidian, Beijing. Its associated variable-interest entity, ByteDance Ltd, is incorporated in the Cayman Islands.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/ByteDance",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/ByteDance_1733_Commercial_Space_%2820240731145554%29.jpg/330px-ByteDance_1733_Commercial_Space_%2820240731145554%29.jpg",
+      "alt": "ByteDance",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T18:32:59.135125",
+    "modified": "2026-06-06T18:32:59.135130",
+    "categories": [
+      "Chinese Open Weight Models"
+    ],
+    "tags": [
+      "Social Media",
+      "Algorithms",
+      "Content Curation",
+      "Machine Learning",
+      "ByteDance"
+    ],
+    "source": "https://en.wikipedia.org/wiki/ByteDance"
+  }
+}

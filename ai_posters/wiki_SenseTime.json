@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "78236088-cef2-45d2-b6db-e153e1290dbd",
+  "front": {
+    "title": "SenseTime",
+    "subtitle": "Chinese artificial intelligence company"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "SenseTime is a partly state-owned publicly traded artificial intelligence company headquartered in Hong Kong. The company develops technologies including facial recognition, image recognition, object detection, optical character recognition, medical image analysis, video analysis, autonomous driving, and remote sensing. Since 2019, SenseTime has been repeatedly sanctioned by the U.S. government due to allegations that its facial recognition technology has been deployed in the surveillance and internment of the Uyghurs and other ethnic and religious minorities. SenseTime denies the allegations.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/SenseTime",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/SenseTime_Hong_Kong_HQ.jpg/330px-SenseTime_Hong_Kong_HQ.jpg",
+      "alt": "SenseTime",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T18:33:18.547412",
+    "modified": "2026-06-06T18:33:18.547416",
+    "categories": [
+      "Chinese Open Weight Models"
+    ],
+    "tags": [
+      "Computer Vision",
+      "Facial Recognition",
+      "Autonomous Driving",
+      "Medical AI",
+      "Image Analysis"
+    ],
+    "source": "https://en.wikipedia.org/wiki/SenseTime"
+  }
+}

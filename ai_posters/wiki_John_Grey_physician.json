@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "7133fbaf-5621-4c90-9122-b72be89ee280",
+  "front": {
+    "title": "John Grey and Early Cybernetics",
+    "subtitle": "Exploring the intersection of neurophysiology and the foundations of artificial intelligence.",
+    "chronology": {
+      "epochStart": 1948,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1948,
+          "name": "John Grey and Early Cybernetics"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "John Grey was a pioneering physician and neurophysiologist whose work in the mid-20th century contributed to the early understanding of biological neural networks. By studying the electrical activity of the brain and the mechanics of the nervous system, Grey and his contemporaries provided the biological blueprints that would later inspire the development of artificial neural networks and connectionist models in computer science. His research into how physical structures produce complex thought was foundational for early cybernetics. This field sought to bridge the gap between organic intelligence and machine logic, treating the human brain as a sophisticated information processing system. These early insights into feedback loops and neural signaling remain relevant in modern AI research, particularly in the development of neuromorphic computing and brain-computer interfaces.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_john_grey_and_early_cybernetics_1773910743.png",
+      "alt": "John Grey and Early Cybernetics",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T09:59:03.047074",
+    "modified": "2026-03-19T19:38:48.250Z",
+    "categories": [
+      "No-Category"
+    ],
+    "tags": [
+      "John Grey (physician)",
+      "Cybernetics",
+      "Neurophysiology",
+      "Neural Networks"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}

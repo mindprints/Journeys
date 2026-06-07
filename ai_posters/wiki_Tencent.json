@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "31b619d3-2d73-43e3-996a-28d92d4c4f96",
+  "front": {
+    "title": "Tencent",
+    "subtitle": "Chinese conglomerate and holding company"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Tencent is a Chinese multinational technology conglomerate and holding company headquartered in Shenzhen. It is one of the highest grossing multimedia companies in the world based on revenue. It is also the world's largest company in the video game industry based on its equity investments. Its associated stock-market-listed variable interest entity Tencent Holdings Ltd is incorporated in the Cayman Islands.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Tencent",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Tencent_Seafront_Tower_in_Dec2020.jpg/330px-Tencent_Seafront_Tower_in_Dec2020.jpg",
+      "alt": "Tencent",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T18:32:54.744914",
+    "modified": "2026-06-06T18:32:54.744919",
+    "categories": [
+      "Chinese Open Weight Models"
+    ],
+    "tags": [
+      "Multinational Conglomerate",
+      "Video Games",
+      "Multimedia",
+      "Digital Technology",
+      "Chinese Tech Industry"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Tencent"
+  }
+}

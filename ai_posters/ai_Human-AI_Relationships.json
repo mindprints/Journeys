@@ -1,38 +1,43 @@
 {
   "version": 2,
   "type": "poster-v2",
-  "uid": "47c23951-9b3b-443d-a482-0b74c61d88e7",
+  "uid": "b26a9ae7-bfe3-472b-86f0-cdaeb372aae8",
   "front": {
-    "title": "Human-AI Relationships in Science Fiction",
-    "subtitle": "Exploring the evolving bond between humans and artificial intelligence.",
+    "title": "Human-AI Relationships",
+    "subtitle": "Exploring the social, ethical, and emotional boundaries between biological and synthetic intelligence.",
     "chronology": {
       "epochStart": 1950,
       "epochEnd": 2026,
       "epochEvents": [
         {
           "year": 1950,
-          "name": "Human-AI Relationships in Science Fiction"
+          "name": "Human-AI Relationships"
         }
       ]
     }
   },
   "back": {
-    "layout": "text-only",
-    "text": "Science fiction has long imagined the relationship between humans and artificial intelligence (AI), often reflecting our hopes and fears. From early works like Karel \u010capek's 1920 play 'R.U.R.' (Rossum's Universal Robots), which introduced the term 'robot,' to Isaac Asimov's 'I, Robot' series, these narratives explore the complexities of coexistence with machines. They raise ethical questions about autonomy, consciousness, and the potential for AI to surpass human intelligence.\n\nAs technology advances, the themes in science fiction become increasingly relevant. Today, AI is integrated into daily life, influencing everything from healthcare to entertainment. These stories not only entertain but also serve as cautionary tales, prompting discussions about the moral implications of creating sentient beings. By examining these fictional relationships, we gain insight into our own interactions with technology and the future we are shaping together with AI.",
-    "links": []
+    "layout": "image-top",
+    "text": "Science fiction has long served as a sandbox for exploring how humans might interact with sentient machines. From Isaac Asimov's positronic robots to the empathetic operating systems in modern cinema, these narratives examine whether artificial intelligence can truly experience emotion or if they merely simulate it to facilitate human cooperation. These stories often mirror contemporary sociological questions regarding labor, personhood, and the nature of companionship.\n\nIn technical reality, human-AI interaction is a field of study focused on social robotics and affective computing. Engineers design systems that use natural language processing and facial recognition to mirror human social cues, creating a sense of rapport. While current AI lacks consciousness, the human tendency to anthropomorphize technology suggests that as machines become more lifelike, the psychological and ethical complexity of these relationships will continue to grow.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_human_ai_relationships_1780740178.png",
+      "alt": "Human-AI Relationships",
+      "position": "top"
+    }
   },
   "meta": {
-    "created": "2026-03-18T22:02:14.706829",
-    "modified": "2026-03-18T22:02:14.706835",
+    "created": "2026-06-06T12:02:58.347105",
+    "modified": "2026-06-06T12:02:58.347114",
     "categories": [
       "AI in Science Fiction"
     ],
     "tags": [
       "Human-AI_Relationships",
-      "AI",
-      "Science Fiction",
-      "Human Relationships"
+      "Human-Computer Interaction",
+      "Social Robotics",
+      "Ethics"
     ],
-    "source": "openrouter/openai/gpt-4o-mini"
+    "source": "openrouter/google/gemini-3-flash-preview"
   }
 }

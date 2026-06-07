@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "ca8f3de4-5f1e-4aaa-90c6-aa5eafe43e8b",
+  "front": {
+    "title": "Evolutionary computation",
+    "subtitle": "Trial and error problem solvers with a metaheuristic or stochastic optimization character"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Evolutionary computation (EC) from computer science is a family of algorithms for global optimization inspired by biological evolution, and a subfield of computational intelligence and soft computing studying these algorithms. In technical terms, they are a family of population-based trial and error problem solvers with a metaheuristic or stochastic optimization character.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Evolutionary_computation",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/f/fb/Darwin_image_evolution_from_random_patches.gif",
+      "alt": "Evolutionary computation",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T14:58:13.446621",
+    "modified": "2026-06-06T14:58:13.446625",
+    "categories": [
+      "Recursive Self Improvement"
+    ],
+    "tags": [
+      "Evolutionary computation"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Evolutionary_computation"
+  }
+}

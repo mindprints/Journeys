@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "613134fd-20db-4b0f-87c0-c12250e7dd90",
+  "front": {
+    "title": "Sojourner (rover)",
+    "subtitle": "First NASA Mars rover on Mars Pathfinder mission"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "The Sojourner rover was a vehicle that reached Mars on July 4, 1997 as part of the Mars Pathfinder mission. Sojourner was operational on Mars for 92 sols, and was the first wheeled vehicle to operate on an astronomical object other than the Earth or Moon. The landing site was in the Ares Vallis channel in the Chryse Planitia region of the Oxia Palus quadrangle.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Sojourner_(rover)",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Sojourner_on_Mars_PIA01122.jpg/330px-Sojourner_on_Mars_PIA01122.jpg",
+      "alt": "Sojourner (rover)",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T20:39:01.890996",
+    "modified": "2026-06-07T20:39:01.891000",
+    "categories": [
+      "Clasical Robots"
+    ],
+    "tags": [
+      "Space Robotics",
+      "Mars Exploration",
+      "Autonomous Navigation",
+      "Planetary Rovers",
+      "NASA Technology"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Sojourner_(rover)"
+  }
+}

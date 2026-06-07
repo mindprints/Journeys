@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "75ef9ab5-8c06-4302-9fa4-44980dbd5c4c",
+  "front": {
+    "title": "Computation history",
+    "subtitle": "In computer science, a computation history is a sequence of steps taken by an abstract machine in th..."
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "In computer science, a computation history is a sequence of steps taken by an abstract machine in the process of computing its result. Computation histories are frequently used in proofs about the capabilities of certain machines, and particularly about the undecidability of various formal languages.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Computation_history",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "images/originals/ai_computation_history_1773956300.png",
+      "alt": "Computation history",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:38:09.028173",
+    "modified": "2026-03-19T22:38:09.028178",
+    "categories": [
+      "The Bitter Lesson"
+    ],
+    "tags": [
+      "Computation history"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Computation_history"
+  }
+}

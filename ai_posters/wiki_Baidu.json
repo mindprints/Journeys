@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "b4fadf81-0048-4e27-bb4a-f5238075f278",
+  "front": {
+    "title": "Baidu",
+    "subtitle": "Chinese web services company"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Baidu, Inc. is a Chinese multinational technology company specializing in Internet services and artificial intelligence. It holds a dominant position in China's search engine market, and provides a wide variety of other internet services such as Baidu App, Baidu Baike, iQIYI, Baidu Tieba, and ES File Explorer.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Baidu",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Baidu_Technology_Park_at_ZPark_Phase_II_%2820220502113650%29.jpg/330px-Baidu_Technology_Park_at_ZPark_Phase_II_%2820220502113650%29.jpg",
+      "alt": "Baidu",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T18:32:57.128113",
+    "modified": "2026-06-06T18:32:57.128118",
+    "categories": [
+      "Chinese Open Weight Models"
+    ],
+    "tags": [
+      "Search Engine",
+      "Artificial Intelligence",
+      "Chinese Technology",
+      "Internet Services",
+      "Cloud Computing"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Baidu"
+  }
+}

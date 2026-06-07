@@ -640,17 +640,16 @@ document.addEventListener('DOMContentLoaded', () => {
 	 * Navigate to an internal poster by path
 	 * Format: "poster:Category/Filename.json" or "Category/Filename.json"
 	 */
-	window.navigateToPoster = function (target) {
+	window.navigateToPoster = async function (target) {
 		const posterPath = target.replace(/^poster:/, '');
 		const fullPath = posterPath.startsWith('JSON_Posters/') ? posterPath : `JSON_Posters/${posterPath}`;
 
-		// Find the matching article
+		// Find the matching article in the current view
 		const articles = postersContainer.querySelectorAll('article');
 		let targetArticle = null;
 		let targetIndex = -1;
 
 		articles.forEach((article, index) => {
-			// Check if this article has data matching the path
 			const articlePath = article.dataset.posterPath;
 			if (articlePath && (articlePath === fullPath || articlePath.endsWith(posterPath))) {
 				targetArticle = article;
@@ -659,38 +658,42 @@ document.addEventListener('DOMContentLoaded', () => {
 		});
 
 		if (targetArticle) {
-			// Calculate scroll position to center this article
 			const n = articles.length;
-			const targetK = targetIndex / n;
-			const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-			const targetScroll = targetK * scrollHeight;
+			// --k goes from -1 (scroll=0) to 1 (scroll=max); poster i is front when
+			// --k = i/n - 1, so scrollTop = i/(2n) * scrollMax
+			const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
+			const snapTo = (targetIndex / (2 * n)) * scrollMax;
 
-			window.scrollTo({
-				top: targetScroll,
-				behavior: 'smooth'
-			});
+			stopAutoRotate();
+			window.scrollTo({ top: snapTo, behavior: 'instant' });
 
-			// Flash the article to highlight it
-			targetArticle.classList.add('highlight-flash');
-			setTimeout(() => targetArticle.classList.remove('highlight-flash'), 1500);
+			// Pulse the poster with the orange centered ring for 4 s
+			targetArticle.classList.remove('centered');
+			void targetArticle.offsetWidth; // force reflow so re-adding restarts animation
+			targetArticle.classList.add('centered');
+			setTimeout(() => targetArticle.classList.remove('centered'), 4000);
 		} else {
-			// Poster not in current view - need to load its category first
+			// Poster not in current view — look up its category via search API
 			console.log(`Poster not found in current view: ${fullPath}`);
-			const category = posterPath.split('/')[0];
-			if (category && chooser) {
-				// Try to switch to the category that contains this poster
-				const optionToSelect = Array.from(chooser.options).find(opt =>
-					opt.dataset.type === 'category' && opt.value.toLowerCase() === category.toLowerCase()
-				);
-				if (optionToSelect) {
-					chooser.value = optionToSelect.value;
-					chooser.dispatchEvent(new Event('change'));
-					// After loading, try to navigate again
-					setTimeout(() => window.navigateToPoster(target), 1000);
-				} else {
-					alert(`Could not find poster: ${posterPath}`);
+			try {
+				const resp = await fetch(`/api/search-posters?path=${encodeURIComponent(posterPath)}`);
+				const results = await resp.json();
+				if (results.length > 0 && results[0].categories?.length > 0) {
+					const categoryName = results[0].categories[0];
+					const optionToSelect = Array.from(chooser.options).find(opt =>
+						opt.value.toLowerCase() === categoryName.toLowerCase()
+					);
+					if (optionToSelect) {
+						chooser.value = optionToSelect.value;
+						chooser.dispatchEvent(new Event('change'));
+						setTimeout(() => window.navigateToPoster(target), 1200);
+						return;
+					}
 				}
+			} catch (e) {
+				console.error('navigateToPoster search failed:', e);
 			}
+			alert(`Could not find poster: ${posterPath}`);
 		}
 	};
 
@@ -713,6 +716,68 @@ document.addEventListener('DOMContentLoaded', () => {
 				alert(`Cannot open file: ${filepath}\n\nThis feature requires desktop integration.`);
 			});
 	};
+
+	// ── Gallery Search ──────────────────────────────────────────────────────────
+	(function () {
+		const searchInput = document.getElementById('gallery-search');
+		const suggestionsBox = document.getElementById('gallery-search-suggestions');
+		if (!searchInput || !suggestionsBox) return;
+
+		let timer = null;
+
+		function showSuggestions(results) {
+			suggestionsBox.innerHTML = '';
+			if (!results.length) { suggestionsBox.style.display = 'none'; return; }
+			results.forEach(r => {
+				const div = document.createElement('div');
+				div.className = 'search-suggestion';
+				div.dataset.path = r.path;
+				div.tabIndex = 0;
+				const titleEl = document.createElement('div');
+				titleEl.className = 'search-title';
+				titleEl.textContent = r.title;
+				div.appendChild(titleEl);
+				if (r.subtitle) {
+					const subEl = document.createElement('div');
+					subEl.className = 'search-sub';
+					subEl.textContent = r.subtitle;
+					div.appendChild(subEl);
+				}
+				suggestionsBox.appendChild(div);
+			});
+			suggestionsBox.style.display = 'block';
+		}
+
+		searchInput.addEventListener('input', () => {
+			clearTimeout(timer);
+			const q = searchInput.value.trim();
+			if (!q) { suggestionsBox.style.display = 'none'; return; }
+			timer = setTimeout(async () => {
+				try {
+					const resp = await fetch(`/api/search-posters?q=${encodeURIComponent(q)}`);
+					showSuggestions(await resp.json());
+				} catch (e) { console.error('Gallery search error:', e); }
+			}, 250);
+		});
+
+		suggestionsBox.addEventListener('click', e => {
+			const item = e.target.closest('.search-suggestion');
+			if (!item) return;
+			searchInput.value = '';
+			suggestionsBox.style.display = 'none';
+			window.navigateToPoster(item.dataset.path);
+		});
+
+		searchInput.addEventListener('keydown', e => {
+			if (e.key === 'Escape') { suggestionsBox.style.display = 'none'; searchInput.blur(); }
+		});
+
+		document.addEventListener('click', e => {
+			if (!searchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
+				suggestionsBox.style.display = 'none';
+			}
+		});
+	})();
 
 	/**
 	 * Launch a desktop application

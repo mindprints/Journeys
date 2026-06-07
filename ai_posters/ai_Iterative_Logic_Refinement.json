@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "0fce9c6d-ad24-4e8e-ba11-6e8cfec52f2c",
+  "front": {
+    "title": "Iterative Logic Refinement",
+    "subtitle": "A recursive process where AI models critique and improve their own reasoning steps to reach higher accuracy.",
+    "chronology": {
+      "epochStart": 2022,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 2022,
+          "name": "Iterative Logic Refinement"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Iterative Logic Refinement is a computational technique used to enhance the problem-solving capabilities of large language models. Rather than generating a final answer in a single pass, the system treats its initial output as a draft. It then applies a series of self-correction loops, identifying logical inconsistencies or mathematical errors within its own chain of thought and revising them until a stable, verified solution is reached.\n\nThis method is a cornerstone of advanced reasoning models, allowing AI to tackle complex tasks in coding, mathematics, and symbolic logic. By mimicking the human habit of double-checking work, these systems can significantly reduce hallucinations and improve the reliability of their outputs. This shift from instant generation to deliberate, multi-step thinking marks a major evolution in artificial intelligence architecture.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_iterative_logic_refinement_1780752684.png",
+      "alt": "Iterative Logic Refinement",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T15:31:24.685447",
+    "modified": "2026-06-06T15:31:24.685453",
+    "categories": [
+      "RSI"
+    ],
+    "tags": [
+      "Iterative_Logic_Refinement",
+      "Reasoning",
+      "Self-Correction",
+      "Machine Learning"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview"
+  }
+}

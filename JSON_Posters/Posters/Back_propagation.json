@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "poster-mq4ah07377cdnrz6b",
+  "front": {
+    "title": "Back propagation",
+    "subtitle": "The mathematical engine driving neural network intelligence"
+  },
+  "back": {
+    "layout": "auto",
+    "text": "In machine learning, backpropagation is a gradient computation method commonly used for training a neural network in computing parameter updates.",
+    "image": {
+      "src": "images/originals/ai_back_propagation_1780850630092.png",
+      "alt": "Back propagation",
+      "position": "top"
+    },
+    "links": [
+      {
+        "type": "internal",
+        "label": "AI and Consciousness",
+        "target": "ai_posters/ai_AI_and_Consciousness.json"
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-06-07T16:44:38.156Z",
+    "modified": "2026-06-07T21:23:25.118Z",
+    "tags": [
+      "Neural Networks",
+      "Machine Learning",
+      "Calculus",
+      "Gradient Descent",
+      "Deep Learning",
+      "Optimization",
+      "Backpropagation",
+      "AI Training"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Back_propagation",
+    "categories": [
+      "No-Category"
+    ]
+  }
+}

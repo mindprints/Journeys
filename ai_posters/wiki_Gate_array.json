@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "3951a9ef-64e1-4cc7-8118-f5bfbd4090c4",
+  "front": {
+    "title": "Gate array",
+    "subtitle": "Type of integrated circuit"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "A gate array is an approach to the design and manufacture of application-specific integrated circuits (ASICs) using a prefabricated chip with components that are later interconnected into logic devices according to custom order by adding metal interconnect layers in the factory. It was popular during the upheaval in the semiconductor industry in the 1980s, and its usage declined by the end of the 1990s.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Gate_array",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/ZX81_ULA.jpg/330px-ZX81_ULA.jpg",
+      "alt": "Gate array",
+      "position": "top",
+      "caption": "Source: Wikimedia"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T21:18:12.108747",
+    "modified": "2026-06-07T21:18:12.108751",
+    "categories": [
+      "ASICS"
+    ],
+    "tags": [
+      "Integrated circuits",
+      "ASIC",
+      "Logic devices",
+      "Hardware design",
+      "Microchips"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Gate_array"
+  }
+}

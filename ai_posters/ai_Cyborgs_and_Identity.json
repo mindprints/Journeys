@@ -1,38 +1,43 @@
 {
   "version": 2,
   "type": "poster-v2",
-  "uid": "e220c9c3-1f95-4eb8-bd07-c905c21acb0b",
+  "uid": "7a7d908a-9383-4bd2-8298-aca73d231717",
   "front": {
-    "title": "Cyborgs and Identity in Science Fiction",
-    "subtitle": "Exploring the fusion of humanity and technology in literature.",
+    "title": "Cyborgs and Identity",
+    "subtitle": "Exploring the blurred boundaries between biological life and synthetic enhancement.",
     "chronology": {
-      "epochStart": 1950,
+      "epochStart": 1960,
       "epochEnd": 2026,
       "epochEvents": [
         {
-          "year": 1950,
-          "name": "Cyborgs and Identity in Science Fiction"
+          "year": 1960,
+          "name": "Cyborgs and Identity"
         }
       ]
     }
   },
   "back": {
-    "layout": "text-only",
-    "text": "Cyborgs, or cybernetic organisms, blend biological and artificial components, raising profound questions about identity and existence. In science fiction, they often serve as mirrors reflecting our hopes and fears regarding technology's role in shaping human experience. From early depictions in literature to modern portrayals in film, cyborgs challenge the boundaries of what it means to be human, prompting audiences to consider the implications of merging man with machine.\n\nThe concept of the cyborg first gained traction in the mid-20th century, notably through works like C. M. Kornbluth's 'The Little Black Bag' (1950), which explored themes of transformation and the ethical dilemmas of technological enhancement. As narratives evolved, cyborgs became symbols of both empowerment and alienation, illustrating the duality of progress in an increasingly digital world. By examining these characters, we can better understand our evolving relationship with technology and the ongoing quest for identity in an age of rapid innovation.",
-    "links": []
+    "layout": "image-top",
+    "text": "The term cyborg, a portmanteau of cybernetic organism, describes a being with both biological and artificial components. In science fiction and philosophy, the cyborg serves as a thought experiment for the future of human evolution. As we integrate pacemakers, neural implants, and advanced prosthetics into the human body, the distinction between man and machine becomes increasingly fluid. This technological convergence challenges traditional definitions of personhood and physical autonomy.\n\nCentral to the study of cyborgs is the question of identity: at what point does a technologically augmented human cease to be human? Science fiction often explores this through characters who struggle to reconcile their organic memories with their mechanical capabilities. In a practical sense, modern brain-computer interfaces (BCIs) are already turning these fictional concepts into reality, allowing individuals to control external devices with their thoughts and raising new questions about where the self ends and the software begins.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_cyborgs_and_identity_1780740193.png",
+      "alt": "Cyborgs and Identity",
+      "position": "top"
+    }
   },
   "meta": {
-    "created": "2026-03-18T22:02:20.520166",
-    "modified": "2026-03-18T22:02:20.520172",
+    "created": "2026-06-06T12:03:13.666235",
+    "modified": "2026-06-06T12:03:13.666245",
     "categories": [
       "AI in Science Fiction"
     ],
     "tags": [
       "Cyborgs_and_Identity",
-      "cyborgs",
-      "identity",
-      "science fiction"
+      "Cybernetics",
+      "Transhumanism",
+      "Human-Computer Interaction"
     ],
-    "source": "openrouter/openai/gpt-4o-mini"
+    "source": "openrouter/google/gemini-3-flash-preview"
   }
 }

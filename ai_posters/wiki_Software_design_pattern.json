@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "6972722a-37fe-4374-ad4d-39fe3def3548",
+  "front": {
+    "title": "Software design pattern",
+    "subtitle": "Reusable solution template to a commonly-needed software behavior"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "A software design pattern describes a reusable solution to a commonly needed behavior in software. A design pattern is not a rigid structure to be copied directly into source code. Rather, it is a description of and a template for solving a particular type of problem that can be used in many different contexts, including different programming languages and computing platforms. Design patterns can be viewed as formalized best practices that the programmer may use to solve common problems when designing software.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Software_design_pattern",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "images/originals/ai_software_design_pattern_1773955018.png",
+      "alt": "Software design pattern",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:16:44.753717",
+    "modified": "2026-03-19T22:16:44.753721",
+    "categories": [
+      "harnesses and scaffolds"
+    ],
+    "tags": [
+      "Software design pattern"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Software_design_pattern"
+  }
+}

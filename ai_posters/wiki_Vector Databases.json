@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "e09058cd-d915-4751-a6fb-ef16cf0a41e3",
+  "front": {
+    "title": "Vector Databases",
+    "subtitle": "Specialized storage systems designed to manage high-dimensional data for machine learning and AI.",
+    "chronology": {
+      "epochStart": 2017,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 2017,
+          "name": "Vector Databases"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Traditional databases organize information in rows and columns, making them ideal for structured data like names or prices. However, modern AI models process information as vectors\u2014long strings of numbers representing the semantic meaning of text, images, or audio. Vector databases are built to store these embeddings and perform similarity searches at massive scale, allowing systems to find related concepts based on mathematical distance rather than exact keyword matches. In the context of AI scaffolds, these databases serve as a long-term memory for Large Language Models. By retrieving relevant documents through a process called Retrieval-Augmented Generation, vector databases provide the necessary context to reduce hallucinations and ensure AI responses are grounded in specific, factual data. This infrastructure is essential for building reliable enterprise AI applications.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_vector_databases_1773955121.png",
+      "alt": "Vector Databases",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:18:41.964402",
+    "modified": "2026-03-19T22:18:41.964408",
+    "categories": [
+      "harnesses and scaffolds"
+    ],
+    "tags": [
+      "Vector Databases",
+      "Information Retrieval",
+      "Embeddings",
+      "RAG"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "3e978013-aa60-4762-8788-b8cf9a71fd5f",
+  "front": {
+    "title": "Orchestration (computing)",
+    "subtitle": "Automated configuration, coordination, and management of computer systems and software"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "In system administration, orchestration is the automated configuration, coordination, deployment, development, and management of computer systems and software. Many tools exist to automate server configuration and management.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Orchestration_(computing)",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "images/originals/ai_orchestration_computing_1773955080.png",
+      "alt": "Orchestration (computing)",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:17:47.171773",
+    "modified": "2026-03-19T22:17:47.171777",
+    "categories": [
+      "harnesses and scaffolds"
+    ],
+    "tags": [
+      "Orchestration (computing)"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Orchestration_(computing)"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "736fb2c3-e05f-4842-b344-db1c9bf3acf4",
+  "front": {
+    "title": "Tape-out",
+    "subtitle": "Final stage of the design of electronic circuits before fabrication"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "In electronics and photonics design, tape-out or tapeout is the final stage of the design process for integrated circuits or printed circuit boards before they are sent for manufacturing. The tapeout is specifically the point at which the graphic for the photomask of the circuit is sent to the fabrication facility. The name originates from the use of magnetic tape to send the data to the manufacturing facility.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Tape-out",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-06-07T21:17:48.539403",
+    "modified": "2026-06-07T21:17:48.539407",
+    "categories": [
+      "ASICS"
+    ],
+    "tags": [
+      "Chip Design",
+      "Semiconductor Manufacturing",
+      "Hardware Engineering",
+      "Integrated Circuits",
+      "Fabrication Process"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Tape-out"
+  }
+}

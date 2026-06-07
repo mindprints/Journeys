@@ -1,38 +1,43 @@
 {
   "version": 2,
   "type": "poster-v2",
-  "uid": "fc9c6d3b-f152-4a74-96df-d9d326413dbc",
+  "uid": "700d5df8-71e2-458b-824b-75264cb21270",
   "front": {
-    "title": "Virtual Realities in Science Fiction",
-    "subtitle": "Exploring AI's role in shaping imagined worlds.",
+    "title": "Virtual Realities",
+    "subtitle": "Simulated environments where artificial intelligence governs the laws of physics and human interaction.",
     "chronology": {
-      "epochStart": 1950,
+      "epochStart": 1935,
       "epochEnd": 2026,
       "epochEvents": [
         {
-          "year": 1950,
-          "name": "Virtual Realities in Science Fiction"
+          "year": 1935,
+          "name": "Virtual Realities"
         }
       ]
     }
   },
   "back": {
-    "layout": "text-only",
-    "text": "Virtual realities have long been a staple of science fiction, serving as a canvas for exploring the implications of artificial intelligence. From early works like Isaac Asimov's 'Runaround' (1942), which introduced the Three Laws of Robotics, to later narratives, these stories have examined the relationship between humans and machines. They raise questions about consciousness, ethics, and the nature of reality itself.\n\nAs technology evolved, so did the portrayal of virtual realities in literature and film. The 1982 film 'Tron' and the 1999 classic 'The Matrix' showcased immersive digital worlds where AI plays a pivotal role. These narratives not only entertain but also provoke critical discussions about the future of AI, the potential for virtual experiences to replace reality, and the moral dilemmas that arise when machines gain autonomy. Through these imaginative explorations, science fiction continues to influence our understanding of technology and its impact on society.",
-    "links": []
+    "layout": "image-top",
+    "text": "In science fiction, virtual reality (VR) is often depicted as a total immersion of the senses, where AI systems generate and maintain complex, persistent worlds. These fictional constructs, such as the Matrix or the Metaverse, explore the philosophical boundary between biological perception and digital data. In these narratives, AI serves as the architect, managing every detail from environmental physics to the behavior of non-player characters.\n\nTechnologically, these stories anticipated the development of head-mounted displays, haptic feedback, and spatial computing. While modern VR relies on real-time rendering and tracking sensors, sci-fi often envisions direct neural interfaces that bypass the senses entirely. These concepts challenge us to consider the ethics of digital existence and the potential for AI to create realities indistinguishable from our own.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_virtual_realities_1780740161.png",
+      "alt": "Virtual Realities",
+      "position": "top"
+    }
   },
   "meta": {
-    "created": "2026-03-18T22:02:07.464754",
-    "modified": "2026-03-18T22:02:07.464760",
+    "created": "2026-06-06T12:02:41.430420",
+    "modified": "2026-06-06T12:02:41.430428",
     "categories": [
       "AI in Science Fiction"
     ],
     "tags": [
       "Virtual_Realities",
-      "AI",
-      "Science Fiction",
-      "Virtual Reality"
+      "Simulation",
+      "Neural Interface",
+      "Metaverse"
     ],
-    "source": "openrouter/openai/gpt-4o-mini"
+    "source": "openrouter/google/gemini-3-flash-preview"
   }
 }

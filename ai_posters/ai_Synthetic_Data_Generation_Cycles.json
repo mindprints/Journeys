@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "23f462ac-d834-4d4b-9b9d-e93b64994d64",
+  "front": {
+    "title": "Synthetic Data Generation Cycles",
+    "subtitle": "The iterative process of using AI-generated information to train future machine learning models.",
+    "chronology": {
+      "epochStart": 2023,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 2023,
+          "name": "Synthetic Data Generation Cycles"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Synthetic data generation cycles occur when artificial intelligence models are trained on data produced by other AI systems rather than human-generated content. As high-quality human data becomes scarce, developers use generative models to create massive synthetic datasets to fill the gap. This allows for the creation of specialized training environments where real-world data may be private, sensitive, or non-existent.\n\nHowever, these cycles introduce a significant technical challenge known as Model Collapse. When a model is repeatedly trained on its own previous outputs, errors and statistical biases can accumulate. Over several generations, the AI may lose the ability to represent rare or diverse information, eventually producing repetitive or nonsensical results. Researchers study these cycles to develop filtering techniques that ensure synthetic data remains a viable fuel for future innovation.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_synthetic_data_generation_cycles_1780752758.png",
+      "alt": "Synthetic Data Generation Cycles",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T15:32:38.460443",
+    "modified": "2026-06-06T15:32:38.460453",
+    "categories": [
+      "RSI"
+    ],
+    "tags": [
+      "Synthetic_Data_Generation_Cycles",
+      "Synthetic Data",
+      "Model Collapse",
+      "Machine Learning"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview"
+  }
+}

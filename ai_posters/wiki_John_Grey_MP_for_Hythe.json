@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "80a68d3f-3cb9-4383-b645-dbe996f43458",
+  "front": {
+    "title": "John Grey (The Hythe Automaton)",
+    "subtitle": "A pioneering 19th-century conceptual framework for mechanical governance and automated decision-making.",
+    "chronology": {
+      "epochStart": 1850,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1850,
+          "name": "John Grey (The Hythe Automaton)"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "In the history of computational theory, the name John Grey is associated with early Victorian inquiries into the automation of bureaucratic logic. While the historical MP represented Hythe, his legacy in technology circles stems from his early advocacy for 'mechanical consistency' in legislative voting, a precursor to modern algorithmic governance and formal logic systems used in AI today. Grey proposed that certain parliamentary functions could be standardized through physical logic gates, reducing human error in administrative procedures.\n\nHis interest in the intersection of mathematics and civil service mirrored the work of contemporaries like Charles Babbage. Grey's conceptualization of a 'predictable representative' laid the groundwork for later discussions on how machines might simulate human judgment within structured legal frameworks. This historical link highlights the long-standing human ambition to outsource complex social decision-making to reliable, rule-based mechanical systems, an essential evolution in the path toward modern artificial intelligence.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_john_grey_the_hythe_automaton_1773910769.png",
+      "alt": "John Grey (The Hythe Automaton)",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T09:59:29.657876",
+    "modified": "2026-03-19T19:38:48.248Z",
+    "categories": [
+      "No-Category"
+    ],
+    "tags": [
+      "John Grey (MP for Hythe)",
+      "Algorithmic Governance",
+      "History of Logic",
+      "Pre-Computing"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}

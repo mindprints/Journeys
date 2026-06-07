@@ -48,3 +48,79 @@
   width: 100%;
   height: 100%;
 }
+
+/* ── Gallery Search ──────────────────────────────────────────────── */
+.gallery-search-wrapper {
+  position: relative;
+  margin: 0.4em auto 0;
+  max-width: 360px;
+  width: 90%;
+}
+
+#gallery-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.45em 1.1em;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  font-size: 0.85em;
+  letter-spacing: 0.02em;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+#gallery-search:focus {
+  border-color: rgba(74,149,238,0.7);
+  background: rgba(255,255,255,0.13);
+}
+
+#gallery-search::placeholder {
+  color: rgba(255,255,255,0.4);
+}
+
+#gallery-search-suggestions {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: rgba(14,11,38,0.97);
+  border: 1px solid rgba(74,149,238,0.4);
+  border-radius: 10px;
+  max-height: 280px;
+  overflow-y: auto;
+  z-index: 400;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+.search-suggestion {
+  padding: 0.55em 1em;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.search-suggestion:last-child {
+  border-bottom: none;
+}
+
+.search-suggestion:hover, .search-suggestion:focus {
+  background: rgba(74,149,238,0.18);
+  outline: none;
+}
+
+.search-title {
+  font-size: 0.88em;
+  font-weight: 600;
+  color: #e0e0f0;
+}
+
+.search-sub {
+  font-size: 0.75em;
+  color: rgba(255,255,255,0.45);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 0.1em;
+}

@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "651aaf46-b80e-4b34-8c9d-0b5cdfbd3fdd",
+  "front": {
+    "title": "Recursive Code Optimization",
+    "subtitle": "Enhancing computational efficiency by streamlining self-referential algorithms and reducing stack overhead.",
+    "chronology": {
+      "epochStart": 1977,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1977,
+          "name": "Recursive Code Optimization"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Recursive code optimization focuses on improving the performance of functions that call themselves to solve sub-problems. While recursion provides an elegant way to express complex logic, it often incurs significant memory and processing costs due to repeated calculations and the accumulation of stack frames. Optimization techniques aim to transform these processes into more efficient execution patterns without losing the clarity of the original code.\n\nA primary method of optimization is Tail Call Optimization (TCO), where the compiler recognizes a recursive call as the final action of a function. This allows the system to reuse the current stack frame instead of creating a new one, effectively turning recursion into a loop. Other strategies include memoization, which caches the results of expensive function calls to prevent redundant computation, and recursion-to-iteration conversion, which manually replaces the call stack with a loop structure to maximize hardware performance.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_recursive_code_optimization_1780752638.png",
+      "alt": "Recursive Code Optimization",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T15:30:38.483765",
+    "modified": "2026-06-06T15:30:38.483772",
+    "categories": [
+      "RSI"
+    ],
+    "tags": [
+      "Recursive_Code_Optimization",
+      "Compilers",
+      "Algorithms",
+      "Optimization"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "1384e47b-6ab5-462e-a078-3ee3ae92b3e4",
+  "front": {
+    "title": "Closed-Loop Intelligence Growth",
+    "subtitle": "A self-reinforcing cycle where AI systems autonomously improve their own performance and capabilities.",
+    "chronology": {
+      "epochStart": 1965,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1965,
+          "name": "Closed-Loop Intelligence Growth"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Closed-loop intelligence growth refers to a recursive process where an artificial intelligence system uses its own outputs or internal evaluations to refine its algorithms without human intervention. By generating synthetic data, identifying its own errors, or optimizing its underlying code, the system creates a feedback loop. This mechanism allows for rapid iteration and the potential for exponential leaps in problem-solving efficiency.\n\nIn the context of Recursive Self-Improvement (RSI), this concept is a cornerstone of the theory regarding a technological singularity. If an AI reaches a threshold where it can design a more capable version of itself, each subsequent generation could theoretically become more intelligent at an accelerating pace. Modern applications of this include Large Language Models that use Self-Play or Reinforcement Learning from AI Feedback (RLAIF) to surpass the limitations of human-labeled datasets.\n\nWhile this process promises breakthroughs in scientific discovery and complex engineering, it also presents significant challenges in AI alignment. Ensuring that a self-improving system remains within human-defined safety parameters is a primary focus for researchers, as the speed of autonomous growth could outpace traditional oversight methods.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_closed_loop_intelligence_growth_1780752802.png",
+      "alt": "Closed-Loop Intelligence Growth",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T15:33:22.467445",
+    "modified": "2026-06-06T15:33:22.467455",
+    "categories": [
+      "RSI"
+    ],
+    "tags": [
+      "Closed_Loop_Intelligence_Growth",
+      "Recursive Self-Improvement",
+      "Singularity",
+      "Machine Learning"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "024dc6c3-68c3-459f-9e47-7aadde5c5574",
+  "front": {
+    "title": "Algorithmic Bootstrapping",
+    "subtitle": "The process of using an initial, simple algorithm to create or refine a more complex version of itself.",
+    "chronology": {
+      "epochStart": 1952,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1952,
+          "name": "Algorithmic Bootstrapping"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Algorithmic bootstrapping is a fundamental concept in computer science where a system uses its own basic capabilities to build more sophisticated versions. In the context of Recursive Self-Improvement (RSI), this involves an AI analyzing its own code to identify inefficiencies and rewrite itself. This creates a feedback loop where each iteration of the software becomes more capable of performing the next improvement, potentially leading to exponential growth in intelligence.\n\nHistorically, bootstrapping was essential for early computing. The first compilers were often written in assembly language to create a higher-level language, which was then used to write even more advanced compilers. In modern machine learning, bootstrapping can refer to techniques like self-distillation or synthetic data generation, where a model generates its own training sets to improve its performance without further human intervention.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_algorithmic_bootstrapping_1780752700.png",
+      "alt": "Algorithmic Bootstrapping",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T15:31:40.104422",
+    "modified": "2026-06-06T15:31:40.104432",
+    "categories": [
+      "RSI"
+    ],
+    "tags": [
+      "Algorithmic_Bootstrapping",
+      "Recursive Self-Improvement",
+      "Compilers",
+      "Machine Learning"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "54e9d479-4963-4676-af47-feb3a365b8c9",
+  "front": {
+    "title": "Richard S. Sutton",
+    "subtitle": "Computer scientist"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Richard Stuart Sutton is a Canadian computer scientist. He is a professor of computing science at the University of Alberta, fellow & Chief Scientific Advisor at the Alberta Machine Intelligence Institute, and a research scientist at Keen Technologies. Sutton is considered one of the founders of modern computational reinforcement learning. In particular, he contributed to temporal difference learning and policy gradient methods. He received the 2024 Turing Award with Andrew Barto.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Richard_S._Sutton",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/SD_2025_-_Richard_Sutton_01_%28cropped%29.jpg/330px-SD_2025_-_Richard_Sutton_01_%28cropped%29.jpg",
+      "alt": "Richard S. Sutton",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:37:32.419566",
+    "modified": "2026-03-19T22:37:32.419570",
+    "categories": [
+      "The Bitter Lesson"
+    ],
+    "tags": [
+      "Richard S. Sutton"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Richard_S._Sutton"
+  }
+}

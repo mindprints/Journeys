@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "b862e781-5337-47f3-913e-23fabeaa63ba",
+  "front": {
+    "title": "Scaffold (programming)",
+    "subtitle": "Code generation technique or a project generation technique"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Scaffolding, as used in computing, refers to one of two techniques:Code generationIt is a technique related to database access in some model\u2013view\u2013controller frameworks.\nProject generationIt is a technique supported by various programming tools.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Scaffold_(programming)",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "images/originals/ai_scaffold_programming_1773954952.png",
+      "alt": "Scaffold (programming)",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:15:38.871117",
+    "modified": "2026-03-19T22:15:38.871121",
+    "categories": [
+      "harnesses and scaffolds"
+    ],
+    "tags": [
+      "Scaffold (programming)"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Scaffold_(programming)"
+  }
+}

@@ -1,10 +1,10 @@
 {
   "version": 2,
   "type": "poster-v2",
-  "uid": "5b6609e2-3562-467d-a138-f5c073fed80b",
+  "uid": "poster-mq49t4dfg3v5lsbux",
   "front": {
     "title": "AI Ethics in Fiction",
-    "subtitle": "Exploring moral dilemmas posed by artificial intelligence in literature.",
+    "subtitle": "Exploring the moral boundaries and social responsibilities of artificial minds through narrative.",
     "chronology": {
       "epochStart": 1950,
       "epochEnd": 2026,
@@ -17,22 +17,33 @@
     }
   },
   "back": {
-    "layout": "text-only",
-    "text": "Artificial intelligence (AI) has long been a staple of science fiction, serving as a mirror to our societal values and ethical concerns. From Isaac Asimov's 'Three Laws of Robotics' to the sentient machines of Philip K. Dick, these narratives challenge our understanding of morality, autonomy, and the human condition. Through imaginative storytelling, authors explore the consequences of creating intelligent beings and the responsibilities that come with such power.\n\nAs AI technology continues to evolve in the real world, the ethical questions raised in fiction become increasingly relevant. Issues such as the potential for AI to surpass human intelligence, the implications of machine decision-making, and the rights of sentient entities are topics that resonate with contemporary debates. By examining these fictional portrayals, we gain insight into our fears and hopes regarding AI, prompting us to consider how we might navigate the ethical landscape of our own technological future.",
-    "links": []
+    "layout": "image-top",
+    "text": "Science fiction serves as a primary laboratory for testing the ethical implications of artificial intelligence long before the technology becomes reality. Authors use speculative narratives to explore themes of machine personhood, the rights of sentient software, and the potential for algorithmic bias. These stories challenge audiences to consider whether a sufficiently advanced AI deserves legal protections or if it remains a mere tool of its creators.\n\nOne of the most influential frameworks in this field is Isaac Asimov's Three Laws of Robotics, which attempted to hard-code morality into machine logic. While these laws were designed to prevent harm, Asimov's stories often focused on the logical loopholes and unforeseen consequences that arise when rigid rules meet complex real-world situations. This highlights a central challenge in modern AI safety: the difficulty of aligning machine goals with nuanced human values.",
+    "image": {
+      "src": "images/originals/ai_ai_ethics_in_fiction_1780740145.png",
+      "alt": "AI Ethics in Fiction",
+      "position": "top"
+    },
+    "links": [
+      {
+        "type": "internal",
+        "label": "Backprop",
+        "target": "Back propagation"
+      }
+    ]
   },
   "meta": {
-    "created": "2026-03-18T22:02:00.335055",
-    "modified": "2026-03-18T22:02:00.335061",
-    "categories": [
-      "AI in Science Fiction"
-    ],
+    "created": "2026-06-06T12:02:25.178854",
+    "modified": "2026-06-07T21:04:50.787Z",
     "tags": [
       "AI_Ethics_in_Fiction",
-      "AI",
-      "Ethics",
-      "Science Fiction"
+      "AI Safety",
+      "Asimov",
+      "Machine Ethics"
     ],
-    "source": "openrouter/openai/gpt-4o-mini"
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "categories": [
+      "AI in Science Fiction"
+    ]
   }
 }

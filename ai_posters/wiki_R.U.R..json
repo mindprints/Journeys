@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "e699b40e-ae14-4cf8-8d2e-051ce5a76ce4",
+  "front": {
+    "title": "R.U.R.",
+    "subtitle": "1920 play by Karel \u010capek"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "R.U.R. is a 1920 science fiction play by the Czech writer Karel \u010capek. \"R.U.R.\" stands for Rossumovi Univerz\u00e1ln\u00ed Roboti.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/R.U.R.",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Rosumovi_Univerz%C3%A1ln%C3%AD_Roboti_1920.jpg/330px-Rosumovi_Univerz%C3%A1ln%C3%AD_Roboti_1920.jpg",
+      "alt": "R.U.R.",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T20:39:06.379635",
+    "modified": "2026-06-07T20:39:06.379640",
+    "categories": [
+      "Clasical Robots"
+    ],
+    "tags": [
+      "Robot origins",
+      "Science fiction",
+      "Karel \u010capek",
+      "Artificial labor",
+      "Automation history"
+    ],
+    "source": "https://en.wikipedia.org/wiki/R.U.R."
+  }
+}

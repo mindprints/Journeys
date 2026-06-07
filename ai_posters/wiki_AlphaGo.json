@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "40ae6bab-92b8-4439-a901-243f968f38d1",
+  "front": {
+    "title": "AlphaGo",
+    "subtitle": "Artificial intelligence that plays Go"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "AlphaGo is a computer program that plays the board game Go. It was developed by the London-based DeepMind Technologies, an acquired subsidiary of Google. Subsequent versions of AlphaGo became increasingly powerful, including a version that competed under the name Master. After retiring from competitive play, AlphaGo Master was succeeded by an even more powerful version known as AlphaGo Zero, which was completely self-taught without learning from human games. AlphaGo Zero was then generalized into a program known as AlphaZero, which played additional games, including chess and shogi. AlphaZero has in turn been succeeded by a program known as MuZero which learns without being taught the rules.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/AlphaGo",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "images/originals/ai_alphago_1773956269.png",
+      "alt": "AlphaGo",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:37:36.937868",
+    "modified": "2026-03-19T22:37:36.937872",
+    "categories": [
+      "The Bitter Lesson"
+    ],
+    "tags": [
+      "AlphaGo"
+    ],
+    "source": "https://en.wikipedia.org/wiki/AlphaGo"
+  }
+}

@@ -5,44 +5,29 @@ Source: wikipedia
 Starting poster generation...
 Output directory: C:\Users\mindp\Documents\GitHub\Journeys\ai_posters
 
-[1/16] Fetching: Chinese_Open_Weight_Models... Error fetching Chinese_Open_Weight_Models: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Chinese_Open_Weight_Models
-AI generating... Created: wiki_Chinese_Open_Weight_Models.json
-[2/16] Fetching: Open_Source_AI_Models... Error fetching Open_Source_AI_Models: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Open_Source_AI_Models
-AI generating... Created: wiki_Open_Source_AI_Models.json
-[3/16] Fetching: AI_Research_in_China... Error fetching AI_Research_in_China: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/AI_Research_in_China
-AI generating... Created: wiki_AI_Research_in_China.json
-[4/16] Fetching: Machine_Learning_in_China... Error fetching Machine_Learning_in_China: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Machine_Learning_in_China
-AI generating... Created: wiki_Machine_Learning_in_China.json
-[5/16] Fetching: Chinese_AI_Industry... Error fetching Chinese_AI_Industry: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Chinese_AI_Industry
-AI generating... Created: wiki_Chinese_AI_Industry.json
-[6/16] Fetching: Open_Weight_Models... Error fetching Open_Weight_Models: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Open_Weight_Models
-AI generating... Created: wiki_Open_Weight_Models.json
-[7/16] Fetching: AI_Development_in_China... Error fetching AI_Development_in_China: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/AI_Development_in_China
-AI generating... Created: wiki_AI_Development_in_China.json
-[8/16] Fetching: Chinese_Tech_Companies... Error fetching Chinese_Tech_Companies: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Chinese_Tech_Companies
-AI generating... generating image... Created: wiki_Chinese_Tech_Companies.json
-[9/16] Fetching: AI_Ethics_in_China... Error fetching AI_Ethics_in_China: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/AI_Ethics_in_China
-AI generating... Created: wiki_AI_Ethics_in_China.json
-[10/16] Fetching: Chinese_Innovation_in_AI... Error fetching Chinese_Innovation_in_AI: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Chinese_Innovation_in_AI
-AI generating... Created: wiki_Chinese_Innovation_in_AI.json
-[11/16] Fetching: Global_AI_Standards... Error fetching Global_AI_Standards: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/Global_AI_Standards
-AI generating... Created: wiki_Global_AI_Standards.json
-[12/16] Fetching: AI_Contributions_from_China... Error fetching AI_Contributions_from_China: 404 Client Error: Not Found for url: https://en.wikipedia.org/api/rest_v1/page/summary/AI_Contributions_from_China
-AI generating... Created: wiki_AI_Contributions_from_China.json
-[13/16] Fetching: MiniMax... no thumbnail, AI generating image... Created: wiki_MiniMax.json
-[14/16] Fetching: Qwen... SKIP duplicate (title)
-[15/16] Fetching: DeepSeek... no thumbnail, AI generating image... SKIP duplicate (title)
-[16/16] Fetching: Kimi... CLARIFY 'Kimi' -> AI generating... Created: wiki_Kimi.json
+[1/12] Fetching: Application-specific_integrated_circuit... Created: wiki_Application-specific_integrated_circuit.json
+[2/12] Fetching: Field-programmable_gate_array... Created: wiki_Field-programmable_gate_array.json
+[3/12] Fetching: Standard_cell... Created: wiki_Standard_cell.json
+[4/12] Fetching: Logic_synthesis... no thumbnail, AI generating image... Created: wiki_Logic_synthesis.json
+[5/12] Fetching: Hardware_description_language... no thumbnail, AI generating image... Created: wiki_Hardware_description_language.json
+[6/12] Fetching: Integrated_circuit_design... Created: wiki_Integrated_circuit_design.json
+[7/12] Fetching: Physical_design_(electronics)... Created: wiki_Physical_design_electronics.json
+[8/12] Fetching: Semiconductor_intellectual_property_core... no thumbnail, AI generating image... Created: wiki_Semiconductor_intellectual_property_core.json
+[9/12] Fetching: Tape-out... no thumbnail, AI generating image... [image] no image in response: {'id': 'gen-1780859869-3mLBNtVrttC9ftFqrmPy', 'object': 'chat.completion', 'created': 1780859869, 'model': 'google/gemini-3.1-flash-image-preview-20260226', 'provider': 'Google', 'system_fingerprint':
+Created: wiki_Tape-out.json
+[10/12] Fetching: Very_Large_Scale_Integration... Created: wiki_Very_Large_Scale_Integration.json
+[11/12] Fetching: Electronic_design_automation... no thumbnail, AI generating image... Created: wiki_Electronic_design_automation.json
+[12/12] Fetching: Gate_array... Created: wiki_Gate_array.json
 
 ============================================================
 SUMMARY
 ============================================================
-Created: 14 posters
-SKIP duplicates: 2 posters
+Created: 12 posters
+SKIP duplicates: 0 posters
 MERGE enriched: 0 posters
 Failed: 0 posters
 Output directory: C:\Users\mindp\Documents\GitHub\Journeys\ai_posters
 
-Total topics attempted: 16
+Total topics attempted: 12
 
 Done!

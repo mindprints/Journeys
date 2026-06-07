@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "e42c2bbe-275c-4dcd-a165-ad77cf73fd18",
+  "front": {
+    "title": "Automated machine learning",
+    "subtitle": "Process of automating the application of machine learning"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Automated machine learning (AutoML) is the process of automating the tasks of applying machine learning to real-world problems. It is the combination of automation and ML.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Automated_machine_learning",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "images/originals/ai_automated_machine_learning_1780750686.png",
+      "alt": "Automated machine learning",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T14:57:54.429087",
+    "modified": "2026-06-06T14:57:54.429092",
+    "categories": [
+      "Recursive Self Improvement"
+    ],
+    "tags": [
+      "AutoML",
+      "Machine Learning",
+      "Automation",
+      "AI Optimization",
+      "Data Science"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Automated_machine_learning"
+  }
+}

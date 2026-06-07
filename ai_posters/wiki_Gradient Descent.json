@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "024a5eb1-c7ad-4cf2-a844-2fba392927c8",
+  "front": {
+    "title": "Gradient descent",
+    "subtitle": "Optimization algorithm"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Gradient descent is a method for unconstrained mathematical optimization. It is a first-order iterative algorithm for minimizing a differentiable multivariate function.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Gradient_descent",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Gradient_Descent_in_2D.webm/330px--Gradient_Descent_in_2D.webm.jpg",
+      "alt": "Gradient descent",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T09:37:57.086993",
+    "modified": "2026-03-19T19:37:03.467Z",
+    "categories": [
+      "No-Category"
+    ],
+    "tags": [
+      "Gradient Descent"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Gradient_descent"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "85cd4c0d-f464-455b-8cb2-1034db59922a",
+  "front": {
+    "title": "Modular design",
+    "subtitle": "Design approach"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Modular design, or modularity in design, is a design principle that subdivides a system into smaller parts called modules, which can be independently created, modified, replaced, or exchanged with other modules or between different systems.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Modular_design",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Framework_Laptop_-_the_Design_Museum.jpg/330px-Framework_Laptop_-_the_Design_Museum.jpg",
+      "alt": "Modular design",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:18:02.097281",
+    "modified": "2026-03-19T22:18:02.097286",
+    "categories": [
+      "harnesses and scaffolds"
+    ],
+    "tags": [
+      "Modular design"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Modular_design"
+  }
+}

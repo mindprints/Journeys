@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "153325c5-1538-4ad9-b158-75566e880c40",
+  "front": {
+    "title": "Retrieval-augmented generation",
+    "subtitle": "Type of information retrieval using LLMs"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Retrieval-augmented generation (RAG) is a technique that enables large language models (LLMs) to retrieve and incorporate new information from external data sources. With RAG, LLMs first refer to a specified set of documents, then respond to user queries. These documents supplement information from the LLM's pre-existing training data. This allows LLMs to use domain-specific and/or updated information that is not available in the training data. For example, this helps LLM-based chatbots access internal company data or generate responses based on authoritative sources.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Retrieval-augmented_generation",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "images/originals/ai_retrieval_augmented_generation_1773955099.png",
+      "alt": "Retrieval-augmented generation",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:18:03.309832",
+    "modified": "2026-03-19T22:18:03.309837",
+    "categories": [
+      "harnesses and scaffolds"
+    ],
+    "tags": [
+      "Retrieval-augmented generation"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Retrieval-augmented_generation"
+  }
+}

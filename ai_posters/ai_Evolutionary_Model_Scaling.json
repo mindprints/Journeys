@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "10c8981e-b6da-4b49-9dc1-7bdb330a674d",
+  "front": {
+    "title": "Evolutionary Model Scaling",
+    "subtitle": "Applying Darwinian principles to optimize the growth and architecture of artificial intelligence.",
+    "chronology": {
+      "epochStart": 2017,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 2017,
+          "name": "Evolutionary Model Scaling"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Evolutionary Model Scaling refers to a methodology in machine learning where genetic algorithms and evolutionary strategies are used to determine the optimal size and structure of neural networks. Instead of manually designing every layer, researchers use automated processes that treat different model configurations as individuals in a population. These individuals undergo selection, mutation, and crossover to discover architectures that balance computational efficiency with high performance.\n\nAs AI models grow toward trillions of parameters, traditional scaling becomes prohibitively expensive. Evolutionary scaling allows for the discovery of sparse or modular architectures that can perform complex tasks with fewer active neurons. By simulating the survival of the fittest among various mathematical structures, engineers can evolve specialized models that are more robust and adaptable than those designed through standard grid search or human intuition alone.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_evolutionary_model_scaling_1780752774.png",
+      "alt": "Evolutionary Model Scaling",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T15:32:54.874199",
+    "modified": "2026-06-06T15:32:54.874206",
+    "categories": [
+      "RSI"
+    ],
+    "tags": [
+      "Evolutionary_Model_Scaling",
+      "Neuroevolution",
+      "AutoML",
+      "Neural Architecture Search"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview"
+  }
+}

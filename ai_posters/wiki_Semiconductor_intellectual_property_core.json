@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "7fa49eeb-d423-40e9-95e4-ec8dce13fdcb",
+  "front": {
+    "title": "Semiconductor intellectual property core",
+    "subtitle": "Components licensed as modules in larger integrated circuit designs"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "In electronic design, a semiconductor intellectual property core, IP core or IP block is a reusable unit of logic, cell, or integrated circuit layout design that is the intellectual property of one party. IP cores can be licensed to another party or owned and used by a single party. The term comes from the licensing of the patent or source code copyright that exists in the design. Designers of system on chip (SoC), application-specific integrated circuits (ASIC) and systems of field-programmable gate array (FPGA) logic can use IP cores as building blocks. This allows for faster design cycles and reduced development costs by leveraging pre-verified and tested components.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Semiconductor_intellectual_property_core",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "images/originals/ai_semiconductor_intellectual_property_core_1780859867.png",
+      "alt": "Semiconductor intellectual property core",
+      "position": "top",
+      "caption": "AI Generated"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T21:17:32.143525",
+    "modified": "2026-06-07T21:17:32.143530",
+    "categories": [
+      "ASICS"
+    ],
+    "tags": [
+      "Chip Design",
+      "IP Cores",
+      "Integrated Circuits",
+      "Hardware Logic",
+      "Semiconductor Design"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Semiconductor_intellectual_property_core"
+  }
+}

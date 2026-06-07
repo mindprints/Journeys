@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "335d83f3-18b1-4ac0-ad49-f7819c20e642",
+  "front": {
+    "title": "John Grey: Early Computational Logic",
+    "subtitle": "A pioneer in formalizing the mathematical foundations required for modern algorithmic processing.",
+    "chronology": {
+      "epochStart": 1948,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1948,
+          "name": "John Grey: Early Computational Logic"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "In the context of early computer science history, figures like John Grey contributed to the development of formal logic and symbolic representation. These mathematical frameworks provided the necessary structure for the first programmable machines, allowing complex human reasoning to be translated into binary operations. His work focused on the intersection of mathematical theory and practical calculation, bridging the gap between abstract philosophy and mechanical computation.\n\nGrey's contributions are often studied alongside the development of Boolean algebra and early data structures. By refining how information could be categorized and processed through logical gates, these early theorists laid the groundwork for the architecture of modern central processing units. This era of discovery proved that any logical problem could be solved through a finite series of mechanical steps, a concept that remains the core principle of artificial intelligence today.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_john_grey_early_computational_logic_1773910796.png",
+      "alt": "John Grey: Early Computational Logic",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T09:59:56.277234",
+    "modified": "2026-03-19T19:38:48.248Z",
+    "categories": [
+      "No-Category"
+    ],
+    "tags": [
+      "John Grey (MP for Reading)",
+      "Logic",
+      "Computer Science History",
+      "Algorithms"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}

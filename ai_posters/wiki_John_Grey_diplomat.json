@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "186c4153-dbd3-4f01-a73f-291edc439d72",
+  "front": {
+    "title": "Sir John Grey and the Science of Information",
+    "subtitle": "A diplomat's role in the early international governance and exchange of scientific data.",
+    "chronology": {
+      "epochStart": 1955,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1955,
+          "name": "Sir John Grey and the Science of Information"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Sir John Grey was a British diplomat who played a crucial role in the post-WWII era of international scientific cooperation. During a period when the foundations of modern computing and information theory were being laid, Grey facilitated the exchange of technical knowledge between nations. His work helped establish the diplomatic frameworks necessary for cross-border research in the emerging fields of cybernetics and automated data processing.\n\nIn the context of technology history, Grey represents the vital intersection of statecraft and the digital revolution. By navigating the complexities of the Cold War, he helped ensure that scientific advancements in early computer science could be shared among Western allies. This international collaboration was essential for the development of standardized protocols that would eventually lead to the global networking of computer systems.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_sir_john_grey_and_the_science_of_informa_1773910716.png",
+      "alt": "Sir John Grey and the Science of Information",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T09:58:36.377875",
+    "modified": "2026-03-19T19:38:48.247Z",
+    "categories": [
+      "No-Category"
+    ],
+    "tags": [
+      "John Grey (diplomat)",
+      "Information Governance",
+      "History of Science",
+      "International Cooperation"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}

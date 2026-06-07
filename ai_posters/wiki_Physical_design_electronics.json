@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "5d67d3fe-53ec-457a-a29b-21e83bf0ab82",
+  "front": {
+    "title": "Physical design (electronics)",
+    "subtitle": "Step in the design cycle of devices"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "In integrated circuit design, physical design is a step in the standard design cycle which follows after the circuit design. At this step, circuit representations of the components of the design are converted into geometric representations of shapes which, when manufactured in the corresponding layers of materials, will ensure the required functioning of the components. This geometric representation is called an integrated circuit layout. This step is usually split into several sub-steps, which include both design and verification and validation of the layout.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Physical_design_(electronics)",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/PhysicalDesign.png/330px-PhysicalDesign.png",
+      "alt": "Physical design (electronics)",
+      "position": "top",
+      "caption": "Source: Wikimedia"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T21:17:30.054371",
+    "modified": "2026-06-07T21:17:30.054375",
+    "categories": [
+      "ASICS"
+    ],
+    "tags": [
+      "Chip Design",
+      "IC Layout",
+      "Hardware Engineering",
+      "Microelectronics",
+      "Circuit Geometry"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Physical_design_(electronics)"
+  }
+}

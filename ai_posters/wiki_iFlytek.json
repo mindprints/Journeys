@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "92dd0aa6-a9dc-43c2-a652-0980361e791f",
+  "front": {
+    "title": "IFlytek",
+    "subtitle": "Chinese technology company"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "iFlytek, styled as iFLYTEK, is a partially state-owned Chinese information technology company established in 1999. It creates voice recognition software and 10+ voice-based internet/mobile products covering education, communication, music, intelligent toys industries. State-owned enterprise China Mobile is the company's largest shareholder. The company is listed in the Shenzhen Stock Exchange and it is backed by several state-owned investment funds.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/IFlytek",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Beijing_iFLYTEK_Building_at_ZPark_Phase_I_%2820240807160653%29.jpg/330px-Beijing_iFLYTEK_Building_at_ZPark_Phase_I_%2820240807160653%29.jpg",
+      "alt": "IFlytek",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T18:33:20.937635",
+    "modified": "2026-06-06T18:33:20.937639",
+    "categories": [
+      "Chinese Open Weight Models"
+    ],
+    "tags": [
+      "Voice Recognition",
+      "Speech Synthesis",
+      "Natural Language Processing",
+      "Chinese Technology",
+      "Educational AI"
+    ],
+    "source": "https://en.wikipedia.org/wiki/IFlytek"
+  }
+}

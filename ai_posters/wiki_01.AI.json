@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "b0fca1a0-e4c1-461b-96fd-08c1831b1570",
+  "front": {
+    "title": "01.AI",
+    "subtitle": "Chinese artificial intelligence company"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "01.AI is an artificial intelligence (AI) company based in Beijing, China. It focuses on developing open source products.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/01.AI",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/01.AI.png/330px-01.AI.png",
+      "alt": "01.AI",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T18:33:14.240926",
+    "modified": "2026-06-06T18:33:14.240930",
+    "categories": [
+      "Chinese Open Weight Models"
+    ],
+    "tags": [
+      "Generative AI",
+      "Open Source",
+      "Large Language Models",
+      "Chinese Tech",
+      "AI Development"
+    ],
+    "source": "https://en.wikipedia.org/wiki/01.AI"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "2988ce1b-5976-4496-ab37-13aeeb19614a",
+  "front": {
+    "title": "Kunlun Tech",
+    "subtitle": "A pioneer in Chinese open-source AI and the developer of the Skywork model family.",
+    "chronology": {
+      "epochStart": 2023,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 2023,
+          "name": "Kunlun Tech"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Kunlun Tech is a prominent Chinese technology firm that has transitioned from internet services to a leadership role in artificial intelligence. The company is best known in the AI community for its Skywork series of large language models. These models are designed with a focus on high-quality data processing and efficient scaling, contributing significantly to the global open-weight ecosystem by providing researchers with accessible, high-performance alternatives to proprietary systems.\n\nBeyond model development, Kunlun Tech emphasizes the integration of AI across diverse digital mediums, including search and content generation. Their commitment to open-source principles is demonstrated through the release of the Skywork-13B model and its subsequent iterations, which feature specialized training techniques to enhance reasoning and mathematical capabilities. This approach fosters transparency and collaborative innovation within the international machine learning community.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_kunlun_tech_1780763618.png",
+      "alt": "Kunlun Tech",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T18:33:38.112379",
+    "modified": "2026-06-06T18:33:38.112389",
+    "categories": [
+      "Chinese Open Weight Models"
+    ],
+    "tags": [
+      "Kunlun Tech",
+      "Skywork",
+      "Open Weight",
+      "Large Language Models"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}

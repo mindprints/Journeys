@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "cb24ca62-3236-4289-bd2d-89c108f88e0f",
+  "front": {
+    "title": "Neural scaling law",
+    "subtitle": "Statistical law in machine learning"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "In machine learning, a neural scaling law is an empirical scaling law that describes how neural network performance changes as key factors are scaled up or down. These factors typically include the number of parameters, training dataset size, and training cost. Some models also exhibit performance gains by scaling inference through increased test-time compute (TTC), extending neural scaling laws beyond training to the deployment phase.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Neural_scaling_law",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Performance_of_AI_models_on_various_benchmarks_from_1998_to_2024.png/330px-Performance_of_AI_models_on_various_benchmarks_from_1998_to_2024.png",
+      "alt": "Neural scaling law",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T20:53:17.820562",
+    "modified": "2026-03-19T20:53:17.820566",
+    "categories": [
+      "Deep Learning"
+    ],
+    "tags": [
+      "Neural scaling law"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Neural_scaling_law"
+  }
+}

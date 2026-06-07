@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "c1a508ed-82b9-4a30-8746-fec9c4ffb8cd",
+  "front": {
+    "title": "Standard cell",
+    "subtitle": "Method of designing specialized integrated circuits"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "In semiconductor design, standard-cell methodology is a method of designing application-specific integrated circuits (ASICs) with mostly digital-logic features. Standard-cell methodology is an example of design abstraction, whereby a low-level very-large-scale integration (VLSI) layout is encapsulated into an abstract logic representation.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Standard_cell",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Silicon_chip_3d.png/330px-Silicon_chip_3d.png",
+      "alt": "Standard cell",
+      "position": "top",
+      "caption": "Source: Wikimedia"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T21:16:52.434454",
+    "modified": "2026-06-07T21:16:52.434459",
+    "categories": [
+      "ASICS"
+    ],
+    "tags": [
+      "Semiconductor Design",
+      "Integrated Circuits",
+      "Chip Architecture",
+      "VLSI",
+      "Hardware Engineering"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Standard_cell"
+  }
+}

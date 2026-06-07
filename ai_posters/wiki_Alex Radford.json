@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "b3a7febf-7a4c-4194-a8fd-4a4a01125ca8",
+  "front": {
+    "title": "Alex Radford",
+    "subtitle": "A pioneering researcher at OpenAI known for developing large-scale generative models and multimodal systems.",
+    "chronology": {
+      "epochStart": 2018,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 2018,
+          "name": "Alex Radford"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Alex Radford is a prominent research scientist at OpenAI whose work has fundamentally reshaped the field of Natural Language Processing. He was the primary author of the original Generative Pre-trained Transformer (GPT) paper, which introduced the concept of using unsupervised pre-training on vast datasets to achieve state-of-the-art results across various linguistic tasks. This research laid the architectural foundation for the subsequent GPT-2, GPT-3, and GPT-4 models.\n\nBeyond text, Radford led the development of CLIP (Contrastive Language-Image Pre-training), a breakthrough model that connects visual concepts with natural language. By training on hundreds of millions of images and their captions, CLIP demonstrated that AI could learn visual representations from text descriptions alone, rather than relying on manually labeled datasets. His contributions continue to drive the evolution of both large language models and the generative art revolution.",
+    "links": []
+  },
+  "meta": {
+    "created": "2026-03-19T09:31:58.890396",
+    "modified": "2026-03-19T19:45:48.307Z",
+    "categories": [
+      "AI Scientists"
+    ],
+    "tags": [
+      "Alex Radford",
+      "GPT",
+      "Deep Learning",
+      "OpenAI"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}

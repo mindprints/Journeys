@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "2e3b8062-0dab-48df-9469-3e389c0fb75e",
+  "front": {
+    "title": "Cognitive architecture",
+    "subtitle": "Blueprint for intelligent agents"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "A cognitive architecture is both a theory about the structure of the human mind and a computational instantiation of such a theory used in the fields of artificial intelligence (AI) and computational cognitive science. These formalized models can be used to further refine comprehensive theories of cognition and serve as the frameworks for useful artificial intelligence programs. Successful cognitive architectures include ACT-R and SOAR. \nThe research on cognitive architectures as software instantiation of cognitive theories was initiated by Allen Newell in 1990.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Cognitive_architecture",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "images/originals/ai_cognitive_architecture_1773955003.png",
+      "alt": "Cognitive architecture",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:16:29.529641",
+    "modified": "2026-03-19T22:16:29.529645",
+    "categories": [
+      "harnesses and scaffolds"
+    ],
+    "tags": [
+      "Cognitive architecture"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Cognitive_architecture"
+  }
+}

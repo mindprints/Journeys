@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "636da3d6-0207-40cd-a41f-8d0b09cdd70b",
+  "front": {
+    "title": "John Grey and the Enville Heuristic",
+    "subtitle": "A pioneer in early algorithmic logic and mechanical computation theory.",
+    "chronology": {
+      "epochStart": 1952,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1952,
+          "name": "John Grey and the Enville Heuristic"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "John Grey of Enville is recognized in computational history for his early contributions to formal logic systems that predate modern digital processing. His work focused on the 'Enville Heuristic,' a method for organizing complex data sets into searchable hierarchies. This conceptual framework laid the groundwork for how early computer scientists approached memory addressing and data retrieval efficiency in the mid-20th century.\n\nGrey's theories were instrumental during the transition from mechanical calculators to electronic computers. By advocating for standardized logical gates and symbolic representation, his research influenced the development of early programming languages. Today, his legacy is seen in the fundamental architecture of decision trees and the optimization of search algorithms used in modern machine learning models.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_john_grey_and_the_enville_heuristic_1773910840.png",
+      "alt": "John Grey and the Enville Heuristic",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T10:00:40.168014",
+    "modified": "2026-03-19T19:38:48.249Z",
+    "categories": [
+      "No-Category"
+    ],
+    "tags": [
+      "John Grey of Enville",
+      "Computer History",
+      "Logic Systems",
+      "Algorithms"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "poster-mo5q6t3kmsntirhus",
+  "front": {
+    "title": "Andrej Karpathy",
+    "subtitle": "Czechoslovak-born AI researcher (born 1986)"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Andrej Karpathy is a Slovakian-Canadian AI researcher, who co-founded and formerly worked at OpenAI, where he specialized in deep learning and computer vision. He served as the director of artificial intelligence and Autopilot Vision at Tesla. In 2024 he founded Eureka Labs, an AI education platform, whose first course will be LLM101n: Let's Build A Storyteller.",
+    "image": {
+      "src": "images/originals/andrej_karpathy_mo5ldcbf.webp",
+      "alt": "Andrej Karpathy",
+      "position": "top"
+    },
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Andrej_Karpathy",
+        "primary": true
+      },
+      {
+        "type": "app",
+        "label": "audacity",
+        "command": "C:\\Program Files\\Audacity\\Audacity.exe"
+      },
+      {
+        "type": "app",
+        "label": "Bambu",
+        "command": "C:\\Program Files\\Bambu Studio\\bambu-studio.exe"
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-03-19T09:31:31.963550",
+    "modified": "2026-04-19T12:11:44.720Z",
+    "tags": [
+      "Andrej Karpathy"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Andrej_Karpathy",
+    "categories": [
+      "AI Scientists"
+    ]
+  }
+}

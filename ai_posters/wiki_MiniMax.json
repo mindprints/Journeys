@@ -8,7 +8,7 @@
   },
   "back": {
     "layout": "image-top",
-    "text": "Minimax is a decision rule used in artificial intelligence, decision theory, combinatorial game theory, statistics, and philosophy for minimizing the possible loss for a worst case scenario. When dealing with gains, it is referred to as \"maximin\" \u2013 to maximize the minimum gain. Originally formulated for several-player zero-sum game theory, covering both the cases where players take alternate moves and those where they make simultaneous moves, it has also been extended to more complex games and to general decision-making in the presence of uncertainty.",
+    "text": "Minimax is a decision rule used in artificial intelligence, decision theory, combinatorial game theory, statistics, and philosophy for minimizing the possible loss for a worst case scenario. When dealing with gains, it is referred to as \"maximin\" – to maximize the minimum gain. Originally formulated for several-player zero-sum game theory, covering both the cases where players take alternate moves and those where they make simultaneous moves, it has also been extended to more complex games and to general decision-making in the presence of uncertainty.",
     "links": [
       {
         "type": "external",
@@ -25,9 +25,9 @@
   },
   "meta": {
     "created": "2026-03-18T23:28:26.790446",
-    "modified": "2026-03-18T23:28:26.790454",
+    "modified": "2026-06-06T16:30:00.830Z",
     "categories": [
-      "Chinese Open Weight Models"
+      "No-Category"
     ],
     "tags": [
       "MiniMax"

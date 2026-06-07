@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "471c56e9-b586-408e-97e1-e95b4d0942a1",
+  "front": {
+    "title": "Friendly artificial intelligence",
+    "subtitle": "AI to benefit humanity"
+  },
+  "back": {
+    "layout": "text-only",
+    "text": "Friendly artificial intelligence is hypothetical artificial general intelligence (AGI) that would have a positive (benign) effect on humanity or at least align with human interests such as fostering the improvement of the human species. It is a part of the ethics of artificial intelligence and is closely related to machine ethics. While machine ethics is concerned with how an artificially intelligent agent should behave, friendly artificial intelligence research is focused on how to practically bring about this behavior and ensuring it is adequately constrained.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Friendly_artificial_intelligence",
+        "primary": true
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-06-06T14:58:11.021775",
+    "modified": "2026-06-06T14:58:11.021779",
+    "categories": [
+      "Recursive Self Improvement"
+    ],
+    "tags": [
+      "Friendly artificial intelligence"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Friendly_artificial_intelligence"
+  }
+}

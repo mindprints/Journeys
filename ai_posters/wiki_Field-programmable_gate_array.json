@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "3ebb6528-4859-4d71-807a-5e948deb152b",
+  "front": {
+    "title": "Field-programmable gate array",
+    "subtitle": "Array of logic gates that are reprogrammable"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "A field-programmable gate array (FPGA) is a type of configurable integrated circuit that can be repeatedly programmed after manufacturing. FPGAs are a subset of logic devices referred to as programmable logic devices (PLDs). They consist of a grid-connected array of programmable logic blocks that can be configured \"in the field\" to interconnect with other logic blocks to perform various digital functions. FPGAs are often used in limited (low) quantity production of custom-made products, and in research and development, where the higher cost of individual FPGAs is not as important and where creating and manufacturing a custom circuit would not be feasible. Other applications for FPGAs include the telecommunications, automotive, aerospace, and industrial sectors, which benefit from their flexibility, high signal processing speed, and parallel processing abilities.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Field-programmable_gate_array",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Altera_StratixIVGX_FPGA.jpg/330px-Altera_StratixIVGX_FPGA.jpg",
+      "alt": "Field-programmable gate array",
+      "position": "top",
+      "caption": "Source: Wikimedia"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T21:16:50.368251",
+    "modified": "2026-06-07T21:16:50.368256",
+    "categories": [
+      "ASICS"
+    ],
+    "tags": [
+      "Reconfigurable Hardware",
+      "Integrated Circuits",
+      "Computer Architecture",
+      "Digital Logic",
+      "Hardware Acceleration"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Field-programmable_gate_array"
+  }
+}

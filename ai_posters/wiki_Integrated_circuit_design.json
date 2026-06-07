@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "ad0607c6-de8f-47d6-b696-e3c3cd9ac875",
+  "front": {
+    "title": "Integrated circuit design",
+    "subtitle": "Engineering process for electronic hardware"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Integrated circuit design, semiconductor design, chip design or IC design, is a sub-field of electronics engineering, encompassing the particular logic and circuit design techniques required to design integrated circuits (ICs). An IC consists of miniaturized electronic components built into an electrical network on a monolithic semiconductor substrate by photolithography.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Integrated_circuit_design",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Vlsiopamp2.gif/330px-Vlsiopamp2.gif",
+      "alt": "Integrated circuit design",
+      "position": "top",
+      "caption": "Source: Wikimedia"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T21:17:27.943884",
+    "modified": "2026-06-07T21:17:27.943888",
+    "categories": [
+      "ASICS"
+    ],
+    "tags": [
+      "Semiconductor design",
+      "Chip architecture",
+      "Microelectronics",
+      "Hardware engineering",
+      "Integrated circuits"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Integrated_circuit_design"
+  }
+}

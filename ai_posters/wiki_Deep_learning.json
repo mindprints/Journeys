@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "30038f20-1090-4e14-b772-83d8c1dba92b",
+  "front": {
+    "title": "Deep learning",
+    "subtitle": "Branch of machine learning"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "In machine learning, deep learning (DL) focuses on utilizing multilayered neural networks to perform tasks such as classification, regression, and representation learning. The field takes inspiration from biological neuroscience and revolves around stacking artificial neurons into layers and \"training\" them to process data. The adjective \"deep\" refers to the use of multiple layers in the network. Methods used can be supervised, semi-supervised or unsupervised.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Deep_learning",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Deep_Learning.jpg/330px-Deep_Learning.jpg",
+      "alt": "Deep learning",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:37:35.725653",
+    "modified": "2026-03-19T22:37:35.725657",
+    "categories": [
+      "The Bitter Lesson"
+    ],
+    "tags": [
+      "Deep learning"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Deep_learning"
+  }
+}

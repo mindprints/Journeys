@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "c6f2c9e1-d226-445c-baf7-d811a8210db2",
+  "front": {
+    "title": "Task Decomposition",
+    "subtitle": "The process of breaking complex objectives into smaller, manageable sub-tasks for autonomous agents.",
+    "chronology": {
+      "epochStart": 1956,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1956,
+          "name": "Task Decomposition"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Task decomposition is a fundamental strategy in artificial intelligence used to solve complex, multi-step problems. By breaking a high-level goal into a sequence of smaller, discrete actions, an AI system can navigate intricate workflows that would otherwise be computationally overwhelming. This approach is central to the operation of autonomous agents and large language model chains, allowing them to plan, execute, and verify individual steps toward a final solution. In the context of scaffolds, decomposition provides the structural framework that guides an AI through a logical progression. Techniques such as Chain-of-Thought prompting and modular programming rely on this principle to improve accuracy and transparency. By isolating specific sub-problems, developers can also implement specialized tools or models for different stages of a task, ensuring that each component is handled by the most capable resource.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_task_decomposition_1773955066.png",
+      "alt": "Task Decomposition",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:17:46.015441",
+    "modified": "2026-03-19T22:17:46.015452",
+    "categories": [
+      "harnesses and scaffolds"
+    ],
+    "tags": [
+      "Task decomposition",
+      "Recursive Planning",
+      "Autonomous Agents",
+      "Problem Solving"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}

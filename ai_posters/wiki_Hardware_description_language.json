@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "9ddc304c-b6a6-4489-9084-de2fad63476f",
+  "front": {
+    "title": "Hardware description language",
+    "subtitle": "Specialized computer language used to describe electronic circuits"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "In computer engineering, a hardware description language (HDL) is a specialized computer language used to describe the structure and behavior of electronic circuits, usually to design application-specific integrated circuits (ASICs) and to program field-programmable gate arrays (FPGAs).",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Hardware_description_language",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "images/originals/ai_hardware_description_language_1780859846.png",
+      "alt": "Hardware description language",
+      "position": "top",
+      "caption": "AI Generated"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T21:17:13.309793",
+    "modified": "2026-06-07T21:17:13.309797",
+    "categories": [
+      "ASICS"
+    ],
+    "tags": [
+      "Circuit Design",
+      "Computer Engineering",
+      "Microchips",
+      "FPGA",
+      "Hardware Architecture"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Hardware_description_language"
+  }
+}

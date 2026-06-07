@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "4cc82e80-9add-46c3-b76c-0404d93d6e1c",
+  "front": {
+    "title": "Astro Boy (character)",
+    "subtitle": "Fictional character in Japanese manga"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Astro Boy, known in Japan as Atom , is a fictional superhero and the main protagonist of the epoynmous manga series and franchise. Created by Osamu Tezuka, the character was introduced in the 1951 Captain Atom manga and then in his own manga series. Astro Boy has appeared in animated television shows and in the animated feature film adaptations of its eponymous manga, as well as a live-action TV series, other works by Tezuka, and video games.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Astro_Boy_(character)",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/en/f/f2/Astro_Boy_anime_version.png",
+      "alt": "Astro Boy (character)",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T20:39:31.197736",
+    "modified": "2026-06-07T20:39:31.197741",
+    "categories": [
+      "Clasical Robots"
+    ],
+    "tags": [
+      "Humanoid robots",
+      "Artificial intelligence",
+      "Science fiction",
+      "Japanese robotics",
+      "Pop culture history"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Astro_Boy_(character)"
+  }
+}

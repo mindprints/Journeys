@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "fae976ed-a10b-41b7-ba51-4ef577eb0530",
+  "front": {
+    "title": "Model Context Protocol",
+    "subtitle": "Protocol for communicating between LLMs and applications"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "The Model Context Protocol (MCP) is an open standard and open-source framework introduced by Anthropic in November 2024 to standardize the way artificial intelligence (AI) systems like large language models (LLMs) integrate and share data with external tools, systems, and data sources. MCP provides a universal interface for reading files, executing functions, and handling contextual prompts. Following its announcement, the protocol was adopted by major AI providers, including OpenAI and Google DeepMind.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Model_Context_Protocol",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Model_Context_Protocol_logo.svg/330px-Model_Context_Protocol_logo.svg.png",
+      "alt": "Model Context Protocol",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:16:09.311212",
+    "modified": "2026-03-19T22:16:09.311217",
+    "categories": [
+      "harnesses and scaffolds"
+    ],
+    "tags": [
+      "Model Context Protocol"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Model_Context_Protocol"
+  }
+}

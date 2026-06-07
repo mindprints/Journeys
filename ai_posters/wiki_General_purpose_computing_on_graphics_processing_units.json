@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "64868542-379f-42be-af90-2e6336dc44b2",
+  "front": {
+    "title": "GPGPU: General Purpose Computing on GPUs",
+    "subtitle": "Repurposing graphics hardware to accelerate massive parallel processing for artificial intelligence.",
+    "chronology": {
+      "epochStart": 2007,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 2007,
+          "name": "GPGPU: General Purpose Computing on GPUs"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Originally designed to render 3D graphics for video games, Graphics Processing Units (GPUs) are built to perform millions of simple mathematical operations simultaneously. Unlike a Central Processing Unit (CPU) which excels at complex sequential tasks, the GPU architecture consists of thousands of smaller cores designed for high-throughput parallel workloads. This makes them uniquely suited for the matrix multiplications required by neural networks.\n\nThe shift to General Purpose Computing on Graphics Processing Units (GPGPU) began in the early 2000s with the development of programmable shaders and was formalized with the release of the CUDA platform. This transition allowed researchers to treat the GPU as a high-performance scientific calculator. By offloading deep learning training to GPUs, tasks that previously took months could be completed in days, sparking the modern AI revolution.\n\nThis technology aligns with 'The Bitter Lesson' in AI history, which suggests that leveraging massive amounts of computation is more effective than hand-coding human knowledge. By utilizing the raw power of GPGPU, developers can scale models to unprecedented sizes, allowing intelligence to emerge from data-driven learning rather than manual heuristic design.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_gpgpu_general_purpose_computing_on_gpus_1773956319.png",
+      "alt": "GPGPU: General Purpose Computing on GPUs",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:38:39.516208",
+    "modified": "2026-03-19T22:38:39.516219",
+    "categories": [
+      "The Bitter Lesson"
+    ],
+    "tags": [
+      "General purpose computing on graphics processing units",
+      "Hardware",
+      "Parallelism",
+      "Deep Learning"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}

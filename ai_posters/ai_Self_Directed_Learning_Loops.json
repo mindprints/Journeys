@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "5cf96671-5c09-4050-bcb3-bedd97015631",
+  "front": {
+    "title": "Self-Directed Learning Loops",
+    "subtitle": "Autonomous systems that refine their own performance through internal feedback and recursive optimization.",
+    "chronology": {
+      "epochStart": 1990,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1990,
+          "name": "Self-Directed Learning Loops"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Self-directed learning loops represent a frontier in artificial intelligence where models move beyond static training sets. In these systems, an AI generates its own goals, evaluates its own outputs, and uses that feedback to update its internal parameters. This recursive process allows the machine to discover new strategies and solve complex problems without constant human intervention or labeled data. This concept is a core component of Recursive Self-Improvement (RSI), where the system's primary task is to enhance its own learning architecture.\n\nThese loops often utilize techniques like reinforcement learning and synthetic data generation. By simulating environments or playing against versions of itself, an AI can explore millions of permutations to find optimal solutions. While this leads to rapid breakthroughs in fields like strategic gaming and protein folding, it also presents unique challenges in alignment. Ensuring that an autonomously evolving system remains within safe, human-defined ethical boundaries is a critical area of ongoing research in AI safety and governance.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_self_directed_learning_loops_1780752729.png",
+      "alt": "Self-Directed Learning Loops",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T15:32:09.981788",
+    "modified": "2026-06-06T15:32:09.981794",
+    "categories": [
+      "RSI"
+    ],
+    "tags": [
+      "Self_Directed_Learning_Loops",
+      "Recursive Self-Improvement",
+      "Reinforcement Learning",
+      "AI Safety"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "a16ae835-849a-4fc1-b3ab-9582e864fd26",
+  "front": {
+    "title": "Recursive Error Correction",
+    "subtitle": "A self-refining process where an AI system iteratively identifies and fixes its own mistakes to improve accuracy.",
+    "chronology": {
+      "epochStart": 1994,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1994,
+          "name": "Recursive Error Correction"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Recursive Error Correction is a computational strategy where a system applies its logic to its own output to detect and rectify inconsistencies. In the context of Large Language Models and neural networks, this involves a multi-pass approach: the model generates a solution, critiques that solution based on predefined constraints, and then regenerates or adjusts the response. This feedback loop continues until the error rate falls below a specific threshold or a maximum number of iterations is reached.\n\nThis technique is vital for complex reasoning tasks, such as mathematical problem-solving and software engineering. By treating the initial output as a draft rather than a final product, the system can simulate a form of self-reflection. This reduces hallucinations and logical fallacies, allowing AI to achieve higher precision in high-stakes environments where a single error could lead to system failure.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_recursive_error_correction_1780752742.png",
+      "alt": "Recursive Error Correction",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T15:32:22.996088",
+    "modified": "2026-06-06T15:32:22.996093",
+    "categories": [
+      "RSI"
+    ],
+    "tags": [
+      "Recursive_Error_Correction",
+      "Machine Learning",
+      "Self-Correction",
+      "Algorithm Design"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview"
+  }
+}

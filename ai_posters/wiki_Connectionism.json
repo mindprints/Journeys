@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "f826d872-0b62-455d-a9a0-c059f27870af",
+  "front": {
+    "title": "Connectionism",
+    "subtitle": "Cognitive science approach"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Connectionism is an approach to the study of human mental processes and cognition that utilizes mathematical models known as connectionist networks or artificial neural networks.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Connectionism",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Artificial_neural_network.svg/330px-Artificial_neural_network.svg.png",
+      "alt": "Connectionism",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:38:22.679209",
+    "modified": "2026-03-19T22:38:22.679213",
+    "categories": [
+      "The Bitter Lesson"
+    ],
+    "tags": [
+      "Connectionism"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Connectionism"
+  }
+}

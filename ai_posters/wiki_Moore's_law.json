@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "487c9274-5986-4696-b8da-d70b0190f81a",
+  "front": {
+    "title": "Moore's law",
+    "subtitle": "Observation on the growth of integrated circuit capacity"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Moore's law is the observation that the number of transistors in an integrated circuit (IC) doubles about every two years, and thus projection of a historical trend. Rather than a law of physics, it is an empirical relationship. It is an experience curve effect, a type of observation quantifying efficiency gains from learned experience in production.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Moore's_law",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Moore%27s_Law_Transistor_Count_1970-2020.png/330px-Moore%27s_Law_Transistor_Count_1970-2020.png",
+      "alt": "Moore's law",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:37:34.626762",
+    "modified": "2026-03-19T22:37:34.626767",
+    "categories": [
+      "The Bitter Lesson"
+    ],
+    "tags": [
+      "Moore's law"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Moore's_law"
+  }
+}

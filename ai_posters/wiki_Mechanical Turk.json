@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "a0451da1-2d36-45e9-8616-b8da2d12df4f",
+  "front": {
+    "title": "Mechanical Turk",
+    "subtitle": "Chess-playing automaton hoax (1770\u20131854)"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "The Mechanical Turk, also known as the Automaton Chess Player or simply the Turk, was a chess-playing machine first displayed in 1770, which appeared to be able to play a strong game of chess autonomously, but whose pieces were in reality moved via levers and magnets by a chess master hidden in its lower cavity. The machine was toured and exhibited for 84 years as an automaton, and continued giving occasional exhibitions until 1854, when it was destroyed in a fire. In 1857, an article published by the owner's son provided the first full explanation of the mechanism, which had been widely suspected to be a hoax but never accurately described while the machine still existed.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Mechanical_Turk",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Racknitz_-_The_Turk_3.jpg/330px-Racknitz_-_The_Turk_3.jpg",
+      "alt": "Mechanical Turk",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T20:38:54.792153",
+    "modified": "2026-06-07T20:38:54.792158",
+    "categories": [
+      "Clasical Robots"
+    ],
+    "tags": [
+      "Automata",
+      "Chess",
+      "Artificial Intelligence",
+      "Hoax",
+      "Human-in-the-loop"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Mechanical_Turk"
+  }
+}

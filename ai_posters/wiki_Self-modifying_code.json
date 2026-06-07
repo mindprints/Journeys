@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "648eeebd-f406-493e-b6e9-0058eefe7a8c",
+  "front": {
+    "title": "Self-modifying code",
+    "subtitle": "Source code that alters its instructions to the hardware while executing"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "In computer science, self-modifying code is code that alters its own instructions while it is executing \u2013 usually to reduce the instruction path length and improve performance or simply to reduce otherwise repetitively similar code, thus simplifying maintenance. The term is usually only applied to code where the self-modification is intentional, not in situations where code accidentally modifies itself due to an error such as a buffer overflow.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Self-modifying_code",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "images/originals/ai_self_modifying_code_1780750673.png",
+      "alt": "Self-modifying code",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T14:57:37.773955",
+    "modified": "2026-06-06T14:57:37.773960",
+    "categories": [
+      "Recursive Self Improvement"
+    ],
+    "tags": [
+      "Dynamic Code",
+      "Software Evolution",
+      "Machine Learning",
+      "Adaptive Algorithms",
+      "Computer Architecture"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Self-modifying_code"
+  }
+}

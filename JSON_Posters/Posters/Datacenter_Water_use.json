@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "poster-mq3ybx3rqrdnszjef",
+  "front": {
+    "title": "Datacenter Water use",
+    "subtitle": "giving acurate estimates of water useage in datacenters"
+  },
+  "back": {
+    "layout": "auto",
+    "image": {
+      "src": "images/originals/ai_datacenter_water_use_1780825302091.png",
+      "alt": "Datacenter Water use",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T09:42:00.234Z",
+    "modified": "2026-06-07T15:43:32.439Z",
+    "categories": [
+      "Test Category"
+    ]
+  }
+}

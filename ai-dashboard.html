@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Dashboard - Museum of Artificial Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./css/editor.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="logos/favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="logos/favicon_io/favicon-32x32.png">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; }
+    html, body { height: 100%; font-family: 'Saira', sans-serif; background: #0d0a1f; color: #dedede; }
+    body { display: flex; flex-direction: column; }
+
+    header {
+      background: #1a153d; padding: 0.75em 1.5em;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5em;
+    }
+    header h1 { font-size: 1.3em; font-weight: 600; }
+    nav { display: flex; gap: 0.5em; flex-wrap: wrap; }
+    .nav-link { color: #9aa0b5; text-decoration: none; font-size: 0.9em; padding: 0.3em 0.6em; border-radius: 4px; transition: color 0.15s; }
+    .nav-link:hover { color: #fff; }
+
+    main { flex: 1; overflow-y: auto; padding: 1.5em; max-width: 860px; width: 100%; margin: 0 auto; }
+
+    .section {
+      background: #1a153d; border-radius: 10px; padding: 1.5em; margin-bottom: 1.5em;
+    }
+    .section-title {
+      font-size: 1em; font-weight: 600; color: #f48c06;
+      display: flex; align-items: center; gap: 0.5em; margin-bottom: 1.2em;
+      padding-bottom: 0.6em; border-bottom: 1px solid #3a355e;
+    }
+
+    .field { margin-bottom: 1.1em; }
+    .field label { display: block; font-size: 0.85em; color: #9aa0b5; margin-bottom: 0.35em; font-weight: 500; }
+    .field input[type="text"] {
+      width: 100%; padding: 0.55em 0.75em; border-radius: 6px;
+      border: 1px solid #3a355e; background: #2a2359; color: #fff;
+      font-family: inherit; font-size: 0.95em;
+      transition: border-color 0.15s;
+    }
+    .field input[type="text"]:focus { outline: none; border-color: #7c6fff; }
+    .field small { display: block; margin-top: 0.3em; color: #6b7280; font-size: 0.78em; }
+
+    .toggle-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75em 0; border-bottom: 1px solid #2a2359;
+    }
+    .toggle-row:last-child { border-bottom: none; }
+    .toggle-label { font-size: 0.9em; }
+    .toggle-label small { display: block; color: #6b7280; font-size: 0.8em; margin-top: 0.15em; }
+
+    /* Toggle switch */
+    .switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; inset: 0; cursor: pointer;
+      background: #3a355e; border-radius: 24px; transition: background 0.2s;
+    }
+    .slider::before {
+      content: ''; position: absolute; height: 18px; width: 18px;
+      left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: transform 0.2s;
+    }
+    .switch input:checked + .slider { background: #7c6fff; }
+    .switch input:checked + .slider::before { transform: translateX(20px); }
+
+    .action-bar {
+      display: flex; gap: 0.75em; align-items: center; margin-top: 1.5em;
+    }
+    .spacer { flex: 1; }
+
+    .status-msg {
+      font-size: 0.85em; padding: 0.45em 0.8em; border-radius: 6px; display: none;
+    }
+    .status-msg.ok  { background: rgba(74,222,128,0.12); color: #4ade80; display: block; }
+    .status-msg.err { background: rgba(248,113,113,0.12); color: #f87171; display: block; }
+
+    .source-badge {
+      font-size: 0.72em; padding: 0.15em 0.5em; border-radius: 99px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .badge-openverse { background: #1e3a5f; color: #60a5fa; }
+    .badge-brave     { background: #3b1a0a; color: #fb923c; }
+
+    .model-hint {
+      font-size: 0.78em; color: #6b7280; margin-top: 0.25em;
+    }
+    .model-hint a { color: #7c6fff; text-decoration: none; }
+    .model-hint a:hover { text-decoration: underline; }
+
+    .test-row { margin-top: 0.6em; display: flex; gap: 0.5em; align-items: center; }
+    .test-result { font-size: 0.8em; color: #9aa0b5; }
+    .test-result.ok  { color: #4ade80; }
+    .test-result.err { color: #f87171; }
+
+    .prompt-preview {
+      background: #120f28; border: 1px solid #3a355e; border-radius: 8px;
+      padding: 0.9em 1em; margin-top: 0.6em; font-size: 0.8em; color: #9aa0b5;
+      white-space: pre-wrap; line-height: 1.55; font-family: Consolas, monospace;
+    }
+    .prompt-preview strong { color: #cdd6f4; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><i class="fas fa-sliders-h"></i> AI Dashboard</h1>
+    <nav>
+      <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Gallery</a>
+      <a href="unified-editor.html" class="nav-link">Unified Editor</a>
+      <a href="category-editor.html" class="nav-link">Category Editor</a>
+      <a href="image-editor.html" class="nav-link">Image Editor</a>
+      <a href="journey-editor.html" class="nav-link">Journey Editor</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ── Models ──────────────────────────────────────────────── -->
+    <div class="section">
+      <div class="section-title"><i class="fas fa-brain"></i> Language Models</div>
+
+      <div class="field">
+        <label for="topic-model">Topic Suggestion Model</label>
+        <input type="text" id="topic-model" placeholder="openai/gpt-4o-mini">
+        <div class="model-hint">Used when the category editor suggests topics via AI.
+          Browse models at <a href="https://openrouter.ai/models" target="_blank" rel="noopener">openrouter.ai/models</a>.
+        </div>
+        <div class="test-row">
+          <button class="editor-btn small" id="test-topic-model-btn"><i class="fas fa-play"></i> Test</button>
+          <span class="test-result" id="test-topic-result"></span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="content-model">Content / Text Fallback Model</label>
+        <input type="text" id="content-model" placeholder="openai/gpt-4o-mini">
+        <div class="model-hint">Used to write poster text when Wikipedia has no article for a topic.</div>
+        <div class="test-row">
+          <button class="editor-btn small" id="test-content-model-btn"><i class="fas fa-play"></i> Test</button>
+          <span class="test-result" id="test-content-result"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Image generation ──────────────────────────────────── -->
+    <div class="section">
+      <div class="section-title"><i class="fas fa-image"></i> Image Generation</div>
+
+      <div class="field">
+        <label for="image-model">Image Model</label>
+        <input type="text" id="image-model" placeholder="google/gemini-3.1-flash-image-preview">
+        <div class="model-hint">
+          Used as the last-resort image fallback when Wikimedia, Openverse and Brave find nothing.<br>
+          Must support <code>modalities: ["image"]</code> on OpenRouter.
+          Recommended: <code>google/gemini-3.1-flash-image-preview</code>.
+        </div>
+        <div class="test-row">
+          <button class="editor-btn small" id="test-image-model-btn"><i class="fas fa-play"></i> Test</button>
+          <span class="test-result" id="test-image-result"></span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Prompt strategy</label>
+        <p style="font-size:0.85em; color:#9aa0b5; line-height:1.55;">
+          The server automatically chooses a prompt style based on the Wikipedia description of the topic:
+        </p>
+        <div style="margin-top:0.75em; display:flex; flex-direction:column; gap:0.5em;">
+          <div class="prompt-preview"><strong>Person</strong> (e.g. "American computer scientist")
+Portrait illustration in a professional setting relevant to their field. Editorial style, no text.</div>
+          <div class="prompt-preview"><strong>Place</strong> (e.g. "city in France")
+Evocative landscape or cityscape, clean modern illustration. No text or labels.</div>
+          <div class="prompt-preview"><strong>Physical object / organism</strong>
+Technical cutaway or isometric illustration with labelled components. Scientific style.</div>
+          <div class="prompt-preview"><strong>Abstract concept / algorithm / process</strong> ← default for AI topics
+Educational infographic diagram — labeled boxes, arrows, data-flow, architecture layers.
+Looks like a textbook figure or IEEE paper diagram. <em>Not decorative art.</em></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Image sources ─────────────────────────────────────── -->
+    <div class="section">
+      <div class="section-title"><i class="fas fa-search"></i> Image Sources</div>
+      <p style="font-size:0.85em; color:#6b7280; margin-bottom:1em;">
+        Sources are tried in order: Wikimedia → Openverse → Brave → AI generation.
+        Disabling a source skips it and falls through to the next.
+      </p>
+
+      <div class="toggle-row">
+        <div class="toggle-label">
+          <span class="source-badge badge-openverse">Openverse</span> Open-license image search
+          <small>10 000 req/day authenticated · Falls back to AI if disabled</small>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="openverse-enabled" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-label">
+          <span class="source-badge badge-brave">Brave</span> Brave Search — text &amp; image
+          <small>Text snippets for topics without Wikipedia · Image search fallback</small>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="brave-enabled" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- ── Save ──────────────────────────────────────────────── -->
+    <div class="action-bar">
+      <span class="status-msg" id="save-status"></span>
+      <span class="spacer"></span>
+      <button class="editor-btn" id="reset-btn"><i class="fas fa-undo"></i> Reset to Defaults</button>
+      <button class="editor-btn primary" id="save-btn"><i class="fas fa-save"></i> Save</button>
+    </div>
+
+  </main>
+
+  <script>
+    const $ = id => document.getElementById(id);
+
+    async function loadConfig() {
+      const resp = await fetch('/api/ai-config');
+      if (!resp.ok) return;
+      const cfg = await resp.json();
+      $('topic-model').value   = cfg.topicModel   || '';
+      $('content-model').value = cfg.contentModel || '';
+      $('image-model').value   = cfg.imageModel   || '';
+      $('openverse-enabled').checked = cfg.openverseEnabled !== false;
+      $('brave-enabled').checked     = cfg.braveEnabled     !== false;
+    }
+
+    async function saveConfig() {
+      const payload = {
+        topicModel:       $('topic-model').value.trim()   || null,
+        contentModel:     $('content-model').value.trim() || null,
+        imageModel:       $('image-model').value.trim()   || null,
+        openverseEnabled: $('openverse-enabled').checked,
+        braveEnabled:     $('brave-enabled').checked,
+      };
+      // Strip nulls so the server falls back to env defaults
+      Object.keys(payload).forEach(k => payload[k] === null && delete payload[k]);
+
+      const resp = await fetch('/api/ai-config', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const status = $('save-status');
+      if (resp.ok) {
+        status.textContent = '✓ Saved';
+        status.className = 'status-msg ok';
+      } else {
+        const err = await resp.json().catch(() => ({}));
+        status.textContent = '✗ ' + (err.error || 'Save failed');
+        status.className = 'status-msg err';
+      }
+      setTimeout(() => { status.className = 'status-msg'; }, 3000);
+    }
+
+    async function resetDefaults() {
+      const resp = await fetch('/api/ai-config');
+      if (!resp.ok) return;
+      const cfg = await resp.json();
+      $('topic-model').value   = cfg._defaults?.topicModel   || '';
+      $('content-model').value = cfg._defaults?.contentModel || '';
+      $('image-model').value   = cfg._defaults?.imageModel   || '';
+      $('openverse-enabled').checked = true;
+      $('brave-enabled').checked     = true;
+    }
+
+    async function testModel(modelId, resultEl) {
+      const el = $(resultEl);
+      el.textContent = 'Testing…';
+      el.className = 'test-result';
+      try {
+        const resp = await fetch('/api/ai/topic-suggestions', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ categoryName: 'Test', existingTopics: [], limit: 1, model: modelId }),
+        });
+        if (resp.ok) {
+          el.textContent = '✓ OK';
+          el.className = 'test-result ok';
+        } else {
+          const d = await resp.json().catch(() => ({}));
+          el.textContent = '✗ ' + (d.error || `HTTP ${resp.status}`);
+          el.className = 'test-result err';
+        }
+      } catch (e) {
+        el.textContent = '✗ ' + e.message;
+        el.className = 'test-result err';
+      }
+    }
+
+    async function testImageModel(modelId, resultEl) {
+      const el = $(resultEl);
+      el.textContent = 'Testing…';
+      el.className = 'test-result';
+      try {
+        const resp = await fetch('/api/ai/generate-image', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title: 'attention mechanism', model: modelId }),
+        });
+        if (resp.ok) {
+          el.textContent = '✓ OK — image generated';
+          el.className = 'test-result ok';
+        } else {
+          const d = await resp.json().catch(() => ({}));
+          el.textContent = '✗ ' + (d.error || `HTTP ${resp.status}`);
+          el.className = 'test-result err';
+        }
+      } catch (e) {
+        el.textContent = '✗ ' + e.message;
+        el.className = 'test-result err';
+      }
+    }
+
+    $('save-btn').addEventListener('click', saveConfig);
+    $('reset-btn').addEventListener('click', resetDefaults);
+
+    $('test-topic-model-btn').addEventListener('click', () =>
+      testModel($('topic-model').value.trim(), 'test-topic-result'));
+    $('test-content-model-btn').addEventListener('click', () =>
+      testModel($('content-model').value.trim(), 'test-content-result'));
+    $('test-image-model-btn').addEventListener('click', () =>
+      testImageModel($('image-model').value.trim(), 'test-image-result'));
+
+    loadConfig();
+  </script>
+</body>
+</html>

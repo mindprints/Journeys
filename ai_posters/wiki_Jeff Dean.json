@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "poster-mo5qyxz2hnpoxfaxr",
+  "front": {
+    "title": "Jeff Dean",
+    "subtitle": "American computer scientist and software engineer"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Jeffrey Adgate Dean is an American computer scientist and software engineer. Since 2018, he has been the lead of Google AI. He was appointed Google's chief scientist in 2023 after the merger of DeepMind and Google Brain into Google DeepMind.",
+    "image": {
+      "src": "images/originals/jeff_dean_mo5qyy0h.webp",
+      "alt": "Jeff Dean",
+      "position": "top"
+    },
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Jeff_Dean",
+        "primary": true
+      },
+      {
+        "type": "app",
+        "label": "diffcommit",
+        "command": "C:\\Program Files\\diff-commit-ai\\Diff & Commit AI.exe"
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-03-19T09:31:39.217989",
+    "modified": "2026-04-19T12:33:37.406Z",
+    "tags": [
+      "Jeff Dean"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Jeff_Dean",
+    "categories": [
+      "AI Scientists"
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "37171922-0ed7-4a63-ad50-d6964db19e62",
+  "front": {
+    "title": "Recursive self-improvement",
+    "subtitle": "Concept in artificial intelligence"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Recursive self-improvement (RSI) is a process in which early artificial general intelligence (AGI) systems rewrite their own computer code, causing an intelligence explosion resulting from enhancing their own capabilities and intellectual capacity, theoretically resulting in superintelligence.",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Recursive_self-improvement",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "images/originals/ai_recursive_self_improvement_1780750642.png",
+      "alt": "Recursive self-improvement",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T14:57:08.421408",
+    "modified": "2026-06-06T14:57:08.421412",
+    "categories": [
+      "Recursive Self Improvement"
+    ],
+    "tags": [
+      "Intelligence explosion",
+      "Self-rewriting code",
+      "Superintelligence",
+      "AGI",
+      "Feedback loops"
+    ],
+    "source": "https://en.wikipedia.org/wiki/Recursive_self-improvement"
+  }
+}

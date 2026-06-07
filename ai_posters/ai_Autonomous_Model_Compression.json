@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "3388ad8e-b118-4d0f-9f9e-4dc5bcaf233a",
+  "front": {
+    "title": "Autonomous Model Compression",
+    "subtitle": "Self-optimizing AI systems that shrink their own size without sacrificing intelligence.",
+    "chronology": {
+      "epochStart": 2018,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 2018,
+          "name": "Autonomous Model Compression"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Autonomous Model Compression refers to a suite of techniques where an AI system automatically reduces its own complexity, memory footprint, and power consumption. As neural networks have grown to include billions of parameters, they often become too large to run on smartphones or edge devices. This technology uses automated algorithms to identify and remove redundant data within a model, ensuring it remains efficient and fast.\n\nKey methods in this field include pruning, which cuts unnecessary connections; quantization, which reduces the precision of numerical data; and knowledge distillation, where a large teacher model trains a smaller student model. By automating these processes, developers can deploy sophisticated artificial intelligence across a wide range of hardware, from massive data centers to tiny wearable sensors, without requiring manual fine-tuning for every device.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_autonomous_model_compression_1780752715.png",
+      "alt": "Autonomous Model Compression",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T15:31:55.270594",
+    "modified": "2026-06-06T15:31:55.270601",
+    "categories": [
+      "RSI"
+    ],
+    "tags": [
+      "Autonomous_Model_Compression",
+      "Optimization",
+      "Edge AI",
+      "Efficiency"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "poster-mq2qojq6hi4hyua1l",
+  "front": {
+    "title": "Automated Hyperparameter Tuning",
+    "subtitle": "The process of using algorithms to automatically find the optimal settings for training a machine learning model.",
+    "chronology": {
+      "epochStart": 1989,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1989,
+          "name": "Automated Hyperparameter Tuning"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "In machine learning, hyperparameters are the external configurations set before training begins, such as learning rate or tree depth. Unlike model weights, these are not learned from data. Automated Hyperparameter Tuning, or AutoHT, replaces the manual trial-and-error process with systematic algorithms that search for the most efficient combinations to maximize model performance.\n\nCommon techniques include Grid Search, which tests every possible combination, and Random Search, which samples configurations stochastically. More advanced methods like Bayesian Optimization use probabilistic models to predict which settings will yield the best results based on previous attempts. This automation is a core component of Automated Machine Learning (AutoML), significantly reducing the time and expertise required to deploy high-performing AI systems.",
+    "image": {
+      "src": "images/originals/Auto_hyper.webp",
+      "alt": "",
+      "position": "top"
+    },
+    "images": [
+      {
+        "src": "images/originals/Auto_hyper.webp",
+        "alt": ""
+      },
+      {
+        "src": "images/originals/AI tools early_2005.webp",
+        "alt": "atesta"
+      }
+    ]
+  },
+  "meta": {
+    "created": "2026-06-06T15:31:10.754669",
+    "modified": "2026-06-06T19:21:38.526Z",
+    "tags": [
+      "Automated_Hyperparameter_Tuning",
+      "AutoML",
+      "Optimization",
+      "Machine Learning"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "categories": [
+      "RSI"
+    ]
+  }
+}

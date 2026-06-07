@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "0260a87c-5d4c-4e33-b947-5e15bcc49c57",
+  "front": {
+    "title": "Self-Architecting Networks",
+    "subtitle": "Neural networks that autonomously design their own internal structure and connectivity.",
+    "chronology": {
+      "epochStart": 1988,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1988,
+          "name": "Self-Architecting Networks"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Self-architecting networks represent a shift from human-designed AI to systems that evolve their own topology. Traditionally, engineers manually set the number of layers and neurons in a model. In contrast, self-architecting systems use techniques like Neural Architecture Search (NAS) and evolutionary algorithms to discover the most efficient configuration for a specific task, often outperforming human designs.\n\nThese networks are central to the concept of Recursive Self-Improvement (RSI). By analyzing their own performance, they can add, remove, or rewire connections to optimize for speed, accuracy, or energy consumption. This automation allows AI to adapt to complex hardware constraints and specialized data environments without constant human intervention, paving the way for more autonomous and scalable machine learning systems.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_self_architecting_networks_1780752655.png",
+      "alt": "Self-Architecting Networks",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-06T15:30:55.019378",
+    "modified": "2026-06-06T15:30:55.019385",
+    "categories": [
+      "RSI"
+    ],
+    "tags": [
+      "Self_Architecting_Networks",
+      "Neural Architecture Search",
+      "Evolutionary Computing",
+      "AutoML"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "92d1c167-7bd3-4b5c-887d-0ced4d5dedf2",
+  "front": {
+    "title": "Agentic Workflows",
+    "subtitle": "Shifting from single-prompt responses to iterative, multi-step reasoning cycles.",
+    "chronology": {
+      "epochStart": 2023,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 2023,
+          "name": "Agentic Workflows"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "An agentic workflow represents a paradigm shift in how Large Language Models are utilized. Instead of generating a final output in a single pass, the AI follows an iterative process of planning, executing, and self-reflecting. This scaffolded approach allows the system to break down complex goals into manageable sub-tasks, much like a human professional managing a project. By using tools and checking its own work, the agent can correct errors and refine its logic before presenting a result.\n\nThese workflows often employ specific patterns such as reflection, tool use, and multi-agent collaboration. In a reflection pattern, the model critiques its own draft to improve quality. In tool use, the model leverages external software or APIs to gather real-time data or perform calculations. This structured harness transforms a static model into a dynamic participant capable of solving sophisticated, open-ended problems that require persistent logic and verification.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_agentic_workflows_1773954988.png",
+      "alt": "Agentic Workflows",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-03-19T22:16:28.425839",
+    "modified": "2026-03-19T22:16:28.425852",
+    "categories": [
+      "harnesses and scaffolds"
+    ],
+    "tags": [
+      "Agentic workflow",
+      "Autonomous Agents",
+      "Iterative Logic",
+      "AI Orchestration"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}

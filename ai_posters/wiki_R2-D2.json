@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "a4957c16-efcd-457d-a558-43efa09cb44b",
+  "front": {
+    "title": "R2-D2",
+    "subtitle": "Fictional character from Star Wars"
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "R2-D2 or Artoo-Detoo is a fictional robot character in the Star Wars franchise created by George Lucas. He has appeared in ten of the eleven theatrical Star Wars films to date, including every film in the \"Skywalker Saga.\" At various points throughout the course of the films, R2, an astromech droid, is a friend to C-3PO, Padm\u00e9 Amidala, Anakin Skywalker, Leia Organa, Luke Skywalker, and Obi-Wan Kenobi. R2-D2 and his companion C-3PO are the only characters to appear in every theatrical Star Wars film, with the exception of Solo: A Star Wars Story (2018).",
+    "links": [
+      {
+        "type": "external",
+        "label": "Read more on Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/R2-D2",
+        "primary": true
+      }
+    ],
+    "image": {
+      "src": "https://upload.wikimedia.org/wikipedia/en/3/39/R2-D2_Droid.png",
+      "alt": "R2-D2",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T20:39:11.408743",
+    "modified": "2026-06-07T20:39:11.408747",
+    "categories": [
+      "Clasical Robots"
+    ],
+    "tags": [
+      "Pop culture",
+      "Robotics",
+      "Science fiction",
+      "Astromech droid",
+      "Autonomous systems"
+    ],
+    "source": "https://en.wikipedia.org/wiki/R2-D2"
+  }
+}

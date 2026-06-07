@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "type": "poster-v2",
+  "uid": "08e5fb52-9fae-4838-933c-4844212b4b38",
+  "front": {
+    "title": "Asimov's Three Laws of Robotics",
+    "subtitle": "The foundational ethical framework for autonomous machines in science fiction and early AI theory.",
+    "chronology": {
+      "epochStart": 1950,
+      "epochEnd": 2026,
+      "epochEvents": [
+        {
+          "year": 1950,
+          "name": "Asimov's Three Laws of Robotics"
+        }
+      ]
+    }
+  },
+  "back": {
+    "layout": "image-top",
+    "text": "Introduced by author Isaac Asimov in his 1942 short story Runaround and later compiled in the 1950 book I, Robot, these laws established a hierarchy of safety for artificial beings. The laws dictate that a robot may not injure a human, must obey orders unless they conflict with the first law, and must protect its own existence as long as it does not violate the first two rules. These principles were designed to prevent the common trope of robots turning against their creators.\n\nWhile originally a literary device to explore logic puzzles and edge cases, Asimov's laws have significantly influenced the real-world field of AI safety and robot ethics. Modern researchers use these concepts as a starting point for discussing value alignment, ensuring that as AI systems become more autonomous, their goals remain fundamentally compatible with human safety and well-being.",
+    "links": [],
+    "image": {
+      "src": "images/originals/ai_asimov_s_three_laws_of_robotics_1780857585.png",
+      "alt": "Asimov's Three Laws of Robotics",
+      "position": "top"
+    }
+  },
+  "meta": {
+    "created": "2026-06-07T20:39:45.445408",
+    "modified": "2026-06-07T20:39:45.445417",
+    "categories": [
+      "Clasical Robots"
+    ],
+    "tags": [
+      "Isaac Asimov's Robotic Laws",
+      "AI Ethics",
+      "Robotics",
+      "Safety"
+    ],
+    "source": "openrouter/google/gemini-3-flash-preview",
+    "ai_generated": true,
+    "needs_review": true
+  }
+}
