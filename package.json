@@ -16,6 +16,8 @@
     "test:preflight:ci": "CI=true node --env-file-if-exists=.env --test tests/preflight-disambig.test.js",
     "test:editor-ai": "node --env-file-if-exists=.env --test tests/editor-ai-helpers.test.js",
     "test:editor-ai:ci": "CI=true node --env-file-if-exists=.env --test tests/editor-ai-helpers.test.js",
+    "test:category-overhaul": "node --env-file-if-exists=.env --test tests/category-overhaul.test.js",
+    "test:python-grab": "python tests/python_grab_helpers.py",
     "restart": "node scripts/restart-unified.js --backend=\"npm start\"",
     "restart:dev": "node scripts/restart-unified.js --backend=\"npm run dev:direct\""
   },

@@ -18,6 +18,23 @@ OPENROUTER_CHAT_URL = "https://openrouter.ai/api/v1/chat/completions"
 DEFAULT_IMAGE_MODEL = "google/gemini-3.1-flash-image-preview"
 DEFAULT_IMAGES_DIR = Path("images/originals")
 
+# Prompt-type classifiers — mirrored from server.js buildAiImagePrompt
+PERSON_SIGNALS = r"\b(born|scientist|researcher|engineer|professor|politician|artist|author|inventor|mathematician|philosopher|physician|architect|composer|director|actor|actress|CEO|founder|entrepreneur|activist|journalist|historian|economist|biologist|physicist|chemist|psychologist|sociologist)\b"
+PLACE_SIGNALS  = r"\b(city|town|village|country|nation|state|province|region|district|island|mountain|river|lake|ocean|continent|municipality|capital|borough)\b"
+OBJECT_SIGNALS = r"\b(device|machine|vehicle|robot|spacecraft|weapon|instrument|tool|chemical|compound|molecule|species|animal|plant|organism|protein|gene)\b"
+
+
+def _pick_prompt_type(subtitle: str) -> str:
+    """Return 'person', 'place', 'object', or 'concept' based on subtitle."""
+    desc = (subtitle or "").lower()
+    if re.search(PERSON_SIGNALS, desc, re.IGNORECASE):
+        return "person"
+    if re.search(PLACE_SIGNALS, desc, re.IGNORECASE):
+        return "place"
+    if re.search(OBJECT_SIGNALS, desc, re.IGNORECASE):
+        return "object"
+    return "concept"
+
 
 def _image_api_key():
     return os.environ.get("OPENROUTER_API_KEY", "").strip()
@@ -54,26 +71,22 @@ def generate_ai_image(title, subtitle="", images_dir=None):
     save_dir = Path(images_dir) if images_dir else DEFAULT_IMAGES_DIR
 
     context = f"{title}. {subtitle.strip('.')}" if subtitle else title
-    desc = subtitle.lower() if subtitle else ""
+    prompt_type = _pick_prompt_type(subtitle)
 
-    _PERSON  = r"\b(born|scientist|researcher|engineer|professor|politician|artist|author|inventor|mathematician|philosopher|physician|architect|composer|director|actor|actress|CEO|founder|entrepreneur|activist|journalist|historian|economist|biologist|physicist|chemist|psychologist|sociologist)\b"
-    _PLACE   = r"\b(city|town|village|country|nation|state|province|region|district|island|mountain|river|lake|ocean|continent|municipality|capital|borough)\b"
-    _OBJECT  = r"\b(device|machine|vehicle|robot|spacecraft|weapon|instrument|tool|chemical|compound|molecule|species|animal|plant|organism|protein|gene)\b"
-
-    if re.search(_PERSON, desc, re.IGNORECASE):
+    if prompt_type == "person":
         prompt = (
             f"Portrait illustration for a museum exhibit poster about: {context}. "
             "Subject shown in a professional, respectful setting relevant to their field. "
             "Clean editorial style, rich colours, suitable for an AI and technology museum. "
             "No text or labels."
         )
-    elif re.search(_PLACE, desc, re.IGNORECASE):
+    elif prompt_type == "place":
         prompt = (
             f"Location scene for a museum exhibit poster about: {context}. "
             "Evocative landscape or cityscape, clean modern illustration style. "
             "No text or labels."
         )
-    elif re.search(_OBJECT, desc, re.IGNORECASE):
+    elif prompt_type == "object":
         prompt = (
             f"Technical illustration of the object or device for a museum exhibit poster about: {context}. "
             "Clean cutaway or isometric view, labelled components, scientific illustration style. "
