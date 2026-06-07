@@ -191,3 +191,24 @@ article.centered figure {
 	border: solid 4px rgba(244, 140, 6, 0.6);
 	/* #f48c06 with opacity */
 }
+
+/* ── Elevator transition between categories / journeys ──────────────────
+   The live carousel lives in #live-layer; on a switch a frozen clone of it
+   is added as a sibling .elevator-out, and the two layers slide vertically.
+   Each layer is its OWN perspective root so the vertical slide stays flat
+   (no 3D foreshortening); main.scene keeps overflow:hidden as the clip shaft. */
+main.scene {
+	perspective: none;
+}
+
+.elevator-layer {
+	grid-area: 1 / 1;        /* stack live + outgoing clone in the same cell */
+	display: grid;           /* preserve section's place-self:center */
+	perspective: 50em;
+	transform-style: flat;
+	will-change: transform;
+}
+
+.elevator-layer.elevator-out {
+	pointer-events: none;    /* outgoing clone is non-interactive */
+}

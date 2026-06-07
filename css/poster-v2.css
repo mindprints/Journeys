@@ -22,6 +22,8 @@
     --v2-back-grid-gap: 0.8em;
     --v2-back-header-gap: 0.35em;
     --v2-back-scale: 0.67;
+    /* Gallery hi-res back overlay size, relative to the back it replaces (1 = same). */
+    --v2-overlay-scale: 1.08;
     --v2-back-frame-width: 223%;
     --v2-back-frame-height: 100%;
     --v2-back-frame-max-height: 100%;
@@ -202,7 +204,7 @@ figure::before {
 
 .v2-back-grid {
     display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
+    grid-template-columns: var(--v2-back-text-col, 1.1fr) var(--v2-back-image-col, 0.9fr);
     gap: var(--v2-back-grid-gap, 0.8em);
     min-height: 0;
 }
@@ -282,8 +284,67 @@ article.text-expanded header .v2-back-text-panel .v2-back-panel-title {
 
 
 .v2-back-image-panel {
+    position: relative;
     display: flex;
     flex-direction: column;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    cursor: zoom-in;
+}
+
+/* === IMAGE EXPAND (mirrors text-expanded) === */
+
+article.image-expanded header .v2-back-grid {
+    position: relative;
+}
+
+article.image-expanded header .v2-back-image-panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, var(--v2-image-frame-width, 100%));
+    height: max(100%, var(--v2-image-frame-height, 100%));
+    max-height: var(--v2-image-frame-max-height, 100%);
+    padding: var(--v2-image-panel-padding, var(--v2-back-panel-padding, 0.7em 0.8em));
+    transform: translate(-50%, -50%) scale(var(--v2-image-frame-scale, 1));
+    transform-origin: center;
+    z-index: 5;
+    cursor: zoom-out;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+article.image-expanded header .v2-back-image {
+    flex: 1;
+}
+
+article.image-expanded header .v2-back-image img {
+    object-fit: contain;
+}
+
+article.image-expanded header .v2-back-text-panel {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.v2-back-image-panel .v2-back-panel-title {
+    cursor: zoom-in;
+}
+
+article.image-expanded header .v2-back-image-panel .v2-back-panel-title {
+    cursor: zoom-out;
+}
+
+/* Multi-image panel: image area acts as a cycle trigger while expanded */
+article.image-expanded header .v2-back-image-panel[data-image-count]:not([data-image-count="1"]) .v2-back-image {
+    cursor: e-resize;
+}
+
+/* Hint text below image count dots when expanded and multi-image */
+article.image-expanded header .v2-back-image-panel[data-image-count]:not([data-image-count="1"]) .v2-back-panel-title::after {
+    content: " — click image to cycle · click label to close";
+    opacity: 0.5;
+    font-size: 0.85em;
+    text-transform: none;
+    letter-spacing: 0;
 }
 
 .v2-back-image {
@@ -298,6 +359,95 @@ article.text-expanded header .v2-back-text-panel .v2-back-panel-title {
 
 .v2-back-image-panel[data-image-count]:not([data-image-count="1"]) .v2-back-image {
     cursor: pointer;
+}
+
+/* === HI-RES BACK OVERLAY: expand mirrors ===
+   The gallery clones .v2-back-content into #back-overlay-frame (no article/header
+   ancestor), so the article-scoped expand rules above can't reach it. These
+   mirror that behaviour onto the frame's own state classes, reusing the same
+   --v2-text-frame-* / --v2-image-frame-* vars (also driven by the V2 Back Tuner).
+   Purely additive — the carousel rules above are untouched. */
+#back-overlay-frame.text-expanded .v2-back-grid,
+#back-overlay-frame.image-expanded .v2-back-grid {
+    position: relative;
+}
+
+#back-overlay-frame.text-expanded .v2-back-text-panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, var(--v2-text-frame-width, 100%));
+    height: max(100%, var(--v2-text-frame-height, 100%));
+    max-height: var(--v2-text-frame-max-height, 100%);
+    padding: var(--v2-text-panel-padding, var(--v2-back-panel-padding, 0.7em 0.8em));
+    transform: translate(-50%, -50%) scale(var(--v2-text-frame-scale, 1));
+    transform-origin: center;
+    z-index: 5;
+    cursor: zoom-out;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+#back-overlay-frame.text-expanded .v2-back-text {
+    overflow-y: auto;
+    font-size: var(--v2-text-size, var(--v2-back-text-size, 0.8em));
+    line-height: var(--v2-text-line-height, var(--v2-back-text-line-height, 1.55));
+}
+
+#back-overlay-frame.text-expanded .v2-back-image-panel {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#back-overlay-frame.text-expanded .v2-back-links {
+    display: none;
+}
+
+#back-overlay-frame.text-expanded .v2-back-text-panel .v2-back-panel-title {
+    cursor: zoom-out;
+}
+
+#back-overlay-frame.image-expanded .v2-back-image-panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, var(--v2-image-frame-width, 100%));
+    height: max(100%, var(--v2-image-frame-height, 100%));
+    max-height: var(--v2-image-frame-max-height, 100%);
+    padding: var(--v2-image-panel-padding, var(--v2-back-panel-padding, 0.7em 0.8em));
+    transform: translate(-50%, -50%) scale(var(--v2-image-frame-scale, 1));
+    transform-origin: center;
+    z-index: 5;
+    cursor: zoom-out;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+#back-overlay-frame.image-expanded .v2-back-image {
+    flex: 1;
+}
+
+#back-overlay-frame.image-expanded .v2-back-image img {
+    object-fit: contain;
+}
+
+#back-overlay-frame.image-expanded .v2-back-text-panel {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#back-overlay-frame.image-expanded .v2-back-image-panel .v2-back-panel-title {
+    cursor: zoom-out;
+}
+
+#back-overlay-frame.image-expanded .v2-back-image-panel[data-image-count]:not([data-image-count="1"]) .v2-back-image {
+    cursor: e-resize;
+}
+
+#back-overlay-frame.image-expanded .v2-back-image-panel[data-image-count]:not([data-image-count="1"]) .v2-back-panel-title::after {
+    content: " — click image to cycle · click label to close";
+    opacity: 0.5;
+    font-size: 0.85em;
+    text-transform: none;
+    letter-spacing: 0;
 }
 
 .v2-back-image img {

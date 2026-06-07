@@ -131,6 +131,18 @@ document.addEventListener('DOMContentLoaded', () => {
 		clearTimeout(backOverlayTimer);
 		// Wait for the card flip animation (~350ms) then show the hi-res clone
 		backOverlayTimer = setTimeout(() => {
+			// Anchor the overlay to the on-screen size of the carousel back it
+			// replaces. getBoundingClientRect already reflects the article's
+			// scale(3); the computed font-size is the layout value, so multiply
+			// by the same factor to keep the clone's em-based internals in
+			// proportion when rendered natively at the larger size.
+			const rect = backContent.getBoundingClientRect();
+			const HOV_SCALE = 3; // 1 + --hov*2 with --hov:1 (see carousel.css)
+			const baseFs = parseFloat(getComputedStyle(backContent).fontSize) * HOV_SCALE;
+			backOverlayFrame.style.setProperty('--ov-base-w', `${rect.width}px`);
+			backOverlayFrame.style.setProperty('--ov-base-h', `${rect.height}px`);
+			backOverlayFrame.style.setProperty('--ov-base-fs', `${baseFs}px`);
+			backOverlayFrame.classList.remove('text-expanded', 'image-expanded');
 			backOverlayFrame.innerHTML = '';
 			backOverlayFrame.appendChild(backContent.cloneNode(true));
 			backOverlay.classList.add('visible');
@@ -140,6 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	function hideBackOverlay() {
 		clearTimeout(backOverlayTimer);
 		backOverlay.classList.remove('visible');
+		backOverlayFrame.classList.remove('text-expanded', 'image-expanded');
 		setTimeout(() => {
 			if (!backOverlay.classList.contains('visible')) backOverlayFrame.innerHTML = '';
 		}, 300);
@@ -191,11 +204,15 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.addEventListener('click', (e) => {
 		const imagePanel = e.target.closest('.v2-back-image-panel');
 		if (imagePanel) {
-			const panelArticle = imagePanel.closest('article');
-			if (panelArticle) {
-				const isOpen = panelArticle.style.getPropertyValue('--hov') === '1';
+			// State host: the overlay frame (when interacting with the hi-res
+			// clone) or the carousel article. Both carry the same expand classes.
+			const host = imagePanel.closest('#back-overlay-frame') || imagePanel.closest('article');
+			if (host) {
+				const isOpen = host.id === 'back-overlay-frame'
+					? backOverlay.classList.contains('visible')
+					: host.style.getPropertyValue('--hov') === '1';
 				if (isOpen) {
-					const isExpanded = panelArticle.classList.contains('image-expanded');
+					const isExpanded = host.classList.contains('image-expanded');
 					const isPanelTitle = Boolean(e.target.closest('.v2-back-panel-title'));
 
 					// Parse the image list once
@@ -208,11 +225,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 					if (!isExpanded) {
 						// Any click while collapsed → expand
-						panelArticle.classList.remove('text-expanded');
-						panelArticle.classList.add('image-expanded');
+						host.classList.remove('text-expanded');
+						host.classList.add('image-expanded');
 					} else if (isPanelTitle) {
 						// Click on the "Image" label while expanded → collapse
-						panelArticle.classList.remove('image-expanded');
+						host.classList.remove('image-expanded');
 					} else if (isMulti) {
 						// Click on image area while expanded → cycle to next image
 						const imgEl = imagePanel.querySelector('img');
@@ -227,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
 						}
 					} else {
 						// Single image, already expanded → collapse
-						panelArticle.classList.remove('image-expanded');
+						host.classList.remove('image-expanded');
 					}
 				}
 				e.stopPropagation();
@@ -237,13 +254,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		const textPanel = e.target.closest('.v2-back-text-panel');
 		if (textPanel) {
-			const panelArticle = textPanel.closest('article');
-			if (panelArticle) {
-				const isOpen = panelArticle.style.getPropertyValue('--hov') === '1';
+			const host = textPanel.closest('#back-overlay-frame') || textPanel.closest('article');
+			if (host) {
+				const isOpen = host.id === 'back-overlay-frame'
+					? backOverlay.classList.contains('visible')
+					: host.style.getPropertyValue('--hov') === '1';
 				const isLink = Boolean(e.target.closest('a'));
 				if (isOpen && !isLink) {
-					panelArticle.classList.remove('image-expanded');
-					panelArticle.classList.toggle('text-expanded');
+					host.classList.remove('image-expanded');
+					host.classList.toggle('text-expanded');
 				}
 				e.stopPropagation();
 				return;
@@ -392,6 +411,87 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
+	// ── Elevator transition (category / journey switch) ──────────────
+	const sceneEl   = document.querySelector('main.scene');
+	const liveLayer = document.getElementById('live-layer');
+	let activeElevator = null;
+
+	function snapElevator() {
+		if (activeElevator) {
+			try { activeElevator.incoming.cancel(); } catch (_) {}
+			activeElevator = null;
+		}
+		if (sceneEl) sceneEl.querySelectorAll('.elevator-out').forEach(n => n.remove());
+		if (liveLayer) liveLayer.style.transform = '';
+	}
+
+	// Swap carousel content via renderFn while sliding the old set down and out
+	// of the bottom and the new set down into view from above. Falls back to an
+	// instant swap when the layers are missing or the user prefers reduced motion.
+	async function runElevatorTransition(renderFn) {
+		// Dismiss any open hi-res back overlay + reset poster state first.
+		hideBackOverlay();
+		document.querySelectorAll('article').forEach(a => {
+			a.style.removeProperty('--hov');
+			a.classList.remove('text-expanded', 'image-expanded');
+		});
+
+		// Nothing to slide out from on the very first load (or after an error
+		// left the carousel empty) — render instantly in those cases.
+		const hasExisting = liveLayer && liveLayer.querySelector('article');
+		const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (reduce || !liveLayer || !sceneEl || !hasExisting) {
+			await renderFn();
+			window.scrollTo(0, 0);
+			return;
+		}
+
+		// Snap any in-flight transition before starting a new one.
+		snapElevator();
+
+		// 1. Clone the current carousel, frozen at the live --k/--n so it stops
+		//    rotating when we reset scroll for the incoming set.
+		const bodyStyle = getComputedStyle(document.body);
+		const outClone = liveLayer.cloneNode(true);
+		outClone.classList.add('elevator-out');
+		outClone.removeAttribute('id');
+		outClone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+		outClone.style.setProperty('--k', bodyStyle.getPropertyValue('--k').trim() || '0');
+		outClone.style.setProperty('--n', bodyStyle.getPropertyValue('--n').trim() || '1');
+		outClone.style.transform = 'translateY(0)';
+		sceneEl.appendChild(outClone);
+
+		// 2. Render the new set into the real layer, reset to its first poster.
+		await renderFn();
+		window.scrollTo(0, 0);
+
+		// Park the incoming layer above the shaft, then animate both down together.
+		liveLayer.style.transform = 'translateY(-100%)';
+		void liveLayer.offsetHeight; // commit start position (avoids a flash)
+
+		const EASE = 'cubic-bezier(.22, .61, .36, 1)';
+		const DURATION = 900;
+		const incoming = liveLayer.animate(
+			[{ transform: 'translateY(-100%)' }, { transform: 'translateY(0)' }],
+			{ duration: DURATION, easing: EASE }
+		);
+		outClone.animate(
+			[{ transform: 'translateY(0)' }, { transform: 'translateY(100%)' }],
+			{ duration: DURATION, easing: EASE, fill: 'forwards' }
+		);
+		liveLayer.style.transform = ''; // resting state once the animation owns it
+
+		const token = { incoming, outClone };
+		activeElevator = token;
+
+		// 3. Cleanup when this transition (if still current) finishes.
+		try { await incoming.finished; } catch (_) { /* cancelled by a newer switch */ }
+		if (activeElevator === token) {
+			outClone.remove();
+			activeElevator = null;
+		}
+	}
+
 	// Event listener for the chooser dropdown
 	chooser.addEventListener('change', async (event) => {
 		const selectedOption = event.target.options[event.target.selectedIndex];
@@ -406,7 +506,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		stopAutoRotate();
 		userInputPaused = false;
-		postersContainer.innerHTML = '<p>Loading posters...</p>'; // Indicate loading
+		// Keep the current carousel on screen during the fetch so it can be
+		// cloned for the outgoing half of the elevator transition.
 
 		try {
 			let postersData = [];
@@ -449,17 +550,20 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
 			}
 
-			// Call the global loadPosters function (defined in loadPosters.js)
-			if (window.loadPosters) {
-				window.loadPosters(postersData);
-			} else {
-				throw new Error('loadPosters function is not defined globally.');
-			}
+			// Slide the new set in (elevator) while the old set slides out.
+			await runElevatorTransition(async () => {
+				if (window.loadPosters) {
+					await window.loadPosters(postersData);
+				} else {
+					throw new Error('loadPosters function is not defined globally.');
+				}
+			});
 
 			startAutoRotate();
 
 		} catch (error) {
 			console.error('Error loading posters:', error);
+			snapElevator();
 			postersContainer.innerHTML = `<p style="color: red;">Error loading posters: ${error.message}</p>`;
 		}
 	});

@@ -32,8 +32,12 @@
   pointer-events: auto;
 }
 #back-overlay-frame {
-  width: min(92vw, 1200px);
-  aspect-ratio: 16 / 9;
+  /* Anchored to the on-screen size of the carousel back it replaces (set as
+     inline --ov-base-* vars by showBackOverlay), multiplied by the tunable
+     --v2-overlay-scale so the overlay reads "slightly larger" by default. */
+  width:  calc(var(--ov-base-w, min(92vw, 1200px)) * var(--v2-overlay-scale, 1.08));
+  height: calc(var(--ov-base-h, calc(min(92vw, 1200px) * 9 / 16)) * var(--v2-overlay-scale, 1.08));
+  font-size: calc(var(--ov-base-fs, 1rem) * var(--v2-overlay-scale, 1.08));
   cursor: default;
   pointer-events: none;
 }
