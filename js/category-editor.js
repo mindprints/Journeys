@@ -45,7 +45,18 @@ class CategoryEditor {
   async init() {
     this.cacheElements();
     this.bindEvents();
-    await this.loadConfig();
+    await Promise.all([this.loadConfig(), this.checkGrabStatus()]);
+  }
+
+  async checkGrabStatus() {
+    try {
+      const data = await fetch('/api/grab-status').then(r => r.json());
+      if (!data.available) {
+        this.generateBtn.disabled = true;
+        this.generateBtn.title = 'Poster generation requires Python or a bundled grab.exe';
+        this.generateBtn.style.opacity = '0.4';
+      }
+    } catch (_) {}
   }
 
   cacheElements() {

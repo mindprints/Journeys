@@ -1280,8 +1280,10 @@ async function saveAllImagesToGallery() {
         throw new Error(`Server returned ${response.status}: ${response.statusText}`);
       }
 
-      console.log(`Image saved to: ${filePath}`);
-      savedPaths.push(filePath);
+      const saveResult = await response.json().catch(() => ({}));
+      const savedSrc   = saveResult.src || filePath;
+      console.log(`Image saved to: ${savedSrc}`);
+      savedPaths.push(savedSrc);
 
       // If poster JSON is requested, create a v2 poster JSON in the selected category
       if (createPosterJson) {
@@ -1307,7 +1309,7 @@ async function saveAllImagesToGallery() {
             layout: 'image-top',
             text: description,
             image: {
-              src: filePath,
+              src: savedSrc,
               alt: alt,
               position: 'top'
             }

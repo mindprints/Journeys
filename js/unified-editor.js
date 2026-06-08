@@ -1310,7 +1310,8 @@ class UnifiedEditor {
             throw new Error(error.error || 'Failed to save image');
         }
 
-        return savePath;
+        const saveResult = await saveResponse.json().catch(() => ({}));
+        return saveResult.src || savePath;
     }
 
     loadImageFromBlob(blob) {

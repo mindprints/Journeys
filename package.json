@@ -2,8 +2,15 @@
   "name": "museum-of-ai-poster-editor",
   "version": "1.0.0",
   "description": "Museum of Artificial Intelligence with Poster Editor",
-  "main": "server.js",
+  "main": "electron/main.js",
   "scripts": {
+    "electron": "electron .",
+    "electron:dev": "electron . --enable-logging",
+    "rebuild": "electron-rebuild -f -w better-sqlite3",
+    "build:grab": "python -m PyInstaller scripts/python/grab.spec --distpath dist/python --workpath build/python",
+    "predist:win": "npm run rebuild",
+    "dist:win": "electron-builder --win",
+    "dev:browser": "npm rebuild better-sqlite3 && set PORT=3010 && nodemon --exec \"node --env-file-if-exists=.env\" server.js",
     "prestart": "kill-port 3010",
     "predev": "kill-port 3010",
     "start": "set PORT=3010 && node --env-file-if-exists=.env server.js",
@@ -21,25 +28,104 @@
     "restart": "node scripts/restart-unified.js --backend=\"npm start\"",
     "restart:dev": "node scripts/restart-unified.js --backend=\"npm run dev:direct\""
   },
+  "build": {
+    "appId": "com.journeys.app",
+    "productName": "Journeys",
+    "copyright": "Copyright © 2026 mindprints",
+    "icon": "logos/app.ico",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "asar": true,
+    "files": [
+      "electron/**",
+      "js/**",
+      "css/**",
+      "logos/**",
+      "packages/**",
+      "*.html",
+      "server.js",
+      "db.js",
+      "node_modules/**",
+      "!node_modules/.cache/**",
+      "!ai_posters/**",
+      "!JSON_Posters/**",
+      "!images/**",
+      "!tests/**",
+      "!scripts/**",
+      "!docs/**",
+      "!dist/**",
+      "!dist-electron/**",
+      "!build/**",
+      "!backups/**",
+      "!test-results/**",
+      "!*.journey",
+      "!.env",
+      "!.env.*"
+    ],
+    "extraResources": [
+      {
+        "from": "library.journey",
+        "to": "library.journey"
+      },
+      {
+        "from": "dist/python/grab.exe",
+        "to": "grab.exe"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "logos/app.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Journeys",
+      "installerIcon": "logos/app.ico",
+      "uninstallerIcon": "logos/app.ico",
+      "installerHeaderIcon": "logos/app.ico"
+    },
+    "fileAssociations": [
+      {
+        "ext": "journey",
+        "name": "Journeys Project",
+        "description": "Journeys Project File",
+        "icon": "logos/app.ico",
+        "role": "Editor"
+      }
+    ]
+  },
   "nodemonConfig": {
     "ignore": [
       "ai_posters/**",
       "JSON_Posters/**",
       "backups/**",
       "images/**",
-      "node_modules/**"
+      "node_modules/**",
+      "*.journey"
     ]
   },
   "keywords": [],
-  "author": "",
+  "author": "mindprints",
   "license": "ISC",
   "dependencies": {
     "@diffcommit/model-intel-core": "file:packages/model-intel-core",
+    "better-sqlite3": "^12.10.0",
     "express": "^4.18.2",
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
+    "@electron/rebuild": "^4.0.4",
     "@playwright/test": "^1.59.1",
+    "electron": "^33.4.11",
+    "electron-builder": "^26.15.2",
     "kill-port": "^2.0.1",
     "nodemon": "^3.0.1",
     "typescript": "^5.9.3"

@@ -2,8 +2,9 @@ const express = require('express');
 
 const fs = require('fs');
 const path = require('path');
-const { spawn } = require('child_process');
+const { spawn, execSync } = require('child_process');
 const multer = require('multer');
+const db     = require('./db');
 const app = express();
 const port = Number(process.env.PORT) || 3010;
 let modelIntelOpenRouterPromise = null;
@@ -95,13 +96,52 @@ const JOURNEYS_DIR = path.join(JSON_POSTERS_DIR, 'Journeys');
 const IMAGE_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.gif', '.webp'];
 const CATEGORY_CONFIG_PATH = path.join(JSON_POSTERS_DIR, 'category-config.json');
 const FALLBACK_CATEGORY = 'No-Category';
-const WIKI_OUTPUT_DIR = path.join(__dirname, 'ai_posters');
-const WIKI_LOG_PATH = path.join(WIKI_OUTPUT_DIR, 'wikipedia_grab.log');
-const GRAB_LOG_PATH = path.join(WIKI_OUTPUT_DIR, 'grab.log');
-const MERGE_LOG_PATH = path.join(WIKI_OUTPUT_DIR, 'merge_enrichment.log');
+
+// When packaged, __dirname is a virtual path inside app.asar and cannot be used as
+// a spawn cwd or for writing files.  Redirect grab I/O to the writable userData dir.
+const GRAB_WORK_DIR = (() => {
+  try {
+    const { app } = require('electron');
+    if (app && app.isPackaged) return app.getPath('userData');
+  } catch (_) {}
+  return __dirname;
+})();
+
+const WIKI_OUTPUT_DIR = path.join(GRAB_WORK_DIR, 'ai_posters');
+const WIKI_LOG_PATH   = path.join(WIKI_OUTPUT_DIR, 'wikipedia_grab.log');
+const GRAB_LOG_PATH   = path.join(WIKI_OUTPUT_DIR, 'grab.log');
+const MERGE_LOG_PATH  = path.join(WIKI_OUTPUT_DIR, 'merge_enrichment.log');
 const OPENROUTER_CHAT_COMPLETIONS_URL = 'https://openrouter.ai/api/v1/chat/completions';
 const OPENROUTER_IMAGES_URL = 'https://openrouter.ai/api/v1/images/generations';
 const AI_CONFIG_PATH = path.join(__dirname, 'ai-config.json');
+
+// Open the default DB only when running standalone (npm start / npm run dev).
+// When running under Electron, electron/main.js opens the project file first.
+if (!db.isOpen()) {
+  db.open(process.env.DB_PATH || path.join(__dirname, 'library.journey'));
+}
+
+// ── Grab mode ─────────────────────────────────────────────────────────────────
+// Prefer PyInstaller bundle; when packaged it lives in resources/, in dev in dist/python/.
+const GRAB_BUNDLE_PATH = (() => {
+  if (process.resourcesPath) {
+    const packed = path.join(process.resourcesPath, 'grab.exe');
+    if (fs.existsSync(packed)) return packed;
+  }
+  return path.join(__dirname, 'dist', 'python', 'grab.exe');
+})();
+const GRAB_MODE = (() => {
+  if (process.platform === 'win32' && fs.existsSync(GRAB_BUNDLE_PATH)) return 'bundled';
+  try { execSync('python --version', { stdio: 'pipe', timeout: 3000 }); return 'python'; }
+  catch (_) { return 'unavailable'; }
+})();
+console.log(`[grab] mode: ${GRAB_MODE}`);
+
+function grabSpawn(grabArgs) {
+  if (GRAB_MODE === 'bundled') return spawn(GRAB_BUNDLE_PATH, grabArgs, { cwd: GRAB_WORK_DIR });
+  if (GRAB_MODE === 'python')  return spawn('python', [path.join(__dirname, 'scripts', 'python', 'grab.py'), ...grabArgs], { cwd: GRAB_WORK_DIR });
+  throw new Error('Python runtime and grab bundle are both unavailable');
+}
 
 function loadAiConfig() {
   try {
@@ -522,48 +562,19 @@ function extractJsonObject(text) {
 // --- API Endpoints ---
 
 // Get load options (directories and journeys)
-app.get('/api/load-options', async (req, res) => {
+app.get('/api/load-options', (req, res) => {
   try {
-    let options = [];
-
-    // Get categories
-    const posters = await collectAllPosters();
-    const categories = getPosterCategories(posters).map(category => ({
-      name: formatCategoryLabel(category),
+    const categories = db.getCategories().map(category => ({
+      name:  formatCategoryLabel(category),
       value: category,
-      type: 'category'
+      type:  'category'
     }));
-    options = options.concat(categories);
-
-    // Get journeys
-    if (fs.existsSync(JOURNEYS_DIR)) {
-      const journeyFiles = fs.readdirSync(JOURNEYS_DIR)
-        .filter(file => file.endsWith('.json'));
-
-      journeyFiles.forEach(file => {
-        try {
-          const filePath = path.join(JOURNEYS_DIR, file);
-          const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-          options.push({
-            name: `${data.name || 'Unnamed'} (Journey)`,
-            value: file, // Just the filename
-            type: 'journey'
-          });
-        } catch (error) {
-          console.error(`Error reading journey file ${file}:`, error);
-          // Optionally add an error entry to the options
-          options.push({
-            name: `${file} (Invalid Journey File)`,
-            value: file,
-            type: 'journey-error' // Special type for frontend handling
-          });
-        }
-      });
-    }
-
-    // Sort options alphabetically by name
-    options.sort((a, b) => a.name.localeCompare(b.name));
-
+    const journeys = db.journeysList().map(j => ({
+      name:  `${j.name} (Journey)`,
+      value: j.filename,
+      type:  'journey'
+    }));
+    const options = [...categories, ...journeys].sort((a, b) => a.name.localeCompare(b.name));
     res.json(options);
   } catch (error) {
     console.error('Error getting load options:', error);
@@ -640,43 +651,13 @@ app.get('/api/posters-in-directory', async (req, res) => {
 });
 
 // Get posters by category (using meta.categories)
-app.get('/api/posters-in-category', async (req, res) => {
+app.get('/api/posters-in-category', (req, res) => {
   try {
     const { category } = req.query;
     if (!category) {
       return res.status(400).json({ error: 'Category parameter is required' });
     }
-
-    const allPosters = await collectAllPosters();
-    const needle = String(category).toLowerCase();
-
-    const filtered = allPosters.filter(poster => {
-      const categories = Array.isArray(poster.categories)
-        ? poster.categories
-        : Array.isArray(poster.meta?.categories)
-          ? poster.meta.categories
-        : Array.isArray(poster.data?.meta?.categories)
-            ? poster.data.meta.categories
-            : Array.isArray(poster.data?.categories)
-              ? poster.data.categories
-              : [];
-
-      const normalized = categories
-        .filter(c => typeof c === 'string')
-        .map(c => c.trim().toLowerCase())
-        .filter(Boolean);
-
-      return normalized.includes(needle);
-    });
-
-    res.json(
-      filtered.filter(
-        p => p.type !== 'error'
-          && p.type !== 'unknown'
-          && p.type !== 'skip-raw-image'
-          && p.type !== 'skip-log'
-      )
-    );
+    res.json(db.postersInCategory(category));
   } catch (error) {
     console.error('Error getting posters by category:', error);
     res.status(500).json({ error: 'Failed to get posters by category: ' + error.message });
@@ -684,34 +665,15 @@ app.get('/api/posters-in-category', async (req, res) => {
 });
 
 // Search posters by title/subtitle (q=) or exact path lookup (path=)
-app.get('/api/search-posters', async (req, res) => {
+app.get('/api/search-posters', (req, res) => {
   try {
-    const q = (req.query.q || '').trim().toLowerCase();
+    const q      = (req.query.q    || '').trim().toLowerCase();
     const byPath = (req.query.path || '').trim();
-
-    const allPosters = await collectAllPosters();
-    const valid = allPosters.filter(p =>
-      p.type !== 'error' && p.type !== 'unknown' &&
-      p.type !== 'skip-raw-image' && p.type !== 'skip-log'
-    );
-
-    let results;
-    if (byPath) {
-      results = valid.filter(p => p.path === byPath || p.path.endsWith(byPath));
-    } else if (q) {
-      results = valid.filter(p => {
-        const title = (p.title || '').toLowerCase();
-        const subtitle = (p.data?.front?.subtitle || p.front?.subtitle || '').toLowerCase();
-        return title.includes(q) || subtitle.includes(q);
-      }).slice(0, 10);
-    } else {
-      results = [];
-    }
-
+    const results = db.searchPosters(q, byPath);
     res.json(results.map(p => ({
-      title: p.title,
-      subtitle: p.data?.front?.subtitle || p.front?.subtitle || '',
-      path: p.path,
+      title:      p.title,
+      subtitle:   p.front?.subtitle || '',
+      path:       p.path,
       categories: p.categories || []
     })));
   } catch (error) {
@@ -721,28 +683,21 @@ app.get('/api/search-posters', async (req, res) => {
 });
 
 // Get posters by a list of filenames
-app.post('/api/posters-by-filenames', async (req, res) => {
+app.post('/api/posters-by-filenames', (req, res) => {
   try {
     const { filenames } = req.body;
     if (!Array.isArray(filenames)) {
       return res.status(400).json({ error: 'Filenames must be an array' });
     }
-
-    let postersData = [];
-    for (const filename of filenames) {
-      const poster = await findPosterByFilename(filename);
-      if (poster && poster.type !== 'error' && poster.type !== 'unknown') {
-        postersData.push(poster);
-      } else {
-        console.warn(`Poster not found or invalid: ${filename}`);
-        // Optionally add placeholder or skip
-      }
-    }
-
+    const posters = db.postersByFilenames(filenames);
     // Preserve original order from the journey file
-    const orderedPosters = filenames.map(fname => postersData.find(p => p.filename === fname)).filter(Boolean);
-
-    res.json(orderedPosters);
+    const ordered = filenames
+      .map(fname => {
+        const base = fname.includes('/') ? fname.split('/').pop() : fname;
+        return posters.find(p => p.filename === base);
+      })
+      .filter(Boolean);
+    res.json(ordered);
   } catch (error) {
     console.error('Error getting posters by filenames:', error);
     res.status(500).json({ error: 'Failed to get posters by filenames: ' + error.message });
@@ -770,29 +725,20 @@ app.get('/api/directories', (req, res) => {
 });
 
 // Get all posters from the central store
-app.get('/api/posters-all', async (req, res) => {
+app.get('/api/posters-all', (req, res) => {
   try {
-    const posters = await collectAllPosters();
-    res.json(
-      posters.filter(
-        p => p.type !== 'error'
-          && p.type !== 'unknown'
-          && p.type !== 'skip-raw-image'
-          && p.type !== 'skip-log'
-      )
-    );
+    res.json(db.postersAll());
   } catch (error) {
     console.error('Error getting all posters:', error);
     res.status(500).json({ error: 'Failed to get posters: ' + error.message });
   }
 });
 
-// Get all categories from poster metadata
-app.get('/api/categories', async (req, res) => {
+// Get all categories derived from poster metadata
+app.get('/api/categories', (req, res) => {
   try {
-    const posters = await collectAllPosters();
-    const categories = getPosterCategories(posters).map(category => ({
-      name: formatCategoryLabel(category),
+    const categories = db.getCategories().map(category => ({
+      name:  formatCategoryLabel(category),
       value: category
     }));
     res.json(categories);
@@ -802,28 +748,46 @@ app.get('/api/categories', async (req, res) => {
   }
 });
 
-// Get all images from the centralized images directory
+// ── Asset helpers (Phase 3) ───────────────────────────────────────────────────
+
+const EXT_TO_MIME = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp', gif: 'image/gif', svg: 'image/svg+xml' };
+
+function saveImageAsset(buffer, filename, mimeOrExt) {
+  const mime = mimeOrExt && mimeOrExt.includes('/') ? mimeOrExt : (EXT_TO_MIME[mimeOrExt] || `image/${mimeOrExt}`);
+  const id   = db.saveAsset(filename, mime, buffer);
+  return { id, src: `api/asset/${id}` };
+}
+
+// Serve an asset BLOB from the DB
+app.get('/api/asset/:id', (req, res) => {
+  const id    = parseInt(req.params.id, 10);
+  if (!id) return res.status(400).end();
+  const asset = db.getAsset(id);
+  if (!asset) return res.status(404).end();
+  res.set('Content-Type', asset.mime || 'application/octet-stream');
+  res.set('Cache-Control', 'public, max-age=86400');
+  res.send(asset.data);
+});
+
+// Report grab/Python availability for the category editor UI
+app.get('/api/grab-status', (_req, res) => {
+  res.json({ available: GRAB_MODE !== 'unavailable', mode: GRAB_MODE });
+});
+
+// Get all images — DB assets first, disk fallback for un-migrated files
 app.get('/api/images', (req, res) => {
   try {
+    const images = db.listAssets().map(a => ({ name: a.filename, path: `api/asset/${a.id}` }));
+    const dbNames = new Set(images.map(i => i.name));
     const imagesDir = path.join(__dirname, 'images', 'originals');
-    const images = [];
-
     if (fs.existsSync(imagesDir)) {
-      const files = fs.readdirSync(imagesDir);
-      files.forEach(file => {
-        const ext = path.extname(file).toLowerCase();
-        if (IMAGE_EXTENSIONS.includes(ext)) {
-          images.push({
-            name: file,
-            path: `images/originals/${file}`
-          });
+      fs.readdirSync(imagesDir).forEach(file => {
+        if (!dbNames.has(file) && IMAGE_EXTENSIONS.includes(path.extname(file).toLowerCase())) {
+          images.push({ name: file, path: `images/originals/${file}` });
         }
       });
     }
-
-    // Sort alphabetically by name
     images.sort((a, b) => a.name.localeCompare(b.name));
-
     res.json(images);
   } catch (error) {
     console.error('Error getting images:', error);
@@ -856,18 +820,10 @@ app.get('/api/posters', (req, res) => {
 app.post('/api/save-poster', (req, res) => {
   try {
     const { path: posterPath, data } = req.body;
-
     if (!posterPath || !data) {
       return res.status(400).json({ error: 'Path and data are required' });
     }
-
-    const filePath = path.join(__dirname, posterPath);
-    const dirPath = path.dirname(filePath);
-    if (!fs.existsSync(dirPath)) {
-      fs.mkdirSync(dirPath, { recursive: true }); // Create directory if it doesn't exist
-    }
-
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+    db.savePoster(posterPath, data);
     res.json({ success: true, message: 'Poster saved successfully' });
   } catch (error) {
     console.error('Error saving poster:', error);
@@ -875,23 +831,17 @@ app.post('/api/save-poster', (req, res) => {
   }
 });
 
-// Save an image file
+// Save an image file — stores as BLOB in the DB, returns { src } for the caller
 app.post('/api/save-image', upload.single('image'), (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No image file provided' });
     }
-    const imagePath = req.body.path;
-    if (!imagePath) {
-      return res.status(400).json({ error: 'Path is required' });
-    }
-    const filePath = path.join(__dirname, imagePath);
-    const dirPath = path.dirname(filePath);
-    if (!fs.existsSync(dirPath)) {
-      fs.mkdirSync(dirPath, { recursive: true }); // Create directory if it doesn't exist
-    }
-    fs.writeFileSync(filePath, req.file.buffer);
-    res.json({ success: true, message: 'Image saved successfully' });
+    const imagePath = req.body.path || req.file.originalname || 'upload';
+    const filename  = path.basename(imagePath);
+    const mime      = req.file.mimetype || 'application/octet-stream';
+    const asset     = saveImageAsset(req.file.buffer, filename, mime);
+    res.json({ success: true, src: asset.src });
   } catch (error) {
     console.error('Error saving image:', error);
     res.status(500).json({ error: 'Failed to save image' });
@@ -963,17 +913,13 @@ app.post('/api/ai/generate-image', async (req, res) => {
 
   const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40);
   const filename = `ai_${slug}_${Date.now()}.png`;
-  const saveDir = path.join(__dirname, 'images', 'originals');
-  const filePath = path.join(saveDir, filename);
   try {
-    fs.mkdirSync(saveDir, { recursive: true });
-    fs.writeFileSync(filePath, imgBuffer);
+    const asset = saveImageAsset(imgBuffer, filename, 'image/png');
+    res.json({ src: asset.src });
   } catch (err) {
     console.error('[generate-image] save error:', err);
     return res.status(500).json({ error: 'Failed to save generated image' });
   }
-
-  res.json({ src: `images/originals/${filename}` });
 });
 
 // ── Lightweight AI generation helpers (used by unified editor) ──────────────
@@ -1104,10 +1050,7 @@ app.post('/api/content/generate', async (req, res) => {
               const ext = (imgUrl.split('.').pop().split('?')[0] || 'jpg').toLowerCase().slice(0, 4);
               const safeSlug = slug.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40);
               const filename = `wm_${safeSlug}_${Date.now()}.${ext}`;
-              const saveDir = path.join(__dirname, 'images', 'originals');
-              fs.mkdirSync(saveDir, { recursive: true });
-              fs.writeFileSync(path.join(saveDir, filename), imgBuffer);
-              imagePath = `images/originals/${filename}`;
+              imagePath = saveImageAsset(imgBuffer, filename, ext).src;
               imageSource = 'wikimedia';
             }
           } catch (_) { /* fall through to Commons search */ }
@@ -1135,10 +1078,7 @@ app.post('/api/content/generate', async (req, res) => {
                       const ext = (commonsImgUrl.split('.').pop().split('?')[0] || 'jpg').toLowerCase().slice(0, 4);
                       const safeSlug = slug.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40);
                       const filename = `wm_${safeSlug}_${Date.now()}.${ext}`;
-                      const saveDir = path.join(__dirname, 'images', 'originals');
-                      fs.mkdirSync(saveDir, { recursive: true });
-                      fs.writeFileSync(path.join(saveDir, filename), imgBuffer);
-                      imagePath = `images/originals/${filename}`;
+                      imagePath = saveImageAsset(imgBuffer, filename, ext).src;
                       imageSource = 'wikimedia';
                     }
                   }
@@ -1175,10 +1115,7 @@ app.post('/api/content/generate', async (req, res) => {
               const ext = (hit.url.split('.').pop().split('?')[0] || 'jpg').toLowerCase().slice(0, 4);
               const safeSlug = slug.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40);
               const filename = `ov_${safeSlug}_${Date.now()}.${ext}`;
-              const saveDir = path.join(__dirname, 'images', 'originals');
-              fs.mkdirSync(saveDir, { recursive: true });
-              fs.writeFileSync(path.join(saveDir, filename), imgBuffer);
-              imagePath = `images/originals/${filename}`;
+              imagePath = saveImageAsset(imgBuffer, filename, ext).src;
               imageSource = 'openverse';
             }
           }
@@ -1234,10 +1171,7 @@ app.post('/api/content/generate', async (req, res) => {
                 const ext = (imageUrl.split('.').pop().split('?')[0] || 'jpg').toLowerCase().slice(0, 4);
                 const safeSlug = slug.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40);
                 const filename = `br_${safeSlug}_${Date.now()}.${ext}`;
-                const saveDir = path.join(__dirname, 'images', 'originals');
-                fs.mkdirSync(saveDir, { recursive: true });
-                fs.writeFileSync(path.join(saveDir, filename), imgBuffer);
-                imagePath = `images/originals/${filename}`;
+                imagePath = saveImageAsset(imgBuffer, filename, ext).src;
                 imageSource = 'brave';
               }
             }
@@ -1303,10 +1237,7 @@ app.post('/api/content/generate', async (req, res) => {
             if (imgBuffer) {
               const safeSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40);
               const filename = `ai_${safeSlug}_${Date.now()}.png`;
-              const saveDir = path.join(__dirname, 'images', 'originals');
-              fs.mkdirSync(saveDir, { recursive: true });
-              fs.writeFileSync(path.join(saveDir, filename), imgBuffer);
-              imagePath = `images/originals/${filename}`;
+              imagePath = saveImageAsset(imgBuffer, filename, 'image/png').src;
               imageSource = 'ai';
             }
           }
@@ -1334,37 +1265,27 @@ app.post('/api/content/generate', async (req, res) => {
 app.post('/api/delete-poster', (req, res) => {
   try {
     const { path: posterPath } = req.body;
-    if (!posterPath) {
-      return res.status(400).json({ error: 'Path is required' });
-    }
-    const filePath = path.join(__dirname, posterPath);
-    if (!fs.existsSync(filePath)) {
-      return res.status(404).json({ error: 'File not found' });
-    }
-    fs.unlinkSync(filePath);
-    res.json({ success: true, message: 'File deleted successfully' });
+    if (!posterPath) return res.status(400).json({ error: 'Path is required' });
+    const found = db.deletePoster(posterPath);
+    if (!found) return res.status(404).json({ error: 'Poster not found' });
+    res.json({ success: true, message: 'Poster deleted successfully' });
   } catch (error) {
-    console.error('Error deleting file:', error);
-    res.status(500).json({ error: 'Failed to delete file' });
+    console.error('Error deleting poster:', error);
+    res.status(500).json({ error: 'Failed to delete poster' });
   }
 });
 
-// Delete a poster or image file (DELETE compatibility for editor clients)
+// Delete a poster (DELETE method compatibility for editor clients)
 app.delete('/api/delete-poster', (req, res) => {
   try {
     const posterPath = req.query.path || req.body?.path;
-    if (!posterPath) {
-      return res.status(400).json({ error: 'Path is required' });
-    }
-    const filePath = path.join(__dirname, posterPath);
-    if (!fs.existsSync(filePath)) {
-      return res.status(404).json({ error: 'File not found' });
-    }
-    fs.unlinkSync(filePath);
-    res.json({ success: true, message: 'File deleted successfully' });
+    if (!posterPath) return res.status(400).json({ error: 'Path is required' });
+    const found = db.deletePoster(posterPath);
+    if (!found) return res.status(404).json({ error: 'Poster not found' });
+    res.json({ success: true, message: 'Poster deleted successfully' });
   } catch (error) {
-    console.error('Error deleting file:', error);
-    res.status(500).json({ error: 'Failed to delete file: ' + error.message });
+    console.error('Error deleting poster:', error);
+    res.status(500).json({ error: 'Failed to delete poster: ' + error.message });
   }
 });
 
@@ -1452,21 +1373,7 @@ app.post('/api/create-images-directory', (req, res) => {
 // Get all journeys (for Journey Editor)
 app.get('/api/journeys', (req, res) => {
   try {
-    if (!fs.existsSync(JOURNEYS_DIR)) {
-      fs.mkdirSync(JOURNEYS_DIR, { recursive: true });
-    }
-    const files = fs.readdirSync(JOURNEYS_DIR).filter(file => file.endsWith('.json'));
-    const journeys = files.map(file => {
-      try {
-        const filePath = path.join(JOURNEYS_DIR, file);
-        const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-        return { filename: file, name: data.name || 'Unnamed', description: data.description || '', posterCount: data.posters ? data.posters.length : 0, dateModified: data.dateModified || '' };
-      } catch (error) {
-        console.error(`Error reading journey file ${file}:`, error);
-        return { filename: file, name: 'Error: Invalid File', description: '', posterCount: 0, dateModified: '' };
-      }
-    });
-    res.json(journeys);
+    res.json(db.journeysList());
   } catch (error) {
     console.error('Error getting journeys:', error);
     res.status(500).json({ error: 'Failed to get journeys: ' + error.message });
@@ -1477,15 +1384,10 @@ app.get('/api/journeys', (req, res) => {
 app.get('/api/journey/:filename', (req, res) => {
   try {
     const { filename } = req.params;
-    if (!filename) {
-      return res.status(400).json({ error: 'Filename required' });
-    }
-    const filePath = path.join(JOURNEYS_DIR, filename);
-    if (!fs.existsSync(filePath)) {
-      return res.status(404).json({ error: 'Journey file not found' });
-    }
-    const journeyData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-    res.json(journeyData);
+    if (!filename) return res.status(400).json({ error: 'Filename required' });
+    const journey = db.getJourney(filename);
+    if (!journey) return res.status(404).json({ error: 'Journey not found' });
+    res.json(journey);
   } catch (error) {
     console.error('Error getting journey:', error);
     res.status(500).json({ error: 'Failed to get journey: ' + error.message });
@@ -1496,21 +1398,11 @@ app.get('/api/journey/:filename', (req, res) => {
 app.post('/api/save-journey', (req, res) => {
   try {
     const { filename, data } = req.body;
-    if (!filename || !data) {
-      return res.status(400).json({ error: 'Filename and data required' });
-    }
+    if (!filename || !data) return res.status(400).json({ error: 'Filename and data required' });
     if (!data.name || !Array.isArray(data.posters)) {
       return res.status(400).json({ error: 'Journey must have name and posters array' });
     }
-    if (!data.dateCreated) {
-      data.dateCreated = new Date().toISOString();
-    }
-    data.dateModified = new Date().toISOString();
-    if (!fs.existsSync(JOURNEYS_DIR)) {
-      fs.mkdirSync(JOURNEYS_DIR, { recursive: true });
-    }
-    const filePath = path.join(JOURNEYS_DIR, filename);
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+    db.saveJourney(filename, data);
     res.json({ success: true, message: 'Journey saved successfully' });
   } catch (error) {
     console.error('Error saving journey:', error);
@@ -1522,14 +1414,9 @@ app.post('/api/save-journey', (req, res) => {
 app.post('/api/delete-journey', (req, res) => {
   try {
     const { filename } = req.body;
-    if (!filename) {
-      return res.status(400).json({ error: 'Filename required' });
-    }
-    const filePath = path.join(JOURNEYS_DIR, filename);
-    if (!fs.existsSync(filePath)) {
-      return res.status(404).json({ error: 'Journey file not found' });
-    }
-    fs.unlinkSync(filePath);
+    if (!filename) return res.status(400).json({ error: 'Filename required' });
+    const found = db.deleteJourney(filename);
+    if (!found) return res.status(404).json({ error: 'Journey not found' });
     res.json({ success: true, message: 'Journey deleted successfully' });
   } catch (error) {
     console.error('Error deleting journey:', error);
@@ -1538,12 +1425,9 @@ app.post('/api/delete-journey', (req, res) => {
 });
 
 // Get all posters from all categories (Used by Journey Editor)
-app.get('/api/all-posters', async (req, res) => {
+app.get('/api/all-posters', (req, res) => {
   try {
-    const allPosters = await collectAllPosters();
-    const filtered = allPosters.filter(p => p.type !== 'error' && p.type !== 'unknown' && p.type !== 'skip-raw-image' && p.type !== 'skip-log' && p.type !== 'unsupported');
-    const uniquePosters = Array.from(new Map(filtered.map(p => [p.path, p])).values());
-    res.json(uniquePosters);
+    res.json(db.postersAll());
   } catch (error) {
     console.error('Error getting all posters for editor:', error);
     res.status(500).json({ error: 'Failed to get all posters: ' + error.message });
@@ -1589,12 +1473,7 @@ app.post('/api/ai-config', (req, res) => {
 // Category config
 app.get('/api/category-config', (req, res) => {
   try {
-    if (!fs.existsSync(CATEGORY_CONFIG_PATH)) {
-      return res.json({ updated: null, categories: [] });
-    }
-    const raw = fs.readFileSync(CATEGORY_CONFIG_PATH, 'utf8');
-    const config = JSON.parse(raw);
-    res.json(config);
+    res.json(db.getCategoryConfig());
   } catch (error) {
     console.error('Error reading category config:', error);
     res.status(500).json({ error: 'Failed to read category config: ' + error.message });
@@ -1603,15 +1482,8 @@ app.get('/api/category-config', (req, res) => {
 
 app.post('/api/category-config', (req, res) => {
   try {
-    const config = req.body || {};
-    const payload = {
-      updated: new Date().toISOString(),
-      categories: Array.isArray(config.categories) ? config.categories : []
-    };
-    if (!fs.existsSync(JSON_POSTERS_DIR)) {
-      fs.mkdirSync(JSON_POSTERS_DIR, { recursive: true });
-    }
-    fs.writeFileSync(CATEGORY_CONFIG_PATH, JSON.stringify(payload, null, 2));
+    const config  = req.body || {};
+    const payload = db.saveCategoryConfig(config);
     res.json({ success: true, config: payload });
   } catch (error) {
     console.error('Error saving category config:', error);
@@ -1625,87 +1497,9 @@ app.post('/api/delete-category', (req, res) => {
     if (!categoryRaw || typeof categoryRaw !== 'string') {
       return res.status(400).json({ error: 'Category is required' });
     }
-    const needle = categoryRaw.trim().toLowerCase();
-    if (!needle) {
-      return res.status(400).json({ error: 'Category is required' });
-    }
-
-    // Remove from managed category config
-    const config = fs.existsSync(CATEGORY_CONFIG_PATH)
-      ? JSON.parse(fs.readFileSync(CATEGORY_CONFIG_PATH, 'utf8'))
-      : { categories: [] };
-    const configCategories = Array.isArray(config.categories) ? config.categories : [];
-    const filteredConfig = configCategories.filter(item => {
-      const value = String(item?.name || item?.slug || '').trim().toLowerCase();
-      return value !== needle;
-    });
-    const removedFromConfig = configCategories.length - filteredConfig.length;
-    fs.writeFileSync(CATEGORY_CONFIG_PATH, JSON.stringify({ categories: filteredConfig }, null, 2), 'utf8');
-
-    // Remove the category from all poster files that use it
-    const roots = getPosterRootDirectories();
-    let postersUpdated = 0;
-    let categoryRefsRemoved = 0;
-
-    const removeCategory = (arr) => {
-      if (!Array.isArray(arr)) return { next: arr, removed: 0 };
-      let removed = 0;
-      const next = arr.filter(item => {
-        if (typeof item !== 'string') return true;
-        const keep = item.trim().toLowerCase() !== needle;
-        if (!keep) removed += 1;
-        return keep;
-      });
-      return { next, removed };
-    };
-
-    roots.forEach(root => {
-      const files = fs.readdirSync(root.path).filter(file => file.endsWith('.json'));
-      files.forEach(file => {
-        const filePath = path.join(root.path, file);
-        let data;
-        try {
-          data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-        } catch (error) {
-          return;
-        }
-
-        let changed = false;
-        let removedForPoster = 0;
-
-        if (Array.isArray(data?.meta?.categories)) {
-          const result = removeCategory(data.meta.categories);
-          if (result.removed > 0) {
-            data.meta.categories = result.next.length ? result.next : [FALLBACK_CATEGORY];
-            removedForPoster += result.removed;
-            changed = true;
-          }
-        } else if (Array.isArray(data?.categories)) {
-          const result = removeCategory(data.categories);
-          if (result.removed > 0) {
-            data.categories = result.next.length ? result.next : [FALLBACK_CATEGORY];
-            removedForPoster += result.removed;
-            changed = true;
-          }
-        }
-
-        if (changed) {
-          if (data.meta && typeof data.meta === 'object') {
-            data.meta.modified = new Date().toISOString();
-          }
-          fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
-          postersUpdated += 1;
-          categoryRefsRemoved += removedForPoster;
-        }
-      });
-    });
-
-    res.json({
-      success: true,
-      removedFromConfig,
-      postersUpdated,
-      categoryRefsRemoved
-    });
+    if (!categoryRaw.trim()) return res.status(400).json({ error: 'Category is required' });
+    const result = db.deleteCategory(categoryRaw);
+    res.json({ success: true, ...result });
   } catch (error) {
     console.error('Error deleting category:', error);
     res.status(500).json({ error: 'Failed to delete category: ' + error.message });
@@ -2050,64 +1844,68 @@ app.post('/api/run-grab', (req, res) => {
       return res.status(400).json({ error: 'Source is required' });
     }
 
-    const args = ['scripts/python/grab.py', '--source', String(source)];
+    if (GRAB_MODE === 'unavailable') {
+      return res.status(503).json({ error: 'Python runtime and grab bundle are both unavailable' });
+    }
+
+    const grabArgs = ['--source', String(source)];
 
     if (category) {
-      args.push('--category', String(category));
+      grabArgs.push('--category', String(category));
     }
 
     if (Array.isArray(topics) && topics.length) {
-      args.push('--topics', topics.join(','));
+      grabArgs.push('--topics', topics.join(','));
     }
 
     if (Number.isInteger(count)) {
-      args.push('--count', String(count));
+      grabArgs.push('--count', String(count));
     }
 
     if (mergeEnrich !== undefined) {
-      args.push('--merge-enrich', mergeEnrich ? 'true' : 'false');
+      grabArgs.push('--merge-enrich', mergeEnrich ? 'true' : 'false');
     }
 
     if (mergeOnly !== undefined) {
-      args.push('--merge-only', mergeOnly ? 'true' : 'false');
+      grabArgs.push('--merge-only', mergeOnly ? 'true' : 'false');
     }
 
     if (search) {
-      args.push('--search', String(search));
+      grabArgs.push('--search', String(search));
     }
 
     if (filter) {
-      args.push('--filter', String(filter));
+      grabArgs.push('--filter', String(filter));
     }
 
     if (useCurated) {
-      args.push('--use-curated');
+      grabArgs.push('--use-curated');
     }
 
     if (curatedSet) {
-      args.push('--curated-set', String(curatedSet));
+      grabArgs.push('--curated-set', String(curatedSet));
     }
 
     if (topicOverrides && typeof topicOverrides === 'object' && Object.keys(topicOverrides).length) {
-      args.push('--topic-overrides', JSON.stringify(topicOverrides));
+      grabArgs.push('--topic-overrides', JSON.stringify(topicOverrides));
     }
 
     if (Array.isArray(aiTopics) && aiTopics.length) {
-      args.push('--ai-topics', aiTopics.join(','));
+      grabArgs.push('--ai-topics', aiTopics.join(','));
     }
 
     // Pass Brave link enrichment flag when requested
     const braveFlagOn = useBrave === true
       || (Array.isArray(sources) && sources.includes('brave'));
     if (braveFlagOn) {
-      args.push('--brave-links');
+      grabArgs.push('--brave-links');
     }
 
     if (!fs.existsSync(WIKI_OUTPUT_DIR)) {
       fs.mkdirSync(WIKI_OUTPUT_DIR, { recursive: true });
     }
 
-    const child = spawn('python', args, { cwd: __dirname });
+    const child = grabSpawn(grabArgs);
     let output = '';
     let responded = false;
 
@@ -2136,11 +1934,57 @@ app.post('/api/run-grab', (req, res) => {
       } catch (error) {
         console.error('Failed to write grab log:', error);
       }
+      // Auto-ingest any newly generated poster JSONs into SQLite
+      if (code === 0) {
+        try {
+          const aiDir = WIKI_OUTPUT_DIR; // resolves to GRAB_WORK_DIR/ai_posters
+          if (fs.existsSync(aiDir)) {
+            for (const file of fs.readdirSync(aiDir).filter(f => f.endsWith('.json'))) {
+              try {
+                const data = JSON.parse(fs.readFileSync(path.join(aiDir, file), 'utf8'));
+                if (data.version || data.front || data.figure || data.title) {
+                  db.importPosterJson(file, data);
+                }
+              } catch (_) { /* skip malformed */ }
+            }
+          }
+        } catch (err) {
+          console.warn('[run-grab] auto-import warning:', err.message);
+        }
+      }
       finalize({ success: code === 0, code, output });
     });
   } catch (error) {
     console.error('Error running unified grab:', error);
     res.status(500).json({ error: 'Failed to run unified grab: ' + error.message });
+  }
+});
+
+// Scan ai_posters/ and JSON_Posters/Posters/ for JSON files not yet in the DB
+// and import them. Called automatically after run-grab completes.
+app.post('/api/import-new-posters', (req, res) => {
+  try {
+    const scanDirs = [
+      { dir: path.join(__dirname, 'ai_posters'),              label: 'ai_posters' },
+      { dir: path.join(__dirname, 'JSON_Posters', 'Posters'), label: 'JSON_Posters/Posters' },
+    ];
+    let imported = 0;
+    let errors   = 0;
+    for (const { dir } of scanDirs) {
+      if (!fs.existsSync(dir)) continue;
+      for (const file of fs.readdirSync(dir).filter(f => f.endsWith('.json'))) {
+        try {
+          const data = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8'));
+          if (!data.version && !data.front && !data.figure && !data.title) continue;
+          db.importPosterJson(file, data);
+          imported++;
+        } catch (_) { errors++; }
+      }
+    }
+    res.json({ success: true, imported, errors });
+  } catch (error) {
+    console.error('Error importing new posters:', error);
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -2187,7 +2031,7 @@ app.post('/api/run-wikipedia-grab', (req, res) => {
       fs.mkdirSync(WIKI_OUTPUT_DIR, { recursive: true });
     }
 
-    const child = spawn('python', args, { cwd: __dirname });
+    const child = spawn('python', args, { cwd: GRAB_WORK_DIR });
     let output = '';
     let responded = false;
 
@@ -2328,16 +2172,19 @@ if ($path) { Write-Output $path }
 });
 
 function startServer(listenPort = port) {
-  const server = app.listen(listenPort, () => {
-    const address = server.address();
-    const resolvedPort = typeof address === 'object' && address ? address.port : listenPort;
-    console.log(`Server running at http://localhost:${resolvedPort}`);
+  return new Promise((resolve, reject) => {
+    const server = app.listen(listenPort, () => {
+      const address = server.address();
+      const resolvedPort = typeof address === 'object' && address ? address.port : listenPort;
+      console.log(`Server running at http://localhost:${resolvedPort}`);
+      resolve(resolvedPort);
+    });
+    server.on('error', reject);
   });
-  return server;
 }
 
 if (require.main === module) {
-  startServer();
+  startServer().catch(err => { console.error(err); process.exit(1); });
 }
 
 module.exports = { app, startServer };
